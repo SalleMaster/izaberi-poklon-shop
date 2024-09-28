@@ -37,3 +37,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 - Preview deployment: vercel
 - Production deployment: vercel --prod
+
+## Prisma commands
+
+- `npx prisma db push` - Update database when we change schema
+- `npx prisma studio` - Database preview in the browser
+- `npx prisma db seed` - Seed the database
+- `npx prisma migrate dev` - Similar to db push, but it creates a migrate file also
