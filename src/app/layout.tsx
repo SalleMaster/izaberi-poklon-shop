@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
+import { SessionProvider } from 'next-auth/react'
 import localFont from 'next/font/local'
 import './globals.css'
 import NavBar from '@/components/custom/NavBar'
+import { Toaster } from '@/components/ui/toaster'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -29,8 +31,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NavBar />
-        {children}
+        <SessionProvider>
+          <NavBar />
+          {children}
+          <Toaster />
+        </SessionProvider>
       </body>
     </html>
   )
