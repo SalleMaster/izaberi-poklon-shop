@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { signIn, useSession } from 'next-auth/react'
 import UserButton from './UserButton'
+import TestNavigation from './TestNavigation'
 
 export default function NavBar() {
   const session = useSession()
@@ -15,8 +16,11 @@ export default function NavBar() {
           Izaberi poklon shop
         </Link>
 
-        {user && <UserButton user={user} />}
-        {!user && session.status !== 'loading' && <SignInButton />}
+        <div className='flex gap-3 align-middle'>
+          <TestNavigation />
+          {user && <UserButton user={user} />}
+          {!user && session.status !== 'loading' && <SignInButton />}
+        </div>
       </nav>
     </header>
   )

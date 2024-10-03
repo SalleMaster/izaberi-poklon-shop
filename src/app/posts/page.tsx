@@ -1,11 +1,17 @@
-import { createPost } from '@/actions/actions'
 import { Button } from '@/components/ui/button'
 import prisma from '@/lib/db'
 import Link from 'next/link'
+import { Post } from '@prisma/client'
 
 export default async function Posts() {
-  const posts = await prisma.post.findMany({
+  const publishedPosts = await prisma.post.findMany({
     where: { published: true },
+    orderBy: { createdAt: 'desc' },
+    select: { id: true, title: true, slug: true },
+  })
+
+  const unpublishedPosts = await prisma.post.findMany({
+    where: { published: false },
     orderBy: { createdAt: 'desc' },
     select: { id: true, title: true, slug: true },
   })
@@ -16,32 +22,40 @@ export default async function Posts() {
   // const user = await prisma.user.findUnique({ where: { email: 'some@email.com' }, include: { posts: true } })
   return (
     <div className='container mx-auto mt-10'>
-      <h1 className='mb-8'>Posts ({postsCount})</h1>
+      <h1 className='text-3xl font-semibold mb-8'>Posts ({postsCount})</h1>
+
+      <h1 className='text-xl font-semibold mb-8'>
+        Published posts ({publishedPosts.length})
+      </h1>
 
       <ul>
-        {posts.map((post) => (
-          <li key={post.id} className='mb-4'>
-            <Link href={`/posts/${post.slug}`}>{post.title}</Link>
-          </li>
+        {publishedPosts.map((post) => (
+          <PostItem key={post.id} {...post} />
         ))}
       </ul>
 
-      <form action={createPost} className='flex flex-col w-2/4 gap-4'>
-        <p>Add a product</p>
-        <input
-          type='text'
-          name='title'
-          placeholder='Title'
-          className='px-2 py-1 rounded-sm border-2 border-gray-300'
-        />
-        <textarea
-          name='content'
-          rows={5}
-          placeholder='Content'
-          className='px-2 py-1 rounded-sm border-2 border-gray-300'
-        />
-        <Button type='submit'>Create a post</Button>
-      </form>
+      <h1 className='text-xl font-semibold mb-8'>
+        Unpublished posts ({unpublishedPosts.length})
+      </h1>
+
+      <ul>
+        {unpublishedPosts.map((post) => (
+          <PostItem key={post.id} {...post} />
+        ))}
+      </ul>
     </div>
+  )
+}
+
+type PostItemProps = Pick<Post, 'id' | 'slug' | 'title'>
+
+function PostItem(post: PostItemProps) {
+  return (
+    <li className='flex justify-between w-2/4 mb-4'>
+      <Link href={`/posts/${post.slug}`}>{post.title}</Link>
+      <Button asChild>
+        <Link href={`/posts/${post.slug}/edit`}>Edit</Link>
+      </Button>
+    </li>
   )
 }
