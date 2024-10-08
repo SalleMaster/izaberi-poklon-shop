@@ -1,29 +1,57 @@
 import { Prisma, PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
+const initialMedias: Prisma.MediaCreateInput[] = [
+  {
+    key: 'sample-image-1.png',
+    name: 'Sample image 1',
+    type: 'image/png',
+    url: 'https://izaberi-poklon-shop-development-bucket-salle.s3.eu-north-1.amazonaws.com/sample-image-1.png',
+  },
+  {
+    key: 'sample-image-2.png',
+    name: 'Sample image 2',
+    type: 'image/png',
+    url: 'https://izaberi-poklon-shop-development-bucket-salle.s3.eu-north-1.amazonaws.com/sample-image-2.png',
+  },
+  {
+    key: 'sample-image-3.png',
+    name: 'Sample image 3',
+    type: 'image/png',
+    url: 'https://izaberi-poklon-shop-development-bucket-salle.s3.eu-north-1.amazonaws.com/sample-image-3.png',
+  },
+]
+
 const initialPosts: Prisma.PostCreateInput[] = [
   {
+    id: 'post-id-1',
     title: 'Post 1',
     slug: 'post-1',
     content: 'This is the content of post 1',
-    //   author: {
-    //     connectOrCreate: {
-    //       where: { email: 'some@email.com' },
-    //       create: { email: 'some@email.com' },
-    //     },
-    //   },
+    published: false,
+    media: {
+      create: initialMedias[0],
+    },
   },
   {
+    id: 'post-id-2',
     title: 'Post 2',
     slug: 'post-2',
     content: 'This is the content of post 2',
     published: true,
+    media: {
+      create: initialMedias[1],
+    },
   },
   {
+    id: 'post-id-3',
     title: 'Post 3',
     slug: 'post-3',
     content: 'This is the content of post 3',
     published: true,
+    media: {
+      create: initialMedias[2],
+    },
   },
 ]
 
