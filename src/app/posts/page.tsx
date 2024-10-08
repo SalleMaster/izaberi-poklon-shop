@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button'
 import prisma from '@/lib/db'
 import Link from 'next/link'
 import { Post } from '@prisma/client'
-import Image from 'next/image'
 
 export default async function Posts() {
   const publishedPosts = await prisma.post.findMany({
