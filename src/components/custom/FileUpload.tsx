@@ -1,0 +1,80 @@
+import * as React from 'react'
+import { Input } from '@/components/ui/input'
+import { Badge } from '@/components/ui/badge'
+import { ImageUp, X } from 'lucide-react'
+import { Media } from '@prisma/client'
+
+export type FileUploadProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  formFiles?: FileList
+  existingFiles?: Media[]
+  removedExistingFiles?: Media[]
+  formSetValue: (files: FileList) => void
+  setRemovedExistingFile: (media: Media) => void
+}
+
+const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
+  (
+    {
+      formFiles,
+      existingFiles,
+      removedExistingFiles,
+      formSetValue,
+      setRemovedExistingFile,
+      ...props
+    },
+    ref
+  ) => {
+    const formFilesArray = formFiles ? Array.from(formFiles) : []
+
+    const handleRemoveFile = (fileToRemove: File) => {
+      const currentFiles = formFiles ? Array.from(formFiles) : []
+      const updatedFiles = currentFiles.filter((file) => file !== fileToRemove)
+
+      const dataTransfer = new DataTransfer()
+      updatedFiles.forEach((file) => dataTransfer.items.add(file))
+
+      formSetValue(dataTransfer.files)
+    }
+
+    return (
+      <div>
+        <div className='relative h-32 w-full flex flex-col items-center justify-center border-2 border-dashed border-gray-300 p-4 rounded-md cursor-pointer text-muted-foreground'>
+          <ImageUp className='h-6 w-6 mb-4' />
+          <p className='z-0'>Drop your files here or click to upload</p>
+          <Input
+            {...props}
+            ref={ref}
+            className='absolute w-full h-full opacity-0 z-10'
+          />
+        </div>
+        {formFilesArray.length > 0 &&
+          formFilesArray.map((file) => (
+            <Badge key={file.name} className='max-w-full rounded-full mt-2'>
+              <span className='truncate'>{file.name}</span>
+              <X
+                className='ml-2 h-4 w-4'
+                onClick={() => handleRemoveFile(file)}
+              />
+            </Badge>
+          ))}
+        {existingFiles?.map((file) => {
+          if (!removedExistingFiles?.includes(file)) {
+            return (
+              <Badge key={file.id} className='max-w-full rounded-full mt-2'>
+                <span className='truncate'>{file.name}</span>
+                <X
+                  className='ml-2 h-4 w-4'
+                  onClick={() => setRemovedExistingFile(file)}
+                />
+              </Badge>
+            )
+          }
+        })}
+      </div>
+    )
+  }
+)
+
+FileUpload.displayName = 'FileUpload'
+
+export { FileUpload }

@@ -25,8 +25,23 @@ model Post {
   title     String
   slug      String   @unique
   content   String
-  published Boolean? @default(false) // ? means optional
-  imageUrl  String?
+  published Boolean? @default(false)
+  media     Media?
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+// Media
+model Media {
+  id        String   @id @default(cuid())
+  name      String
+  key       String   @unique
+  type      String
+  url       String   @unique
+  Post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String?  @unique
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 }
@@ -39,6 +54,7 @@ model User {
   emailVerified DateTime?
   image         String?
   role          String?
+  media         Media[]
   accounts      Account[]
   sessions      Session[]
 
