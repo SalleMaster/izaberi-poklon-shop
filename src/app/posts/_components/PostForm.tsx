@@ -89,7 +89,8 @@ export function PostForm({ post }: { post?: PostWithMedia | null }) {
         toast({ description: 'Post created.' })
       }
 
-      form.reset()
+      // Reset image field after submission to avoid having duplicate image badges
+      form.resetField('image')
     } catch (error) {
       console.log(error)
       toast({
