@@ -33,7 +33,7 @@ export default function RootLayout({
       >
         <SessionProvider>
           <NavBar />
-          {children}
+          <div className='container my-6 mx-auto'>{children}</div>
           <Toaster />
         </SessionProvider>
       </body>

@@ -48,6 +48,24 @@ export default function TestNavigation() {
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem asChild>
+            <Link href='/admin/categories'>
+              <Settings className='mr-2 h-4 w-4' />
+              <span>Categories</span>
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem asChild>
+            <Link href='/admin/delivery-services'>
+              <Settings className='mr-2 h-4 w-4' />
+              <span>Delivery services</span>
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   )

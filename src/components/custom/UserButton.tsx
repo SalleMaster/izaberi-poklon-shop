@@ -1,4 +1,10 @@
-import { Lock, LogOut, Settings, User as UserIcon } from 'lucide-react'
+import {
+  ChartBarStacked,
+  Truck,
+  LogOut,
+  Settings,
+  User as UserIcon,
+} from 'lucide-react'
 import { User } from 'next-auth'
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
@@ -13,11 +19,27 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-interface UserButtonProps {
+type UserButtonProps = {
   user: User
 }
 
+const adminMenuOptions = [
+  { href: '/dashboard/categories', text: 'Categories', icon: ChartBarStacked },
+  {
+    href: '/dashboard/delivery-services',
+    text: 'Delivery services',
+    icon: Truck,
+  },
+  { href: '/dashboard/profile', text: 'Profile', icon: Settings },
+]
+
+const userMenuOptions = [
+  { href: '/dashboard/profile', text: 'Profile', icon: Settings },
+]
+
 export default function UserButton({ user }: UserButtonProps) {
+  const menuOptions = user.role === 'admin' ? adminMenuOptions : userMenuOptions
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -29,20 +51,14 @@ export default function UserButton({ user }: UserButtonProps) {
         <DropdownMenuLabel>{user.name || 'User'}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
-            <Link href='/users/settings'>
-              <Settings className='mr-2 h-4 w-4' />
-              <span>Settings</span>
-            </Link>
-          </DropdownMenuItem>
-          {user.role === 'admin' && (
-            <DropdownMenuItem asChild>
-              <Link href='/users/admin'>
-                <Lock className='mr-2 h-4 w-4' />
-                Admin
+          {menuOptions.map((link) => (
+            <DropdownMenuItem key={link.href} asChild>
+              <Link href={link.href}>
+                <link.icon className='mr-2 h-4 w-4' />
+                <span>{link.text}</span>
               </Link>
             </DropdownMenuItem>
-          )}
+          ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
