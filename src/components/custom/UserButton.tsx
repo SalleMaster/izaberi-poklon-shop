@@ -26,8 +26,8 @@ type UserButtonProps = {
 const adminMenuOptions = [
   { href: '/admin/kategorije', text: 'Kategorije', icon: ChartBarStacked },
   {
-    href: '/dashboard/delivery-services',
-    text: 'Delivery services',
+    href: '/admin/kurirske-sluzbe',
+    text: 'Kurirske službe',
     icon: Truck,
   },
   { href: '/dashboard/profile', text: 'Profile', icon: Settings },

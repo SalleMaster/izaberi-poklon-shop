@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   await pageGuard({
-    callbackUrl: '/dashboard/delivery-services',
+    callbackUrl: '/admin/kurirske-sluzbe',
     adminGuard: true,
   })
 

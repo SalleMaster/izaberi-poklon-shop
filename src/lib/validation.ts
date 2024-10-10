@@ -1,11 +1,20 @@
 import { z } from 'zod'
 
+export const imageFileTypes = ['image/jpeg', 'image/png']
+export const pdfFileTypes = ['application/pdf']
+
 // File schema
 export const fileSchema = z.instanceof(File, { message: 'Polje je neophodno' })
 
 // Image schema
 export const imageSchema = fileSchema.refine(
   (file) => file.size === 0 || file.type.startsWith('image/')
+)
+
+// PDF schema
+export const pdfSchema = fileSchema.refine(
+  (file) => file.size === 0 || file.type === 'application/pdf',
+  { message: 'File must be a PDF' }
 )
 
 export const imageListSchemaRequired = z
@@ -30,27 +39,20 @@ export const imageListSchemaOptional = z.union([
     ),
 ])
 
+export const pdfListSchemaOptional = z.union([
+  z.undefined(),
+  z
+    .instanceof(globalThis.FileList, { message: 'PDF je neophodan' })
+    .refine(
+      (fileList) =>
+        Array.from(fileList).every((file) => pdfSchema.safeParse(file).success),
+      { message: 'Svi fajlovi moraju biti validni PDF fajlovi' }
+    ),
+])
+
 // User profile schema
 export const updateProfileSchema = z.object({
   name: z.string().trim().min(1, 'Cannot be empty'),
 })
 
 export type UpdateProfileValues = z.infer<typeof updateProfileSchema>
-
-// Create post schema
-export const createPostSchema = z.object({
-  title: z.string().trim().min(1, 'Cannot be empty'),
-  content: z.string().trim().min(1, 'Cannot be empty'),
-  published: z.boolean(),
-  image: imageListSchemaRequired,
-})
-
-export type CreatePostValues = z.infer<typeof createPostSchema>
-
-// Edit post schema
-export const editPostSchema = z.object({
-  title: z.string().trim().min(1, 'Cannot be empty'),
-  content: z.string().trim().min(1, 'Cannot be empty'),
-  published: z.boolean(),
-  image: imageListSchemaOptional,
-})

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Category, Media } from '@prisma/client'
+import { DeliveryService, Media } from '@prisma/client'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -20,81 +20,80 @@ import { Switch } from '@/components/ui/switch'
 import { FileUpload } from '@/components/custom/FileUpload'
 import { ConfirmationDialog } from '@/components/custom/ConfirmationDialog'
 import { Loader2, Save } from 'lucide-react'
-import {
-  categorySchema,
-  CategoryValues,
-  editCategorySchema,
-} from './validation'
+import { deliveryServiceSchema, DeliveryServiceValues } from './validation'
 import { uploadFile } from '@/lib/files'
 import { createMedia } from '@/lib/actions'
 import {
-  createCategory,
-  deleteCategory,
-  editCategory,
+  createDeliveryService,
+  editDeliveryService,
+  deleteDeliveryService,
 } from '../_actions/actions'
-import { imageFileTypes } from '@/lib/validation'
+import { pdfFileTypes } from '@/lib/validation'
 
-type CategoryWithImage = Category & {
-  image: Media | null
+type DeliveryServiceWithPdf = DeliveryService & {
+  pdf: Media | null
 }
 
-export function CategoryForm({
-  category,
+export function DeliveryServiceForm({
+  deliveryService,
 }: {
-  category?: CategoryWithImage | null
+  deliveryService?: DeliveryServiceWithPdf | null
 }) {
   const [isDeleting, setIsDeleting] = useState(false)
   const [removedMedia, setRemovedMedia] = useState<Media[]>([])
   const { toast } = useToast()
 
-  const form = useForm<CategoryValues>({
-    resolver: zodResolver(category ? editCategorySchema : categorySchema),
+  const form = useForm<DeliveryServiceValues>({
+    resolver: zodResolver(deliveryServiceSchema),
     defaultValues: {
-      name: category?.name || '',
-      active: category?.active || false,
+      name: deliveryService?.name || '',
+      link: deliveryService?.link || '',
+      active: deliveryService?.active || false,
     },
   })
 
-  const imageRef = form.register('image')
+  const pdfRef = form.register('pdf')
 
-  async function onSubmit(data: CategoryValues) {
+  async function onSubmit(data: DeliveryServiceValues) {
     try {
-      let mediaId = category?.image?.id
+      let mediaId = deliveryService?.pdf?.id
 
       // Upload new file if provided
-      if (data.image && data.image.length > 0) {
+      if (data.pdf && data.pdf.length > 0) {
         const { key, name, type, fileURL } = await uploadFile(
-          data.image[0],
-          imageFileTypes
+          data.pdf[0],
+          pdfFileTypes
         )
         const media = await createMedia(key, name, type, fileURL)
         mediaId = media.id
       }
 
-      if (category) {
+      if (deliveryService) {
         // Edit post case
-        await editCategory(
+        await editDeliveryService(
           {
             name: data.name,
+            link: data.link,
             active: data.active,
           },
-          category.id,
+          deliveryService.id,
           removedMedia,
           mediaId
         )
-        toast({ description: 'Kategorija sačuvana.' })
-        // Reset only image field after submission to avoid having duplicate image badges
-        form.resetField('image')
+        toast({ description: 'Kurirska služba sačuvana.' })
+        // Reset only pdf field after submission to avoid having duplicate image badges
+        form.resetField('pdf')
       } else {
         // Create post case
-        await createCategory(
+        await createDeliveryService(
           {
             name: data.name,
+            link: data.link,
             active: data.active,
           },
           mediaId
         )
-        toast({ description: 'Kategorija kreirana.' })
+        toast({ description: 'Kurirska služba kreirana.' })
         // Reset form after submission
         form.reset()
       }
@@ -112,14 +111,14 @@ export function CategoryForm({
   const onDelete = async (id: string) => {
     setIsDeleting(true)
     try {
-      await deleteCategory(id)
+      await deleteDeliveryService(id)
     } catch (error) {
       toast({
         variant: 'destructive',
         description:
           error instanceof Error
             ? error.message
-            : 'Došlo je do greške prilikom brisanja kategorije. Molimo pokušajte ponovo.',
+            : 'Došlo je do greške prilikom brisanja kurirske službe. Molimo pokušajte ponovo.',
       })
     } finally {
       setIsDeleting(false)
@@ -136,9 +135,25 @@ export function CategoryForm({
             <FormItem>
               <FormLabel>Naziv</FormLabel>
               <FormControl>
-                <Input placeholder='Unesite ime kategorije' {...field} />
+                <Input placeholder='Unesite ime kurirske službe' {...field} />
               </FormControl>
-              <FormDescription>Naziv kategorije</FormDescription>
+              <FormDescription>Naziv kurirske službe</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='link'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Link</FormLabel>
+              <FormControl>
+                <Input placeholder='Unesite link kurirske službe' {...field} />
+              </FormControl>
+              <FormDescription>
+                Zvanični link sa cenama kurirske službe
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -155,39 +170,43 @@ export function CategoryForm({
                   onCheckedChange={field.onChange}
                 />
               </FormControl>
-              <FormDescription>Da li je kategorija aktivna</FormDescription>
+              <FormDescription>
+                Da li je kurirska služba aktivna
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name='image'
+          name='pdf'
           render={() => (
             <FormItem>
-              <FormLabel>Slika</FormLabel>
+              <FormLabel>PDF</FormLabel>
               <FormControl>
                 <FileUpload
                   type='file'
-                  formFiles={form.getValues('image')}
-                  formSetValue={(values) => form.setValue('image', values)}
-                  existingFiles={category?.image ? [category.image] : []}
+                  formFiles={form.getValues('pdf')}
+                  formSetValue={(values) => form.setValue('pdf', values)}
+                  existingFiles={
+                    deliveryService?.pdf ? [deliveryService.pdf] : []
+                  }
                   removedExistingFiles={removedMedia}
                   setRemovedExistingFile={(media) =>
                     setRemovedMedia((prev) => [...prev, media])
                   }
-                  {...imageRef}
+                  {...pdfRef}
                 />
               </FormControl>
-              <FormDescription>Slika kategorije</FormDescription>
+              <FormDescription>PDF sa cenama kurirske službe</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
         <div className='flex'>
-          {category?.id ? (
+          {deliveryService?.id ? (
             <ConfirmationDialog
-              confirmAction={() => onDelete(category.id)}
+              confirmAction={() => onDelete(deliveryService.id)}
               isLoading={isDeleting}
               isDisabled={isDeleting || form.formState.isSubmitting}
             />

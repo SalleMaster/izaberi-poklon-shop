@@ -4,16 +4,19 @@ import { auth } from '@/auth'
 import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache'
 import { Media } from '@prisma/client'
-import { categorySchema, CategoryValues } from '../_components/validation'
+import {
+  deliveryServiceSchema,
+  DeliveryServiceValues,
+} from '../_components/validation'
 import { deleteMedia, deleteMediaFromS3 } from '@/lib/actions'
 
-type CategoryWithoutImageFile = Omit<CategoryValues, 'image'>
-const categorySchemaWithoutImage = categorySchema.omit({
-  image: true,
+type DeliveryServiceWithoutPdfFile = Omit<DeliveryServiceValues, 'pdf'>
+const deliveryServiceSchemaWithoutPdf = deliveryServiceSchema.omit({
+  pdf: true,
 })
 
-export async function createCategory(
-  values: CategoryWithoutImageFile,
+export async function createDeliveryService(
+  values: DeliveryServiceWithoutPdfFile,
   mediaId?: string
 ) {
   const session = await auth()
@@ -24,17 +27,15 @@ export async function createCategory(
     throw Error('Unauthorized')
   }
 
-  const { name, active } = categorySchemaWithoutImage.parse(values)
+  const { name, link, active } = deliveryServiceSchemaWithoutPdf.parse(values)
 
-  const slug = name.replace(/\s+/g, '-').toLowerCase()
-
-  await prisma.category.create({
+  await prisma.deliveryService.create({
     data: {
       name,
-      slug,
+      link,
       active,
       ...(mediaId && {
-        image: {
+        pdf: {
           connect: {
             id: mediaId,
           },
@@ -43,11 +44,11 @@ export async function createCategory(
     },
   })
 
-  revalidatePath('/dashboard/categories')
+  revalidatePath('/dashboard/delivery-services')
 }
 
-export async function editCategory(
-  values: CategoryWithoutImageFile,
+export async function editDeliveryService(
+  values: DeliveryServiceWithoutPdfFile,
   id: string,
   removedMedia: Media[],
   mediaId?: string
@@ -60,17 +61,16 @@ export async function editCategory(
     throw Error('Unauthorized')
   }
 
-  const { name, active } = categorySchemaWithoutImage.parse(values)
-  const slug = name.replace(/\s+/g, '-').toLowerCase()
+  const { name, link, active } = deliveryServiceSchemaWithoutPdf.parse(values)
 
-  await prisma.category.update({
+  await prisma.deliveryService.update({
     where: { id },
     data: {
       name,
-      slug,
+      link,
       active,
       ...(mediaId && {
-        image: {
+        pdf: {
           connect: {
             id: mediaId,
           },
@@ -85,10 +85,10 @@ export async function editCategory(
     )
   }
 
-  revalidatePath('/dashboard/categories')
+  revalidatePath('/dashboard/delivery-services')
 }
 
-export async function deleteCategory(id: string) {
+export async function deleteDeliveryService(id: string) {
   const session = await auth()
   const userId = session?.user?.id
   const userRole = session?.user?.role
@@ -97,14 +97,14 @@ export async function deleteCategory(id: string) {
     throw Error('Unauthorized')
   }
 
-  const deletedCategory = await prisma.category.delete({
+  const deletedDeliveryService = await prisma.deliveryService.delete({
     where: { id },
     include: {
-      image: true,
+      pdf: true,
     },
   })
 
-  const mediaKey = deletedCategory.image?.key
+  const mediaKey = deletedDeliveryService.pdf?.key
 
   if (mediaKey) {
     await deleteMediaFromS3(mediaKey)
