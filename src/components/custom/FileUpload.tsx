@@ -40,7 +40,7 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
       <div>
         <div className='relative h-32 w-full flex flex-col items-center justify-center border-2 border-dashed border-gray-300 p-4 rounded-md cursor-pointer text-muted-foreground'>
           <ImageUp className='h-6 w-6 mb-4' />
-          <p className='z-0'>Drop your files here or click to upload</p>
+          <p className='z-0'>Prevucite fajlove ovde ili kliknite za upload</p>
           <Input
             {...props}
             ref={ref}

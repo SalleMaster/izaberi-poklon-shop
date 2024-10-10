@@ -12,7 +12,7 @@ import {
 } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import crypto from 'crypto'
-import { Media } from '@prisma/client'
+import { MediaDeprecated } from '@prisma/client'
 
 const s3 = new S3Client({
   region: process.env.AWS_S3_BUCKET_REGION!,
@@ -80,7 +80,7 @@ export async function createPost(
 export async function editPost(
   values: CreatePostWithoutImageFile,
   slug: string,
-  removedMedia: Media[],
+  removedMedia: MediaDeprecated[],
   mediaId?: string
 ) {
   const session = await auth()

@@ -9,6 +9,14 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/admin/kategorije',
+        destination: '/dashboard/categories',
+      },
+    ]
+  },
 }
 
 export default nextConfig

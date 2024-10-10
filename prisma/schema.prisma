@@ -21,18 +21,18 @@ datasource db {
 
 // Post example
 model Post {
-  id        String   @id @default(cuid())
+  id        String           @id @default(cuid())
   title     String
-  slug      String   @unique
+  slug      String           @unique
   content   String
-  published Boolean? @default(false)
-  media     Media?
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())
+  published Boolean?         @default(false)
+  media     MediaDeprecated?
+  updatedAt DateTime         @updatedAt
+  createdAt DateTime         @default(now())
 }
 
-// Media
-model Media {
+// Media Deprecated
+model MediaDeprecated {
   id        String   @id @default(cuid())
   name      String
   key       String   @unique
@@ -46,17 +46,48 @@ model Media {
   createdAt DateTime @default(now())
 }
 
+// Category
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  active    Boolean? @default(false)
+  image     Media?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("categories")
+}
+
+// Media
+model Media {
+  id         String    @id @default(cuid())
+  name       String
+  key        String    @unique
+  type       String
+  url        String    @unique
+  user       User?     @relation(fields: [userId], references: [id])
+  userId     String?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String?   @unique
+  updatedAt  DateTime  @updatedAt
+  createdAt  DateTime  @default(now())
+
+  @@map("medias")
+}
+
 // Auth
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  role          String?   @default("user")
-  media         Media[]
-  accounts      Account[]
-  sessions      Session[]
+  id              String            @id @default(cuid())
+  name            String?
+  email           String            @unique
+  emailVerified   DateTime?
+  image           String?
+  role            String?           @default("user")
+  media           Media[]
+  mediaDeprecated MediaDeprecated[]
+  accounts        Account[]
+  sessions        Session[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

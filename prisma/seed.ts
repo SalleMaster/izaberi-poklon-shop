@@ -22,34 +22,31 @@ const initialMedias: Prisma.MediaCreateInput[] = [
   },
 ]
 
-const initialPosts: Prisma.PostCreateInput[] = [
+const initialCategories: Prisma.CategoryCreateInput[] = [
   {
-    id: 'post-id-1',
-    title: 'Post 1',
-    slug: 'post-1',
-    content: 'This is the content of post 1',
-    published: false,
-    media: {
+    id: 'category-id-1',
+    name: 'Category 1',
+    slug: 'category-1',
+    active: false,
+    image: {
       create: initialMedias[0],
     },
   },
   {
-    id: 'post-id-2',
-    title: 'Post 2',
-    slug: 'post-2',
-    content: 'This is the content of post 2',
-    published: true,
-    media: {
+    id: 'category-id-2',
+    name: 'Category 2',
+    slug: 'category-2',
+    active: true,
+    image: {
       create: initialMedias[1],
     },
   },
   {
-    id: 'post-id-3',
-    title: 'Post 3',
-    slug: 'post-3',
-    content: 'This is the content of post 3',
-    published: true,
-    media: {
+    id: 'category-id-3',
+    name: 'Category 3',
+    slug: 'category-3',
+    active: true,
+    image: {
       create: initialMedias[2],
     },
   },
@@ -57,11 +54,11 @@ const initialPosts: Prisma.PostCreateInput[] = [
 
 async function main() {
   console.log('Start seeding ...')
-  for (const post of initialPosts) {
-    const newPost = await prisma.post.create({
-      data: post,
+  for (const category of initialCategories) {
+    const newCategory = await prisma.category.create({
+      data: category,
     })
-    console.log(`Created post with id: ${newPost.id}`)
+    console.log(`Created post with id: ${newCategory.id}`)
   }
   console.log('Seeding finished.')
 }
