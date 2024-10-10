@@ -1,4 +1,4 @@
-import { getSignedURL } from '@/app/posts/_actions/actions'
+import { getSignedURL } from '@/lib/actions'
 
 const computeSHA256 = async (file: File): Promise<string> => {
   const buffer = await file.arrayBuffer()

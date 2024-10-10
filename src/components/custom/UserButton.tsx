@@ -24,7 +24,7 @@ type UserButtonProps = {
 }
 
 const adminMenuOptions = [
-  { href: '/dashboard/categories', text: 'Categories', icon: ChartBarStacked },
+  { href: '/admin/kategorije', text: 'Kategorije', icon: ChartBarStacked },
   {
     href: '/dashboard/delivery-services',
     text: 'Delivery services',

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-  await pageGuard({ callbackUrl: '/dashboard/categories', adminGuard: true })
+  await pageGuard({ callbackUrl: '/admin/kategorije', adminGuard: true })
 
   return <CategoriesPage />
 }

@@ -1,29 +1,34 @@
 import { z } from 'zod'
 
 // File schema
-const fileSchema = z.instanceof(File, { message: 'Required' })
+export const fileSchema = z.instanceof(File, { message: 'Polje je neophodno' })
 
 // Image schema
-const imageSchema = fileSchema.refine(
+export const imageSchema = fileSchema.refine(
   (file) => file.size === 0 || file.type.startsWith('image/')
 )
 
-const imageListSchemaRequired = z
-  .instanceof(globalThis.FileList, { message: 'Required' })
+export const imageListSchemaRequired = z
+  .instanceof(globalThis.FileList, { message: 'Slika je neophodna' })
   .refine(
     (fileList) =>
       fileList.length > 0 &&
       Array.from(fileList).every((file) => imageSchema.safeParse(file).success),
-    { message: 'Image required and must be a valid image file' }
+    { message: 'Slika je neophodna i mora biti validan fajl tip' }
   )
 
-const imageListSchemaOptional = z
-  .instanceof(globalThis.FileList, { message: 'Required' })
-  .refine(
-    (fileList) =>
-      Array.from(fileList).every((file) => imageSchema.safeParse(file).success),
-    { message: 'Image must be a valid image file' }
-  )
+export const imageListSchemaOptional = z.union([
+  z.undefined(),
+  z
+    .instanceof(globalThis.FileList, { message: 'Slika je neophodna' })
+    .refine(
+      (fileList) =>
+        Array.from(fileList).every(
+          (file) => imageSchema.safeParse(file).success
+        ),
+      { message: 'Slika je neophodna i mora biti validan fajl tip' }
+    ),
+])
 
 // User profile schema
 export const updateProfileSchema = z.object({
