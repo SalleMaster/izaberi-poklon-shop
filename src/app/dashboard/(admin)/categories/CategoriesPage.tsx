@@ -31,12 +31,12 @@ export default async function CategoriesPage() {
       <h2 className='text-xl font-bold'>Kategorije</h2>
 
       <div className='space-y-3'>
-        <h2 className='text-lg font-medium'>Nova Kategorija</h2>
+        <h2 className='text-lg font-medium'>Nova</h2>
         <CategoryCard />
       </div>
 
       <div className='space-y-3'>
-        <h2 className='text-lg font-medium'>Aktivne Kategorije</h2>
+        <h2 className='text-lg font-medium'>Aktivne</h2>
         {activeCategories.length > 0 &&
           activeCategories.map((category) => (
             <CategoryCard key={category.id} category={category} />
@@ -44,7 +44,7 @@ export default async function CategoriesPage() {
       </div>
 
       <div className='space-y-3'>
-        <h2 className='text-lg font-medium'>Neaktivne Kategorije</h2>
+        <h2 className='text-lg font-medium'>Neaktivne</h2>
         {inactiveCategories.length > 0 &&
           inactiveCategories.map((category) => (
             <CategoryCard key={category.id} category={category} />
@@ -64,28 +64,18 @@ function CategoryCard({ category }: { category?: CategoryWithImage }) {
         >
           <AccordionTrigger>
             <div className='flex items-center gap-4'>
-              {category?.image ? (
-                <div className='w-10'>
-                  <Image
-                    src={category.image.url}
-                    alt={category.image.name}
-                    layout='responsive'
-                    width={40}
-                    height={40}
-                  />
-                </div>
-              ) : (
-                <div className='w-10'>
-                  <Image
-                    src='https://izaberi-poklon-shop-development-bucket-salle.s3.eu-north-1.amazonaws.com/fallback-image.png'
-                    alt='No image'
-                    layout='responsive'
-                    width={40}
-                    height={40}
-                  />
-                </div>
-              )}
-
+              <div className='w-6'>
+                <Image
+                  src={
+                    category?.image?.url ||
+                    'https://izaberi-poklon-shop-development-bucket-salle.s3.eu-north-1.amazonaws.com/fallback-image.png'
+                  }
+                  alt={category?.image?.name || 'No image'}
+                  layout='responsive'
+                  width={24}
+                  height={24}
+                />
+              </div>
               <span className='font-semibold'>
                 {category?.name || 'Kreiraj kategoriju'}
               </span>

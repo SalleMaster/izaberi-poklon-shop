@@ -16,11 +16,18 @@ type UploadFileReturnTypes = {
 }
 
 export const uploadFile = async (
-  file: File
+  file: File,
+  allowedFileTypes: string[]
 ): Promise<UploadFileReturnTypes> => {
   const { name, type, size } = file
   const checksum = await computeSHA256(file)
-  const { signedURL, key } = await getSignedURL(name, type, size, checksum)
+  const { signedURL, key } = await getSignedURL(
+    name,
+    type,
+    size,
+    checksum,
+    allowedFileTypes
+  )
 
   await fetch(signedURL, {
     method: 'PUT',

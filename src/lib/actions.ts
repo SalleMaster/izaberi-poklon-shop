@@ -18,15 +18,14 @@ const s3 = new S3Client({
   },
 })
 
-const allowedFileTypes = ['image/jpeg', 'image/png']
-
 const maxFileSize = 1 * 1024 * 1024 // 1 MB
 
 export async function getSignedURL(
   name: string,
   type: string,
   size: number,
-  checksum: string
+  checksum: string,
+  allowedFileTypes: string[]
 ) {
   const session = await auth()
   const userId = session?.user?.id
@@ -43,7 +42,6 @@ export async function getSignedURL(
     throw Error('File size too large')
   }
 
-  // const fileName = generateFileName()
   const key = `${crypto.randomUUID()}-${name}`
 
   const putObjectCommand = new PutObjectCommand({

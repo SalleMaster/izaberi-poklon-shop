@@ -15,6 +15,10 @@ const nextConfig = {
         source: '/admin/kategorije',
         destination: '/dashboard/categories',
       },
+      {
+        source: '/admin/kurirske-sluzbe',
+        destination: '/dashboard/delivery-services',
+      },
     ]
   },
 }

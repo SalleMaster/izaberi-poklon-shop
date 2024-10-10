@@ -59,19 +59,34 @@ model Category {
   @@map("categories")
 }
 
+// DeliveryService
+model DeliveryService {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  link      String
+  pdf       Media?
+  active    Boolean? @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("delivery_services")
+}
+
 // Media
 model Media {
-  id         String    @id @default(cuid())
-  name       String
-  key        String    @unique
-  type       String
-  url        String    @unique
-  user       User?     @relation(fields: [userId], references: [id])
-  userId     String?
-  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId String?   @unique
-  updatedAt  DateTime  @updatedAt
-  createdAt  DateTime  @default(now())
+  id                String           @id @default(cuid())
+  name              String
+  key               String           @unique
+  type              String
+  url               String           @unique
+  user              User?            @relation(fields: [userId], references: [id])
+  userId            String?
+  category          Category?        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId        String?          @unique
+  deliveryService   DeliveryService? @relation(fields: [deliveryServiceId], references: [id], onDelete: Cascade)
+  deliveryServiceId String?          @unique
+  updatedAt         DateTime         @updatedAt
+  createdAt         DateTime         @default(now())
 
   @@map("medias")
 }
