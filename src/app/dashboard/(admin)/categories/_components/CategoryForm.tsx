@@ -72,7 +72,7 @@ export function CategoryForm({
       }
 
       if (category) {
-        // Edit post case
+        // Edit category case
         await editCategory(
           {
             name: data.name,
@@ -86,7 +86,7 @@ export function CategoryForm({
         // Reset only image field after submission to avoid having duplicate image badges
         form.resetField('image')
       } else {
-        // Create post case
+        // Create category case
         await createCategory(
           {
             name: data.name,

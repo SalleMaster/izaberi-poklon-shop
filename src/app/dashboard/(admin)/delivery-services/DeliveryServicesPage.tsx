@@ -9,6 +9,7 @@ import {
 import { Truck } from 'lucide-react'
 import { DeliveryServiceForm } from './_components/DeliveryServiceForm'
 import { DeliveryService, Media } from '@prisma/client'
+import { NotificationAlert } from '@/components/custom/NotificationAlert'
 
 type DeliveryServiceWithPdf = DeliveryService & {
   pdf: Media | null
@@ -37,24 +38,38 @@ export default async function DeliveryServicesPage() {
 
       <div className='space-y-3'>
         <h2 className='text-lg font-medium'>Aktivne</h2>
-        {activeDeliveryServices.length > 0 &&
+        {activeDeliveryServices.length > 0 ? (
           activeDeliveryServices.map((deliveryService) => (
             <DeliveryServiceCard
               key={deliveryService.id}
               deliveryService={deliveryService}
             />
-          ))}
+          ))
+        ) : (
+          <NotificationAlert
+            title='Obaveštenje'
+            description='Trenutno nema aktivnih kurirskih službi'
+            variant='info'
+          />
+        )}
       </div>
 
       <div className='space-y-3'>
         <h2 className='text-lg font-medium'>Neaktivne</h2>
-        {inactiveDeliveryServices.length > 0 &&
+        {inactiveDeliveryServices.length > 0 ? (
           inactiveDeliveryServices.map((deliveryService) => (
             <DeliveryServiceCard
               key={deliveryService.id}
               deliveryService={deliveryService}
             />
-          ))}
+          ))
+        ) : (
+          <NotificationAlert
+            title='Obaveštenje'
+            description='Trenutno nema neaktivnih kurirskih službi'
+            variant='info'
+          />
+        )}
       </div>
     </div>
   )

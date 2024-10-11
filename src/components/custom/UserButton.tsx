@@ -3,6 +3,7 @@ import {
   Truck,
   LogOut,
   Settings,
+  BadgePercent,
   User as UserIcon,
 } from 'lucide-react'
 import { User } from 'next-auth'
@@ -30,6 +31,7 @@ const adminMenuOptions = [
     text: 'Kurirske službe',
     icon: Truck,
   },
+  { href: '/admin/popusti', text: 'Popusti', icon: BadgePercent },
   { href: '/dashboard/profile', text: 'Profile', icon: Settings },
 ]
 
