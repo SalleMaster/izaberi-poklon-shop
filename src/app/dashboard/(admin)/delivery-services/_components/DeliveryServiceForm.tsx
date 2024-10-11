@@ -69,7 +69,7 @@ export function DeliveryServiceForm({
       }
 
       if (deliveryService) {
-        // Edit post case
+        // Edit delivery service case
         await editDeliveryService(
           {
             name: data.name,
@@ -84,7 +84,7 @@ export function DeliveryServiceForm({
         // Reset only pdf field after submission to avoid having duplicate image badges
         form.resetField('pdf')
       } else {
-        // Create post case
+        // Create delivery service case
         await createDeliveryService(
           {
             name: data.name,

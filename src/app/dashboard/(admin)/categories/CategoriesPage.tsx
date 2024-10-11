@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/accordion'
 import { CategoryForm } from './_components/CategoryForm'
 import { Category, Media } from '@prisma/client'
+import { NotificationAlert } from '@/components/custom/NotificationAlert'
 
 type CategoryWithImage = Category & {
   image: Media | null
@@ -37,18 +38,32 @@ export default async function CategoriesPage() {
 
       <div className='space-y-3'>
         <h2 className='text-lg font-medium'>Aktivne</h2>
-        {activeCategories.length > 0 &&
+        {activeCategories.length > 0 ? (
           activeCategories.map((category) => (
             <CategoryCard key={category.id} category={category} />
-          ))}
+          ))
+        ) : (
+          <NotificationAlert
+            title='Obaveštenje'
+            description='Trenutno nema aktivnih kategorija'
+            variant='info'
+          />
+        )}
       </div>
 
       <div className='space-y-3'>
         <h2 className='text-lg font-medium'>Neaktivne</h2>
-        {inactiveCategories.length > 0 &&
+        {inactiveCategories.length > 0 ? (
           inactiveCategories.map((category) => (
             <CategoryCard key={category.id} category={category} />
-          ))}
+          ))
+        ) : (
+          <NotificationAlert
+            title='Obaveštenje'
+            description='Trenutno nema neaktivnih kategorija'
+            variant='info'
+          />
+        )}
       </div>
     </div>
   )

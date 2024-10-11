@@ -82,19 +82,46 @@ const initialDeliveryServices: Prisma.DeliveryServiceCreateInput[] = [
   },
 ]
 
+const initialDiscounts: Prisma.DiscountCreateInput[] = [
+  {
+    id: 'discount-id-1',
+    name: 'Discount 1',
+    percentage: 15,
+    active: true,
+  },
+  {
+    id: 'discount-id-2',
+    name: 'Discount 2',
+    percentage: 20,
+    active: false,
+  },
+  {
+    id: 'discount-id-3',
+    name: 'Discount 3',
+    percentage: 25,
+    active: true,
+  },
+]
+
 async function main() {
   console.log('Start seeding ...')
   for (const category of initialCategories) {
     const newCategory = await prisma.category.create({
       data: category,
     })
-    console.log(`Created post with id: ${newCategory.id}`)
+    console.log(`Created category with id: ${newCategory.id}`)
   }
   for (const deliveryService of initialDeliveryServices) {
     const newDeliveryService = await prisma.deliveryService.create({
       data: deliveryService,
     })
     console.log(`Created delivery service with id: ${newDeliveryService.id}`)
+  }
+  for (const discount of initialDiscounts) {
+    const newDiscount = await prisma.discount.create({
+      data: discount,
+    })
+    console.log(`Created discount with id: ${newDiscount.id}`)
   }
   console.log('Seeding finished.')
 }
