@@ -23,6 +23,14 @@ const nextConfig = {
         source: '/admin/popusti',
         destination: '/dashboard/discounts',
       },
+      {
+        source: '/admin/proizvodi',
+        destination: '/dashboard/products',
+      },
+      {
+        source: '/admin/proizvodi/novi',
+        destination: '/dashboard/products/new',
+      },
     ]
   },
 }
