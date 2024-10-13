@@ -158,8 +158,6 @@ export function ProductForm({
     }
   }
 
-  console.log('ProductForm', 'categories: ', form.getValues('categories'))
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2.5'>
@@ -266,15 +264,7 @@ export function ProductForm({
             <FormItem>
               <FormLabel>Opis</FormLabel>
               <FormControl>
-                {/* <Input
-                  placeholder='Unesite opis proizvoda'
-                  {...field}
-                /> */}
-                <Textarea
-                  placeholder='Unesite opis proizvoda'
-                  // className='resize-none'
-                  {...field}
-                />
+                <Textarea placeholder='Unesite opis proizvoda' {...field} />
               </FormControl>
               <FormDescription>Opis proizvoda</FormDescription>
               <FormMessage />
