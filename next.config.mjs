@@ -23,6 +23,18 @@ const nextConfig = {
         source: '/admin/popusti',
         destination: '/dashboard/discounts',
       },
+      {
+        source: '/admin/proizvodi',
+        destination: '/dashboard/products',
+      },
+      {
+        source: '/admin/proizvodi/novi',
+        destination: '/dashboard/products/new',
+      },
+      {
+        source: '/admin/proizvodi/:id/edit',
+        destination: '/dashboard/products/:id/edit',
+      },
     ]
   },
 }

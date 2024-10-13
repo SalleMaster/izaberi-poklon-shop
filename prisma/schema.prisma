@@ -21,13 +21,14 @@ datasource db {
 
 // Category
 model Category {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  slug      String   @unique
-  active    Boolean? @default(false)
+  id        String    @id @default(cuid())
+  name      String    @unique
+  slug      String    @unique
+  active    Boolean?  @default(false)
   image     Media?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@map("categories")
 }
@@ -57,6 +58,25 @@ model Discount {
   @@map("discounts")
 }
 
+// Product
+model Product {
+  id              String     @id @default(cuid())
+  name            String     @unique
+  categories      Category[]
+  code            String     @unique
+  material        String
+  dimensions      String
+  personalization String
+  description     String
+  coverImage      Media?     @relation("CoverImageRelation", fields: [coverImageId], references: [id], onDelete: Cascade)
+  coverImageId    String?    @unique
+  images          Media[]    @relation("ImagesRelation")
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@map("products")
+}
+
 // Media
 model Media {
   id                String           @id @default(cuid())
@@ -70,6 +90,9 @@ model Media {
   categoryId        String?          @unique
   deliveryService   DeliveryService? @relation(fields: [deliveryServiceId], references: [id], onDelete: Cascade)
   deliveryServiceId String?          @unique
+  productCover      Product?         @relation("CoverImageRelation")
+  productImages     Product?         @relation("ImagesRelation", fields: [productImagesId], references: [id], onDelete: Cascade)
+  productImagesId   String?
   updatedAt         DateTime         @updatedAt
   createdAt         DateTime         @default(now())
 
