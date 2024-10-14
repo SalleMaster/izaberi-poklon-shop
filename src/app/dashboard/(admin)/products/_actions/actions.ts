@@ -30,6 +30,8 @@ export async function createProduct(
     name,
     categories,
     code,
+    price,
+    discount,
     material,
     dimensions,
     personalization,
@@ -46,6 +48,14 @@ export async function createProduct(
         connect: categories.map((id) => ({ id })),
       },
       code,
+      price,
+      discount: discount
+        ? {
+            connect: {
+              id: discount,
+            },
+          }
+        : undefined,
       material,
       dimensions,
       personalization,
@@ -87,6 +97,8 @@ export async function editProduct(
     name,
     categories,
     code,
+    price,
+    discount,
     material,
     dimensions,
     personalization,
@@ -104,6 +116,16 @@ export async function editProduct(
         connect: categories.map((id) => ({ id })),
       },
       code,
+      price,
+      discount: discount
+        ? {
+            connect: {
+              id: discount,
+            },
+          }
+        : {
+            disconnect: true,
+          },
       material,
       dimensions,
       personalization,

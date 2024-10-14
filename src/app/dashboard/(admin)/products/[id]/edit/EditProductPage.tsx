@@ -14,7 +14,16 @@ export default async function EditProductPage({ id }: EditProductPageProps) {
 
   const product = await prisma.product.findUnique({
     where: { id },
-    include: { categories: true, coverImage: true, images: true },
+    include: {
+      categories: true,
+      coverImage: true,
+      images: true,
+      discount: true,
+    },
+  })
+
+  const discounts = await prisma.discount.findMany({
+    orderBy: { createdAt: 'desc' },
   })
 
   return (
@@ -25,7 +34,11 @@ export default async function EditProductPage({ id }: EditProductPageProps) {
           <CardTitle>Edituj proizvod</CardTitle>
         </CardHeader>
         <CardContent>
-          <ProductForm categories={categories} product={product} />
+          <ProductForm
+            categories={categories}
+            product={product}
+            discounts={discounts}
+          />
         </CardContent>
       </Card>
     </div>

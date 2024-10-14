@@ -24,7 +24,7 @@ type ComboboxProps = {
     value: string
     label: string
   }[]
-  value: string
+  value?: string
   setValue: (value: string) => void
 }
 
@@ -38,11 +38,14 @@ export function Combobox({ options, value, setValue }: ComboboxProps) {
           variant='outline'
           role='combobox'
           aria-expanded={open}
-          className='w-[200px] justify-between'
+          className='flex w-full justify-between'
         >
-          {value
-            ? options.find((option) => option.value === value)?.label
-            : 'Selektuj opciju...'}
+          <span className='truncate'>
+            {value
+              ? options.find((option) => option.value === value)?.label
+              : 'Selektuj opciju...'}
+          </span>
+
           <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
