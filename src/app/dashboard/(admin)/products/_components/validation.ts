@@ -15,11 +15,8 @@ export const productSchema = z.object({
     (val) => (typeof val === 'string' ? parseFloat(val) : val),
     z
       .number({ invalid_type_error: 'Cena mora biti broj' })
-      .min(0.01, 'Cena mora biti veća od nule')
-      .refine((val) => /^\d+(\.\d{1,2})?$/.test(val.toString()), {
-        message:
-          'Cena mora biti ceo broj ili decimalni broj sa najviše dve decimale',
-      })
+      .int('Cena mora biti ceo broj')
+      .min(1, 'Cena mora biti veća od nule')
   ),
   discount: z.string().optional(),
   material: z.string().trim().min(1, 'Polje je neophodno'),

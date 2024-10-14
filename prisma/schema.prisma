@@ -65,7 +65,7 @@ model Product {
   name            String     @unique
   categories      Category[]
   code            String     @unique
-  price           Float
+  price           Int
   discount        Discount?  @relation(fields: [discountId], references: [id])
   discountId      String?
   material        String
