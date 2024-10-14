@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Product, Category, Media } from '@prisma/client'
+import { Product, Category, Discount, Media } from '@prisma/client'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -26,9 +26,11 @@ import { createMedia } from '@/lib/actions'
 import { createProduct, deleteProduct, editProduct } from '../_actions/actions'
 import { imageFileTypes } from '@/lib/validation'
 import { MultiCombobox } from '@/components/custom/MultiCombobox'
+import { Combobox } from '@/components/custom/Combobox'
 
 type ProductWithRelations = Product & {
   categories: Category[]
+  discount: Discount | null
   coverImage: Media | null
   images: Media[] | null
 }
@@ -36,9 +38,11 @@ type ProductWithRelations = Product & {
 export function ProductForm({
   product,
   categories,
+  discounts,
 }: {
   product?: ProductWithRelations | null
   categories: Category[]
+  discounts: Discount[]
 }) {
   const [isDeleting, setIsDeleting] = useState(false)
   const [removedMedia, setRemovedMedia] = useState<Media[]>([])
@@ -50,6 +54,8 @@ export function ProductForm({
       name: product?.name || '',
       categories: product?.categories.map((category) => category.id) || [],
       code: product?.code || '',
+      price: product?.price || 0,
+      discount: product?.discount?.id || '',
       material: product?.material || '',
       dimensions: product?.dimensions || '',
       personalization: product?.personalization || '',
@@ -97,6 +103,8 @@ export function ProductForm({
             name: data.name,
             categories: data.categories,
             code: data.code,
+            price: data.price,
+            discount: data.discount,
             material: data.material,
             dimensions: data.dimensions,
             personalization: data.personalization,
@@ -118,6 +126,8 @@ export function ProductForm({
             name: data.name,
             categories: data.categories,
             code: data.code,
+            price: data.price,
+            discount: data.discount,
             material: data.material,
             dimensions: data.dimensions,
             personalization: data.personalization,
@@ -157,6 +167,8 @@ export function ProductForm({
       setIsDeleting(false)
     }
   }
+
+  console.log(form.getValues('price'))
 
   return (
     <Form {...form}>
@@ -208,6 +220,43 @@ export function ProductForm({
                 <Input placeholder='Unesite šifru proizvoda' {...field} />
               </FormControl>
               <FormDescription>Šifra proizvoda</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='price'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cena</FormLabel>
+              <FormControl>
+                <Input placeholder='Unesite cenu proizvoda' {...field} />
+              </FormControl>
+              <FormDescription>Cena proizvoda</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='discount'
+          render={() => (
+            <FormItem>
+              <FormLabel>Popust</FormLabel>
+              <FormControl>
+                <Combobox
+                  options={discounts.map((discount) => ({
+                    value: discount.id,
+                    label: discount.name,
+                  }))}
+                  value={form.getValues('discount')}
+                  setValue={(value) => form.setValue('discount', value)}
+                />
+              </FormControl>
+              <FormDescription>
+                Popust koji će se primeniti na cenu proizvoda
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

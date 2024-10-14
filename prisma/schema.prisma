@@ -48,12 +48,13 @@ model DeliveryService {
 
 // Discount
 model Discount {
-  id         String   @id @default(cuid())
-  name       String   @unique
+  id         String    @id @default(cuid())
+  name       String    @unique
   percentage Int
-  active     Boolean? @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  active     Boolean?  @default(false)
+  products   Product[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 
   @@map("discounts")
 }
@@ -64,6 +65,9 @@ model Product {
   name            String     @unique
   categories      Category[]
   code            String     @unique
+  price           Float
+  discount        Discount?  @relation(fields: [discountId], references: [id])
+  discountId      String?
   material        String
   dimensions      String
   personalization String
