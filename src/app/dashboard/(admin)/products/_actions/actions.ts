@@ -3,7 +3,7 @@
 import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { Media } from '@prisma/client'
+import { Media, Prisma } from '@prisma/client'
 import { productSchema, ProductValues } from '../_components/validation'
 import { deleteMedia, deleteMediaFromS3 } from '@/lib/actions'
 import { adminActionGuard } from '@/lib/actionGuard'
@@ -35,53 +35,72 @@ export async function createProduct(
     textPersonalizationFields,
   } = productSchemaWithoutImages.parse(values)
 
-  await prisma.product.create({
-    data: {
-      name,
-      categories: {
-        connect: categories.map((id) => ({ id })),
-      },
-      code,
-      price,
-      discount: discount
-        ? {
+  try {
+    await prisma.product.create({
+      data: {
+        name,
+        categories: {
+          connect: categories.map((id) => ({ id })),
+        },
+        code,
+        price,
+        discount: discount
+          ? {
+              connect: {
+                id: discount,
+              },
+            }
+          : undefined,
+        material,
+        dimensions,
+        personalization,
+        description,
+        ...(coverImageMediaId && {
+          coverImage: {
             connect: {
-              id: discount,
+              id: coverImageMediaId,
             },
-          }
-        : undefined,
-      material,
-      dimensions,
-      personalization,
-      description,
-      ...(coverImageMediaId && {
-        coverImage: {
-          connect: {
-            id: coverImageMediaId,
           },
+        }),
+        ...(imagesMediaIds && {
+          images: {
+            connect: imagesMediaIds.map((id) => ({ id })),
+          },
+        }),
+        imagePersonalizationFields: {
+          create: imagePersonalizationFields?.map((field) => ({
+            name: field.name,
+            min: field.min,
+          })),
         },
-      }),
-      ...(imagesMediaIds && {
-        images: {
-          connect: imagesMediaIds.map((id) => ({ id })),
+        textPersonalizationFields: {
+          create: textPersonalizationFields?.map((field) => ({
+            name: field.name,
+            placeholder: field.placeholder,
+          })),
         },
-      }),
-      imagePersonalizationFields: {
-        create: imagePersonalizationFields?.map((field) => ({
-          name: field.name,
-          min: field.min,
-        })),
       },
-      textPersonalizationFields: {
-        create: textPersonalizationFields?.map((field) => ({
-          name: field.name,
-          placeholder: field.placeholder,
-        })),
-      },
-    },
-  })
+    })
 
-  revalidatePath('/dashboard/products')
+    return {
+      status: 'success',
+      message: 'Proizvod kreiran.',
+    }
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return {
+          status: 'fail',
+          message:
+            'Naziv i šifra proizvoda moraju biti jedinstveni. Proizvod sa istim nazivom ili šifrom već postoji.',
+        }
+      }
+    } else {
+      throw error
+    }
+  } finally {
+    revalidatePath('/dashboard/products')
+  }
 }
 
 export async function editProduct(
@@ -109,78 +128,97 @@ export async function editProduct(
     textPersonalizationFields,
   } = productSchemaWithoutImages.parse(values)
 
-  await prisma.product.update({
-    where: { id },
-    data: {
-      name,
-      categories: {
-        connect: categories.map((id) => ({ id })),
-      },
-      code,
-      price,
-      discount: discount
-        ? {
-            connect: {
-              id: discount,
+  try {
+    await prisma.product.update({
+      where: { id },
+      data: {
+        name,
+        categories: {
+          connect: categories.map((id) => ({ id })),
+        },
+        code,
+        price,
+        discount: discount
+          ? {
+              connect: {
+                id: discount,
+              },
+            }
+          : {
+              disconnect: true,
             },
-          }
-        : {
-            disconnect: true,
+        material,
+        dimensions,
+        personalization,
+        description,
+        ...(coverImageMediaId && {
+          coverImage: {
+            connect: {
+              id: coverImageMediaId,
+            },
           },
-      material,
-      dimensions,
-      personalization,
-      description,
-      ...(coverImageMediaId && {
-        coverImage: {
-          connect: {
-            id: coverImageMediaId,
+        }),
+        ...(imagesMediaIds && {
+          images: {
+            connect: imagesMediaIds.map((id) => ({ id })),
           },
+        }),
+        imagePersonalizationFields: {
+          upsert: imagePersonalizationFields?.map((field) => ({
+            where: { id: field.id || '' },
+            create: { name: field.name, min: field.min },
+            update: { name: field.name, min: field.min },
+          })),
         },
-      }),
-      ...(imagesMediaIds && {
-        images: {
-          connect: imagesMediaIds.map((id) => ({ id })),
+        textPersonalizationFields: {
+          upsert: textPersonalizationFields?.map((field) => ({
+            where: { id: field.id || '' },
+            create: { name: field.name, placeholder: field.placeholder },
+            update: { name: field.name, placeholder: field.placeholder },
+          })),
         },
-      }),
-      imagePersonalizationFields: {
-        upsert: imagePersonalizationFields?.map((field) => ({
-          where: { id: field.id || '' },
-          create: { name: field.name, min: field.min },
-          update: { name: field.name, min: field.min },
-        })),
       },
-      textPersonalizationFields: {
-        upsert: textPersonalizationFields?.map((field) => ({
-          where: { id: field.id || '' },
-          create: { name: field.name, placeholder: field.placeholder },
-          update: { name: field.name, placeholder: field.placeholder },
-        })),
-      },
-    },
-  })
+    })
 
-  if (removedMedia.length > 0) {
-    removedMedia.forEach(
-      async (media) => await deleteMedia(media.id, media.key)
-    )
+    if (removedMedia.length > 0) {
+      removedMedia.forEach(
+        async (media) => await deleteMedia(media.id, media.key)
+      )
+    }
+
+    if (removedTextFields.length > 0) {
+      removedTextFields.forEach(
+        async (id) =>
+          await prisma.textPersonalizationField.delete({ where: { id } })
+      )
+    }
+
+    if (removedImageFields.length > 0) {
+      removedImageFields.forEach(
+        async (id) =>
+          await prisma.imagePersonalizationField.delete({ where: { id } })
+      )
+    }
+
+    return {
+      status: 'success',
+      message: 'Proizvod sačuvan.',
+    }
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return {
+          status: 'fail',
+          message:
+            'Naziv i šifra proizvoda moraju biti jedinstveni. Proizvod sa istim nazivom ili šifrom već postoji.',
+        }
+      }
+    } else {
+      throw error
+    }
+  } finally {
+    revalidatePath('/dashboard/products')
   }
-
-  if (removedTextFields.length > 0) {
-    removedTextFields.forEach(
-      async (id) =>
-        await prisma.textPersonalizationField.delete({ where: { id } })
-    )
-  }
-
-  if (removedImageFields.length > 0) {
-    removedImageFields.forEach(
-      async (id) =>
-        await prisma.imagePersonalizationField.delete({ where: { id } })
-    )
-  }
-
-  revalidatePath('/dashboard/products')
 }
 
 export async function deleteProduct(id: string) {

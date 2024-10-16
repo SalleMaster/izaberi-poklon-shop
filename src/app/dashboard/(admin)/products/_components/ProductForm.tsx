@@ -144,7 +144,7 @@ export function ProductForm({
 
       if (product) {
         // Edit product case
-        await editProduct(
+        const response = await editProduct(
           {
             name: data.name,
             categories: data.categories,
@@ -165,13 +165,24 @@ export function ProductForm({
           coverImageMediaId,
           imagesMediaIds
         )
-        toast({ description: 'Proizvod sačuvan.' })
-        // Reset only image field after submission to avoid having duplicate image badges
-        form.resetField('coverImage')
-        form.resetField('images')
+        if (response) {
+          if (response.status === 'fail') {
+            return toast({
+              variant: 'destructive',
+              description: response.message,
+            })
+          }
+
+          if (response.status === 'success') {
+            toast({ description: response.message })
+            // Reset only image field after submission to avoid having duplicate image badges
+            form.resetField('coverImage')
+            form.resetField('images')
+          }
+        }
       } else {
         // Create product case
-        await createProduct(
+        const response = await createProduct(
           {
             name: data.name,
             categories: data.categories,
@@ -188,9 +199,21 @@ export function ProductForm({
           coverImageMediaId,
           imagesMediaIds
         )
-        toast({ description: 'Proizvod kreiran.' })
-        // Reset form after submission
-        form.reset()
+
+        if (response) {
+          if (response.status === 'fail') {
+            return toast({
+              variant: 'destructive',
+              description: response.message,
+            })
+          }
+
+          if (response.status === 'success') {
+            toast({ description: response.message })
+            // Reset form after submission
+            form.reset()
+          }
+        }
       }
     } catch (error) {
       toast({
