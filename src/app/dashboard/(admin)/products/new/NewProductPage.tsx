@@ -4,7 +4,6 @@ import { ProductForm } from '../_components/ProductForm'
 
 export default async function NewProductPage() {
   const categories = await prisma.category.findMany({
-    where: { active: true },
     orderBy: { createdAt: 'desc' },
   })
 

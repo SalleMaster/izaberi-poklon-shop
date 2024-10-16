@@ -8,7 +8,6 @@ type EditProductPageProps = {
 
 export default async function EditProductPage({ id }: EditProductPageProps) {
   const categories = await prisma.category.findMany({
-    where: { active: true },
     orderBy: { createdAt: 'desc' },
   })
 
