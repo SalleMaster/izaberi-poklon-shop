@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/lib/db'
-import { auth } from '@/auth'
 import {
   S3Client,
   PutObjectCommand,
@@ -9,6 +8,7 @@ import {
 } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import crypto from 'crypto'
+import { adminActionGuard, loggedInActionGuard } from './actionGuard'
 
 const s3 = new S3Client({
   region: process.env.AWS_S3_BUCKET_REGION!,
@@ -27,12 +27,7 @@ export async function getSignedURL(
   checksum: string,
   allowedFileTypes: string[]
 ) {
-  const session = await auth()
-  const userId = session?.user?.id
-
-  if (!userId) {
-    throw Error('Unauthorized')
-  }
+  const { userId } = await loggedInActionGuard()
 
   if (type && !allowedFileTypes.includes(type)) {
     throw Error('Invalid file type')
@@ -66,8 +61,7 @@ export async function createMedia(
   type: string,
   url: string
 ) {
-  const session = await auth()
-  const userId = session?.user?.id
+  const { userId } = await loggedInActionGuard()
 
   const media = await prisma.media.create({
     data: {
@@ -89,26 +83,14 @@ export async function createMedia(
 }
 
 export async function deleteMedia(id: string, key: string) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const userRole = session?.user?.role
-
-  if (!userId || userRole !== 'admin') {
-    throw Error('Unauthorized')
-  }
+  await adminActionGuard()
 
   await prisma.media.delete({ where: { id } })
   await deleteMediaFromS3(key)
 }
 
 export async function deleteMediaFromS3(key: string) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const userRole = session?.user?.role
-
-  if (!userId || userRole !== 'admin') {
-    throw Error('Unauthorized')
-  }
+  await adminActionGuard()
 
   const deleteParams = {
     Bucket: process.env.AWS_S3_BUCKET_NAME!,

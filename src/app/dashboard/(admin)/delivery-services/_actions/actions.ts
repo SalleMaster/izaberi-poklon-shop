@@ -1,6 +1,5 @@
 'use server'
 
-import { auth } from '@/auth'
 import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache'
 import { Media } from '@prisma/client'
@@ -9,6 +8,7 @@ import {
   DeliveryServiceValues,
 } from '../_components/validation'
 import { deleteMedia, deleteMediaFromS3 } from '@/lib/actions'
+import { adminActionGuard } from '@/lib/actionGuard'
 
 type DeliveryServiceWithoutPdfFile = Omit<DeliveryServiceValues, 'pdf'>
 const deliveryServiceSchemaWithoutPdf = deliveryServiceSchema.omit({
@@ -19,13 +19,7 @@ export async function createDeliveryService(
   values: DeliveryServiceWithoutPdfFile,
   mediaId?: string
 ) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const userRole = session?.user?.role
-
-  if (!userId || userRole !== 'admin') {
-    throw Error('Unauthorized')
-  }
+  await adminActionGuard()
 
   const { name, link, active } = deliveryServiceSchemaWithoutPdf.parse(values)
 
@@ -53,13 +47,7 @@ export async function editDeliveryService(
   removedMedia: Media[],
   mediaId?: string
 ) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const userRole = session?.user?.role
-
-  if (!userId || userRole !== 'admin') {
-    throw Error('Unauthorized')
-  }
+  await adminActionGuard()
 
   const { name, link, active } = deliveryServiceSchemaWithoutPdf.parse(values)
 
@@ -89,13 +77,7 @@ export async function editDeliveryService(
 }
 
 export async function deleteDeliveryService(id: string) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const userRole = session?.user?.role
-
-  if (!userId || userRole !== 'admin') {
-    throw Error('Unauthorized')
-  }
+  await adminActionGuard()
 
   const deletedDeliveryService = await prisma.deliveryService.delete({
     where: { id },

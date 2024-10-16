@@ -1,18 +1,12 @@
 'use server'
 
-import { auth } from '@/auth'
 import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache'
 import { discountSchema, DiscountValues } from '../_components/validation'
+import { adminActionGuard } from '@/lib/actionGuard'
 
 export async function createDiscount(values: DiscountValues) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const userRole = session?.user?.role
-
-  if (!userId || userRole !== 'admin') {
-    throw Error('Unauthorized')
-  }
+  await adminActionGuard()
 
   const { name, percentage, active } = discountSchema.parse(values)
 
@@ -28,13 +22,7 @@ export async function createDiscount(values: DiscountValues) {
 }
 
 export async function editDiscount(values: DiscountValues, id: string) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const userRole = session?.user?.role
-
-  if (!userId || userRole !== 'admin') {
-    throw Error('Unauthorized')
-  }
+  await adminActionGuard()
 
   const { name, percentage, active } = discountSchema.parse(values)
 
@@ -51,13 +39,7 @@ export async function editDiscount(values: DiscountValues, id: string) {
 }
 
 export async function deleteDiscount(id: string) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const userRole = session?.user?.role
-
-  if (!userId || userRole !== 'admin') {
-    throw Error('Unauthorized')
-  }
+  await adminActionGuard()
 
   await prisma.discount.delete({
     where: { id },
