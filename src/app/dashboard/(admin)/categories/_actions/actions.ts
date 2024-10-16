@@ -1,11 +1,11 @@
 'use server'
 
-import { auth } from '@/auth'
 import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache'
 import { Media } from '@prisma/client'
 import { categorySchema, CategoryValues } from '../_components/validation'
 import { deleteMedia, deleteMediaFromS3 } from '@/lib/actions'
+import { adminActionGuard } from '@/lib/actionGuard'
 
 type CategoryWithoutImageFile = Omit<CategoryValues, 'image'>
 const categorySchemaWithoutImage = categorySchema.omit({
@@ -16,13 +16,7 @@ export async function createCategory(
   values: CategoryWithoutImageFile,
   mediaId?: string
 ) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const userRole = session?.user?.role
-
-  if (!userId || userRole !== 'admin') {
-    throw Error('Unauthorized')
-  }
+  await adminActionGuard()
 
   const { name, active } = categorySchemaWithoutImage.parse(values)
 
@@ -52,13 +46,7 @@ export async function editCategory(
   removedMedia: Media[],
   mediaId?: string
 ) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const userRole = session?.user?.role
-
-  if (!userId || userRole !== 'admin') {
-    throw Error('Unauthorized')
-  }
+  await adminActionGuard()
 
   const { name, active } = categorySchemaWithoutImage.parse(values)
   const slug = name.replace(/\s+/g, '-').toLowerCase()
@@ -89,13 +77,7 @@ export async function editCategory(
 }
 
 export async function deleteCategory(id: string) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const userRole = session?.user?.role
-
-  if (!userId || userRole !== 'admin') {
-    throw Error('Unauthorized')
-  }
+  await adminActionGuard()
 
   const deletedCategory = await prisma.category.delete({
     where: { id },

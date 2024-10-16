@@ -1,11 +1,12 @@
 'use server'
 
-import { auth } from '@/auth'
 import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 import { Media } from '@prisma/client'
 import { productSchema, ProductValues } from '../_components/validation'
 import { deleteMedia, deleteMediaFromS3 } from '@/lib/actions'
+import { adminActionGuard } from '@/lib/actionGuard'
 
 type ProductWithoutImageFiles = Omit<ProductValues, 'coverImage' | 'images'>
 const productSchemaWithoutImages = productSchema.omit({
@@ -18,13 +19,7 @@ export async function createProduct(
   coverImageMediaId?: string,
   imagesMediaIds?: string[]
 ) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const userRole = session?.user?.role
-
-  if (!userId || userRole !== 'admin') {
-    throw Error('Unauthorized')
-  }
+  await adminActionGuard()
 
   const {
     name,
@@ -36,14 +31,13 @@ export async function createProduct(
     dimensions,
     personalization,
     description,
+    imagePersonalizationFields,
+    textPersonalizationFields,
   } = productSchemaWithoutImages.parse(values)
-
-  //   const slug = name.replace(/\s+/g, '-').toLowerCase()
 
   await prisma.product.create({
     data: {
       name,
-      // slug,
       categories: {
         connect: categories.map((id) => ({ id })),
       },
@@ -72,6 +66,18 @@ export async function createProduct(
           connect: imagesMediaIds.map((id) => ({ id })),
         },
       }),
+      imagePersonalizationFields: {
+        create: imagePersonalizationFields?.map((field) => ({
+          name: field.name,
+          min: field.min,
+        })),
+      },
+      textPersonalizationFields: {
+        create: textPersonalizationFields?.map((field) => ({
+          name: field.name,
+          placeholder: field.placeholder,
+        })),
+      },
     },
   })
 
@@ -82,16 +88,12 @@ export async function editProduct(
   values: ProductWithoutImageFiles,
   id: string,
   removedMedia: Media[],
+  removedTextFields: string[],
+  removedImageFields: string[],
   coverImageMediaId?: string,
   imagesMediaIds?: string[]
 ) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const userRole = session?.user?.role
-
-  if (!userId || userRole !== 'admin') {
-    throw Error('Unauthorized')
-  }
+  await adminActionGuard()
 
   const {
     name,
@@ -103,15 +105,14 @@ export async function editProduct(
     dimensions,
     personalization,
     description,
+    imagePersonalizationFields,
+    textPersonalizationFields,
   } = productSchemaWithoutImages.parse(values)
-
-  //   const slug = name.replace(/\s+/g, '-').toLowerCase()
 
   await prisma.product.update({
     where: { id },
     data: {
       name,
-      // slug,
       categories: {
         connect: categories.map((id) => ({ id })),
       },
@@ -142,6 +143,20 @@ export async function editProduct(
           connect: imagesMediaIds.map((id) => ({ id })),
         },
       }),
+      imagePersonalizationFields: {
+        upsert: imagePersonalizationFields?.map((field) => ({
+          where: { id: field.id || '' },
+          create: { name: field.name, min: field.min },
+          update: { name: field.name, min: field.min },
+        })),
+      },
+      textPersonalizationFields: {
+        upsert: textPersonalizationFields?.map((field) => ({
+          where: { id: field.id || '' },
+          create: { name: field.name, placeholder: field.placeholder },
+          update: { name: field.name, placeholder: field.placeholder },
+        })),
+      },
     },
   })
 
@@ -151,17 +166,25 @@ export async function editProduct(
     )
   }
 
+  if (removedTextFields.length > 0) {
+    removedTextFields.forEach(
+      async (id) =>
+        await prisma.textPersonalizationField.delete({ where: { id } })
+    )
+  }
+
+  if (removedImageFields.length > 0) {
+    removedImageFields.forEach(
+      async (id) =>
+        await prisma.imagePersonalizationField.delete({ where: { id } })
+    )
+  }
+
   revalidatePath('/dashboard/products')
 }
 
 export async function deleteProduct(id: string) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const userRole = session?.user?.role
-
-  if (!userId || userRole !== 'admin') {
-    throw Error('Unauthorized')
-  }
+  await adminActionGuard()
 
   const deletedProduct = await prisma.product.delete({
     where: { id },
@@ -183,4 +206,5 @@ export async function deleteProduct(id: string) {
   }
 
   revalidatePath('/dashboard/products')
+  redirect('/dashboard/products')
 }

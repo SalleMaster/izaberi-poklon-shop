@@ -1,10 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { Product, Category, Discount, Media } from '@prisma/client'
+import { useFieldArray, useForm } from 'react-hook-form'
+import {
+  Product,
+  Category,
+  Discount,
+  ImagePersonalizationField,
+  TextPersonalizationField,
+  Media,
+} from '@prisma/client'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -19,7 +26,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { FileUpload } from '@/components/custom/FileUpload'
 import { ConfirmationDialog } from '@/components/custom/ConfirmationDialog'
-import { Loader2, Save } from 'lucide-react'
+import { Loader2, Save, Plus, Minus } from 'lucide-react'
 import { productSchema, ProductValues, editProductSchema } from './validation'
 import { uploadFile } from '@/lib/files'
 import { createMedia } from '@/lib/actions'
@@ -33,6 +40,8 @@ type ProductWithRelations = Product & {
   discount: Discount | null
   coverImage: Media | null
   images: Media[] | null
+  imagePersonalizationFields: ImagePersonalizationField[] | []
+  textPersonalizationFields: TextPersonalizationField[] | []
 }
 
 export function ProductForm({
@@ -46,11 +55,12 @@ export function ProductForm({
 }) {
   const [isDeleting, setIsDeleting] = useState(false)
   const [removedMedia, setRemovedMedia] = useState<Media[]>([])
+  const [removedTextFields, setRemovedTextFields] = useState<string[]>([])
+  const [removedImageFields, setRemovedImageFields] = useState<string[]>([])
   const { toast } = useToast()
 
-  const form = useForm<ProductValues>({
-    resolver: zodResolver(product ? editProductSchema : productSchema),
-    defaultValues: {
+  const defaultValues = useMemo(
+    () => ({
       name: product?.name || '',
       categories: product?.categories.map((category) => category.id) || [],
       code: product?.code || '',
@@ -60,7 +70,43 @@ export function ProductForm({
       dimensions: product?.dimensions || '',
       personalization: product?.personalization || '',
       description: product?.description || '',
-    },
+      imagePersonalizationFields:
+        product?.imagePersonalizationFields?.map((field) => ({
+          ...field,
+          originalId: field.id,
+        })) || [],
+      textPersonalizationFields:
+        product?.textPersonalizationFields?.map((field) => ({
+          ...field,
+          originalId: field.id,
+        })) || [],
+    }),
+    [product]
+  )
+
+  const form = useForm<ProductValues>({
+    resolver: zodResolver(product ? editProductSchema : productSchema),
+    defaultValues,
+  })
+
+  const { control, reset } = form
+
+  const {
+    fields: textFields,
+    append: textAppend,
+    remove: textRemove,
+  } = useFieldArray({
+    control,
+    name: 'textPersonalizationFields',
+  })
+
+  const {
+    fields: imageFields,
+    append: imageAppend,
+    remove: imageRemove,
+  } = useFieldArray({
+    control,
+    name: 'imagePersonalizationFields',
   })
 
   const coverImageRef = form.register('coverImage')
@@ -109,9 +155,13 @@ export function ProductForm({
             dimensions: data.dimensions,
             personalization: data.personalization,
             description: data.description,
+            textPersonalizationFields: data.textPersonalizationFields,
+            imagePersonalizationFields: data.imagePersonalizationFields,
           },
           product.id,
           removedMedia,
+          removedTextFields,
+          removedImageFields,
           coverImageMediaId,
           imagesMediaIds
         )
@@ -132,6 +182,8 @@ export function ProductForm({
             dimensions: data.dimensions,
             personalization: data.personalization,
             description: data.description,
+            textPersonalizationFields: data.textPersonalizationFields,
+            imagePersonalizationFields: data.imagePersonalizationFields,
           },
           coverImageMediaId,
           imagesMediaIds
@@ -168,7 +220,10 @@ export function ProductForm({
     }
   }
 
-  console.log(form.getValues('price'))
+  // Use useEffect to reset the form when the product prop changes
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
 
   return (
     <Form {...form}>
@@ -371,6 +426,132 @@ export function ProductForm({
             </FormItem>
           )}
         />
+        {textFields.map((field, index) => (
+          <div key={field.id} className='flex flex-col space-y-2'>
+            <FormField
+              control={control}
+              name={`textPersonalizationFields.${index}.name`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tekstualna personalizacija: Naziv</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Unesite naziv polja' {...field} />
+                  </FormControl>
+                  <FormDescription>Naziv polja.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name={`textPersonalizationFields.${index}.placeholder`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tekstualna personalizacija: Tekst</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Unesite primer teksta' {...field} />
+                  </FormControl>
+                  <FormDescription>Primer teksta.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              type='button'
+              onClick={() => {
+                if (field.originalId) {
+                  setRemovedTextFields((prev) => [...prev, field.originalId])
+                }
+                textRemove(index)
+              }}
+              className='ml-auto'
+              variant='secondary'
+            >
+              <Minus className='mr-2 h-4 w-4' /> Ukloni
+            </Button>
+          </div>
+        ))}
+        <div className='flex'>
+          <Button
+            type='button'
+            onClick={() =>
+              textAppend({
+                name: '',
+                placeholder: '',
+                originalId: '',
+              })
+            }
+            variant={'secondary'}
+          >
+            <Plus className='mr-2 h-4 w-4' /> Dodaj tekstualnu personalizaciju
+          </Button>
+        </div>
+
+        {imageFields.map((field, index) => (
+          <div key={field.id} className='flex flex-col space-y-2'>
+            <FormField
+              control={control}
+              name={`imagePersonalizationFields.${index}.name`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Slikovna personalizacija: Naziv</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Unesite naziv polja' {...field} />
+                  </FormControl>
+                  <FormDescription>Naziv polja</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name={`imagePersonalizationFields.${index}.min`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Slikovna personalizacija: Količina slika
+                  </FormLabel>
+                  <FormControl>
+                    <Input placeholder='Unesite količinu slika' {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Minimalni broj slika za upload
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              type='button'
+              onClick={() => {
+                if (field.originalId) {
+                  setRemovedImageFields((prev) => [...prev, field.originalId])
+                }
+                imageRemove(index)
+              }}
+              className='ml-auto'
+              variant='secondary'
+            >
+              <Minus className='mr-2 h-4 w-4' /> Ukloni
+            </Button>
+          </div>
+        ))}
+        <div className='flex'>
+          <Button
+            type='button'
+            onClick={() =>
+              imageAppend({
+                name: '',
+                min: 0,
+                originalId: '',
+              })
+            }
+            variant={'secondary'}
+          >
+            <Plus className='mr-2 h-4 w-4' /> Dodaj slikovnu personalizaciju
+          </Button>
+        </div>
+
         <div className='flex'>
           {product?.id ? (
             <ConfirmationDialog

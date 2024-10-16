@@ -59,24 +59,52 @@ model Discount {
   @@map("discounts")
 }
 
+// Text personalization field
+model TextPersonalizationField {
+  id          String   @id @default(cuid())
+  name        String
+  placeholder String
+  product     Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("text_personalization_fields")
+}
+
+// Image personalization field
+model ImagePersonalizationField {
+  id        String   @id @default(cuid())
+  name      String
+  min       Int
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("image_personalization_fields")
+}
+
 // Product
 model Product {
-  id              String     @id @default(cuid())
-  name            String     @unique
-  categories      Category[]
-  code            String     @unique
-  price           Int
-  discount        Discount?  @relation(fields: [discountId], references: [id])
-  discountId      String?
-  material        String
-  dimensions      String
-  personalization String
-  description     String
-  coverImage      Media?     @relation("CoverImageRelation", fields: [coverImageId], references: [id], onDelete: Cascade)
-  coverImageId    String?    @unique
-  images          Media[]    @relation("ImagesRelation")
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+  id                         String                      @id @default(cuid())
+  name                       String                      @unique
+  categories                 Category[]
+  code                       String                      @unique
+  price                      Int
+  discount                   Discount?                   @relation(fields: [discountId], references: [id])
+  discountId                 String?
+  material                   String
+  dimensions                 String
+  personalization            String
+  description                String
+  coverImage                 Media?                      @relation("CoverImageRelation", fields: [coverImageId], references: [id], onDelete: Cascade)
+  coverImageId               String?                     @unique
+  images                     Media[]                     @relation("ImagesRelation")
+  imagePersonalizationFields ImagePersonalizationField[]
+  textPersonalizationFields  TextPersonalizationField[]
+  createdAt                  DateTime                    @default(now())
+  updatedAt                  DateTime                    @updatedAt
 
   @@map("products")
 }

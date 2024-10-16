@@ -19,6 +19,8 @@ export default async function EditProductPage({ id }: EditProductPageProps) {
       coverImage: true,
       images: true,
       discount: true,
+      imagePersonalizationFields: true,
+      textPersonalizationFields: true,
     },
   })
 
