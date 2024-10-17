@@ -44,6 +44,11 @@ export async function createDeliveryService(
       message: 'Kurirska služba kreirana.',
     }
   } catch (error) {
+    // Remove media if there is an error
+    if (mediaId) {
+      await deleteMedia(mediaId)
+    }
+
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
         return {
@@ -88,9 +93,7 @@ export async function editDeliveryService(
     })
 
     if (removedMedia.length > 0) {
-      removedMedia.forEach(
-        async (media) => await deleteMedia(media.id, media.key)
-      )
+      removedMedia.forEach(async (media) => await deleteMedia(media.id))
     }
 
     return {
@@ -98,6 +101,11 @@ export async function editDeliveryService(
       message: 'Kurirska služba kreirana.',
     }
   } catch (error) {
+    // Remove media if there is an error
+    if (mediaId) {
+      await deleteMedia(mediaId)
+    }
+
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
         return {
