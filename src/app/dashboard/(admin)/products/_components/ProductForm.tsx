@@ -22,6 +22,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { Switch } from '@/components/ui/switch'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { FileUpload } from '@/components/custom/FileUpload'
@@ -30,8 +32,9 @@ import { Loader2, Save, Plus, Minus } from 'lucide-react'
 import { productSchema, ProductValues, editProductSchema } from './validation'
 import { uploadFile } from '@/lib/files'
 import { createMedia } from '@/lib/actions'
-import { createProduct, deleteProduct, editProduct } from '../_actions/actions'
+import { createEmptyFileList } from '@/lib/formUtils'
 import { imageFileTypes } from '@/lib/validation'
+import { createProduct, deleteProduct, editProduct } from '../_actions/actions'
 import { MultiCombobox } from '@/components/custom/MultiCombobox'
 import { Combobox } from '@/components/custom/Combobox'
 
@@ -70,6 +73,8 @@ export function ProductForm({
       dimensions: product?.dimensions || '',
       personalization: product?.personalization || '',
       description: product?.description || '',
+      delivery: product?.delivery || '3-5 dana',
+      inStock: product ? product.inStock : true,
       imagePersonalizationFields:
         product?.imagePersonalizationFields?.map((field) => ({
           ...field,
@@ -80,6 +85,8 @@ export function ProductForm({
           ...field,
           originalId: field.id,
         })) || [],
+      coverImage: createEmptyFileList(),
+      images: createEmptyFileList(),
     }),
     [product]
   )
@@ -155,6 +162,8 @@ export function ProductForm({
             dimensions: data.dimensions,
             personalization: data.personalization,
             description: data.description,
+            delivery: data.delivery,
+            inStock: data.inStock,
             textPersonalizationFields: data.textPersonalizationFields,
             imagePersonalizationFields: data.imagePersonalizationFields,
           },
@@ -175,9 +184,6 @@ export function ProductForm({
 
           if (response.status === 'success') {
             toast({ description: response.message })
-            // Reset only image field after submission to avoid having duplicate image badges
-            form.resetField('coverImage')
-            form.resetField('images')
           }
         }
       } else {
@@ -193,6 +199,8 @@ export function ProductForm({
             dimensions: data.dimensions,
             personalization: data.personalization,
             description: data.description,
+            delivery: data.delivery,
+            inStock: data.inStock,
             textPersonalizationFields: data.textPersonalizationFields,
             imagePersonalizationFields: data.imagePersonalizationFields,
           },
@@ -211,7 +219,7 @@ export function ProductForm({
           if (response.status === 'success') {
             toast({ description: response.message })
             // Reset form after submission
-            form.reset()
+            form.reset(defaultValues)
           }
         }
       }
@@ -394,6 +402,57 @@ export function ProductForm({
                 <Textarea placeholder='Unesite opis proizvoda' {...field} />
               </FormControl>
               <FormDescription>Opis proizvoda</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='delivery'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Isporuka</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  // defaultValue='3-5 dana'
+                  className='flex space-x-2'
+                >
+                  <FormItem className='flex items-center space-x-3 space-y-0'>
+                    <FormControl>
+                      <RadioGroupItem value='3-5 dana' />
+                    </FormControl>
+                    <FormLabel>3-5 dana</FormLabel>
+                  </FormItem>
+                  <FormItem className='flex items-center space-x-3 space-y-0'>
+                    <FormControl>
+                      <RadioGroupItem value='5-10 dana' />
+                    </FormControl>
+                    <FormLabel>5-10 dana</FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormDescription>Vreme isporuke za ovaj proizvod</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='inStock'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='mr-4'>Dostupan</FormLabel>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormDescription>
+                Da li je proizvod dostupan za poručivanje
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

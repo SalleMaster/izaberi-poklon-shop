@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -30,20 +30,27 @@ export function DiscountForm({ discount }: { discount?: Discount | null }) {
   const [isDeleting, setIsDeleting] = useState(false)
   const { toast } = useToast()
 
-  const form = useForm<DiscountValues>({
-    resolver: zodResolver(discountSchema),
-    defaultValues: {
+  const defaultValues = useMemo(
+    () => ({
       name: discount?.name || '',
       percentage: discount?.percentage || 0,
-      active: discount?.active || false,
-    },
+      active: discount ? discount.active : false,
+    }),
+    [discount]
+  )
+
+  const form = useForm<DiscountValues>({
+    resolver: zodResolver(discountSchema),
+    defaultValues,
   })
+
+  const { reset } = form
 
   async function onSubmit(data: DiscountValues) {
     try {
       if (discount) {
         // Edit discount case
-        await editDiscount(
+        const response = await editDiscount(
           {
             name: data.name,
             percentage: data.percentage,
@@ -51,17 +58,41 @@ export function DiscountForm({ discount }: { discount?: Discount | null }) {
           },
           discount.id
         )
-        toast({ description: 'Popust sačuvan.' })
+
+        if (response) {
+          if (response.status === 'fail') {
+            return toast({
+              variant: 'destructive',
+              description: response.message,
+            })
+          }
+
+          if (response.status === 'success') {
+            toast({ description: response.message })
+          }
+        }
       } else {
         // Create discount case
-        await createDiscount({
+        const response = await createDiscount({
           name: data.name,
           percentage: data.percentage,
           active: data.active,
         })
-        toast({ description: 'Popust kreiran.' })
-        // Reset form after submission
-        form.reset()
+
+        if (response) {
+          if (response.status === 'fail') {
+            return toast({
+              variant: 'destructive',
+              description: response.message,
+            })
+          }
+
+          if (response.status === 'success') {
+            toast({ description: response.message })
+            // Reset form after submission
+            form.reset(defaultValues)
+          }
+        }
       }
     } catch (error) {
       toast({
@@ -90,6 +121,11 @@ export function DiscountForm({ discount }: { discount?: Discount | null }) {
       setIsDeleting(false)
     }
   }
+
+  // Use useEffect to reset the form when the product prop changes
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
 
   return (
     <Form {...form}>

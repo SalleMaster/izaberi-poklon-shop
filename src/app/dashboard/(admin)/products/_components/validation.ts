@@ -49,6 +49,8 @@ export const productSchema = z.object({
   dimensions: z.string().trim().min(1, 'Polje je neophodno'),
   personalization: z.string().trim().min(1, 'Polje je neophodno'),
   description: z.string().trim().min(1, 'Polje je neophodno'),
+  delivery: z.string().trim().min(1, 'Polje je neophodno'),
+  inStock: z.boolean().optional(),
   coverImage: imageListSchemaRequired,
   images: imageListSchemaOptional,
   imagePersonalizationFields: z

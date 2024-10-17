@@ -86,7 +86,6 @@ function CategoryCard({ category }: { category?: CategoryWithImage }) {
                     'https://izaberi-poklon-shop-development-bucket-salle.s3.eu-north-1.amazonaws.com/fallback-image.png'
                   }
                   alt={category?.image?.name || 'No image'}
-                  layout='responsive'
                   width={24}
                   height={24}
                 />

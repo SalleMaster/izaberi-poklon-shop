@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -29,6 +29,7 @@ import {
   deleteDeliveryService,
 } from '../_actions/actions'
 import { pdfFileTypes } from '@/lib/validation'
+import { createEmptyFileList } from '@/lib/formUtils'
 
 type DeliveryServiceWithPdf = DeliveryService & {
   pdf: Media | null
@@ -43,14 +44,22 @@ export function DeliveryServiceForm({
   const [removedMedia, setRemovedMedia] = useState<Media[]>([])
   const { toast } = useToast()
 
-  const form = useForm<DeliveryServiceValues>({
-    resolver: zodResolver(deliveryServiceSchema),
-    defaultValues: {
+  const defaultValues = useMemo(
+    () => ({
       name: deliveryService?.name || '',
       link: deliveryService?.link || '',
-      active: deliveryService?.active || false,
-    },
+      active: deliveryService ? deliveryService.active : false,
+      pdf: createEmptyFileList(),
+    }),
+    [deliveryService]
+  )
+
+  const form = useForm<DeliveryServiceValues>({
+    resolver: zodResolver(deliveryServiceSchema),
+    defaultValues,
   })
+
+  const { reset } = form
 
   const pdfRef = form.register('pdf')
 
@@ -70,7 +79,7 @@ export function DeliveryServiceForm({
 
       if (deliveryService) {
         // Edit delivery service case
-        await editDeliveryService(
+        const response = await editDeliveryService(
           {
             name: data.name,
             link: data.link,
@@ -80,12 +89,22 @@ export function DeliveryServiceForm({
           removedMedia,
           mediaId
         )
-        toast({ description: 'Kurirska služba sačuvana.' })
-        // Reset only pdf field after submission to avoid having duplicate image badges
-        form.resetField('pdf')
+
+        if (response) {
+          if (response.status === 'fail') {
+            return toast({
+              variant: 'destructive',
+              description: response.message,
+            })
+          }
+
+          if (response.status === 'success') {
+            toast({ description: response.message })
+          }
+        }
       } else {
         // Create delivery service case
-        await createDeliveryService(
+        const response = await createDeliveryService(
           {
             name: data.name,
             link: data.link,
@@ -93,9 +112,21 @@ export function DeliveryServiceForm({
           },
           mediaId
         )
-        toast({ description: 'Kurirska služba kreirana.' })
-        // Reset form after submission
-        form.reset()
+
+        if (response) {
+          if (response.status === 'fail') {
+            return toast({
+              variant: 'destructive',
+              description: response.message,
+            })
+          }
+
+          if (response.status === 'success') {
+            toast({ description: response.message })
+            // Reset form after submission
+            form.reset(defaultValues)
+          }
+        }
       }
     } catch (error) {
       toast({
@@ -124,6 +155,11 @@ export function DeliveryServiceForm({
       setIsDeleting(false)
     }
   }
+
+  // Use useEffect to reset the form when the product prop changes
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
 
   return (
     <Form {...form}>
