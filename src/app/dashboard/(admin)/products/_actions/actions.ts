@@ -91,6 +91,14 @@ export async function createProduct(
       message: 'Proizvod kreiran.',
     }
   } catch (error) {
+    // Remove media if there is an error
+    if (coverImageMediaId) {
+      await deleteMedia(coverImageMediaId)
+    }
+    if (imagesMediaIds) {
+      imagesMediaIds.forEach(async (id) => await deleteMedia(id))
+    }
+
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
         return {
@@ -189,9 +197,7 @@ export async function editProduct(
     })
 
     if (removedMedia.length > 0) {
-      removedMedia.forEach(
-        async (media) => await deleteMedia(media.id, media.key)
-      )
+      removedMedia.forEach(async (media) => await deleteMedia(media.id))
     }
 
     if (removedTextFields.length > 0) {
@@ -213,6 +219,14 @@ export async function editProduct(
       message: 'Proizvod sačuvan.',
     }
   } catch (error) {
+    // Remove media if there is an error
+    if (coverImageMediaId) {
+      await deleteMedia(coverImageMediaId)
+    }
+    if (imagesMediaIds) {
+      imagesMediaIds.forEach(async (id) => await deleteMedia(id))
+    }
+
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
         return {

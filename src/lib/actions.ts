@@ -82,11 +82,13 @@ export async function createMedia(
   return media
 }
 
-export async function deleteMedia(id: string, key: string) {
+export async function deleteMedia(id: string) {
   await adminActionGuard()
 
-  await prisma.media.delete({ where: { id } })
-  await deleteMediaFromS3(key)
+  const media = await prisma.media.delete({ where: { id } })
+  if (media) {
+    await deleteMediaFromS3(media.key)
+  }
 }
 
 export async function deleteMediaFromS3(key: string) {
