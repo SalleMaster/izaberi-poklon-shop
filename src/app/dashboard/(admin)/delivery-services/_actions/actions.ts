@@ -2,7 +2,7 @@
 
 import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache'
-import { Media } from '@prisma/client'
+import { Media, Prisma } from '@prisma/client'
 import {
   deliveryServiceSchema,
   DeliveryServiceValues,
@@ -19,26 +19,45 @@ export async function createDeliveryService(
   values: DeliveryServiceWithoutPdfFile,
   mediaId?: string
 ) {
-  await adminActionGuard()
+  try {
+    await adminActionGuard()
 
-  const { name, link, active } = deliveryServiceSchemaWithoutPdf.parse(values)
+    const { name, link, active } = deliveryServiceSchemaWithoutPdf.parse(values)
 
-  await prisma.deliveryService.create({
-    data: {
-      name,
-      link,
-      active,
-      ...(mediaId && {
-        pdf: {
-          connect: {
-            id: mediaId,
+    await prisma.deliveryService.create({
+      data: {
+        name,
+        link,
+        active,
+        ...(mediaId && {
+          pdf: {
+            connect: {
+              id: mediaId,
+            },
           },
-        },
-      }),
-    },
-  })
+        }),
+      },
+    })
 
-  revalidatePath('/dashboard/delivery-services')
+    return {
+      status: 'success',
+      message: 'Kurirska služba kreirana.',
+    }
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return {
+          status: 'fail',
+          message:
+            'Ime kurirska službe mora biti jedinstveno. Kurirska služba sa istim imenom već postoji.',
+        }
+      }
+    } else {
+      throw error
+    }
+  } finally {
+    revalidatePath('/dashboard/delivery-services')
+  }
 }
 
 export async function editDeliveryService(
@@ -47,33 +66,52 @@ export async function editDeliveryService(
   removedMedia: Media[],
   mediaId?: string
 ) {
-  await adminActionGuard()
+  try {
+    await adminActionGuard()
 
-  const { name, link, active } = deliveryServiceSchemaWithoutPdf.parse(values)
+    const { name, link, active } = deliveryServiceSchemaWithoutPdf.parse(values)
 
-  await prisma.deliveryService.update({
-    where: { id },
-    data: {
-      name,
-      link,
-      active,
-      ...(mediaId && {
-        pdf: {
-          connect: {
-            id: mediaId,
+    await prisma.deliveryService.update({
+      where: { id },
+      data: {
+        name,
+        link,
+        active,
+        ...(mediaId && {
+          pdf: {
+            connect: {
+              id: mediaId,
+            },
           },
-        },
-      }),
-    },
-  })
+        }),
+      },
+    })
 
-  if (removedMedia.length > 0) {
-    removedMedia.forEach(
-      async (media) => await deleteMedia(media.id, media.key)
-    )
+    if (removedMedia.length > 0) {
+      removedMedia.forEach(
+        async (media) => await deleteMedia(media.id, media.key)
+      )
+    }
+
+    return {
+      status: 'success',
+      message: 'Kurirska služba kreirana.',
+    }
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return {
+          status: 'fail',
+          message:
+            'Ime kurirska službe mora biti jedinstveno. Kurirska služba sa istim imenom već postoji.',
+        }
+      }
+    } else {
+      throw error
+    }
+  } finally {
+    revalidatePath('/dashboard/delivery-services')
   }
-
-  revalidatePath('/dashboard/delivery-services')
 }
 
 export async function deleteDeliveryService(id: string) {

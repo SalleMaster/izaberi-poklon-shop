@@ -31,6 +31,8 @@ export async function createProduct(
     dimensions,
     personalization,
     description,
+    delivery,
+    inStock,
     imagePersonalizationFields,
     textPersonalizationFields,
   } = productSchemaWithoutImages.parse(values)
@@ -55,6 +57,8 @@ export async function createProduct(
         dimensions,
         personalization,
         description,
+        delivery,
+        inStock,
         ...(coverImageMediaId && {
           coverImage: {
             connect: {
@@ -92,7 +96,7 @@ export async function createProduct(
         return {
           status: 'fail',
           message:
-            'Naziv i šifra proizvoda moraju biti jedinstveni. Proizvod sa istim nazivom ili šifrom već postoji.',
+            'Šifra proizvoda mora biti jedinstvena. Proizvod sa istom šifrom već postoji.',
         }
       }
     } else {
@@ -124,6 +128,8 @@ export async function editProduct(
     dimensions,
     personalization,
     description,
+    delivery,
+    inStock,
     imagePersonalizationFields,
     textPersonalizationFields,
   } = productSchemaWithoutImages.parse(values)
@@ -151,6 +157,8 @@ export async function editProduct(
         dimensions,
         personalization,
         description,
+        delivery,
+        inStock,
         ...(coverImageMediaId && {
           coverImage: {
             connect: {
@@ -210,7 +218,7 @@ export async function editProduct(
         return {
           status: 'fail',
           message:
-            'Naziv i šifra proizvoda moraju biti jedinstveni. Proizvod sa istim nazivom ili šifrom već postoji.',
+            'Šifra proizvoda mora biti jedinstvena. Proizvod sa istom šifrom već postoji.',
         }
       }
     } else {

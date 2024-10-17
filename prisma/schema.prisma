@@ -24,7 +24,7 @@ model Category {
   id        String    @id @default(cuid())
   name      String    @unique
   slug      String    @unique
-  active    Boolean?  @default(false)
+  active    Boolean   @default(false)
   image     Media?
   products  Product[]
   createdAt DateTime  @default(now())
@@ -39,7 +39,7 @@ model DeliveryService {
   name      String   @unique
   link      String
   pdf       Media?
-  active    Boolean? @default(false)
+  active    Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -51,7 +51,7 @@ model Discount {
   id         String    @id @default(cuid())
   name       String    @unique
   percentage Int
-  active     Boolean?  @default(false)
+  active     Boolean   @default(false)
   products   Product[]
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
@@ -88,7 +88,7 @@ model ImagePersonalizationField {
 // Product
 model Product {
   id                         String                      @id @default(cuid())
-  name                       String                      @unique
+  name                       String
   categories                 Category[]
   code                       String                      @unique
   price                      Int
@@ -98,8 +98,9 @@ model Product {
   dimensions                 String
   personalization            String
   description                String
-  coverImage                 Media?                      @relation("CoverImageRelation", fields: [coverImageId], references: [id], onDelete: Cascade)
-  coverImageId               String?                     @unique
+  delivery                   String
+  inStock                    Boolean                     @default(true)
+  coverImage                 Media?                      @relation("CoverImageRelation")
   images                     Media[]                     @relation("ImagesRelation")
   imagePersonalizationFields ImagePersonalizationField[]
   textPersonalizationFields  TextPersonalizationField[]
@@ -122,7 +123,8 @@ model Media {
   categoryId        String?          @unique
   deliveryService   DeliveryService? @relation(fields: [deliveryServiceId], references: [id], onDelete: Cascade)
   deliveryServiceId String?          @unique
-  productCover      Product?         @relation("CoverImageRelation")
+  productCover      Product?         @relation("CoverImageRelation", fields: [productCoverId], references: [id], onDelete: Cascade)
+  productCoverId    String?          @unique
   productImages     Product?         @relation("ImagesRelation", fields: [productImagesId], references: [id], onDelete: Cascade)
   productImagesId   String?
   updatedAt         DateTime         @updatedAt

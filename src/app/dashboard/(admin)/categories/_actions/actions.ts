@@ -2,7 +2,7 @@
 
 import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache'
-import { Media } from '@prisma/client'
+import { Media, Prisma } from '@prisma/client'
 import { categorySchema, CategoryValues } from '../_components/validation'
 import { deleteMedia, deleteMediaFromS3 } from '@/lib/actions'
 import { adminActionGuard } from '@/lib/actionGuard'
@@ -16,28 +16,47 @@ export async function createCategory(
   values: CategoryWithoutImageFile,
   mediaId?: string
 ) {
-  await adminActionGuard()
+  try {
+    await adminActionGuard()
 
-  const { name, active } = categorySchemaWithoutImage.parse(values)
+    const { name, active } = categorySchemaWithoutImage.parse(values)
 
-  const slug = name.replace(/\s+/g, '-').toLowerCase()
+    const slug = name.replace(/\s+/g, '-').toLowerCase()
 
-  await prisma.category.create({
-    data: {
-      name,
-      slug,
-      active,
-      ...(mediaId && {
-        image: {
-          connect: {
-            id: mediaId,
+    await prisma.category.create({
+      data: {
+        name,
+        slug,
+        active,
+        ...(mediaId && {
+          image: {
+            connect: {
+              id: mediaId,
+            },
           },
-        },
-      }),
-    },
-  })
+        }),
+      },
+    })
 
-  revalidatePath('/dashboard/categories')
+    return {
+      status: 'success',
+      message: 'Kategorija kreirana.',
+    }
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return {
+          status: 'fail',
+          message:
+            'Ime kategorije mora biti jedinstveno. Kategorija sa istim imenom već postoji.',
+        }
+      }
+    } else {
+      throw error
+    }
+  } finally {
+    revalidatePath('/dashboard/categories')
+  }
 }
 
 export async function editCategory(
@@ -46,34 +65,53 @@ export async function editCategory(
   removedMedia: Media[],
   mediaId?: string
 ) {
-  await adminActionGuard()
+  try {
+    await adminActionGuard()
 
-  const { name, active } = categorySchemaWithoutImage.parse(values)
-  const slug = name.replace(/\s+/g, '-').toLowerCase()
+    const { name, active } = categorySchemaWithoutImage.parse(values)
+    const slug = name.replace(/\s+/g, '-').toLowerCase()
 
-  await prisma.category.update({
-    where: { id },
-    data: {
-      name,
-      slug,
-      active,
-      ...(mediaId && {
-        image: {
-          connect: {
-            id: mediaId,
+    await prisma.category.update({
+      where: { id },
+      data: {
+        name,
+        slug,
+        active,
+        ...(mediaId && {
+          image: {
+            connect: {
+              id: mediaId,
+            },
           },
-        },
-      }),
-    },
-  })
+        }),
+      },
+    })
 
-  if (removedMedia.length > 0) {
-    removedMedia.forEach(
-      async (media) => await deleteMedia(media.id, media.key)
-    )
+    if (removedMedia.length > 0) {
+      removedMedia.forEach(
+        async (media) => await deleteMedia(media.id, media.key)
+      )
+    }
+
+    return {
+      status: 'success',
+      message: 'Kategorija sačuvana.',
+    }
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return {
+          status: 'fail',
+          message:
+            'Ime kategorije mora biti jedinstveno. Kategorija sa istim imenom već postoji.',
+        }
+      }
+    } else {
+      throw error
+    }
+  } finally {
+    revalidatePath('/dashboard/categories')
   }
-
-  revalidatePath('/dashboard/categories')
 }
 
 export async function deleteCategory(id: string) {

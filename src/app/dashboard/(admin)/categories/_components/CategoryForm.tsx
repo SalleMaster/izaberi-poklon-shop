@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -33,6 +33,7 @@ import {
   editCategory,
 } from '../_actions/actions'
 import { imageFileTypes } from '@/lib/validation'
+import { createEmptyFileList } from '@/lib/formUtils'
 
 type CategoryWithImage = Category & {
   image: Media | null
@@ -47,13 +48,21 @@ export function CategoryForm({
   const [removedMedia, setRemovedMedia] = useState<Media[]>([])
   const { toast } = useToast()
 
+  const defaultValues = useMemo(
+    () => ({
+      name: category?.name || '',
+      active: category ? category?.active : false,
+      image: createEmptyFileList(),
+    }),
+    [category]
+  )
+
   const form = useForm<CategoryValues>({
     resolver: zodResolver(category ? editCategorySchema : categorySchema),
-    defaultValues: {
-      name: category?.name || '',
-      active: category?.active || false,
-    },
+    defaultValues,
   })
+
+  const { reset } = form
 
   const imageRef = form.register('image')
 
@@ -73,7 +82,7 @@ export function CategoryForm({
 
       if (category) {
         // Edit category case
-        await editCategory(
+        const response = await editCategory(
           {
             name: data.name,
             active: data.active,
@@ -82,21 +91,41 @@ export function CategoryForm({
           removedMedia,
           mediaId
         )
-        toast({ description: 'Kategorija sačuvana.' })
-        // Reset only image field after submission to avoid having duplicate image badges
-        form.resetField('image')
+        if (response) {
+          if (response.status === 'fail') {
+            return toast({
+              variant: 'destructive',
+              description: response.message,
+            })
+          }
+
+          if (response.status === 'success') {
+            toast({ description: response.message })
+          }
+        }
       } else {
         // Create category case
-        await createCategory(
+        const response = await createCategory(
           {
             name: data.name,
             active: data.active,
           },
           mediaId
         )
-        toast({ description: 'Kategorija kreirana.' })
-        // Reset form after submission
-        form.reset()
+        if (response) {
+          if (response.status === 'fail') {
+            return toast({
+              variant: 'destructive',
+              description: response.message,
+            })
+          }
+
+          if (response.status === 'success') {
+            toast({ description: response.message })
+            // Reset form after submission
+            form.reset(defaultValues)
+          }
+        }
       }
     } catch (error) {
       toast({
@@ -125,6 +154,11 @@ export function CategoryForm({
       setIsDeleting(false)
     }
   }
+
+  // Use useEffect to reset the form when the product prop changes
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
 
   return (
     <Form {...form}>

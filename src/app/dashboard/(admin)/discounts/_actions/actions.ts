@@ -1,41 +1,80 @@
 'use server'
 
 import prisma from '@/lib/db'
+import { Prisma } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import { discountSchema, DiscountValues } from '../_components/validation'
 import { adminActionGuard } from '@/lib/actionGuard'
 
 export async function createDiscount(values: DiscountValues) {
-  await adminActionGuard()
+  try {
+    await adminActionGuard()
 
-  const { name, percentage, active } = discountSchema.parse(values)
+    const { name, percentage, active } = discountSchema.parse(values)
 
-  await prisma.discount.create({
-    data: {
-      name,
-      percentage,
-      active,
-    },
-  })
+    await prisma.discount.create({
+      data: {
+        name,
+        percentage,
+        active,
+      },
+    })
 
-  revalidatePath('/dashboard/discounts')
+    return {
+      status: 'success',
+      message: 'Popust kreiran.',
+    }
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return {
+          status: 'fail',
+          message:
+            'Ime popusta mora biti jedinstveno. Popust sa istim imenom već postoji.',
+        }
+      }
+    } else {
+      throw error
+    }
+  } finally {
+    revalidatePath('/dashboard/discounts')
+  }
 }
 
 export async function editDiscount(values: DiscountValues, id: string) {
-  await adminActionGuard()
+  try {
+    await adminActionGuard()
 
-  const { name, percentage, active } = discountSchema.parse(values)
+    const { name, percentage, active } = discountSchema.parse(values)
 
-  await prisma.discount.update({
-    where: { id },
-    data: {
-      name,
-      percentage,
-      active,
-    },
-  })
+    await prisma.discount.update({
+      where: { id },
+      data: {
+        name,
+        percentage,
+        active,
+      },
+    })
 
-  revalidatePath('/dashboard/discounts')
+    return {
+      status: 'success',
+      message: 'Popust sačuvan.',
+    }
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return {
+          status: 'fail',
+          message:
+            'Ime popusta mora biti jedinstveno. Popust sa istim imenom već postoji.',
+        }
+      }
+    } else {
+      throw error
+    }
+  } finally {
+    revalidatePath('/dashboard/discounts')
+  }
 }
 
 export async function deleteDiscount(id: string) {
