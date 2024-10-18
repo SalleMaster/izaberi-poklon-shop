@@ -270,7 +270,6 @@ export function CouponForm({ coupon }: { coupon?: Coupon | null }) {
           name='expiresAt'
           render={({ field }) => (
             <FormItem>
-              {/* <FormItem className='flex flex-col space-y-2'> */}
               <FormLabel>Važi do</FormLabel>
               <DatePicker
                 fieldValue={field.value}
