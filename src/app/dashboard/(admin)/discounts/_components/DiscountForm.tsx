@@ -108,7 +108,19 @@ export function DiscountForm({ discount }: { discount?: Discount | null }) {
   const onDelete = async (id: string) => {
     setIsDeleting(true)
     try {
-      await deleteDiscount(id)
+      const response = await deleteDiscount(id)
+      if (response) {
+        if (response.status === 'fail') {
+          return toast({
+            variant: 'destructive',
+            description: response.message,
+          })
+        }
+
+        if (response.status === 'success') {
+          toast({ description: response.message })
+        }
+      }
     } catch (error) {
       toast({
         variant: 'destructive',
@@ -163,7 +175,7 @@ export function DiscountForm({ discount }: { discount?: Discount | null }) {
           name='active'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='mr-4'>Aktivna</FormLabel>
+              <FormLabel className='mr-4'>Aktivan</FormLabel>
               <FormControl>
                 <Switch
                   checked={field.value}

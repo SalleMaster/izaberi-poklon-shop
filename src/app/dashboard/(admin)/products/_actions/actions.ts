@@ -244,27 +244,43 @@ export async function editProduct(
 }
 
 export async function deleteProduct(id: string) {
-  await adminActionGuard()
+  try {
+    await adminActionGuard()
 
-  const deletedProduct = await prisma.product.delete({
-    where: { id },
-    include: {
-      coverImage: true,
-      images: true,
-    },
-  })
+    const deletedProduct = await prisma.product.delete({
+      where: { id },
+      include: {
+        coverImage: true,
+        images: true,
+      },
+    })
 
-  const coverImageMediaKey = deletedProduct.coverImage?.key
-  const imagesMediaKeys = deletedProduct.images.map((image) => image.key)
+    const coverImageMediaKey = deletedProduct.coverImage?.key
+    const imagesMediaKeys = deletedProduct.images.map((image) => image.key)
 
-  if (coverImageMediaKey) {
-    await deleteMediaFromS3(coverImageMediaKey)
+    if (coverImageMediaKey) {
+      await deleteMediaFromS3(coverImageMediaKey)
+    }
+
+    if (imagesMediaKeys.length > 0) {
+      imagesMediaKeys.forEach(async (key) => await deleteMediaFromS3(key))
+    }
+
+    return {
+      status: 'success',
+      message: 'Proizvod obrisan.',
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return {
+        status: 'fail',
+        message: error.message,
+      }
+    } else {
+      throw error
+    }
+  } finally {
+    revalidatePath('/dashboard/products')
+    redirect('/dashboard/products')
   }
-
-  if (imagesMediaKeys.length > 0) {
-    imagesMediaKeys.forEach(async (key) => await deleteMediaFromS3(key))
-  }
-
-  revalidatePath('/dashboard/products')
-  redirect('/dashboard/products')
 }

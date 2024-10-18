@@ -123,20 +123,36 @@ export async function editDeliveryService(
 }
 
 export async function deleteDeliveryService(id: string) {
-  await adminActionGuard()
+  try {
+    await adminActionGuard()
 
-  const deletedDeliveryService = await prisma.deliveryService.delete({
-    where: { id },
-    include: {
-      pdf: true,
-    },
-  })
+    const deletedDeliveryService = await prisma.deliveryService.delete({
+      where: { id },
+      include: {
+        pdf: true,
+      },
+    })
 
-  const mediaKey = deletedDeliveryService.pdf?.key
+    const mediaKey = deletedDeliveryService.pdf?.key
 
-  if (mediaKey) {
-    await deleteMediaFromS3(mediaKey)
+    if (mediaKey) {
+      await deleteMediaFromS3(mediaKey)
+    }
+
+    return {
+      status: 'success',
+      message: 'Kurirska služba obrisana.',
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return {
+        status: 'fail',
+        message: error.message,
+      }
+    } else {
+      throw error
+    }
+  } finally {
+    revalidatePath('/dashboard/delivery-services')
   }
-
-  revalidatePath('/dashboard/categories')
 }

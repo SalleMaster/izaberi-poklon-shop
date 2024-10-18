@@ -39,6 +39,10 @@ const nextConfig = {
         source: '/admin/baneri',
         destination: '/dashboard/banners',
       },
+      {
+        source: '/admin/kuponi',
+        destination: '/dashboard/coupons',
+      },
     ]
   },
 }
