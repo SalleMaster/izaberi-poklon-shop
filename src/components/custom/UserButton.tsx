@@ -5,6 +5,7 @@ import {
   Settings,
   BadgePercent,
   Gift,
+  Images,
   User as UserIcon,
 } from 'lucide-react'
 import { User } from 'next-auth'
@@ -32,6 +33,7 @@ const adminMenuOptions = [
     text: 'Kurirske službe',
     icon: Truck,
   },
+  { href: '/admin/baneri', text: 'Baneri', icon: Images },
   { href: '/admin/popusti', text: 'Popusti', icon: BadgePercent },
   { href: '/admin/proizvodi', text: 'Proizvodi', icon: Gift },
   { href: '/admin/proizvodi/novi', text: 'Novi Proizvod', icon: Gift },

@@ -46,6 +46,19 @@ model DeliveryService {
   @@map("delivery_services")
 }
 
+// Banner
+model Banner {
+  id        String   @id @default(cuid())
+  name      String
+  link      String
+  image     Media?
+  active    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("banners")
+}
+
 // Discount
 model Discount {
   id         String    @id @default(cuid())
@@ -121,6 +134,8 @@ model Media {
   userId            String?
   category          Category?        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId        String?          @unique
+  banner            Banner?          @relation(fields: [bannerId], references: [id], onDelete: Cascade)
+  bannerId          String?          @unique
   deliveryService   DeliveryService? @relation(fields: [deliveryServiceId], references: [id], onDelete: Cascade)
   deliveryServiceId String?          @unique
   productCover      Product?         @relation("CoverImageRelation", fields: [productCoverId], references: [id], onDelete: Cascade)

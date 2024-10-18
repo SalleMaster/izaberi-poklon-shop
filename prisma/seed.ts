@@ -21,12 +21,62 @@ const initialMedias: Prisma.MediaCreateInput[] = [
     url: 'https://izaberi-poklon-shop-development-bucket-salle.s3.eu-north-1.amazonaws.com/sample-image-3.png',
   },
   {
+    key: 'product-sample-1.png',
+    name: 'Product sample 1',
+    type: 'image/png',
+    url: 'https://izaberi-poklon-shop-development-bucket-salle.s3.eu-north-1.amazonaws.com/product-sample-1.png',
+  },
+  {
+    key: 'product-sample-2.png',
+    name: 'Product sample 2',
+    type: 'image/png',
+    url: 'https://izaberi-poklon-shop-development-bucket-salle.s3.eu-north-1.amazonaws.com/product-sample-2.png',
+  },
+  {
+    key: 'product-sample-3.png',
+    name: 'Product sample 3',
+    type: 'image/png',
+    url: 'https://izaberi-poklon-shop-development-bucket-salle.s3.eu-north-1.amazonaws.com/product-sample-3.png',
+  },
+  {
     key: 'sample-pdf.pdf',
     name: 'Sample pdf',
     type: 'application/pdf',
     url: 'https://izaberi-poklon-shop-development-bucket-salle.s3.eu-north-1.amazonaws.com/sample-pdf.pdf',
   },
 ]
+
+const initialImagePersonalizationFields: Prisma.ImagePersonalizationFieldCreateInput[] =
+  [
+    {
+      name: 'Image Personalization Field 1',
+      min: 1,
+    },
+    {
+      name: 'Image Personalization Field 2',
+      min: 2,
+    },
+    {
+      name: 'Image Personalization Field 3',
+      min: 3,
+    },
+  ]
+
+const initialTextPersonalizationFields: Prisma.TextPersonalizationFieldCreateInput[] =
+  [
+    {
+      name: 'Text Personalization Field 1',
+      placeholder: 'Text Personalization Field 1 placeholder',
+    },
+    {
+      name: 'Text Personalization Field 2',
+      placeholder: 'Text Personalization Field 2 placeholder',
+    },
+    {
+      name: 'Text Personalization Field 3',
+      placeholder: 'Text Personalization Field 3 placeholder',
+    },
+  ]
 
 const initialCategories: Prisma.CategoryCreateInput[] = [
   {
@@ -65,7 +115,7 @@ const initialDeliveryServices: Prisma.DeliveryServiceCreateInput[] = [
     link: 'https://example.com',
     active: false,
     pdf: {
-      create: initialMedias[3],
+      create: initialMedias[6],
     },
   },
   {
@@ -103,6 +153,39 @@ const initialDiscounts: Prisma.DiscountCreateInput[] = [
   },
 ]
 
+const initialProducts: Prisma.ProductCreateInput[] = [
+  {
+    id: 'product-id-1',
+    name: 'Product 1',
+    categories: {
+      connect: [{ id: 'category-id-1' }],
+    },
+    code: '0001',
+    price: 1000,
+    discount: {
+      connect: { id: 'discount-id-1' },
+    },
+    material: 'Material 1',
+    dimensions: 'Dimensions 1',
+    personalization: 'Personalization 1',
+    description: 'Product 1 description',
+    delivery: '3-5 dana',
+    inStock: true,
+    coverImage: {
+      create: initialMedias[3],
+    },
+    images: {
+      create: [initialMedias[4], initialMedias[5]],
+    },
+    imagePersonalizationFields: {
+      create: initialImagePersonalizationFields,
+    },
+    textPersonalizationFields: {
+      create: initialTextPersonalizationFields,
+    },
+  },
+]
+
 async function main() {
   console.log('Start seeding ...')
   for (const category of initialCategories) {
@@ -122,6 +205,12 @@ async function main() {
       data: discount,
     })
     console.log(`Created discount with id: ${newDiscount.id}`)
+  }
+  for (const product of initialProducts) {
+    const newProduct = await prisma.product.create({
+      data: product,
+    })
+    console.log(`Created product with id: ${newProduct.id}`)
   }
   console.log('Seeding finished.')
 }

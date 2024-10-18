@@ -35,6 +35,10 @@ const nextConfig = {
         source: '/admin/proizvodi/:id/edit',
         destination: '/dashboard/products/:id/edit',
       },
+      {
+        source: '/admin/baneri',
+        destination: '/dashboard/banners',
+      },
     ]
   },
 }
