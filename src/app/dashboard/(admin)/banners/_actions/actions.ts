@@ -117,14 +117,14 @@ export async function deleteBanner(id: string) {
   try {
     await adminActionGuard()
 
-    const deletedCategory = await prisma.category.delete({
+    const deletedBanner = await prisma.banner.delete({
       where: { id },
       include: {
         image: true,
       },
     })
 
-    const mediaKey = deletedCategory.image?.key
+    const mediaKey = deletedBanner.image?.key
 
     if (mediaKey) {
       await deleteMediaFromS3(mediaKey)
