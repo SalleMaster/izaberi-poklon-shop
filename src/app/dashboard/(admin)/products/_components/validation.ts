@@ -2,6 +2,7 @@ import {
   imageListSchemaOptional,
   imageListSchemaRequired,
 } from '@/lib/validation'
+import { DeliveryType } from '@prisma/client'
 import { z } from 'zod'
 
 export const textPersonalizationFieldSchema = z.object({
@@ -49,7 +50,7 @@ export const productSchema = z.object({
   dimensions: z.string().trim().min(1, 'Polje je neophodno'),
   personalization: z.string().trim().min(1, 'Polje je neophodno'),
   description: z.string().trim().min(1, 'Polje je neophodno'),
-  delivery: z.string().trim().min(1, 'Polje je neophodno'),
+  delivery: z.enum([DeliveryType.fast, DeliveryType.slow]),
   inStock: z.boolean().optional(),
   coverImage: imageListSchemaRequired,
   images: imageListSchemaOptional,

@@ -142,7 +142,19 @@ export function DeliveryServiceForm({
   const onDelete = async (id: string) => {
     setIsDeleting(true)
     try {
-      await deleteDeliveryService(id)
+      const response = await deleteDeliveryService(id)
+      if (response) {
+        if (response.status === 'fail') {
+          return toast({
+            variant: 'destructive',
+            description: response.message,
+          })
+        }
+
+        if (response.status === 'success') {
+          toast({ description: response.message })
+        }
+      }
     } catch (error) {
       toast({
         variant: 'destructive',

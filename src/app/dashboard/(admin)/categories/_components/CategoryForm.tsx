@@ -141,7 +141,19 @@ export function CategoryForm({
   const onDelete = async (id: string) => {
     setIsDeleting(true)
     try {
-      await deleteCategory(id)
+      const response = await deleteCategory(id)
+      if (response) {
+        if (response.status === 'fail') {
+          return toast({
+            variant: 'destructive',
+            description: response.message,
+          })
+        }
+
+        if (response.status === 'success') {
+          toast({ description: response.message })
+        }
+      }
     } catch (error) {
       toast({
         variant: 'destructive',

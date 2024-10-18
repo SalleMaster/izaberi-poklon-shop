@@ -11,6 +11,7 @@ import {
   ImagePersonalizationField,
   TextPersonalizationField,
   Media,
+  DeliveryType,
 } from '@prisma/client'
 import { Button } from '@/components/ui/button'
 import {
@@ -73,7 +74,7 @@ export function ProductForm({
       dimensions: product?.dimensions || '',
       personalization: product?.personalization || '',
       description: product?.description || '',
-      delivery: product?.delivery || '3-5 dana',
+      delivery: product?.delivery || DeliveryType.fast,
       inStock: product ? product.inStock : true,
       imagePersonalizationFields:
         product?.imagePersonalizationFields?.map((field) => ({
@@ -237,7 +238,19 @@ export function ProductForm({
   const onDelete = async (id: string) => {
     setIsDeleting(true)
     try {
-      await deleteProduct(id)
+      const response = await deleteProduct(id)
+      if (response) {
+        if (response.status === 'fail') {
+          return toast({
+            variant: 'destructive',
+            description: response.message,
+          })
+        }
+
+        if (response.status === 'success') {
+          toast({ description: response.message })
+        }
+      }
     } catch (error) {
       toast({
         variant: 'destructive',
@@ -416,18 +429,17 @@ export function ProductForm({
                 <RadioGroup
                   onValueChange={field.onChange}
                   value={field.value}
-                  // defaultValue='3-5 dana'
                   className='flex space-x-2'
                 >
                   <FormItem className='flex items-center space-x-3 space-y-0'>
                     <FormControl>
-                      <RadioGroupItem value='3-5 dana' />
+                      <RadioGroupItem value={DeliveryType.fast} />
                     </FormControl>
                     <FormLabel>3-5 dana</FormLabel>
                   </FormItem>
                   <FormItem className='flex items-center space-x-3 space-y-0'>
                     <FormControl>
-                      <RadioGroupItem value='5-10 dana' />
+                      <RadioGroupItem value={DeliveryType.slow} />
                     </FormControl>
                     <FormLabel>5-10 dana</FormLabel>
                   </FormItem>

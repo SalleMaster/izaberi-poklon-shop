@@ -19,6 +19,16 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
+enum DiscountType {
+  percentage
+  fixed
+}
+
+enum DeliveryType {
+  fast
+  slow
+}
+
 // Category
 model Category {
   id        String    @id @default(cuid())
@@ -57,6 +67,24 @@ model Banner {
   updatedAt DateTime @updatedAt
 
   @@map("banners")
+}
+
+// Coupon
+model Coupon {
+  id           String       @id @default(cuid())
+  name         String
+  code         String       @unique
+  discountType DiscountType
+  discount     Int
+  cartValue    Int
+  available    Int
+  used         Int          @default(0)
+  active       Boolean      @default(false)
+  expiresAt    DateTime
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@map("coupons")
 }
 
 // Discount
@@ -111,7 +139,7 @@ model Product {
   dimensions                 String
   personalization            String
   description                String
-  delivery                   String
+  delivery                   DeliveryType
   inStock                    Boolean                     @default(true)
   coverImage                 Media?                      @relation("CoverImageRelation")
   images                     Media[]                     @relation("ImagesRelation")

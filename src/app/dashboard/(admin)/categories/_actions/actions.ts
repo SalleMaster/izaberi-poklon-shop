@@ -123,20 +123,36 @@ export async function editCategory(
 }
 
 export async function deleteCategory(id: string) {
-  await adminActionGuard()
+  try {
+    await adminActionGuard()
 
-  const deletedCategory = await prisma.category.delete({
-    where: { id },
-    include: {
-      image: true,
-    },
-  })
+    const deletedCategory = await prisma.category.delete({
+      where: { id },
+      include: {
+        image: true,
+      },
+    })
 
-  const mediaKey = deletedCategory.image?.key
+    const mediaKey = deletedCategory.image?.key
 
-  if (mediaKey) {
-    await deleteMediaFromS3(mediaKey)
+    if (mediaKey) {
+      await deleteMediaFromS3(mediaKey)
+    }
+
+    return {
+      status: 'success',
+      message: 'Kategorija obrisana.',
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return {
+        status: 'fail',
+        message: error.message,
+      }
+    } else {
+      throw error
+    }
+  } finally {
+    revalidatePath('/dashboard/categories')
   }
-
-  revalidatePath('/dashboard/categories')
 }

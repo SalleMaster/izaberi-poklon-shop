@@ -3,26 +3,22 @@
 import prisma from '@/lib/db'
 import { Prisma } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
-import { discountSchema, DiscountValues } from '../_components/validation'
+import { couponSchema, CouponValues } from '../_components/validation'
 import { adminActionGuard } from '@/lib/actionGuard'
 
-export async function createDiscount(values: DiscountValues) {
+export async function createCoupon(values: CouponValues) {
   try {
     await adminActionGuard()
 
-    const { name, percentage, active } = discountSchema.parse(values)
+    const data = couponSchema.parse(values)
 
-    await prisma.discount.create({
-      data: {
-        name,
-        percentage,
-        active,
-      },
+    await prisma.coupon.create({
+      data,
     })
 
     return {
       status: 'success',
-      message: 'Popust kreiran.',
+      message: 'Kupon kreiran.',
     }
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -30,35 +26,31 @@ export async function createDiscount(values: DiscountValues) {
         return {
           status: 'fail',
           message:
-            'Ime popusta mora biti jedinstveno. Popust sa istim imenom već postoji.',
+            'Kupon kod mora biti jedinstven. Kupon kod sa istim kodom već postoji.',
         }
       }
     } else {
       throw error
     }
   } finally {
-    revalidatePath('/dashboard/discounts')
+    revalidatePath('/dashboard/coupons')
   }
 }
 
-export async function editDiscount(values: DiscountValues, id: string) {
+export async function editCoupon(values: CouponValues, id: string) {
   try {
     await adminActionGuard()
 
-    const { name, percentage, active } = discountSchema.parse(values)
+    const data = couponSchema.parse(values)
 
-    await prisma.discount.update({
+    await prisma.coupon.update({
       where: { id },
-      data: {
-        name,
-        percentage,
-        active,
-      },
+      data,
     })
 
     return {
       status: 'success',
-      message: 'Popust sačuvan.',
+      message: 'Kupon sačuvan.',
     }
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -66,28 +58,28 @@ export async function editDiscount(values: DiscountValues, id: string) {
         return {
           status: 'fail',
           message:
-            'Ime popusta mora biti jedinstveno. Popust sa istim imenom već postoji.',
+            'Kupon kod mora biti jedinstven. Kupon kod sa istim kodom već postoji.',
         }
       }
     } else {
       throw error
     }
   } finally {
-    revalidatePath('/dashboard/discounts')
+    revalidatePath('/dashboard/coupons')
   }
 }
 
-export async function deleteDiscount(id: string) {
+export async function deleteCoupon(id: string) {
   try {
     await adminActionGuard()
 
-    await prisma.discount.delete({
+    await prisma.coupon.delete({
       where: { id },
     })
 
     return {
       status: 'success',
-      message: 'Popust obrisan.',
+      message: 'Kupon obrisan.',
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -99,6 +91,6 @@ export async function deleteDiscount(id: string) {
       throw error
     }
   } finally {
-    revalidatePath('/dashboard/discounts')
+    revalidatePath('/dashboard/coupons')
   }
 }

@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient, DeliveryType } from '@prisma/client'
 const prisma = new PrismaClient()
 
 const initialMedias: Prisma.MediaCreateInput[] = [
@@ -169,7 +169,7 @@ const initialProducts: Prisma.ProductCreateInput[] = [
     dimensions: 'Dimensions 1',
     personalization: 'Personalization 1',
     description: 'Product 1 description',
-    delivery: '3-5 dana',
+    delivery: DeliveryType.fast,
     inStock: true,
     coverImage: {
       create: initialMedias[3],
