@@ -43,6 +43,10 @@ const nextConfig = {
         source: '/admin/kuponi',
         destination: '/dashboard/coupons',
       },
+      {
+        source: '/admin/postarine',
+        destination: '/dashboard/delivery-fees',
+      },
     ]
   },
 }
