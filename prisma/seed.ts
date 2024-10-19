@@ -153,6 +153,29 @@ const initialDiscounts: Prisma.DiscountCreateInput[] = [
   },
 ]
 
+const initialDeliveryFees: Prisma.DeliveryFeeCreateInput[] = [
+  {
+    name: 'od 0 do 0,5 kg',
+    fee: 350,
+  },
+  {
+    name: 'od 0,5 do 2 kg',
+    fee: 480,
+  },
+  {
+    name: 'od 2 do 5 kg',
+    fee: 700,
+  },
+  {
+    name: 'od 5 do 10 kg',
+    fee: 880,
+  },
+  {
+    name: 'od 10 do 15 kg',
+    fee: 1170,
+  },
+]
+
 const initialProducts: Prisma.ProductCreateInput[] = [
   {
     id: 'product-id-1',
@@ -205,6 +228,12 @@ async function main() {
       data: discount,
     })
     console.log(`Created discount with id: ${newDiscount.id}`)
+  }
+  for (const deliveryFee of initialDeliveryFees) {
+    const newDeliveryFee = await prisma.deliveryFee.create({
+      data: deliveryFee,
+    })
+    console.log(`Created delivery fee with id: ${newDeliveryFee.id}`)
   }
   for (const product of initialProducts) {
     const newProduct = await prisma.product.create({

@@ -87,6 +87,17 @@ model Coupon {
   @@map("coupons")
 }
 
+// DeliveryFee
+model DeliveryFee {
+  id        String   @id @default(cuid())
+  name      String
+  fee       Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("delivery_fees")
+}
+
 // Discount
 model Discount {
   id         String    @id @default(cuid())
