@@ -31,20 +31,41 @@ const imagePersonalizationFieldSchema = z.object({
   productId: z.union([z.string(), z.null()]).optional(),
 })
 
-// Category schema
+const priceTableSchema = z.array(
+  z.object({
+    from: z.preprocess(
+      (val) => (typeof val === 'string' ? parseFloat(val) : val),
+      z
+        .number({ invalid_type_error: 'Polje mora biti broj' })
+        .int('Polje mora biti ceo broj')
+        .min(1, 'Polje mora biti veće od nule')
+    ),
+    to: z.preprocess(
+      (val) => (typeof val === 'string' ? parseFloat(val) : val),
+      z
+        .number({ invalid_type_error: 'Polje mora biti broj' })
+        .int('Polje mora biti ceo broj')
+        .min(1, 'Polje mora biti veće od nule')
+    ),
+    price: z.preprocess(
+      (val) => (typeof val === 'string' ? parseFloat(val) : val),
+      z
+        .number({ invalid_type_error: 'Cena mora biti broj' })
+        .int('Cena mora biti ceo broj')
+        .min(1, 'Cena mora biti veće od nule')
+    ),
+    deliveryFeeId: z.string().min(1, 'Polje je neophodno'),
+  })
+)
+
+// Product schema
 export const productSchema = z.object({
   name: z.string().trim().min(1, 'Polje je neophodno'),
   categories: z
     .array(z.string().min(1, 'Polje je neophodno'))
     .nonempty('Polje je neophodno'),
   code: z.string().trim().min(1, 'Polje je neophodno'),
-  price: z.preprocess(
-    (val) => (typeof val === 'string' ? parseFloat(val) : val),
-    z
-      .number({ invalid_type_error: 'Cena mora biti broj' })
-      .int('Cena mora biti ceo broj')
-      .min(1, 'Cena mora biti veća od nule')
-  ),
+  priceTable: priceTableSchema,
   discount: z.string().optional(),
   material: z.string().trim().min(1, 'Polje je neophodno'),
   dimensions: z.string().trim().min(1, 'Polje je neophodno'),

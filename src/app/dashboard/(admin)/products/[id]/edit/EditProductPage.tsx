@@ -20,11 +20,18 @@ export default async function EditProductPage({ id }: EditProductPageProps) {
       discount: true,
       imagePersonalizationFields: true,
       textPersonalizationFields: true,
+      priceTable: {
+        orderBy: { price: 'desc' },
+      },
     },
   })
 
   const discounts = await prisma.discount.findMany({
     orderBy: { createdAt: 'desc' },
+  })
+
+  const deliveryFees = await prisma.deliveryFee.findMany({
+    orderBy: { fee: 'asc' },
   })
 
   return (
@@ -39,6 +46,7 @@ export default async function EditProductPage({ id }: EditProductPageProps) {
             categories={categories}
             product={product}
             discounts={discounts}
+            deliveryFees={deliveryFees}
           />
         </CardContent>
       </Card>

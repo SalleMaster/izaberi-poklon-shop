@@ -5,7 +5,13 @@ import prisma from '@/lib/db'
 export default async function ProductsPage() {
   const products = await prisma.product.findMany({
     orderBy: { createdAt: 'desc' },
-    include: { coverImage: true, discount: true },
+    include: {
+      coverImage: true,
+      discount: true,
+      priceTable: {
+        orderBy: { price: 'asc' },
+      },
+    },
   })
 
   return (

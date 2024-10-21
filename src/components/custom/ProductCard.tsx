@@ -1,5 +1,5 @@
 import { priceFormatter } from '@/lib/format'
-import { Product, Discount, Media } from '@prisma/client'
+import { Product, Discount, Media, PriceRange } from '@prisma/client'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
@@ -9,6 +9,7 @@ import getUserRole from '@/lib/userRole'
 type ProductWithRelations = Product & {
   discount: Discount | null
   coverImage: Media | null
+  priceTable: PriceRange[]
 }
 
 type ProductCardProps = {
@@ -19,7 +20,7 @@ export default async function ProductCard({ product }: ProductCardProps) {
   const userRole = await getUserRole()
 
   const discount = product.discount
-  const price = product.price
+  const price = product.priceTable[0].price
 
   const finalPrice =
     discount && discount.active
@@ -52,7 +53,9 @@ export default async function ProductCard({ product }: ProductCardProps) {
           <span className='line-through'>{priceFormatter(price)}</span>
         </p>
       )}
-      <p className='text-xl font-bold'>{priceFormatter(finalPrice)}</p>
+      <p className='text-xl font-bold'>
+        {product.priceTable.length > 1 && 'Od '} {priceFormatter(finalPrice)}
+      </p>
       {discount && discount.active && (
         <p className='text-muted-foreground'>
           Ušteda {priceFormatter(savings)}

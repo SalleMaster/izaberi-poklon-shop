@@ -176,38 +176,38 @@ const initialDeliveryFees: Prisma.DeliveryFeeCreateInput[] = [
   },
 ]
 
-const initialProducts: Prisma.ProductCreateInput[] = [
-  {
-    id: 'product-id-1',
-    name: 'Product 1',
-    categories: {
-      connect: [{ id: 'category-id-1' }],
-    },
-    code: '0001',
-    price: 1000,
-    discount: {
-      connect: { id: 'discount-id-1' },
-    },
-    material: 'Material 1',
-    dimensions: 'Dimensions 1',
-    personalization: 'Personalization 1',
-    description: 'Product 1 description',
-    delivery: DeliveryType.fast,
-    inStock: true,
-    coverImage: {
-      create: initialMedias[3],
-    },
-    images: {
-      create: [initialMedias[4], initialMedias[5]],
-    },
-    imagePersonalizationFields: {
-      create: initialImagePersonalizationFields,
-    },
-    textPersonalizationFields: {
-      create: initialTextPersonalizationFields,
-    },
-  },
-]
+// const initialProducts: Prisma.ProductCreateInput[] = [
+//   {
+//     id: 'product-id-1',
+//     name: 'Product 1',
+//     categories: {
+//       connect: [{ id: 'category-id-1' }],
+//     },
+//     code: '0001',
+//     price: 1000,
+//     discount: {
+//       connect: { id: 'discount-id-1' },
+//     },
+//     material: 'Material 1',
+//     dimensions: 'Dimensions 1',
+//     personalization: 'Personalization 1',
+//     description: 'Product 1 description',
+//     delivery: DeliveryType.fast,
+//     inStock: true,
+//     coverImage: {
+//       create: initialMedias[3],
+//     },
+//     images: {
+//       create: [initialMedias[4], initialMedias[5]],
+//     },
+//     imagePersonalizationFields: {
+//       create: initialImagePersonalizationFields,
+//     },
+//     textPersonalizationFields: {
+//       create: initialTextPersonalizationFields,
+//     },
+//   },
+// ]
 
 async function main() {
   console.log('Start seeding ...')
@@ -235,12 +235,12 @@ async function main() {
     })
     console.log(`Created delivery fee with id: ${newDeliveryFee.id}`)
   }
-  for (const product of initialProducts) {
-    const newProduct = await prisma.product.create({
-      data: product,
-    })
-    console.log(`Created product with id: ${newProduct.id}`)
-  }
+  // for (const product of initialProducts) {
+  //   const newProduct = await prisma.product.create({
+  //     data: product,
+  //   })
+  //   console.log(`Created product with id: ${newProduct.id}`)
+  // }
   console.log('Seeding finished.')
 }
 
