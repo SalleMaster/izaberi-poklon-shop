@@ -3,7 +3,7 @@ import ProductsPage from './ProductsPage'
 import pageGuard from '@/lib/pageGuard'
 
 export const metadata: Metadata = {
-  title: 'Proizvodi',
+  title: 'Admin | Proizvodi',
 }
 
 export default async function Page() {

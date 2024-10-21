@@ -89,13 +89,30 @@ model Coupon {
 
 // DeliveryFee
 model DeliveryFee {
-  id        String   @id @default(cuid())
-  name      String
-  fee       Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String       @id @default(cuid())
+  name       String
+  fee        Int
+  priceRange PriceRange[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
 
   @@map("delivery_fees")
+}
+
+// PriceRange
+model PriceRange {
+  id            String      @id @default(cuid())
+  from          Int
+  to            Int
+  price         Int
+  deliveryFee   DeliveryFee @relation(fields: [deliveryFeeId], references: [id])
+  deliveryFeeId String
+  product       Product?    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId     String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@map("price_ranges")
 }
 
 // Discount
@@ -143,7 +160,7 @@ model Product {
   name                       String
   categories                 Category[]
   code                       String                      @unique
-  price                      Int
+  priceTable                 PriceRange[]
   discount                   Discount?                   @relation(fields: [discountId], references: [id])
   discountId                 String?
   material                   String

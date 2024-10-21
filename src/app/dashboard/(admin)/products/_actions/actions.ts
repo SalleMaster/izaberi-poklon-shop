@@ -25,7 +25,7 @@ export async function createProduct(
     name,
     categories,
     code,
-    price,
+    priceTable,
     discount,
     material,
     dimensions,
@@ -45,7 +45,14 @@ export async function createProduct(
           connect: categories.map((id) => ({ id })),
         },
         code,
-        price,
+        priceTable: {
+          create: priceTable.map((priceRange) => ({
+            from: priceRange.from,
+            to: priceRange.to,
+            price: priceRange.price,
+            deliveryFee: { connect: { id: priceRange.deliveryFeeId } },
+          })),
+        },
         discount: discount
           ? {
               connect: {
@@ -130,7 +137,7 @@ export async function editProduct(
     name,
     categories,
     code,
-    price,
+    priceTable,
     discount,
     material,
     dimensions,
@@ -151,7 +158,17 @@ export async function editProduct(
           connect: categories.map((id) => ({ id })),
         },
         code,
-        price,
+        priceTable: {
+          deleteMany: {
+            productId: id,
+          },
+          create: priceTable.map((priceRange) => ({
+            from: priceRange.from,
+            to: priceRange.to,
+            price: priceRange.price,
+            deliveryFee: { connect: { id: priceRange.deliveryFeeId } },
+          })),
+        },
         discount: discount
           ? {
               connect: {

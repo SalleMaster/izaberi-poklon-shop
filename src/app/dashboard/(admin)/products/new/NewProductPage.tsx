@@ -11,6 +11,10 @@ export default async function NewProductPage() {
     orderBy: { createdAt: 'desc' },
   })
 
+  const deliveryFees = await prisma.deliveryFee.findMany({
+    orderBy: { fee: 'asc' },
+  })
+
   return (
     <div className='space-y-10'>
       <h2 className='text-xl font-bold'>Novi Proizvod</h2>
@@ -19,7 +23,11 @@ export default async function NewProductPage() {
           <CardTitle>Kreiraj proizvod</CardTitle>
         </CardHeader>
         <CardContent>
-          <ProductForm categories={categories} discounts={discounts} />
+          <ProductForm
+            categories={categories}
+            discounts={discounts}
+            deliveryFees={deliveryFees}
+          />
         </CardContent>
       </Card>
     </div>

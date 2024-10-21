@@ -12,6 +12,8 @@ import {
   TextPersonalizationField,
   Media,
   DeliveryType,
+  PriceRange,
+  DeliveryFee,
 } from '@prisma/client'
 import { Button } from '@/components/ui/button'
 import {
@@ -38,6 +40,7 @@ import { imageFileTypes } from '@/lib/validation'
 import { createProduct, deleteProduct, editProduct } from '../_actions/actions'
 import { MultiCombobox } from '@/components/custom/MultiCombobox'
 import { Combobox } from '@/components/custom/Combobox'
+import { priceFormatter } from '@/lib/format'
 
 type ProductWithRelations = Product & {
   categories: Category[]
@@ -46,17 +49,59 @@ type ProductWithRelations = Product & {
   images: Media[] | null
   imagePersonalizationFields: ImagePersonalizationField[] | []
   textPersonalizationFields: TextPersonalizationField[] | []
+  priceTable: PriceRange[]
 }
+
+const initialPrice = [
+  {
+    from: 1,
+    to: 5000,
+    price: 0,
+    deliveryFeeId: '',
+  },
+]
+
+const initialPriceTable = [
+  {
+    from: 10,
+    to: 50,
+    price: 0,
+    deliveryFeeId: '',
+  },
+  {
+    from: 51,
+    to: 100,
+    price: 0,
+    deliveryFeeId: '',
+  },
+  {
+    from: 101,
+    to: 300,
+    price: 0,
+    deliveryFeeId: '',
+  },
+  {
+    from: 301,
+    to: 5000,
+    price: 0,
+    deliveryFeeId: '',
+  },
+]
 
 export function ProductForm({
   product,
   categories,
   discounts,
+  deliveryFees,
 }: {
   product?: ProductWithRelations | null
   categories: Category[]
   discounts: Discount[]
+  deliveryFees: DeliveryFee[]
 }) {
+  const [isSinglePrice, setIsSinglePrice] = useState(
+    product ? product.priceTable.length === 1 : true
+  )
   const [isDeleting, setIsDeleting] = useState(false)
   const [removedMedia, setRemovedMedia] = useState<Media[]>([])
   const [removedTextFields, setRemovedTextFields] = useState<string[]>([])
@@ -68,7 +113,9 @@ export function ProductForm({
       name: product?.name || '',
       categories: product?.categories.map((category) => category.id) || [],
       code: product?.code || '',
-      price: product?.price || 0,
+      priceTable:
+        product?.priceTable ??
+        (isSinglePrice ? initialPrice : initialPriceTable),
       discount: product?.discount?.id || '',
       material: product?.material || '',
       dimensions: product?.dimensions || '',
@@ -117,6 +164,11 @@ export function ProductForm({
     name: 'imagePersonalizationFields',
   })
 
+  const { fields: priceRangeFields } = useFieldArray({
+    control,
+    name: 'priceTable',
+  })
+
   const coverImageRef = form.register('coverImage')
   const imagesRef = form.register('images')
 
@@ -157,7 +209,7 @@ export function ProductForm({
             name: data.name,
             categories: data.categories,
             code: data.code,
-            price: data.price,
+            priceTable: data.priceTable,
             discount: data.discount,
             material: data.material,
             dimensions: data.dimensions,
@@ -194,7 +246,7 @@ export function ProductForm({
             name: data.name,
             categories: data.categories,
             code: data.code,
-            price: data.price,
+            priceTable: data.priceTable,
             discount: data.discount,
             material: data.material,
             dimensions: data.dimensions,
@@ -221,6 +273,7 @@ export function ProductForm({
             toast({ description: response.message })
             // Reset form after submission
             form.reset(defaultValues)
+            setIsSinglePrice(true)
           }
         }
       }
@@ -268,6 +321,24 @@ export function ProductForm({
   useEffect(() => {
     reset(defaultValues)
   }, [defaultValues, reset])
+
+  useEffect(() => {
+    if (isSinglePrice) {
+      form.setValue(
+        'priceTable',
+        product?.priceTable && product.priceTable.length === 1
+          ? product.priceTable
+          : initialPrice
+      )
+    } else {
+      form.setValue(
+        'priceTable',
+        product?.priceTable && product.priceTable.length > 1
+          ? product.priceTable
+          : initialPriceTable
+      )
+    }
+  }, [isSinglePrice])
 
   return (
     <Form {...form}>
@@ -323,20 +394,74 @@ export function ProductForm({
             </FormItem>
           )}
         />
+
         <FormField
-          control={form.control}
-          name='price'
-          render={({ field }) => (
+          name='isSinglePrice'
+          render={() => (
             <FormItem>
-              <FormLabel>Cena</FormLabel>
+              <FormLabel className='mr-4'>
+                {isSinglePrice ? 'Jedna cena' : 'Tabela cena'}
+              </FormLabel>
               <FormControl>
-                <Input placeholder='Unesite cenu proizvoda' {...field} />
+                <Switch
+                  checked={isSinglePrice}
+                  onCheckedChange={setIsSinglePrice}
+                />
               </FormControl>
-              <FormDescription>Cena proizvoda</FormDescription>
+              <FormDescription>
+                Jedna cena za sve količine ili tabela cena za različite količine
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        {priceRangeFields.map((field, index) => (
+          <div key={field.id} className='grid grid-cols-2 gap-4'>
+            <FormField
+              control={control}
+              name={`priceTable.${index}.price`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    {isSinglePrice
+                      ? 'Cena'
+                      : priceRangeFields[index].to === 5000
+                        ? `${priceRangeFields[index].from}+`
+                        : `Od ${priceRangeFields[index].from} do ${priceRangeFields[index].to}`}
+                  </FormLabel>
+                  <FormControl>
+                    <Input placeholder='Unesite cenu' {...field} />
+                  </FormControl>
+                  <FormDescription>Cena po komadu.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name={`priceTable.${index}.deliveryFeeId`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Poštarina</FormLabel>
+                  <FormControl>
+                    <Combobox
+                      options={deliveryFees.map((deliveryFee) => ({
+                        value: deliveryFee.id,
+                        label: `${deliveryFee.name} (${priceFormatter(deliveryFee.fee)})`,
+                      }))}
+                      value={field.value}
+                      setValue={(value) => field.onChange(value)}
+                    />
+                  </FormControl>
+                  <FormDescription>Izaberite poštarinu.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        ))}
+
         <FormField
           control={form.control}
           name='discount'
