@@ -47,6 +47,10 @@ const nextConfig = {
         source: '/admin/postarine',
         destination: '/dashboard/delivery-fees',
       },
+      {
+        source: '/admin/poklon-pakovanja',
+        destination: '/dashboard/package-options',
+      },
     ]
   },
 }

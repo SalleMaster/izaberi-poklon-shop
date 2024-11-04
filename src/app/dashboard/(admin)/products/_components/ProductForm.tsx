@@ -14,6 +14,7 @@ import {
   DeliveryType,
   PriceRange,
   DeliveryFee,
+  PackageOption,
 } from '@prisma/client'
 import { Button } from '@/components/ui/button'
 import {
@@ -50,6 +51,7 @@ type ProductWithRelations = Product & {
   imagePersonalizationFields: ImagePersonalizationField[] | []
   textPersonalizationFields: TextPersonalizationField[] | []
   priceTable: PriceRange[]
+  packageOption: PackageOption | null
 }
 
 const initialPrice = [
@@ -93,11 +95,13 @@ export function ProductForm({
   categories,
   discounts,
   deliveryFees,
+  packageOptions,
 }: {
   product?: ProductWithRelations | null
   categories: Category[]
   discounts: Discount[]
   deliveryFees: DeliveryFee[]
+  packageOptions: PackageOption[]
 }) {
   const [isSinglePrice, setIsSinglePrice] = useState(
     product ? product.priceTable.length === 1 : true
@@ -123,6 +127,7 @@ export function ProductForm({
       description: product?.description || '',
       delivery: product?.delivery || DeliveryType.fast,
       inStock: product ? product.inStock : true,
+      packageOption: product?.packageOption?.id || '',
       imagePersonalizationFields:
         product?.imagePersonalizationFields?.map((field) => ({
           ...field,
@@ -217,6 +222,7 @@ export function ProductForm({
             description: data.description,
             delivery: data.delivery,
             inStock: data.inStock,
+            packageOption: data.packageOption,
             textPersonalizationFields: data.textPersonalizationFields,
             imagePersonalizationFields: data.imagePersonalizationFields,
           },
@@ -254,6 +260,7 @@ export function ProductForm({
             description: data.description,
             delivery: data.delivery,
             inStock: data.inStock,
+            packageOption: data.packageOption,
             textPersonalizationFields: data.textPersonalizationFields,
             imagePersonalizationFields: data.imagePersonalizationFields,
           },
@@ -365,10 +372,12 @@ export function ProductForm({
               <FormLabel>Kategorije</FormLabel>
               <FormControl>
                 <MultiCombobox
-                  options={categories.map((category) => ({
-                    value: category.id,
-                    label: category.name,
-                  }))}
+                  options={
+                    categories?.map((category) => ({
+                      value: category.id,
+                      label: category.name,
+                    })) || []
+                  }
                   value={form.getValues('categories')}
                   setValue={(value) => form.setValue('categories', value)}
                 />
@@ -446,10 +455,12 @@ export function ProductForm({
                   <FormLabel>Poštarina</FormLabel>
                   <FormControl>
                     <Combobox
-                      options={deliveryFees.map((deliveryFee) => ({
-                        value: deliveryFee.id,
-                        label: `${deliveryFee.name} (${priceFormatter(deliveryFee.fee)})`,
-                      }))}
+                      options={
+                        deliveryFees?.map((deliveryFee) => ({
+                          value: deliveryFee.id,
+                          label: `${deliveryFee.name} (${priceFormatter(deliveryFee.fee)})`,
+                        })) || []
+                      }
                       value={field.value}
                       setValue={(value) => field.onChange(value)}
                     />
@@ -470,10 +481,12 @@ export function ProductForm({
               <FormLabel>Popust</FormLabel>
               <FormControl>
                 <Combobox
-                  options={discounts.map((discount) => ({
-                    value: discount.id,
-                    label: discount.name,
-                  }))}
+                  options={
+                    discounts?.map((discount) => ({
+                      value: discount.id,
+                      label: discount.name,
+                    })) || []
+                  }
                   value={form.getValues('discount')}
                   setValue={(value) => form.setValue('discount', value)}
                 />
@@ -594,6 +607,31 @@ export function ProductForm({
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name='packageOption'
+          render={() => (
+            <FormItem>
+              <FormLabel>Poklon pakovanje</FormLabel>
+              <FormControl>
+                <Combobox
+                  options={
+                    packageOptions?.map((packageOption) => ({
+                      value: packageOption.id,
+                      label: packageOption.name,
+                    })) || []
+                  }
+                  value={form.getValues('packageOption')}
+                  setValue={(value) => form.setValue('packageOption', value)}
+                />
+              </FormControl>
+              <FormDescription>Opciono poklon pakovanje</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name='coverImage'

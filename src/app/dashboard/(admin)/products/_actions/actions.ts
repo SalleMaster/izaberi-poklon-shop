@@ -33,6 +33,7 @@ export async function createProduct(
     description,
     delivery,
     inStock,
+    packageOption,
     imagePersonalizationFields,
     textPersonalizationFields,
   } = productSchemaWithoutImages.parse(values)
@@ -66,6 +67,11 @@ export async function createProduct(
         description,
         delivery,
         inStock,
+        packageOption: {
+          connect: {
+            id: packageOption,
+          },
+        },
         ...(coverImageMediaId && {
           coverImage: {
             connect: {
@@ -145,6 +151,7 @@ export async function editProduct(
     description,
     delivery,
     inStock,
+    packageOption,
     imagePersonalizationFields,
     textPersonalizationFields,
   } = productSchemaWithoutImages.parse(values)
@@ -155,6 +162,7 @@ export async function editProduct(
       data: {
         name,
         categories: {
+          set: [],
           connect: categories.map((id) => ({ id })),
         },
         code,
@@ -184,6 +192,15 @@ export async function editProduct(
         description,
         delivery,
         inStock,
+        packageOption: packageOption
+          ? {
+              connect: {
+                id: packageOption,
+              },
+            }
+          : {
+              disconnect: true,
+            },
         ...(coverImageMediaId && {
           coverImage: {
             connect: {
