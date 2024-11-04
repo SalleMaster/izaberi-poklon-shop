@@ -73,6 +73,7 @@ export const productSchema = z.object({
   description: z.string().trim().min(1, 'Polje je neophodno'),
   delivery: z.enum([DeliveryType.fast, DeliveryType.slow]),
   inStock: z.boolean().optional(),
+  packageOption: z.string().optional(),
   coverImage: imageListSchemaRequired,
   images: imageListSchemaOptional,
   imagePersonalizationFields: z
