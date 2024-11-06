@@ -60,7 +60,7 @@ export default function UserButton({ user }: UserButtonProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='outline' size='icon' className='rounded-full'>
+        <Button variant='ghost' size='icon' className='rounded-full'>
           <UserIcon className='h-4 w-4' />
         </Button>
       </DropdownMenuTrigger>

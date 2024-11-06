@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { SessionProvider } from 'next-auth/react'
 import localFont from 'next/font/local'
 import './globals.css'
-import NavBar from '@/components/custom/NavBar'
+import MainNavigation from '@/components/layout/main-navigation/MainNavigation'
 import { Toaster } from '@/components/ui/toaster'
 
 const geistSans = localFont({
@@ -32,7 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionProvider>
-          <NavBar />
+          <MainNavigation />
           <div className='container my-6 mx-auto'>{children}</div>
           <Toaster />
         </SessionProvider>

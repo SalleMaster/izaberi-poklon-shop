@@ -10,6 +10,7 @@ import {
 import { Banner, Media } from '@prisma/client'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
 import { BannerForm } from './_components/BannerForm'
+import { fallbackImageURL } from '@/lib/consts'
 
 type BannerWithImage = Banner & {
   image: Media | null
@@ -81,10 +82,7 @@ function BannerCard({ banner }: { banner?: BannerWithImage }) {
             <div className='flex items-center gap-4'>
               <div className='w-6'>
                 <Image
-                  src={
-                    banner?.image?.url ||
-                    'https://izaberi-poklon-shop-development-bucket-salle.s3.eu-north-1.amazonaws.com/fallback-image.png'
-                  }
+                  src={banner?.image?.url || fallbackImageURL}
                   alt={banner?.image?.name || 'No image'}
                   width={24}
                   height={24}
