@@ -10,6 +10,7 @@ import {
 import { CategoryForm } from './_components/CategoryForm'
 import { Category, Media } from '@prisma/client'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
+import { fallbackImageURL } from '@/lib/consts'
 
 type CategoryWithImage = Category & {
   image: Media | null
@@ -81,10 +82,7 @@ function CategoryCard({ category }: { category?: CategoryWithImage }) {
             <div className='flex items-center gap-4'>
               <div className='w-6'>
                 <Image
-                  src={
-                    category?.image?.url ||
-                    'https://izaberi-poklon-shop-development-bucket-salle.s3.eu-north-1.amazonaws.com/fallback-image.png'
-                  }
+                  src={category?.image?.url || fallbackImageURL}
                   alt={category?.image?.name || 'No image'}
                   width={24}
                   height={24}

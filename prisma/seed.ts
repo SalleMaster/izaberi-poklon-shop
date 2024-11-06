@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient, DeliveryType } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 const initialMedias: Prisma.MediaCreateInput[] = [
@@ -46,37 +46,37 @@ const initialMedias: Prisma.MediaCreateInput[] = [
   },
 ]
 
-const initialImagePersonalizationFields: Prisma.ImagePersonalizationFieldCreateInput[] =
-  [
-    {
-      name: 'Image Personalization Field 1',
-      min: 1,
-    },
-    {
-      name: 'Image Personalization Field 2',
-      min: 2,
-    },
-    {
-      name: 'Image Personalization Field 3',
-      min: 3,
-    },
-  ]
+// const initialImagePersonalizationFields: Prisma.ImagePersonalizationFieldCreateInput[] =
+//   [
+//     {
+//       name: 'Image Personalization Field 1',
+//       min: 1,
+//     },
+//     {
+//       name: 'Image Personalization Field 2',
+//       min: 2,
+//     },
+//     {
+//       name: 'Image Personalization Field 3',
+//       min: 3,
+//     },
+//   ]
 
-const initialTextPersonalizationFields: Prisma.TextPersonalizationFieldCreateInput[] =
-  [
-    {
-      name: 'Text Personalization Field 1',
-      placeholder: 'Text Personalization Field 1 placeholder',
-    },
-    {
-      name: 'Text Personalization Field 2',
-      placeholder: 'Text Personalization Field 2 placeholder',
-    },
-    {
-      name: 'Text Personalization Field 3',
-      placeholder: 'Text Personalization Field 3 placeholder',
-    },
-  ]
+// const initialTextPersonalizationFields: Prisma.TextPersonalizationFieldCreateInput[] =
+//   [
+//     {
+//       name: 'Text Personalization Field 1',
+//       placeholder: 'Text Personalization Field 1 placeholder',
+//     },
+//     {
+//       name: 'Text Personalization Field 2',
+//       placeholder: 'Text Personalization Field 2 placeholder',
+//     },
+//     {
+//       name: 'Text Personalization Field 3',
+//       placeholder: 'Text Personalization Field 3 placeholder',
+//     },
+//   ]
 
 const initialCategories: Prisma.CategoryCreateInput[] = [
   {
