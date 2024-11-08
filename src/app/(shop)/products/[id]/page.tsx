@@ -2,12 +2,14 @@ import prisma from '@/lib/db'
 import ProductCard from '@/components/custom/ProductCard'
 
 type PageProps = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
-export default async function ProductDetailsPage({
-  params: { id },
-}: PageProps) {
+export default async function ProductDetailsPage(props: PageProps) {
+  const params = await props.params
+
+  const { id } = params
+
   const product = await prisma.product.findUnique({
     where: { id },
     include: {

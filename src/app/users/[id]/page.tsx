@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { cache } from 'react'
 
 interface PageProps {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 const getUser = cache(async (id: string) => {
@@ -19,7 +19,13 @@ export async function generateStaticParams() {
   return allUsers.map(({ id }) => ({ id }))
 }
 
-export async function generateMetadata({ params: { id } }: PageProps) {
+export async function generateMetadata(props: PageProps) {
+  const params = await props.params;
+
+  const {
+    id
+  } = params;
+
   const user = await getUser(id)
 
   return {
@@ -27,7 +33,13 @@ export async function generateMetadata({ params: { id } }: PageProps) {
   }
 }
 
-export default async function Page({ params: { id } }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+
+  const {
+    id
+  } = params;
+
   // Artificial delay to showcase static caching
   await new Promise((resolve) => setTimeout(resolve, 1500))
 
