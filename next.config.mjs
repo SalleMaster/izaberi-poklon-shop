@@ -51,6 +51,14 @@ const nextConfig = {
         source: '/admin/poklon-pakovanja',
         destination: '/dashboard/package-options',
       },
+      {
+        source: '/pokloni',
+        destination: '/products',
+      },
+      {
+        source: '/pokloni/:id',
+        destination: '/products/:id',
+      },
     ]
   },
 }

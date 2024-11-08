@@ -67,11 +67,13 @@ export async function createProduct(
         description,
         delivery,
         inStock,
-        packageOption: {
-          connect: {
-            id: packageOption,
-          },
-        },
+        packageOption: packageOption
+          ? {
+              connect: {
+                id: packageOption,
+              },
+            }
+          : undefined,
         ...(coverImageMediaId && {
           coverImage: {
             connect: {
@@ -112,13 +114,14 @@ export async function createProduct(
       imagesMediaIds.forEach(async (id) => await deleteMedia(id))
     }
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return {
-          status: 'fail',
-          message:
-            'Šifra proizvoda mora biti jedinstvena. Proizvod sa istom šifrom već postoji.',
-        }
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      return {
+        status: 'fail',
+        message:
+          'Šifra proizvoda mora biti jedinstvena. Proizvod sa istom šifrom već postoji.',
       }
     } else {
       throw error
@@ -261,13 +264,14 @@ export async function editProduct(
       imagesMediaIds.forEach(async (id) => await deleteMedia(id))
     }
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return {
-          status: 'fail',
-          message:
-            'Šifra proizvoda mora biti jedinstvena. Proizvod sa istom šifrom već postoji.',
-        }
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      return {
+        status: 'fail',
+        message:
+          'Šifra proizvoda mora biti jedinstvena. Proizvod sa istom šifrom već postoji.',
       }
     } else {
       throw error

@@ -48,13 +48,14 @@ export async function createCategory(
       await deleteMedia(mediaId)
     }
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return {
-          status: 'fail',
-          message:
-            'Ime kategorije mora biti jedinstveno. Kategorija sa istim imenom već postoji.',
-        }
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      return {
+        status: 'fail',
+        message:
+          'Ime kategorije mora biti jedinstveno. Kategorija sa istim imenom već postoji.',
       }
     } else {
       throw error
@@ -106,13 +107,14 @@ export async function editCategory(
       await deleteMedia(mediaId)
     }
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return {
-          status: 'fail',
-          message:
-            'Ime kategorije mora biti jedinstveno. Kategorija sa istim imenom već postoji.',
-        }
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      return {
+        status: 'fail',
+        message:
+          'Ime kategorije mora biti jedinstveno. Kategorija sa istim imenom već postoji.',
       }
     } else {
       throw error

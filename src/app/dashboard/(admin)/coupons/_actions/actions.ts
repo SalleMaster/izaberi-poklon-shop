@@ -21,13 +21,14 @@ export async function createCoupon(values: CouponValues) {
       message: 'Kupon kreiran.',
     }
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return {
-          status: 'fail',
-          message:
-            'Kupon kod mora biti jedinstven. Kupon kod sa istim kodom već postoji.',
-        }
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      return {
+        status: 'fail',
+        message:
+          'Kupon kod mora biti jedinstven. Kupon kod sa istim kodom već postoji.',
       }
     } else {
       throw error
@@ -53,13 +54,14 @@ export async function editCoupon(values: CouponValues, id: string) {
       message: 'Kupon sačuvan.',
     }
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return {
-          status: 'fail',
-          message:
-            'Kupon kod mora biti jedinstven. Kupon kod sa istim kodom već postoji.',
-        }
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      return {
+        status: 'fail',
+        message:
+          'Kupon kod mora biti jedinstven. Kupon kod sa istim kodom već postoji.',
       }
     } else {
       throw error

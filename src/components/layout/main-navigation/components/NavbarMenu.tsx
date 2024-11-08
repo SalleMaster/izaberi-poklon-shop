@@ -33,7 +33,7 @@ export default async function NavbarMenu() {
             <DropdownMenuSeparator />
             {activeCategories.map((category) => (
               <DropdownMenuItem key={category.id} asChild>
-                <Link href={`/pokloni/${category.slug}`}>
+                <Link href={`/pokloni`}>
                   <div className='w-6 mr-2'>
                     <Image
                       src={category?.image?.url || fallbackImageURL}
