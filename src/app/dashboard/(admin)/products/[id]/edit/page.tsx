@@ -7,10 +7,16 @@ export const metadata: Metadata = {
 }
 
 type PageProps = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
-export default async function Page({ params: { id } }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+
+  const {
+    id
+  } = params;
+
   await pageGuard({
     callbackUrl: `/admin/proizvodi/${id}/edit`,
     adminGuard: true,

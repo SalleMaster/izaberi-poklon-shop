@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -13,13 +13,13 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
-    "@auth/prisma-adapter": "^2.5.3",
+    "@auth/prisma-adapter": "^2.7.3",
     "@aws-sdk/client-s3": "^3.664.0",
     "@aws-sdk/s3-request-presigner": "^3.664.0",
     "@hookform/resolvers": "^3.9.0",
     "@neondatabase/serverless": "^0.9.5",
     "@prisma/adapter-neon": "^5.20.0",
-    "@prisma/client": "^5.21.1",
+    "@prisma/client": "^5.22.0",
     "@radix-ui/react-accordion": "^1.2.1",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.2",
@@ -37,11 +37,11 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "lucide-react": "^0.446.0",
-    "next": "14.2.13",
-    "next-auth": "^5.0.0-beta.22",
-    "react": "^18",
+    "next": "15.0.3",
+    "next-auth": "^5.0.0-beta.25",
+    "react": "19.0.0-rc-66855b96-20241106",
     "react-day-picker": "^8.10.1",
-    "react-dom": "^18",
+    "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-hook-form": "^7.53.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
@@ -49,15 +49,19 @@
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "npm:types-react@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
     "eslint": "^8",
-    "eslint-config-next": "14.2.13",
+    "eslint-config-next": "15.0.3",
     "postcss": "^8",
     "prettier": "^3.3.3",
     "prisma": "^5.21.1",
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5"
+  },
+  "overrides": {
+    "@types/react": "npm:types-react@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
   }
 }
