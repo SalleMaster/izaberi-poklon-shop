@@ -25,13 +25,14 @@ export async function createDiscount(values: DiscountValues) {
       message: 'Popust kreiran.',
     }
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return {
-          status: 'fail',
-          message:
-            'Ime popusta mora biti jedinstveno. Popust sa istim imenom već postoji.',
-        }
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      return {
+        status: 'fail',
+        message:
+          'Ime popusta mora biti jedinstveno. Popust sa istim imenom već postoji.',
       }
     } else {
       throw error
@@ -61,13 +62,14 @@ export async function editDiscount(values: DiscountValues, id: string) {
       message: 'Popust sačuvan.',
     }
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return {
-          status: 'fail',
-          message:
-            'Ime popusta mora biti jedinstveno. Popust sa istim imenom već postoji.',
-        }
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      return {
+        status: 'fail',
+        message:
+          'Ime popusta mora biti jedinstveno. Popust sa istim imenom već postoji.',
       }
     } else {
       throw error

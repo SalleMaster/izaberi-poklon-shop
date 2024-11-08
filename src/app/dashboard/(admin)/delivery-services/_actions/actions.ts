@@ -49,13 +49,14 @@ export async function createDeliveryService(
       await deleteMedia(mediaId)
     }
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return {
-          status: 'fail',
-          message:
-            'Ime kurirska službe mora biti jedinstveno. Kurirska služba sa istim imenom već postoji.',
-        }
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      return {
+        status: 'fail',
+        message:
+          'Ime kurirska službe mora biti jedinstveno. Kurirska služba sa istim imenom već postoji.',
       }
     } else {
       throw error
@@ -106,13 +107,14 @@ export async function editDeliveryService(
       await deleteMedia(mediaId)
     }
 
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return {
-          status: 'fail',
-          message:
-            'Ime kurirska službe mora biti jedinstveno. Kurirska služba sa istim imenom već postoji.',
-        }
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      return {
+        status: 'fail',
+        message:
+          'Ime kurirska službe mora biti jedinstveno. Kurirska služba sa istim imenom već postoji.',
       }
     } else {
       throw error
