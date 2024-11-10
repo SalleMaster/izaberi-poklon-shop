@@ -1,16 +1,9 @@
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
 import ProductCard from '@/components/custom/ProductCard'
-import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import prisma from '@/lib/db'
-import Link from 'next/link'
 import ProductsSidebar from './_components/ProductsSidebar'
+import ProductsHeader from './_components/ProductsHeader'
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
@@ -22,35 +15,20 @@ export default async function ProductsPage(props: {
   const searchParams = await props.searchParams
   const { kategorija, sortiranje } = searchParams
 
-  const sortingOptions = [
-    {
-      label: 'Najnovijim',
-      url: `/pokloni?${new URLSearchParams({ ...searchParams, sortiranje: 'najnoviji' }).toString()}`,
-    },
-    {
-      label: 'Najnižoj ceni',
-      url: `/pokloni?${new URLSearchParams({ ...searchParams, sortiranje: 'najniza-cena' }).toString()}`,
-    },
-    {
-      label: 'Najvišoj ceni',
-      url: `/pokloni?${new URLSearchParams({ ...searchParams, sortiranje: 'najvisa-cena' }).toString()}`,
-    },
-  ]
-
-  let ordering: { value: OrderByType; label: string }
+  let orderBy: OrderByType
 
   switch (sortiranje) {
     case 'najvisa-cena':
-      ordering = { value: { price: 'desc' }, label: 'Najvišoj ceni' }
+      orderBy = { price: 'desc' }
       break
     case 'najniza-cena':
-      ordering = { value: { price: 'asc' }, label: 'Najnižoj ceni' }
+      orderBy = { price: 'asc' }
       break
     case 'najnoviji':
-      ordering = { value: { createdAt: 'desc' }, label: 'Najnovijim' }
+      orderBy = { createdAt: 'desc' }
       break
     default:
-      ordering = { value: { createdAt: 'desc' }, label: 'Najnovijim' }
+      orderBy = { createdAt: 'desc' }
   }
 
   const products = await prisma.product.findMany({
@@ -74,7 +52,7 @@ export default async function ProductsPage(props: {
             },
           }),
     },
-    orderBy: ordering.value,
+    orderBy,
     include: {
       coverImage: true,
       discount: true,
@@ -85,47 +63,30 @@ export default async function ProductsPage(props: {
   })
 
   return (
-    <div className='space-y-5'>
-      <div className='flex justify-between'>
-        <h2 className='text-xl font-bold'>Pokloni</h2>
-
-        <div>
-          <span className='mr-2'>Sortiranje prema:</span>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant='secondary'>{ordering.label}</Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {sortingOptions.map((option) => (
-                <DropdownMenuItem key={option.label} asChild>
-                  <Link href={option.url}>{option.label}</Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
+    <div className='group space-y-5'>
+      <ProductsHeader />
 
       <Separator />
 
       <div className='md:grid gap-5 grid-cols-products'>
-        <ProductsSidebar searchParams={searchParams} />
+        <ProductsSidebar />
 
-        {products.length > 0 ? (
-          // <div className='grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
-          <div className='grid gap-2 grid-cols-1'>
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        ) : (
-          <NotificationAlert
-            title='Obaveštenje'
-            description='Trenutno nema proizvoda po zadatom kriterijumu.'
-            variant='info'
-            className='mb-auto'
-          />
-        )}
+        <div className='group-has-[[data-pending]]:animate-pulse'>
+          {products.length > 0 ? (
+            <div className='grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <NotificationAlert
+              title='Obaveštenje'
+              description='Trenutno nema proizvoda po zadatom kriterijumu.'
+              variant='info'
+              className='mb-auto'
+            />
+          )}
+        </div>
       </div>
     </div>
   )

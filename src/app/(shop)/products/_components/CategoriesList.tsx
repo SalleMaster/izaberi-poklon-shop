@@ -15,20 +15,15 @@ type CategoryWithImage = Category & {
 
 type Props = {
   categoriesPromise: Promise<CategoryWithImage[]>
-  // searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export default function CategoriesList({
-  categoriesPromise,
-  // searchParams,
-}: Props) {
+export default function CategoriesList({ categoriesPromise }: Props) {
   const categories = use(categoriesPromise)
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
   const [optimisticCategory, setOptimisticCategories] = useOptimistic(
     searchParams.getAll('kategorija')
   )
-  // const { kategorija } = searchParams
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -42,7 +37,7 @@ export default function CategoriesList({
 
   return (
     <>
-      <ul>
+      <ul data-pending={isPending ? '' : undefined}>
         {categories.map((category) => (
           <li key={category.id}>
             <Link
@@ -52,9 +47,7 @@ export default function CategoriesList({
                   'bg-accent text-accent-foreground'
               )}
               href={`/pokloni?${createQueryString('kategorija', category.slug)}`}
-              // href={`/pokloni?${new URLSearchParams({ ...searchParams.getAll(), kategorija: category.slug }).toString()}`}
               onClick={() => {
-                // e.preventDefault()
                 startTransition(() => {
                   setOptimisticCategories([category.slug])
                 })
@@ -82,6 +75,11 @@ export default function CategoriesList({
           'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
           !optimisticCategory && 'bg-accent text-accent-foreground'
         )}
+        onClick={() => {
+          startTransition(() => {
+            setOptimisticCategories([])
+          })
+        }}
       >
         Svi pokloni
       </Link>
