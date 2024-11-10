@@ -30,7 +30,7 @@ export default async function ProductCard({ product }: ProductCardProps) {
   const savings = discount && discount.active ? price - finalPrice : 0
 
   return (
-    <div className='relative flex flex-col bg-white p-4 rounded-md shadow-md text-center'>
+    <div className='relative flex flex-col bg-white p-4 rounded-md shadow-md text-center m-1'>
       <Link href={`/pokloni/${product.id}`}>
         {discount && discount.active && (
           <Badge className='absolute top-4 right-4 bg-secondary text-secondary-foreground'>

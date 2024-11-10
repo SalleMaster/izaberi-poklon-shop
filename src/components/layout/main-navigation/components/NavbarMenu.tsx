@@ -33,7 +33,9 @@ export default async function NavbarMenu() {
             <DropdownMenuSeparator />
             {activeCategories.map((category) => (
               <DropdownMenuItem key={category.id} asChild>
-                <Link href={`/pokloni`}>
+                <Link
+                  href={`/pokloni?${new URLSearchParams({ kategorija: category.slug })}`}
+                >
                   <div className='w-6 mr-2'>
                     <Image
                       src={category?.image?.url || fallbackImageURL}
@@ -46,6 +48,10 @@ export default async function NavbarMenu() {
                 </Link>
               </DropdownMenuItem>
             ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild className='text-end'>
+              <Link href={'/pokloni'}>Svi pokloni</Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
         <Button className='rounded-none'>Akcija</Button>

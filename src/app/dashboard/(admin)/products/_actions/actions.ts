@@ -54,6 +54,7 @@ export async function createProduct(
             deliveryFee: { connect: { id: priceRange.deliveryFeeId } },
           })),
         },
+        price: priceTable[0].price,
         discount: discount
           ? {
               connect: {
@@ -180,6 +181,7 @@ export async function editProduct(
             deliveryFee: { connect: { id: priceRange.deliveryFeeId } },
           })),
         },
+        price: priceTable[0].price,
         discount: discount
           ? {
               connect: {
