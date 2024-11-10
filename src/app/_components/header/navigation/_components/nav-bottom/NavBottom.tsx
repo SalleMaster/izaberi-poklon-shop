@@ -1,5 +1,3 @@
-import prisma from '@/lib/db'
-import Image from 'next/image'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,15 +7,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { Button } from '@/components/ui/button'
-import { fallbackImageURL } from '@/lib/consts'
+import { getActiveCategories } from '@/data/services/category'
+import CategoriesList from './_components/CategoriesList'
 
 export default async function NavbarMenu() {
-  const activeCategories = await prisma.category.findMany({
-    where: { active: true },
-    orderBy: { createdAt: 'desc' },
-    include: { image: true },
-  })
+  const activeCategories = getActiveCategories()
 
   return (
     <div className='bg-primary'>
@@ -31,23 +27,9 @@ export default async function NavbarMenu() {
           <DropdownMenuContent>
             <DropdownMenuLabel>Kategorije</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {activeCategories.map((category) => (
-              <DropdownMenuItem key={category.id} asChild>
-                <Link
-                  href={`/pokloni?${new URLSearchParams({ kategorija: category.slug })}`}
-                >
-                  <div className='w-6 mr-2'>
-                    <Image
-                      src={category?.image?.url || fallbackImageURL}
-                      alt={category?.image?.name || 'No image'}
-                      width={24}
-                      height={24}
-                    />
-                  </div>
-                  {category.name}
-                </Link>
-              </DropdownMenuItem>
-            ))}
+            <Suspense fallback={<div>Loading...</div>}>
+              <CategoriesList categoriesPromise={activeCategories} />
+            </Suspense>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild className='text-end'>
               <Link href={'/pokloni'}>Svi pokloni</Link>

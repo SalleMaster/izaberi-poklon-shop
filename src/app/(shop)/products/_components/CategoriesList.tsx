@@ -1,0 +1,90 @@
+'use client'
+
+import { useSearchParams } from 'next/navigation'
+import type { Category, Media } from '@prisma/client'
+import React, { use, useOptimistic, useTransition, useCallback } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { fallbackImageURL } from '@/lib/consts'
+import { cn } from '@/lib/utils'
+import { Separator } from '@/components/ui/separator'
+
+type CategoryWithImage = Category & {
+  image: Media | null
+}
+
+type Props = {
+  categoriesPromise: Promise<CategoryWithImage[]>
+  // searchParams: { [key: string]: string | string[] | undefined }
+}
+
+export default function CategoriesList({
+  categoriesPromise,
+  // searchParams,
+}: Props) {
+  const categories = use(categoriesPromise)
+  const searchParams = useSearchParams()
+  const [isPending, startTransition] = useTransition()
+  const [optimisticCategory, setOptimisticCategories] = useOptimistic(
+    searchParams.getAll('kategorija')
+  )
+  // const { kategorija } = searchParams
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set(name, value)
+
+      return params.toString()
+    },
+    [searchParams]
+  )
+
+  return (
+    <>
+      <ul>
+        {categories.map((category) => (
+          <li key={category.id}>
+            <Link
+              className={cn(
+                'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+                optimisticCategory?.includes(category.slug) &&
+                  'bg-accent text-accent-foreground'
+              )}
+              href={`/pokloni?${createQueryString('kategorija', category.slug)}`}
+              // href={`/pokloni?${new URLSearchParams({ ...searchParams.getAll(), kategorija: category.slug }).toString()}`}
+              onClick={() => {
+                // e.preventDefault()
+                startTransition(() => {
+                  setOptimisticCategories([category.slug])
+                })
+              }}
+            >
+              <div className='w-6 mr-2'>
+                <Image
+                  src={category?.image?.url || fallbackImageURL}
+                  alt={category?.image?.name || 'No image'}
+                  width={24}
+                  height={24}
+                />
+              </div>
+              {category.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      <Separator className='my-4' />
+
+      <Link
+        href={`/pokloni?${createQueryString('kategorija', '')}`}
+        className={cn(
+          'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+          !optimisticCategory && 'bg-accent text-accent-foreground'
+        )}
+      >
+        Svi pokloni
+      </Link>
+    </>
+  )
+}

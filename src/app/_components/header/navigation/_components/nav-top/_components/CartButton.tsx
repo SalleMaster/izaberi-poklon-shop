@@ -12,7 +12,12 @@ export default function CartButton() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='ghost' size='icon' className='rounded-full'>
+        <Button
+          variant='ghost'
+          size='icon'
+          className='rounded-full'
+          aria-label='Korpa'
+        >
           <ShoppingCart className='h-4 w-4' />
         </Button>
       </DropdownMenuTrigger>
