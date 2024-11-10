@@ -2,7 +2,6 @@ import { NotificationAlert } from '@/components/custom/NotificationAlert'
 import ProductCard from '@/components/custom/ProductCard'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -56,13 +55,24 @@ export default async function ProductsPage(props: {
 
   const products = await prisma.product.findMany({
     where: {
-      ...(kategorija && {
-        categories: {
-          some: {
-            slug: Array.isArray(kategorija) ? { in: kategorija } : kategorija,
-          },
-        },
-      }),
+      ...(kategorija
+        ? {
+            categories: {
+              some: {
+                slug: Array.isArray(kategorija)
+                  ? { in: kategorija }
+                  : kategorija,
+                active: true,
+              },
+            },
+          }
+        : {
+            categories: {
+              some: {
+                active: true,
+              },
+            },
+          }),
     },
     orderBy: ordering.value,
     include: {
@@ -102,41 +112,21 @@ export default async function ProductsPage(props: {
         <ProductsSidebar searchParams={searchParams} />
 
         {products.length > 0 ? (
-          <ScrollArea className='max-h-[75vh] w-full'>
-            <div className='grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </ScrollArea>
+          // <div className='grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
+          <div className='grid gap-2 grid-cols-1'>
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
         ) : (
           <NotificationAlert
             title='Obaveštenje'
-            description='Trenutno nema proizvoda'
+            description='Trenutno nema proizvoda po zadatom kriterijumu.'
             variant='info'
+            className='mb-auto'
           />
         )}
       </div>
-
-      {/* <div className='grid gap-5 grid-cols-12'>
-        <ProductsSidebar searchParams={searchParams} />
-
-        {products.length > 0 ? (
-          <ScrollArea className='max-h-[75vh] col-span-12 md:col-span-9 w-full'>
-            <div className='grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </ScrollArea>
-        ) : (
-          <NotificationAlert
-            title='Obaveštenje'
-            description='Trenutno nema proizvoda'
-            variant='info'
-          />
-        )}
-      </div> */}
     </div>
   )
 }

@@ -34,6 +34,7 @@ export default function RootLayout({
         <SessionProvider>
           <MainNavigation />
           <div className='container px-4 my-6 mx-auto'>{children}</div>
+          <div className='border-1 h-[500px]'>Footer</div>
           <Toaster />
         </SessionProvider>
       </body>

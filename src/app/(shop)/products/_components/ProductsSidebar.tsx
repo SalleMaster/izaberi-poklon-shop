@@ -26,10 +26,8 @@ export default async function ProductsSidebar({
 
   const { kategorija } = searchParams
 
-  console.log(activeCategories)
-
   return (
-    <Card className='hidden max-h-[75vh] md:block mb-auto'>
+    <Card className='hidden max-h-[75vh] md:block mb-auto sticky top-[120px]'>
       <CardHeader>
         <CardDescription>Kategorije</CardDescription>
       </CardHeader>
@@ -40,7 +38,7 @@ export default async function ProductsSidebar({
               key={category.id}
               className={cn(
                 'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-                category.slug === kategorija &&
+                kategorija?.includes(category.slug) &&
                   'bg-accent text-accent-foreground'
               )}
               href={`/pokloni?${new URLSearchParams({ ...searchParams, kategorija: category.slug }).toString()}`}
