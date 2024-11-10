@@ -29,6 +29,10 @@ export default async function ProductCard({ product }: ProductCardProps) {
 
   const savings = discount && discount.active ? price - finalPrice : 0
 
+  const formatedPrice = priceFormatter(price)
+  const formatedFinalPrice = priceFormatter(finalPrice)
+  const formatedSavings = priceFormatter(savings)
+
   return (
     <div className='relative flex flex-col bg-white p-4 rounded-md shadow-md text-center'>
       <Link href={`/pokloni/${product.id}`}>
@@ -51,16 +55,14 @@ export default async function ProductCard({ product }: ProductCardProps) {
         <h3 className='text-lg font-bold'>{product.name}</h3>
         {discount && discount.active && (
           <p className='text-muted-foreground'>
-            <span className='line-through'>{priceFormatter(price)}</span>
+            <span className='line-through'>{formatedPrice}</span>
           </p>
         )}
         <p className='text-xl font-bold'>
-          {product.priceTable.length > 1 && 'Od '} {priceFormatter(finalPrice)}
+          {product.priceTable.length > 1 && 'Od '} {formatedFinalPrice}
         </p>
         {discount && discount.active && (
-          <p className='text-muted-foreground'>
-            Ušteda {priceFormatter(savings)}
-          </p>
+          <p className='text-muted-foreground'>Ušteda {formatedSavings}</p>
         )}
       </Link>
 

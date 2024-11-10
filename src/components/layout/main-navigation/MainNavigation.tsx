@@ -6,7 +6,7 @@ import NavbarMenu from './components/NavbarMenu'
 
 export default function MainNavigation() {
   return (
-    <header className='sticky top-0 bg-background shadow-sm'>
+    <header className='sticky top-0 bg-background shadow-sm z-10'>
       <nav>
         <div className='container mx-auto flex items-center justify-between py-2'>
           <Link href='/' className='font-bold'>
