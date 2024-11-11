@@ -63,7 +63,7 @@ export default async function ProductsPage(props: {
   })
 
   return (
-    <div className='space-y-5'>
+    <div className='space-y-5 group'>
       <ProductsHeader />
 
       <Separator />
