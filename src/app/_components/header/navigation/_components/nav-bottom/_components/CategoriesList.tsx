@@ -12,6 +12,7 @@ import Link from 'next/link'
 import { fallbackImageURL } from '@/lib/consts'
 import useCreateQueryString from '@/hooks/use-create-query-string'
 import { cn } from '@/lib/utils'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type CategoryWithImage = Category & {
   image: Media | null
@@ -65,5 +66,15 @@ export default function CategoriesList({ categoriesPromise }: Props) {
         </Link>
       </DropdownMenuItem>
     </>
+  )
+}
+
+export function CategoriesListSkeleton() {
+  return (
+    <div className='space-y-1'>
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+    </div>
   )
 }

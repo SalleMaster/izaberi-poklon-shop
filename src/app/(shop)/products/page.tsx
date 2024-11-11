@@ -2,7 +2,7 @@ import { Separator } from '@/components/ui/separator'
 import ProductsSidebar from './_components/ProductsSidebar'
 import ProductsHeader from './_components/ProductsHeader'
 import { getProducts } from '@/data/services/products'
-import ProductsGrid from './_components/ProductsGrid'
+import ProductsGrid, { ProductsGridSkeleton } from './_components/ProductsGrid'
 import { Suspense } from 'react'
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -42,7 +42,7 @@ export default async function ProductsPage(props: {
       <div className='md:grid gap-5 grid-cols-products'>
         <ProductsSidebar />
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<ProductsGridSkeleton />}>
           <ProductsGrid productsPromise={productsPromise} />
         </Suspense>
       </div>

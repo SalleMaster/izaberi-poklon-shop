@@ -9,6 +9,7 @@ import { fallbackImageURL } from '@/lib/consts'
 import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
 import useCreateQueryString from '@/hooks/use-create-query-string'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type CategoryWithImage = Category & {
   image: Media | null
@@ -79,5 +80,15 @@ export default function CategoriesList({ categoriesPromise }: Props) {
         Svi pokloni
       </Link>
     </>
+  )
+}
+
+export function CategoriesListSkeleton() {
+  return (
+    <div className='space-y-1'>
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+    </div>
   )
 }

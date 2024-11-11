@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/card'
 import { Suspense } from 'react'
 import { getActiveCategories } from '@/data/services/category'
-import CategoriesList from './CategoriesList'
+import CategoriesList, { CategoriesListSkeleton } from './CategoriesList'
 
 export default async function ProductsSidebar() {
   const activeCategories = getActiveCategories()
@@ -17,7 +17,7 @@ export default async function ProductsSidebar() {
         <CardDescription>Kategorije</CardDescription>
       </CardHeader>
       <CardContent>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CategoriesListSkeleton />}>
           <CategoriesList categoriesPromise={activeCategories} />
         </Suspense>
       </CardContent>

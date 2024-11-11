@@ -1,16 +1,16 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
-  // DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-// import Link from 'next/link'
 import { Suspense } from 'react'
 import { Button } from '@/components/ui/button'
 import { getActiveCategories } from '@/data/services/category'
-import CategoriesList from './_components/CategoriesList'
+import CategoriesList, {
+  CategoriesListSkeleton,
+} from './_components/CategoriesList'
 
 export default async function NavbarMenu() {
   const activeCategories = getActiveCategories()
@@ -27,13 +27,9 @@ export default async function NavbarMenu() {
           <DropdownMenuContent>
             <DropdownMenuLabel>Kategorije</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<CategoriesListSkeleton />}>
               <CategoriesList categoriesPromise={activeCategories} />
             </Suspense>
-            {/* <DropdownMenuSeparator />
-            <DropdownMenuItem asChild className='text-end'>
-              <Link href={'/pokloni'}>Svi pokloni</Link>
-            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
         <Button className='rounded-none'>Akcija</Button>
