@@ -63,7 +63,7 @@ export default async function ProductsPage(props: {
   })
 
   return (
-    <div className='group space-y-5'>
+    <div className='space-y-5'>
       <ProductsHeader />
 
       <Separator />
@@ -71,7 +71,7 @@ export default async function ProductsPage(props: {
       <div className='md:grid gap-5 grid-cols-products'>
         <ProductsSidebar />
 
-        <div className='group-has-[[data-pending]]:animate-pulse'>
+        <div className='group-has-[[data-pending-products]]:animate-pulse'>
           {products.length > 0 ? (
             <div className='grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
               {products.map((product) => (

@@ -2,12 +2,13 @@
 
 import { useSearchParams } from 'next/navigation'
 import type { Category, Media } from '@prisma/client'
-import React, { use, useOptimistic, useTransition, useCallback } from 'react'
+import React, { use, useOptimistic, useTransition } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { fallbackImageURL } from '@/lib/consts'
 import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
+import useCreateQueryString from '@/hooks/use-create-query-string'
 
 type CategoryWithImage = Category & {
   image: Media | null
@@ -25,19 +26,11 @@ export default function CategoriesList({ categoriesPromise }: Props) {
     searchParams.getAll('kategorija')
   )
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString())
-      params.set(name, value)
-
-      return params.toString()
-    },
-    [searchParams]
-  )
+  const createQueryString = useCreateQueryString(searchParams)
 
   return (
     <>
-      <ul data-pending={isPending ? '' : undefined}>
+      <ul data-pending-products={isPending ? '' : undefined}>
         {categories.map((category) => (
           <li key={category.id}>
             <Link
@@ -46,7 +39,9 @@ export default function CategoriesList({ categoriesPromise }: Props) {
                 optimisticCategory?.includes(category.slug) &&
                   'bg-accent text-accent-foreground'
               )}
-              href={`/pokloni?${createQueryString('kategorija', category.slug)}`}
+              href={`/pokloni?${createQueryString({
+                addParams: [{ name: 'kategorija', value: category.slug }],
+              })}`}
               onClick={() => {
                 startTransition(() => {
                   setOptimisticCategories([category.slug])
@@ -70,10 +65,10 @@ export default function CategoriesList({ categoriesPromise }: Props) {
       <Separator className='my-4' />
 
       <Link
-        href={`/pokloni?${createQueryString('kategorija', '')}`}
+        href={`/pokloni?${createQueryString({ removeParams: ['kategorija'] })}`}
         className={cn(
           'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-          !optimisticCategory && 'bg-accent text-accent-foreground'
+          optimisticCategory.length === 0 && 'bg-accent text-accent-foreground'
         )}
         onClick={() => {
           startTransition(() => {

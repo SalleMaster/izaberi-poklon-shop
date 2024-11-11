@@ -1,7 +1,8 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import React, { useOptimistic, useTransition, useCallback } from 'react'
+import React, { useOptimistic, useTransition } from 'react'
+import useCreateQueryString from '@/hooks/use-create-query-string'
 import Link from 'next/link'
 import {
   DropdownMenu,
@@ -18,30 +19,24 @@ export default function ProductsHeader() {
     searchParams.get('sortiranje')
   )
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString())
-      params.set(name, value)
-
-      return params.toString()
-    },
-    [searchParams]
-  )
+  const createQueryString = useCreateQueryString(searchParams)
 
   const sortingOptions = [
     {
       label: 'Najnovijim',
-      url: `/pokloni?${createQueryString('sortiranje', 'najnoviji')}`,
+      url: `/pokloni?${createQueryString({
+        addParams: [{ name: 'sortiranje', value: 'najnoviji' }],
+      })}`,
       value: 'najnoviji',
     },
     {
       label: 'Najnižoj ceni',
-      url: `/pokloni?${createQueryString('sortiranje', 'najniza-cena')}`,
+      url: `/pokloni?${createQueryString({ addParams: [{ name: 'sortiranje', value: 'najniza-cena' }] })}`,
       value: 'najniza-cena',
     },
     {
       label: 'Najvišoj ceni',
-      url: `/pokloni?${createQueryString('sortiranje', 'najvisa-cena')}`,
+      url: `/pokloni?${createQueryString({ addParams: [{ name: 'sortiranje', value: 'najvisa-cena' }] })}`,
       value: 'najvisa-cena',
     },
   ]
@@ -64,7 +59,7 @@ export default function ProductsHeader() {
 
   return (
     <div
-      data-pending={isPending ? '' : undefined}
+      data-pending-products={isPending ? '' : undefined}
       className='flex justify-between'
     >
       <h2 className='text-xl font-bold'>Pokloni</h2>
