@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import getUserRole from '@/lib/userRole'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type ProductWithRelations = Product & {
   discount: Discount | null
@@ -71,6 +72,19 @@ export default async function ProductCard({ product }: ProductCardProps) {
           <Link href={`/admin/proizvodi/${product.id}/edit`}>Edit</Link>
         </Button>
       )}
+    </div>
+  )
+}
+
+export function ProductCardSkeleton() {
+  return (
+    <div className='flex flex-col bg-white p-4 rounded-md shadow-md'>
+      <Skeleton className='h-auto w-[100%] rounded-xl aspect-square mb-[8px]' />
+      <div className='space-y-[12px]'>
+        <Skeleton className='h-[24px] w-[100%]' />
+        <Skeleton className='h-[24px] w-[100%]' />
+        <Skeleton className='h-[24px] w-[100%]' />
+      </div>
     </div>
   )
 }

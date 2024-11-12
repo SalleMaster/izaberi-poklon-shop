@@ -1,5 +1,8 @@
-import prisma from '@/lib/db'
-import ProductCard from '@/components/custom/ProductCard'
+import { getProduct } from '@/data/services/products'
+import { Suspense } from 'react'
+import ProductCarousel, {
+  ProductCarouselSkeleton,
+} from './_components/ProductCarousel'
 
 type PageProps = {
   params: Promise<{ id: string }>
@@ -10,21 +13,15 @@ export default async function ProductDetailsPage(props: PageProps) {
 
   const { id } = params
 
-  const product = await prisma.product.findUnique({
-    where: { id },
-    include: {
-      discount: true,
-      coverImage: true,
-      priceTable: {
-        orderBy: { price: 'asc' },
-      },
-    },
-  })
+  const productPromise = getProduct({ id })
 
   return (
     <div className='space-y-10'>
-      <h2 className='text-xl font-bold'>Product details</h2>
-      {product ? <ProductCard product={product} /> : null}
+      <div className='sm:grid sm:grid-cols-2'>
+        <Suspense fallback={<ProductCarouselSkeleton />}>
+          <ProductCarousel productPromise={productPromise} />
+        </Suspense>
+      </div>
     </div>
   )
 }

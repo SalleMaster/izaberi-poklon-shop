@@ -52,3 +52,24 @@ export const getProducts = cache(
     return products
   }
 )
+
+export const getProduct = cache(async ({ id }: { id: string }) => {
+  console.log('getProduct')
+
+  unstable_noStore()
+  await slow(1000)
+
+  const product = await prisma.product.findUnique({
+    where: { id },
+    include: {
+      discount: true,
+      coverImage: true,
+      images: true,
+      priceTable: {
+        orderBy: { price: 'asc' },
+      },
+    },
+  })
+
+  return product
+})
