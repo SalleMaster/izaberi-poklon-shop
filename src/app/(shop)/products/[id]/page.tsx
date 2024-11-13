@@ -1,8 +1,6 @@
 import { getProduct } from '@/data/services/products'
 import { Suspense } from 'react'
-import ProductCarousel, {
-  ProductCarouselSkeleton,
-} from './_components/ProductCarousel'
+import ProductGrid, { ProductGridSkeleton } from './_components/ProductGrid'
 
 type PageProps = {
   params: Promise<{ id: string }>
@@ -16,12 +14,8 @@ export default async function ProductDetailsPage(props: PageProps) {
   const productPromise = getProduct({ id })
 
   return (
-    <div className='space-y-10'>
-      <div className='sm:grid sm:grid-cols-2'>
-        <Suspense fallback={<ProductCarouselSkeleton />}>
-          <ProductCarousel productPromise={productPromise} />
-        </Suspense>
-      </div>
-    </div>
+    <Suspense fallback={<ProductGridSkeleton />}>
+      <ProductGrid productPromise={productPromise} />
+    </Suspense>
   )
 }

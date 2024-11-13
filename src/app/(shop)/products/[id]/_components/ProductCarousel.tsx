@@ -1,6 +1,4 @@
 import type { Product, Discount, Media, PriceRange } from '@prisma/client'
-import { use } from 'react'
-import { NotificationAlert } from '@/components/custom/NotificationAlert'
 import Image from 'next/image'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -19,60 +17,47 @@ type ProductWithRelations = Product & {
 }
 
 type Props = {
-  productPromise: Promise<ProductWithRelations | null>
+  product: ProductWithRelations
 }
 
-export default function ProductCarousel({ productPromise }: Props) {
-  const product = use(productPromise)
-
+export default function ProductCarousel({ product }: Props) {
   return (
-    <>
-      {product ? (
-        <Carousel
-          opts={{
-            align: 'start',
-            loop: true,
-          }}
-        >
-          <CarouselContent>
-            {product.coverImage && (
-              <CarouselItem>
-                <Image
-                  src={product.coverImage.url}
-                  alt={product.coverImage.name}
-                  width={300}
-                  height={300}
-                  priority
-                  className='w-full'
-                />
-              </CarouselItem>
-            )}
+    <Carousel
+      opts={{
+        align: 'start',
+        loop: true,
+      }}
+    >
+      <CarouselContent>
+        {product.coverImage && (
+          <CarouselItem>
+            <Image
+              src={product.coverImage.url}
+              alt={product.coverImage.name}
+              width={300}
+              height={300}
+              priority
+              className='w-full'
+            />
+          </CarouselItem>
+        )}
 
-            {product.images.map((image) => (
-              <CarouselItem key={image.id}>
-                <Image
-                  src={image.url}
-                  alt={image.name}
-                  width={300}
-                  height={300}
-                  priority
-                  className='w-full'
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className='left-0' />
-          <CarouselNext className='right-0' />
-        </Carousel>
-      ) : (
-        <NotificationAlert
-          title='Obaveštenje'
-          description='Ovaj proizvod nije dostupan.'
-          variant='info'
-          className='mb-auto'
-        />
-      )}
-    </>
+        {product.images.map((image) => (
+          <CarouselItem key={image.id}>
+            <Image
+              src={image.url}
+              alt={image.name}
+              width={300}
+              height={300}
+              priority
+              className='w-full'
+            />
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious className='left-0' />
+      <CarouselNext className='right-0' />
+    </Carousel>
   )
 }
 
