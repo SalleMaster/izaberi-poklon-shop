@@ -1,11 +1,15 @@
 'use client'
 
-import type { Cart, CartItem, Product } from '@prisma/client'
+import type { Cart, CartItem, Product, Media } from '@prisma/client'
 import React, { use } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { DataTable } from './DataTable'
+import { columns } from './columns'
 
 type CartItemWithRelations = CartItem & {
-  product: Product
+  product: Product & {
+    coverImage: Media
+  }
 }
 
 type CartWithRelations = Cart & {
@@ -19,10 +23,12 @@ type Props = {
 export default function CartTable({ cartPromise }: Props) {
   const cart = use(cartPromise)
 
+  console.log(cart.items)
+
   return (
     <div>
       Cart table <p>{cart.id}</p>
-      {cart.items.map((item) => {
+      {/* {cart.items.map((item) => {
         console.log(item)
         return (
           <div key={item.id}>
@@ -32,7 +38,8 @@ export default function CartTable({ cartPromise }: Props) {
             <p>{item.quantity}</p>
           </div>
         )
-      })}
+      })} */}
+      <DataTable columns={columns} data={cart.items} />
     </div>
   )
 }

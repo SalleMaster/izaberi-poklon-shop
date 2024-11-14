@@ -19,7 +19,11 @@ export const getCart = cache(async () => {
     include: {
       items: {
         include: {
-          product: true,
+          product: {
+            include: {
+              coverImage: true,
+            },
+          },
         },
       },
     },
@@ -33,7 +37,11 @@ export const getCart = cache(async () => {
       include: {
         items: {
           include: {
-            product: true,
+            product: {
+              include: {
+                coverImage: true,
+              },
+            },
           },
         },
       },
