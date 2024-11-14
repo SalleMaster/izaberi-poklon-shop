@@ -59,6 +59,10 @@ const nextConfig = {
         source: '/pokloni/:id',
         destination: '/products/:id',
       },
+      {
+        source: '/korpa',
+        destination: '/cart',
+      },
     ]
   },
 }
