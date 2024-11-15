@@ -99,3 +99,52 @@ export async function removeCartItem({ cartItemId }: { cartItemId: string }) {
     revalidatePath('/cart') // Revalidate cart page
   }
 }
+
+export type updateCartItemType = {
+  id: string
+  quantity: number
+}
+
+export async function updateCartItem({ id, quantity }: updateCartItemType) {
+  try {
+    const { userId } = await loggedInActionGuard()
+
+    // Fetch the cart item and include the cart relation
+    const cartItem = await prisma.cartItem.findUnique({
+      where: { id },
+      include: { cart: true },
+    })
+
+    // Verify that the cart item belongs to the user's cart
+    if (!cartItem || cartItem.cart.userId !== userId) {
+      return {
+        status: 'fail',
+        message: 'Došlo je do greške. Molimo pokušajte ponovo.',
+      }
+    }
+
+    // Update the cart item
+    await prisma.cartItem.update({
+      where: { id },
+      data: {
+        quantity,
+      },
+    })
+
+    return {
+      status: 'success',
+      message: 'Kolicina promenjena.',
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return {
+        status: 'fail',
+        message: error.message,
+      }
+    } else {
+      throw error
+    }
+  } finally {
+    revalidatePath('/cart') // Revalidate cart page
+  }
+}

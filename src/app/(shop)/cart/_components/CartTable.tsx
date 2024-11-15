@@ -5,7 +5,10 @@ import { use, useOptimistic, useTransition } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { DataTable } from './DataTable'
 import { columns } from './columns'
-import { removeCartItem } from '@/app/(shop)/_actions/cart/actions'
+import {
+  removeCartItem,
+  updateCartItem,
+} from '@/app/(shop)/_actions/cart/actions'
 import { useToast } from '@/hooks/use-toast'
 
 type CartItemWithRelations = CartItem & {
@@ -62,6 +65,46 @@ export default function CartTable({ cartPromise }: Props) {
     }
   }
 
+  const updateCartItemHandler = async ({
+    id,
+    quantity,
+  }: {
+    id: string
+    quantity: number
+  }) => {
+    try {
+      startTransition(() => {
+        setOptimisticCart({
+          ...cart,
+          items: cart.items.map((item) =>
+            item.id === id ? { ...item, quantity } : item
+          ),
+        })
+      })
+      const response = await updateCartItem({ id, quantity })
+      if (response) {
+        if (response.status === 'fail') {
+          return toast({
+            variant: 'destructive',
+            description: response.message,
+          })
+        }
+
+        if (response.status === 'success') {
+          toast({ description: response.message })
+        }
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        description:
+          error instanceof Error
+            ? error.message
+            : 'Došlo je do greške. Molimo pokušajte ponovo.',
+      })
+    }
+  }
+
   return (
     <div className={isPending ? 'animate-pulse' : ''}>
       Cart table <p>{cart.id}</p>
@@ -69,6 +112,7 @@ export default function CartTable({ cartPromise }: Props) {
         columns={columns}
         data={optimisticCart.items}
         removeCartItemHandler={removeCartItemHandler}
+        updateCartItemHandler={updateCartItemHandler}
       />
     </div>
   )

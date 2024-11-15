@@ -21,6 +21,13 @@ declare module '@tanstack/table-core' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   interface TableMeta<TData extends RowData> {
     removeCartItemHandler: (cartItemId: string) => void
+    updateCartItemHandler: ({
+      id,
+      quantity,
+    }: {
+      id: string
+      quantity: number
+    }) => void
   }
 }
 
@@ -28,12 +35,20 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   removeCartItemHandler: (cartItemId: string) => void
+  updateCartItemHandler: ({
+    id,
+    quantity,
+  }: {
+    id: string
+    quantity: number
+  }) => void
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   removeCartItemHandler,
+  updateCartItemHandler,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -41,6 +56,7 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     meta: {
       removeCartItemHandler,
+      updateCartItemHandler,
     },
   })
 

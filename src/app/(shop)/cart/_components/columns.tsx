@@ -5,6 +5,7 @@ import type { CartItem, Product, Media } from '@prisma/client'
 import ProductCell from './ProductCell'
 import { Button } from '@/components/ui/button'
 import { X } from 'lucide-react'
+import { QuantityCell } from './QuantityCell'
 
 export type CartItemWithRelations = CartItem & {
   product: Product & {
@@ -32,6 +33,15 @@ export const columns: ColumnDef<CartItemWithRelations>[] = [
   {
     accessorKey: 'quantity',
     header: 'Kolicina',
+    cell: ({ row, table }) => {
+      return table.options.meta?.updateCartItemHandler ? (
+        <QuantityCell
+          id={row.original.id}
+          quantity={row.original.quantity}
+          updateCartItemHandler={table.options.meta?.updateCartItemHandler}
+        />
+      ) : null
+    },
   },
   {
     id: 'actions',
