@@ -87,11 +87,6 @@ export async function removeCartItem({ cartItemId }: { cartItemId: string }) {
       message: 'Proizvod uklonjen iz korpe.',
     }
   } catch (error) {
-    // Remove media if there is an error
-    //   if (mediaId) {
-    //     await deleteMedia(mediaId)
-    //   }
-
     if (error instanceof Error) {
       return {
         status: 'fail',

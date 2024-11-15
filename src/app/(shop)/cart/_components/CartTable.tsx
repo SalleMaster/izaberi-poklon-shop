@@ -6,6 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { DataTable } from './DataTable'
 import { columns } from './columns'
 import { removeCartItem } from '@/app/(shop)/_actions/cart/actions'
+import { useToast } from '@/hooks/use-toast'
 
 type CartItemWithRelations = CartItem & {
   product: Product & {
@@ -25,17 +26,40 @@ export default function CartTable({ cartPromise }: Props) {
   const cart = use(cartPromise)
   const [isPending, startTransition] = useTransition()
   const [optimisticCart, setOptimisticCart] = useOptimistic(cart)
+  const { toast } = useToast()
 
   console.log(optimisticCart)
 
-  const removeCartItemHandler = (cartItemId: string) => {
-    startTransition(() => {
-      setOptimisticCart({
-        ...cart,
-        items: cart.items.filter((item) => item.id !== cartItemId),
+  const removeCartItemHandler = async (cartItemId: string) => {
+    try {
+      startTransition(() => {
+        setOptimisticCart({
+          ...cart,
+          items: cart.items.filter((item) => item.id !== cartItemId),
+        })
       })
-    })
-    removeCartItem({ cartItemId })
+      const response = await removeCartItem({ cartItemId })
+      if (response) {
+        if (response.status === 'fail') {
+          return toast({
+            variant: 'destructive',
+            description: response.message,
+          })
+        }
+
+        if (response.status === 'success') {
+          toast({ description: response.message })
+        }
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        description:
+          error instanceof Error
+            ? error.message
+            : 'Došlo je do greške. Molimo pokušajte ponovo.',
+      })
+    }
   }
 
   return (
