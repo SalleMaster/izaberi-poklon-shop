@@ -35,7 +35,7 @@ export const columns: ColumnDef<CartItemWithRelations>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const itemId = row.original.id
 
       return (
@@ -46,7 +46,7 @@ export const columns: ColumnDef<CartItemWithRelations>[] = [
             className='rounded-full'
             aria-label='Ukloni proizvod iz korpe'
             onClick={() => {
-              console.log('Remove item', itemId)
+              table.options.meta?.removeCartItemHandler(itemId)
             }}
           >
             <X className='h-4 w-4' />

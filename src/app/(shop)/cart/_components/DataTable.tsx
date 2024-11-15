@@ -5,6 +5,7 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  RowData,
 } from '@tanstack/react-table'
 
 import {
@@ -16,19 +17,31 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
+declare module '@tanstack/table-core' {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+  interface TableMeta<TData extends RowData> {
+    removeCartItemHandler: (cartItemId: string) => void
+  }
+}
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  removeCartItemHandler: (cartItemId: string) => void
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  removeCartItemHandler,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    meta: {
+      removeCartItemHandler,
+    },
   })
 
   return (

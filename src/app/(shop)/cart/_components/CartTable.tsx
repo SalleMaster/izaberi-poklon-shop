@@ -1,10 +1,11 @@
 'use client'
 
 import type { Cart, CartItem, Product, Media } from '@prisma/client'
-import React, { use } from 'react'
+import { use, useOptimistic, useTransition } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { DataTable } from './DataTable'
 import { columns } from './columns'
+import { removeCartItem } from '@/app/(shop)/_actions/cart/actions'
 
 type CartItemWithRelations = CartItem & {
   product: Product & {
@@ -22,24 +23,29 @@ type Props = {
 
 export default function CartTable({ cartPromise }: Props) {
   const cart = use(cartPromise)
+  const [isPending, startTransition] = useTransition()
+  const [optimisticCart, setOptimisticCart] = useOptimistic(cart)
 
-  console.log(cart.items)
+  console.log(optimisticCart)
+
+  const removeCartItemHandler = (cartItemId: string) => {
+    startTransition(() => {
+      setOptimisticCart({
+        ...cart,
+        items: cart.items.filter((item) => item.id !== cartItemId),
+      })
+    })
+    removeCartItem({ cartItemId })
+  }
 
   return (
-    <div>
+    <div className={isPending ? 'animate-pulse' : ''}>
       Cart table <p>{cart.id}</p>
-      {/* {cart.items.map((item) => {
-        console.log(item)
-        return (
-          <div key={item.id}>
-            <p>{item.id}</p>
-            <p>{item.product.name}</p>
-            <p>{item.product.price}</p>
-            <p>{item.quantity}</p>
-          </div>
-        )
-      })} */}
-      <DataTable columns={columns} data={cart.items} />
+      <DataTable
+        columns={columns}
+        data={optimisticCart.items}
+        removeCartItemHandler={removeCartItemHandler}
+      />
     </div>
   )
 }

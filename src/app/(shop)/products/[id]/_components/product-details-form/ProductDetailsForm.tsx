@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Loader2, Save } from 'lucide-react'
 import { productDetailsSchema, ProductDetailsValues } from './validation'
-import { addCartItem } from '@/app/(shop)/products/_actions/actions'
+import { addCartItem } from '@/app/(shop)/_actions/cart/actions'
 
 export function ProductDetailsForm({ productId }: { productId: string }) {
   const { toast } = useToast()
