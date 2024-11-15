@@ -8,7 +8,7 @@ import { X } from 'lucide-react'
 
 export type CartItemWithRelations = CartItem & {
   product: Product & {
-    coverImage: Media
+    coverImage: Media | null
   }
 }
 
@@ -20,7 +20,7 @@ export const columns: ColumnDef<CartItemWithRelations>[] = [
       return (
         <ProductCell
           productName={row.original.product.name}
-          productCoverUrl={row.original.product.coverImage.url}
+          productCoverUrl={row.original.product.coverImage?.url || ''}
         />
       )
     },

@@ -9,7 +9,7 @@ import { removeCartItem } from '@/app/(shop)/_actions/cart/actions'
 
 type CartItemWithRelations = CartItem & {
   product: Product & {
-    coverImage: Media
+    coverImage: Media | null
   }
 }
 
