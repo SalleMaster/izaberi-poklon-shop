@@ -41,11 +41,6 @@ export async function addCartItem({
       message: 'Proizvod dodat u korpu.',
     }
   } catch (error) {
-    // Remove media if there is an error
-    //   if (mediaId) {
-    //     await deleteMedia(mediaId)
-    //   }
-
     if (error instanceof Error) {
       return {
         status: 'fail',
@@ -59,13 +54,17 @@ export async function addCartItem({
   }
 }
 
-export async function removeCartItem({ cartItemId }: { cartItemId: string }) {
+export type removeCartItemType = {
+  id: string
+}
+
+export async function removeCartItem({ id }: removeCartItemType) {
   try {
     const { userId } = await loggedInActionGuard()
 
     // Fetch the cart item and include the cart relation
     const cartItem = await prisma.cartItem.findUnique({
-      where: { id: cartItemId },
+      where: { id },
       include: { cart: true },
     })
 
@@ -79,7 +78,7 @@ export async function removeCartItem({ cartItemId }: { cartItemId: string }) {
 
     // Delete the cart item
     await prisma.cartItem.delete({
-      where: { id: cartItemId },
+      where: { id },
     })
 
     return {

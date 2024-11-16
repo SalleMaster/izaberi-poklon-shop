@@ -3,13 +3,17 @@
 import type { Cart, CartItem, Product, Media } from '@prisma/client'
 import { use, useOptimistic, useTransition } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
-import { DataTable } from './DataTable'
-import { columns } from './columns'
+// import { DataTable } from './DataTable'
+// import { columns } from './columns'
 import {
   removeCartItem,
+  removeCartItemType,
   updateCartItem,
+  updateCartItemType,
 } from '@/app/(shop)/_actions/cart/actions'
 import { useToast } from '@/hooks/use-toast'
+import { CartItemRow } from './CartItemRow'
+import { Separator } from '@/components/ui/separator'
 
 type CartItemWithRelations = CartItem & {
   product: Product & {
@@ -33,15 +37,25 @@ export default function CartTable({ cartPromise }: Props) {
 
   console.log(optimisticCart)
 
-  const removeCartItemHandler = async (cartItemId: string) => {
+  function generateQuantityOptions(max: number) {
+    const options = []
+    for (let i = 1; i <= max; i++) {
+      options.push({ value: i.toString(), label: i.toString() })
+    }
+    return options
+  }
+
+  const quantityOptions = generateQuantityOptions(500)
+
+  const removeCartItemHandler = async ({ id }: removeCartItemType) => {
     try {
       startTransition(() => {
         setOptimisticCart({
           ...cart,
-          items: cart.items.filter((item) => item.id !== cartItemId),
+          items: cart.items.filter((item) => item.id !== id),
         })
       })
-      const response = await removeCartItem({ cartItemId })
+      const response = await removeCartItem({ id })
       if (response) {
         if (response.status === 'fail') {
           return toast({
@@ -68,10 +82,7 @@ export default function CartTable({ cartPromise }: Props) {
   const updateCartItemHandler = async ({
     id,
     quantity,
-  }: {
-    id: string
-    quantity: number
-  }) => {
+  }: updateCartItemType) => {
     try {
       startTransition(() => {
         setOptimisticCart({
@@ -107,13 +118,20 @@ export default function CartTable({ cartPromise }: Props) {
 
   return (
     <div className={isPending ? 'animate-pulse' : ''}>
-      Cart table <p>{cart.id}</p>
-      <DataTable
-        columns={columns}
-        data={optimisticCart.items}
-        removeCartItemHandler={removeCartItemHandler}
-        updateCartItemHandler={updateCartItemHandler}
-      />
+      <p className='text-xl font-semibold mb-4'>Vaša korpa</p>
+      <div>
+        {optimisticCart.items.map((cartItem) => (
+          <div key={cartItem.id}>
+            <CartItemRow
+              cartItem={cartItem}
+              updateCartItemHandler={updateCartItemHandler}
+              removeCartItemHandler={removeCartItemHandler}
+              quantityOptions={quantityOptions}
+            />
+            <Separator />
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Check, ChevronsUpDown } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { Button, ButtonProps } from '@/components/ui/button'
 import {
   Command,
   CommandEmpty,
@@ -19,23 +19,30 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 
-type ComboboxProps = {
+type ComboboxProps = ButtonProps & {
   options: {
     value: string
     label: string
   }[]
   value?: string
   setValue: (value: string) => void
+  withChevron?: boolean
 }
 
-export function Combobox({ options, value, setValue }: ComboboxProps) {
+export function Combobox({
+  options,
+  value,
+  setValue,
+  variant = 'outline',
+  withChevron = true,
+}: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant='outline'
+          variant={variant}
           role='combobox'
           aria-expanded={open}
           className='flex w-full justify-between'
@@ -46,7 +53,9 @@ export function Combobox({ options, value, setValue }: ComboboxProps) {
               : 'Selektuj opciju...'}
           </span>
 
-          <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+          {withChevron ? (
+            <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+          ) : null}
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[200px] p-0'>

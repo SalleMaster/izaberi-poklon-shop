@@ -25,6 +25,7 @@ export const getCart = cache(async () => {
             },
           },
         },
+        orderBy: { createdAt: 'desc' },
       },
     },
   })
