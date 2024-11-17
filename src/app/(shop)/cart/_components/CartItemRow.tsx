@@ -16,6 +16,7 @@ import { CartItem, Product, Media } from '@prisma/client'
 import Link from 'next/link'
 import { fallbackImageURL } from '@/lib/consts'
 import Image from 'next/image'
+import { priceFormatter } from '@/lib/format'
 // import CartProduct from './CartProduct'
 
 type CartItemWithRelations = CartItem & {
@@ -90,56 +91,59 @@ export function CartItemRow({
             {cartItem.product.name}
           </Link>
 
-          <FormField
-            control={form.control}
-            name='quantity'
-            render={() => (
-              <FormItem className='flex space-y-0 border rounded-md shadow-sm mr-auto'>
-                <FormControl>
-                  <Button
-                    variant='ghost'
-                    onClick={() => {
-                      form.setValue(
-                        'quantity',
-                        Number(form.getValues('quantity')) - 1
-                      )
-                    }}
-                    size={'icon'}
-                  >
-                    <Minus className='h-4 w-4' />
-                  </Button>
-                </FormControl>
-                <FormControl>
-                  <div>
-                    <Combobox
-                      options={quantityOptions}
-                      value={form.getValues('quantity').toString()}
-                      setValue={(value) => {
-                        form.setValue('quantity', Number(value))
-                        form.handleSubmit(onSubmit)()
-                      }}
+          <div className='flex gap-4 items-center'>
+            <FormField
+              control={form.control}
+              name='quantity'
+              render={() => (
+                <FormItem className='flex space-y-0 border rounded-md shadow-sm sm:mr-auto'>
+                  <FormControl>
+                    <Button
                       variant='ghost'
-                      withChevron={false}
-                    />
-                  </div>
-                </FormControl>
-                <FormControl>
-                  <Button
-                    variant='ghost'
-                    onClick={() => {
-                      form.setValue(
-                        'quantity',
-                        Number(form.getValues('quantity')) + 1
-                      )
-                    }}
-                    size={'icon'}
-                  >
-                    <Plus className='h-4 w-4' />
-                  </Button>
-                </FormControl>
-              </FormItem>
-            )}
-          />
+                      onClick={() => {
+                        form.setValue(
+                          'quantity',
+                          Number(form.getValues('quantity')) - 1
+                        )
+                      }}
+                      size={'icon'}
+                    >
+                      <Minus className='h-4 w-4' />
+                    </Button>
+                  </FormControl>
+                  <FormControl>
+                    <div>
+                      <Combobox
+                        options={quantityOptions}
+                        value={form.getValues('quantity').toString()}
+                        setValue={(value) => {
+                          form.setValue('quantity', Number(value))
+                          form.handleSubmit(onSubmit)()
+                        }}
+                        variant='ghost'
+                        withChevron={false}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormControl>
+                    <Button
+                      variant='ghost'
+                      onClick={() => {
+                        form.setValue(
+                          'quantity',
+                          Number(form.getValues('quantity')) + 1
+                        )
+                      }}
+                      size={'icon'}
+                    >
+                      <Plus className='h-4 w-4' />
+                    </Button>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <p className='font-semibold'>{priceFormatter(cartItem.price)}</p>
+          </div>
         </div>
 
         <Button

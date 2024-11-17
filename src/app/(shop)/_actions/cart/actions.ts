@@ -27,12 +27,32 @@ export async function addCartItem({
       })
     }
 
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+      include: {
+        priceTable: true,
+      },
+    })
+
+    if (!product) {
+      throw new Error('Poklon nije prodadjen.')
+    }
+
+    const cartItemPrice = product.priceTable.find(
+      (priceItem) => quantity >= priceItem.from && quantity <= priceItem.to
+    )?.price
+
+    if (cartItemPrice === undefined) {
+      throw new Error('Cena nije pronadjena za datu kolicinu.')
+    }
+
     // Add the product to the cart
     await prisma.cartItem.create({
       data: {
         cartId: cart.id,
         productId,
         quantity,
+        price: cartItemPrice,
       },
     })
 
@@ -111,7 +131,7 @@ export async function updateCartItem({ id, quantity }: updateCartItemType) {
     // Fetch the cart item and include the cart relation
     const cartItem = await prisma.cartItem.findUnique({
       where: { id },
-      include: { cart: true },
+      include: { cart: true, product: true },
     })
 
     // Verify that the cart item belongs to the user's cart
@@ -122,11 +142,31 @@ export async function updateCartItem({ id, quantity }: updateCartItemType) {
       }
     }
 
+    const product = await prisma.product.findUnique({
+      where: { id: cartItem.productId },
+      include: {
+        priceTable: true,
+      },
+    })
+
+    if (!product) {
+      throw new Error('Poklon nije prodadjen.')
+    }
+
+    const cartItemPrice = product.priceTable.find(
+      (priceItem) => quantity >= priceItem.from && quantity <= priceItem.to
+    )?.price
+
+    if (cartItemPrice === undefined) {
+      throw new Error('Cena nije pronadjena za datu kolicinu.')
+    }
+
     // Update the cart item
     await prisma.cartItem.update({
       where: { id },
       data: {
         quantity,
+        price: cartItemPrice,
       },
     })
 
