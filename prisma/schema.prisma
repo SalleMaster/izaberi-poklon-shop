@@ -189,6 +189,7 @@ model Product {
   images                     Media[]                     @relation("ImagesRelation")
   imagePersonalizationFields ImagePersonalizationField[]
   textPersonalizationFields  TextPersonalizationField[]
+  cartItems                  CartItem[]
   createdAt                  DateTime                    @default(now())
   updatedAt                  DateTime                    @updatedAt
 
@@ -220,6 +221,33 @@ model Media {
   @@map("medias")
 }
 
+model Cart {
+  id     String     @id @default(cuid())
+  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String     @unique
+  items  CartItem[] // Relation to CartItem
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        String  @id @default(cuid())
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  cartId    String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  quantity  Int
+  price     Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("cart_items")
+}
+
 // Auth
 model User {
   id            String    @id @default(cuid())
@@ -229,6 +257,7 @@ model User {
   image         String?
   role          String?   @default("user")
   media         Media[]
+  cart          Cart?
   accounts      Account[]
   sessions      Session[]
 

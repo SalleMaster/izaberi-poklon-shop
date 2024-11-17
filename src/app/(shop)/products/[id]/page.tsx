@@ -2,11 +2,11 @@ import { getProduct } from '@/data/services/products'
 import { Suspense } from 'react'
 import ProductGrid, { ProductGridSkeleton } from './_components/ProductGrid'
 
-type PageProps = {
+type Props = {
   params: Promise<{ id: string }>
 }
 
-export default async function ProductDetailsPage(props: PageProps) {
+export default async function ProductDetailsPage(props: Props) {
   const params = await props.params
 
   const { id } = params

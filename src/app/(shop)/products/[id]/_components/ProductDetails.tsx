@@ -1,23 +1,13 @@
-import type { Product, Discount, Media, PriceRange } from '@prisma/client'
 import { Skeleton } from '@/components/ui/skeleton'
-
-type ProductWithRelations = Product & {
-  discount: Discount | null
-  coverImage: Media | null
-  images: Media[]
-  priceTable: PriceRange[]
-}
+import { ProductDetailsForm } from './product-details-form/ProductDetailsForm'
+import { ProductWithRelations } from '@/data/services/products'
 
 type Props = {
   product: ProductWithRelations
 }
 
 export default function ProductDetails({ product }: Props) {
-  return (
-    <div>
-      <p className='text-xl font-semibold'>{product.name}</p>
-    </div>
-  )
+  return <ProductDetailsForm productId={product.id} />
 }
 
 export function ProductDetailsSkeleton() {

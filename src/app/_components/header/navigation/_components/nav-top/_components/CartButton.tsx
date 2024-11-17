@@ -1,12 +1,13 @@
 import { ShoppingCart } from 'lucide-react'
-
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
+  DropdownMenuItem,
 } from '@/components/ui/dropdown-menu'
+import Link from 'next/link'
 
 export default function CartButton() {
   return (
@@ -23,6 +24,11 @@ export default function CartButton() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-56'>
         <DropdownMenuLabel>Cart</DropdownMenuLabel>
+        <DropdownMenuItem asChild>
+          <Link href='/korpa'>
+            <span>Korpa</span>
+          </Link>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
