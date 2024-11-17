@@ -4,6 +4,7 @@ import { unstable_noStore } from 'next/cache'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 import { slow } from '@/lib/slow'
+import { Discount, Media, PriceRange, Product } from '@prisma/client'
 
 export const getProducts = cache(
   async ({
@@ -53,23 +54,34 @@ export const getProducts = cache(
   }
 )
 
-export const getProduct = cache(async ({ id }: { id: string }) => {
-  console.log('getProduct')
+export type ProductWithRelations = Product & {
+  discount: Discount | null
+  coverImage: Media | null
+  images: Media[]
+  priceTable: PriceRange[]
+}
 
-  unstable_noStore()
-  await slow(1000)
+export type GetProductReturnType = Promise<ProductWithRelations | null>
 
-  const product = await prisma.product.findUnique({
-    where: { id },
-    include: {
-      discount: true,
-      coverImage: true,
-      images: true,
-      priceTable: {
-        orderBy: { price: 'asc' },
+export const getProduct = cache(
+  async ({ id }: { id: string }): GetProductReturnType => {
+    console.log('getProduct')
+
+    unstable_noStore()
+    await slow(1000)
+
+    const product = await prisma.product.findUnique({
+      where: { id },
+      include: {
+        discount: true,
+        coverImage: true,
+        images: true,
+        priceTable: {
+          orderBy: { price: 'asc' },
+        },
       },
-    },
-  })
+    })
 
-  return product
-})
+    return product
+  }
+)

@@ -9,27 +9,20 @@ import {
   removeCartItemType,
   updateCartItemType,
 } from '../../_actions/cart/actions'
-import { Combobox } from '@/components/custom/Combobox'
+import { Combobox, SelectOptionType } from '@/components/custom/Combobox'
 import { Button } from '@/components/ui/button'
 import { Plus, Minus, X } from 'lucide-react'
-import { CartItem, Product, Media } from '@prisma/client'
 import Link from 'next/link'
 import { fallbackImageURL } from '@/lib/consts'
 import Image from 'next/image'
 import { priceFormatter } from '@/lib/format'
-// import CartProduct from './CartProduct'
-
-type CartItemWithRelations = CartItem & {
-  product: Product & {
-    coverImage: Media | null
-  }
-}
+import { CartItemWithRelations } from '@/data/services/cart'
 
 type Props = {
   cartItem: CartItemWithRelations
   updateCartItemHandler: ({ id, quantity }: updateCartItemType) => void
   removeCartItemHandler: ({ id }: removeCartItemType) => void
-  quantityOptions: { value: string; label: string }[]
+  quantityOptions: SelectOptionType[]
 }
 
 export function CartItemRow({
@@ -53,8 +46,8 @@ export function CartItemRow({
 
   const { reset } = form
 
-  async function onSubmit(data: CartItemValues) {
-    await updateCartItemHandler({
+  function onSubmit(data: CartItemValues) {
+    updateCartItemHandler({
       id: data.id,
       quantity: data.quantity,
     })
@@ -99,13 +92,19 @@ export function CartItemRow({
                 <FormItem className='flex space-y-0 border rounded-md shadow-sm sm:mr-auto'>
                   <FormControl>
                     <Button
+                      type='button'
                       variant='ghost'
                       onClick={() => {
                         form.setValue(
                           'quantity',
                           Number(form.getValues('quantity')) - 1
                         )
+                        form.handleSubmit(onSubmit)()
                       }}
+                      disabled={
+                        form.getValues('quantity').toString() ===
+                        quantityOptions[0].value
+                      }
                       size={'icon'}
                     >
                       <Minus className='h-4 w-4' />
@@ -127,13 +126,19 @@ export function CartItemRow({
                   </FormControl>
                   <FormControl>
                     <Button
+                      type='button'
                       variant='ghost'
                       onClick={() => {
                         form.setValue(
                           'quantity',
                           Number(form.getValues('quantity')) + 1
                         )
+                        form.handleSubmit(onSubmit)()
                       }}
+                      disabled={
+                        form.getValues('quantity').toString() ===
+                        quantityOptions[quantityOptions.length - 1].value
+                      }
                       size={'icon'}
                     >
                       <Plus className='h-4 w-4' />

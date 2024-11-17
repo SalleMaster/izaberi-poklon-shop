@@ -19,11 +19,13 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 
+export type SelectOptionType = {
+  value: string
+  label: string
+}
+
 type ComboboxProps = ButtonProps & {
-  options: {
-    value: string
-    label: string
-  }[]
+  options: SelectOptionType[]
   value?: string
   setValue: (value: string) => void
   withChevron?: boolean

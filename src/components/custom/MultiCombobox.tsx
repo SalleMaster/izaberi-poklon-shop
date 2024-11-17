@@ -18,12 +18,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { SelectOptionType } from './Combobox'
 
 type MultiComboboxProps = {
-  options: {
-    value: string
-    label: string
-  }[]
+  options: SelectOptionType[]
   value: [string, ...string[]]
   setValue: (value: [string, ...string[]]) => void
 }

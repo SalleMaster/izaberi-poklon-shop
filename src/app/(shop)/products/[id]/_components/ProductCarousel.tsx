@@ -1,4 +1,3 @@
-import type { Product, Discount, Media, PriceRange } from '@prisma/client'
 import Image from 'next/image'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -8,13 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
-
-type ProductWithRelations = Product & {
-  discount: Discount | null
-  coverImage: Media | null
-  images: Media[]
-  priceTable: PriceRange[]
-}
+import { ProductWithRelations } from '@/data/services/products'
 
 type Props = {
   product: ProductWithRelations

@@ -1,10 +1,7 @@
 'use client'
 
-import type { Cart, CartItem, Product, Media } from '@prisma/client'
 import { use, useOptimistic, useTransition } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
-// import { DataTable } from './DataTable'
-// import { columns } from './columns'
 import {
   removeCartItem,
   removeCartItemType,
@@ -14,19 +11,11 @@ import {
 import { useToast } from '@/hooks/use-toast'
 import { CartItemRow } from './CartItemRow'
 import { Separator } from '@/components/ui/separator'
-
-type CartItemWithRelations = CartItem & {
-  product: Product & {
-    coverImage: Media | null
-  }
-}
-
-type CartWithRelations = Cart & {
-  items: CartItemWithRelations[]
-}
+import { GetCartReturnType } from '@/data/services/cart'
+import { priceTableQuantityOptions, quantityOptions } from '@/lib/consts'
 
 type Props = {
-  cartPromise: Promise<CartWithRelations>
+  cartPromise: GetCartReturnType
 }
 
 export default function CartTable({ cartPromise }: Props) {
@@ -35,27 +24,24 @@ export default function CartTable({ cartPromise }: Props) {
   const [optimisticCart, setOptimisticCart] = useOptimistic(cart)
   const { toast } = useToast()
 
-  console.log(optimisticCart)
-
-  function generateQuantityOptions(max: number) {
-    const options = []
-    for (let i = 1; i <= max; i++) {
-      options.push({ value: i.toString(), label: i.toString() })
-    }
-    return options
-  }
-
-  const quantityOptions = generateQuantityOptions(500)
-
-  const removeCartItemHandler = async ({ id }: removeCartItemType) => {
+  const updateCartItemHandler = async ({
+    id,
+    quantity,
+  }: updateCartItemType) => {
     try {
-      startTransition(() => {
-        setOptimisticCart({
-          ...cart,
-          items: cart.items.filter((item) => item.id !== id),
+      if (optimisticCart) {
+        startTransition(() => {
+          setOptimisticCart({
+            ...optimisticCart,
+            items: optimisticCart.items.map((item) =>
+              item.id === id ? { ...item, quantity } : item
+            ),
+          })
         })
-      })
-      const response = await removeCartItem({ id })
+      }
+
+      const response = await updateCartItem({ id, quantity })
+
       if (response) {
         if (response.status === 'fail') {
           return toast({
@@ -79,20 +65,18 @@ export default function CartTable({ cartPromise }: Props) {
     }
   }
 
-  const updateCartItemHandler = async ({
-    id,
-    quantity,
-  }: updateCartItemType) => {
+  const removeCartItemHandler = async ({ id }: removeCartItemType) => {
     try {
-      startTransition(() => {
-        setOptimisticCart({
-          ...cart,
-          items: cart.items.map((item) =>
-            item.id === id ? { ...item, quantity } : item
-          ),
+      if (optimisticCart) {
+        startTransition(() => {
+          setOptimisticCart({
+            ...optimisticCart,
+            items: optimisticCart.items.filter((item) => item.id !== id),
+          })
         })
-      })
-      const response = await updateCartItem({ id, quantity })
+      }
+
+      const response = await removeCartItem({ id })
       if (response) {
         if (response.status === 'fail') {
           return toast({
@@ -119,19 +103,22 @@ export default function CartTable({ cartPromise }: Props) {
   return (
     <div className={isPending ? 'animate-pulse' : ''}>
       <p className='text-xl font-semibold mb-4'>Vaša korpa</p>
-      <div>
-        {optimisticCart.items.map((cartItem) => (
-          <div key={cartItem.id}>
-            <CartItemRow
-              cartItem={cartItem}
-              updateCartItemHandler={updateCartItemHandler}
-              removeCartItemHandler={removeCartItemHandler}
-              quantityOptions={quantityOptions}
-            />
-            <Separator />
-          </div>
-        ))}
-      </div>
+
+      {optimisticCart?.items.map((cartItem) => (
+        <div key={cartItem.id}>
+          <CartItemRow
+            cartItem={cartItem}
+            updateCartItemHandler={updateCartItemHandler}
+            removeCartItemHandler={removeCartItemHandler}
+            quantityOptions={
+              cartItem.product.priceTable.length > 1
+                ? priceTableQuantityOptions
+                : quantityOptions
+            }
+          />
+          <Separator />
+        </div>
+      ))}
     </div>
   )
 }
