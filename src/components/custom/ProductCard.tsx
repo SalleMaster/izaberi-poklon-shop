@@ -1,4 +1,3 @@
-import { priceFormatter } from '@/lib/format'
 import { Product, Discount, Media, PriceRange } from '@prisma/client'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -6,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import getUserRole from '@/lib/userRole'
 import { Skeleton } from '@/components/ui/skeleton'
+import { calculatePrice } from '@/lib/price'
 
 type ProductWithRelations = Product & {
   discount: Discount | null
@@ -21,17 +21,13 @@ export default async function ProductCard({ product }: ProductCardProps) {
   const userRole = await getUserRole()
 
   const discount = product.discount
-  const price = product.priceTable[0].price
 
-  const finalPrice = discount?.active
-    ? Math.floor(price - (price * discount.percentage) / 100)
-    : Math.floor(price)
-
-  const savings = discount?.active ? price - finalPrice : 0
-
-  const formatedPrice = priceFormatter(price)
-  const formatedFinalPrice = priceFormatter(finalPrice)
-  const formatedSavings = priceFormatter(savings)
+  const { formatedPrice, formatedFinalPrice, formatedSavings } = calculatePrice(
+    {
+      discount,
+      priceTable: product.priceTable,
+    }
+  )
 
   return (
     <div className='relative flex flex-col bg-white p-4 rounded-md shadow-md text-center'>

@@ -18,16 +18,23 @@ import { Input } from '@/components/ui/input'
 import { Loader2, Save } from 'lucide-react'
 import { productDetailsSchema, ProductDetailsValues } from './validation'
 import { addCartItem } from '@/app/(shop)/_actions/cart/actions'
+import { ProductWithRelations } from '@/data/services/products'
 
-export function ProductDetailsForm({ productId }: { productId: string }) {
+type Props = {
+  product: ProductWithRelations
+}
+
+export function ProductDetailsForm({ product }: Props) {
   const { toast } = useToast()
+
+  console.log('ProductDetailsForm', product)
 
   const defaultValues = useMemo(() => {
     return {
-      productId,
+      productId: product.id,
       quantity: 1,
     }
-  }, [productId])
+  }, [product])
 
   const form = useForm<ProductDetailsValues>({
     resolver: zodResolver(productDetailsSchema),
