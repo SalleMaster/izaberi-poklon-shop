@@ -3,16 +3,29 @@
 import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache'
 import { loggedInActionGuard } from '@/lib/actionGuard'
+import {
+  productDetailsSchema,
+  ProductDetailsValues,
+} from '@/app/(shop)/products/[id]/_components/product-details-form/validation'
+import { deleteMediaFromS3 } from '@/lib/actions'
 
-export async function addCartItem({
-  productId,
-  quantity,
-}: {
-  productId: string
-  quantity: number
-}) {
+type ProductDetailsWithoutImageFiles = Omit<
+  ProductDetailsValues,
+  'imagePersonalizations'
+>
+const productDetailsSchemaWithoutImages = productDetailsSchema.omit({
+  imagePersonalizations: true,
+})
+
+export async function addCartItem(
+  values: ProductDetailsWithoutImageFiles,
+  imageMedias?: { fieldName: string; ids: string[] }[]
+) {
   try {
     const { userId } = await loggedInActionGuard()
+
+    const { productId, quantity, fontType, textPersonalizations } =
+      productDetailsSchemaWithoutImages.parse(values)
 
     // Find or create a cart for the user
     let cart = await prisma.cart.findUnique({
@@ -61,7 +74,22 @@ export async function addCartItem({
         cartId: cart.id,
         productId,
         quantity,
+        fontType,
         price: totalCartItemPrice,
+        textPersonalizations: {
+          create: textPersonalizations?.map((field) => ({
+            name: field.name,
+            value: field.value,
+          })),
+        },
+        imagePersonalizations: {
+          create: imageMedias?.map((imageMedia) => ({
+            name: imageMedia.fieldName,
+            images: {
+              connect: imageMedia.ids.map((id) => ({ id })),
+            },
+          })),
+        },
       },
     })
 
@@ -173,7 +201,10 @@ export async function removeCartItem({ id }: removeCartItemType) {
     // Fetch the cart item and include the cart relation
     const cartItem = await prisma.cartItem.findUnique({
       where: { id },
-      include: { cart: true },
+      include: {
+        cart: true,
+        imagePersonalizations: { include: { images: true } },
+      },
     })
 
     // Verify that the cart item belongs to the user's cart
@@ -188,6 +219,19 @@ export async function removeCartItem({ id }: removeCartItemType) {
     await prisma.cartItem.delete({
       where: { id },
     })
+
+    if (cartItem.imagePersonalizations.length > 0) {
+      const imageKeys = cartItem.imagePersonalizations
+        .map((imagePersonalization) => imagePersonalization.images)
+        .flat()
+        .map((image) => image.key)
+
+      await Promise.all(
+        imageKeys.map(async (key) => {
+          await deleteMediaFromS3(key)
+        })
+      )
+    }
 
     return {
       status: 'success',

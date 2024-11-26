@@ -4,7 +4,15 @@ import { unstable_noStore } from 'next/cache'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 import { slow } from '@/lib/slow'
-import { Discount, Media, PriceRange, Product } from '@prisma/client'
+import {
+  Discount,
+  ImagePersonalizationField,
+  Media,
+  PriceRange,
+  Product,
+  TextPersonalizationField,
+} from '@prisma/client'
+import { calculatePrice } from '@/lib/price'
 
 export const getProducts = cache(
   async ({
@@ -59,6 +67,12 @@ export type ProductWithRelations = Product & {
   coverImage: Media | null
   images: Media[]
   priceTable: PriceRange[]
+  imagePersonalizationFields: ImagePersonalizationField[]
+  textPersonalizationFields: TextPersonalizationField[]
+  finalPrice: number
+  formatedPrice: string
+  formatedFinalPrice: string
+  formatedSavings: string
 }
 
 export type GetProductReturnType = Promise<ProductWithRelations | null>
@@ -76,12 +90,30 @@ export const getProduct = cache(
         discount: true,
         coverImage: true,
         images: true,
+        imagePersonalizationFields: true,
+        textPersonalizationFields: true,
         priceTable: {
           orderBy: { price: 'asc' },
         },
       },
     })
 
-    return product
+    if (product) {
+      const { finalPrice, formatedPrice, formatedFinalPrice, formatedSavings } =
+        calculatePrice({
+          discount: product?.discount,
+          priceTable: product?.priceTable,
+        })
+
+      return {
+        ...product,
+        finalPrice,
+        formatedPrice,
+        formatedFinalPrice,
+        formatedSavings,
+      }
+    }
+
+    return null
   }
 )
