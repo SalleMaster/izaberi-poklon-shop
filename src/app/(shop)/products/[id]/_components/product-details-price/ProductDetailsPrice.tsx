@@ -30,7 +30,7 @@ export default function ProductDetailsPrice({
             </Badge>
           </div>
         )}
-        <p className='text-2xl font-bold'>
+        <p className='text-3xl font-bold'>
           {priceTable.length > 1 && 'Od '} {formatedFinalPrice}
         </p>
         {discount?.active && (

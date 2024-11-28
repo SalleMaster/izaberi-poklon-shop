@@ -1,10 +1,10 @@
-import * as React from 'react'
+import { InputHTMLAttributes, forwardRef } from 'react'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { ImageUp, X } from 'lucide-react'
 import { Media } from '@prisma/client'
 
-export type FileUploadProps = React.InputHTMLAttributes<HTMLInputElement> & {
+export type FileUploadProps = InputHTMLAttributes<HTMLInputElement> & {
   formFiles?: FileList
   existingFiles?: Media[]
   removedExistingFiles?: Media[]
@@ -12,7 +12,7 @@ export type FileUploadProps = React.InputHTMLAttributes<HTMLInputElement> & {
   setRemovedExistingFile: (media: Media) => void
 }
 
-const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
+const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
   (
     {
       formFiles,
@@ -37,19 +37,22 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
     }
 
     return (
-      <div>
+      <>
         <div className='relative h-32 w-full flex flex-col items-center justify-center border-2 border-dashed border-gray-300 p-4 rounded-md cursor-pointer text-muted-foreground'>
           <ImageUp className='h-6 w-6 mb-4' />
           <p className='z-0'>Prevucite fajlove ovde ili kliknite za upload</p>
           <Input
-            {...props}
-            ref={ref}
             className='absolute w-full h-full opacity-0 z-10'
+            ref={ref}
+            {...props}
           />
         </div>
         {formFilesArray.length > 0 &&
           formFilesArray.map((file) => (
-            <Badge key={file.name} className='max-w-full rounded-full mt-2'>
+            <Badge
+              key={file.name}
+              className='max-w-full rounded-full mt-2 mr-2'
+            >
               <span className='truncate'>{file.name}</span>
               <X
                 className='ml-2 h-4 w-4'
@@ -60,7 +63,10 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
         {existingFiles?.map((file) => {
           if (!removedExistingFiles?.includes(file)) {
             return (
-              <Badge key={file.id} className='max-w-full rounded-full mt-2'>
+              <Badge
+                key={file.id}
+                className='max-w-full rounded-full mt-2 mr-2'
+              >
                 <span className='truncate'>{file.name}</span>
                 <X
                   className='ml-2 h-4 w-4'
@@ -70,7 +76,7 @@ const FileUpload = React.forwardRef<HTMLInputElement, FileUploadProps>(
             )
           }
         })}
-      </div>
+      </>
     )
   }
 )

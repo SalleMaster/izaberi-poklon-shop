@@ -20,15 +20,16 @@ export default function ProductCarousel({ product }: Props) {
         align: 'start',
         loop: true,
       }}
+      className='mb-auto sm:sticky sm:top-[135px]'
     >
       <CarouselContent>
         {product.coverImage && (
-          <CarouselItem>
+          <CarouselItem className='px-10'>
             <Image
               src={product.coverImage.url}
               alt={product.coverImage.name}
-              width={300}
-              height={300}
+              width={800}
+              height={800}
               priority
               className='w-full'
             />
@@ -36,7 +37,7 @@ export default function ProductCarousel({ product }: Props) {
         )}
 
         {product.images.map((image) => (
-          <CarouselItem key={image.id}>
+          <CarouselItem key={image.id} className='px-10'>
             <Image
               src={image.url}
               alt={image.name}

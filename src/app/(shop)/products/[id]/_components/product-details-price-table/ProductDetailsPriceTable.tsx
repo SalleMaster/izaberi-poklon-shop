@@ -11,8 +11,6 @@ export default function ProductDetailsPriceTable({
   priceTable,
   discount,
 }: Props) {
-  console.log(priceTable)
-
   const priceTableWithPrice = priceTable.map((priceRange) => {
     return {
       ...priceRange,
@@ -25,11 +23,11 @@ export default function ProductDetailsPriceTable({
 
   return (
     <div>
-      <p>Cena po komadu u odnosu na količinu:</p>
-      <div>
+      <p className='mb-1.5'>Cena po komadu u odnosu na količinu:</p>
+      <div className='text-muted-foreground'>
         {priceTableWithPrice.map((priceRange) => (
           <div key={priceRange.id}>
-            <p className='flex justify-between' key={priceRange.id}>
+            <p className='flex justify-between'>
               <span>
                 {priceRange.to === 5000
                   ? `${priceRange.from}+`

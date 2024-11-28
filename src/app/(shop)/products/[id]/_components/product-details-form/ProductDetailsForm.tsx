@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Loader2, Minus, Plus, Save } from 'lucide-react'
+import { Loader2, Minus, Plus, ShoppingCart } from 'lucide-react'
 import { productDetailsSchema, ProductDetailsValues } from './validation'
 import { addCartItem } from '@/app/(shop)/_actions/cart/actions'
 import { ProductWithRelations } from '@/data/services/products'
@@ -25,12 +25,13 @@ import {
   quantityOptions as singlePriceQuantityOptions,
 } from '@/lib/consts'
 import { Combobox } from '@/components/custom/Combobox'
-import { Input } from '@/components/ui/input'
 import { createEmptyFileList } from '@/lib/formUtils'
 import { FileUpload } from '@/components/custom/FileUpload'
 import { uploadFile } from '@/lib/files'
 import { imageFileTypes } from '@/lib/validation'
 import { createMedia } from '@/lib/actions'
+import { Textarea } from '@/components/ui/textarea'
+import { Switch } from '@/components/ui/switch'
 
 type Props = {
   product: ProductWithRelations
@@ -39,7 +40,7 @@ type Props = {
 export function ProductDetailsForm({ product }: Props) {
   const { toast } = useToast()
 
-  console.log('ProductDetailsForm', product)
+  // console.log('ProductDetailsForm', product)
 
   const { defaultValues, quantityOptions } = useMemo(() => {
     const defaultValues = {
@@ -49,6 +50,7 @@ export function ProductDetailsForm({ product }: Props) {
           ? Number(priceTableQuantityOptions[0].value)
           : 1,
       fontType: FontType.cyrillic,
+      personalization: true,
       textPersonalizations: [],
       imagePersonalizations: [],
     }
@@ -134,37 +136,48 @@ export function ProductDetailsForm({ product }: Props) {
     reset(defaultValues)
   }, [defaultValues, reset])
 
+  const personalization = form.getValues('personalization')
+
   // Use useEffect to generate personalization fields
   useEffect(() => {
-    product.textPersonalizationFields.forEach((field) =>
-      textAppend({
-        name: field.name,
-        placeholder: field.placeholder,
-        value: '',
-      })
-    )
+    if (personalization) {
+      product.textPersonalizationFields.forEach((field) =>
+        textAppend(
+          {
+            name: field.name,
+            placeholder: field.placeholder,
+            value: '',
+          },
+          { shouldFocus: false }
+        )
+      )
 
-    product.imagePersonalizationFields.forEach((field) =>
-      imageAppend({
-        name: field.name,
-        images: createEmptyFileList(),
-        min: field.min,
-      })
-    )
-  }, [product, textAppend, imageAppend])
-
-  console.log(form.getValues('imagePersonalizations'))
+      product.imagePersonalizationFields.forEach((field) =>
+        imageAppend(
+          {
+            name: field.name,
+            images: createEmptyFileList(),
+            min: field.min,
+          },
+          { shouldFocus: false }
+        )
+      )
+    } else {
+      form.setValue('textPersonalizations', [])
+      form.setValue('imagePersonalizations', [])
+    }
+  }, [form, product, textAppend, imageAppend, personalization])
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2.5'>
         <div className='flex flex-col space-y-2'>
-          <FormLabel>Količina</FormLabel>
+          <FormLabel>Količina:</FormLabel>
           <FormField
             control={form.control}
             name='quantity'
             render={() => (
-              <FormItem className='flex space-y-0 border rounded-md shadow-sm sm:mr-auto'>
+              <FormItem className='flex space-y-0 border rounded-md shadow-sm mr-auto'>
                 <FormControl>
                   <Button
                     type='button'
@@ -226,7 +239,7 @@ export function ProductDetailsForm({ product }: Props) {
           name='fontType'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Pismo</FormLabel>
+              <FormLabel>Pismo:</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -255,70 +268,106 @@ export function ProductDetailsForm({ product }: Props) {
           )}
         />
 
-        {textFields.map((field, index) => (
-          <div key={field.id} className='flex flex-col space-y-2'>
-            <FormField
-              control={control}
-              name={`textPersonalizations.${index}.value`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    {form.getValues('textPersonalizations')?.[index]?.name}
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={
-                        form.getValues('textPersonalizations')?.[index]
-                          ?.placeholder
-                      }
-                      {...field}
-                    />
-                  </FormControl>
-                  {/* <FormDescription>Personalizacija.</FormDescription> */}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        ))}
+        <FormField
+          name='personalization'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='mr-4'>
+                {field.value
+                  ? 'Želim da personalizujem poklon'
+                  : 'Želim poklon bez personalizacije'}
+              </FormLabel>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormDescription>
+                {field.value
+                  ? 'Unosite tekst i slike za personalizaciju'
+                  : 'Poklon će biti izrađen bez personalizacije'}
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        {imageFields.map((field, index) => (
-          <div key={field.id} className='flex flex-col space-y-2'>
-            <FormField
-              control={form.control}
-              name={`imagePersonalizations.${index}.images`}
-              render={() => (
-                <FormItem>
-                  <FormLabel>
-                    {form.getValues('imagePersonalizations')?.[index]?.name}
-                  </FormLabel>
-                  <FormControl>
-                    <FileUpload
-                      type='file'
-                      multiple
-                      formFiles={
-                        form.getValues('imagePersonalizations')?.[index]?.images
-                      }
-                      formSetValue={(values) => {
-                        console.log(values)
-                        form.setValue(
-                          `imagePersonalizations.${index}.images`,
-                          values
-                        )
-                      }}
-                      existingFiles={[]}
-                      removedExistingFiles={[]}
-                      setRemovedExistingFile={() => {}}
-                      {...register(`imagePersonalizations.${index}.images`)}
-                    />
-                  </FormControl>
-                  {/* <FormDescription>Dodatne slike proizvoda</FormDescription> */}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        ))}
+        {personalization
+          ? textFields.map((field, index) => (
+              <div key={field.id} className='flex flex-col space-y-2'>
+                <FormField
+                  control={control}
+                  name={`textPersonalizations.${index}.value`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {form.getValues('textPersonalizations')?.[index]?.name}:
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder={
+                            form.getValues('textPersonalizations')?.[index]
+                              ?.placeholder
+                          }
+                          {...field}
+                        />
+                      </FormControl>
+                      {/* <FormDescription>Personalizacija.</FormDescription> */}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            ))
+          : null}
+
+        {personalization
+          ? imageFields.map((field, index) => (
+              <div key={field.id} className='flex flex-col space-y-2'>
+                <FormField
+                  control={form.control}
+                  name={`imagePersonalizations.${index}.images`}
+                  render={() => (
+                    <FormItem>
+                      <FormLabel>
+                        {form.getValues('imagePersonalizations')?.[index]?.name}
+                        :
+                      </FormLabel>
+                      <FormControl>
+                        <FileUpload
+                          type='file'
+                          multiple
+                          formFiles={
+                            form.getValues('imagePersonalizations')?.[index]
+                              ?.images
+                          }
+                          formSetValue={(values) => {
+                            console.log(values)
+                            form.setValue(
+                              `imagePersonalizations.${index}.images`,
+                              values
+                            )
+                          }}
+                          existingFiles={[]}
+                          removedExistingFiles={[]}
+                          setRemovedExistingFile={() => {}}
+                          {...register(`imagePersonalizations.${index}.images`)}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        {form.getValues('imagePersonalizations')?.[index]
+                          ?.min === 0
+                          ? 'Slike za ovo polje su opcione'
+                          : `Poželjan broj slika: ${form.getValues('imagePersonalizations')?.[index]?.min}`}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            ))
+          : null}
 
         <div className='flex'>
           <Button
@@ -329,7 +378,7 @@ export function ProductDetailsForm({ product }: Props) {
             {form.formState.isSubmitting ? (
               <Loader2 className='mr-2 h-4 w-4 animate-spin' />
             ) : (
-              <Save className='mr-2 h-4 w-4' />
+              <ShoppingCart className='mr-2 h-4 w-4' />
             )}
             Dodaj u korpu
           </Button>
