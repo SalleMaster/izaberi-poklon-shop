@@ -36,6 +36,9 @@ export async function addCartItem(
       cart = await prisma.cart.create({
         data: {
           userId,
+          onlinePrice: 0,
+          totalPrice: 0,
+          discount: 0,
         },
       })
     }
@@ -92,6 +95,8 @@ export async function addCartItem(
         },
       },
     })
+
+    await updateCartOverviewData({ userId })
 
     return {
       status: 'success',
@@ -172,6 +177,8 @@ export async function updateCartItem({ id, quantity }: updateCartItemType) {
       },
     })
 
+    await updateCartOverviewData({ userId })
+
     return {
       status: 'success',
       message: 'Kolicina promenjena.',
@@ -233,6 +240,8 @@ export async function removeCartItem({ id }: removeCartItemType) {
       )
     }
 
+    await updateCartOverviewData({ userId })
+
     return {
       status: 'success',
       message: 'Proizvod uklonjen iz korpe.',
@@ -248,5 +257,22 @@ export async function removeCartItem({ id }: removeCartItemType) {
     }
   } finally {
     revalidatePath('/cart') // Revalidate cart page
+  }
+}
+
+export async function updateCartOverviewData({ userId }: { userId: string }) {
+  const cart = await prisma.cart.findUnique({
+    where: { userId },
+    include: { items: true },
+  })
+
+  if (cart) {
+    await prisma.cart.update({
+      where: { userId },
+      data: {
+        onlinePrice: cart.items.reduce((acc, item) => acc + item.price, 0),
+        totalPrice: cart.items.reduce((acc, item) => acc + item.price, 0),
+      },
+    })
   }
 }

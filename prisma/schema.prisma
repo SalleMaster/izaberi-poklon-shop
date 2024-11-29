@@ -229,10 +229,13 @@ model Media {
 }
 
 model Cart {
-  id     String     @id @default(cuid())
-  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String     @unique
-  items  CartItem[] // Relation to CartItem
+  id          String     @id @default(cuid())
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String     @unique
+  items       CartItem[]
+  onlinePrice Int
+  totalPrice  Int
+  discount    Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

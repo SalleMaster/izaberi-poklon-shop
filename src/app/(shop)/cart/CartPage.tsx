@@ -1,24 +1,27 @@
 'use client'
 
 import { use, useOptimistic, useTransition } from 'react'
-import { Skeleton } from '@/components/ui/skeleton'
+import { GetCartReturnType } from '@/data/services/cart'
 import {
   removeCartItem,
   removeCartItemType,
   updateCartItem,
   updateCartItemType,
 } from '@/app/(shop)/_actions/cart/actions'
+import CartTable, {
+  CartTableSkeleton,
+} from './_components/cart-table/CartTable'
+import CartOverview, {
+  CartOverviewSkeleton,
+} from './_components/cart-overview/CartOverview'
 import { useToast } from '@/hooks/use-toast'
-import { CartItemRow } from './CartItemRow'
-import { Separator } from '@/components/ui/separator'
-import { GetCartReturnType } from '@/data/services/cart'
-import { priceTableQuantityOptions, quantityOptions } from '@/lib/consts'
+import { cn } from '@/lib/utils'
 
 type Props = {
   cartPromise: GetCartReturnType
 }
 
-export default function CartTable({ cartPromise }: Props) {
+export default function CartPage({ cartPromise }: Props) {
   const cart = use(cartPromise)
   const [isPending, startTransition] = useTransition()
   const [optimisticCart, setOptimisticCart] = useOptimistic(cart)
@@ -101,34 +104,40 @@ export default function CartTable({ cartPromise }: Props) {
   }
 
   return (
-    <div className={isPending ? 'animate-pulse' : ''}>
-      <p className='text-xl font-semibold mb-4'>Vaša korpa</p>
-
-      {optimisticCart?.items.map((cartItem) => (
-        <div key={cartItem.id}>
-          <CartItemRow
-            cartItem={cartItem}
-            updateCartItemHandler={updateCartItemHandler}
-            removeCartItemHandler={removeCartItemHandler}
-            quantityOptions={
-              cartItem.product.priceTable.length > 1
-                ? priceTableQuantityOptions
-                : quantityOptions
-            }
-          />
-          <Separator />
-        </div>
-      ))}
+    <div
+      className={cn(
+        'grid gap-6 lg:grid-cols-cart lg:gap-6',
+        isPending && 'animate-pulse'
+      )}
+    >
+      <div className='mb-auto'>
+        <CartTable
+          optimisticCart={optimisticCart}
+          updateCartItemHandler={updateCartItemHandler}
+          removeCartItemHandler={removeCartItemHandler}
+        />
+      </div>
+      <div className='mb-auto'>
+        <CartOverview
+          onlinePrice={optimisticCart?.onlinePrice}
+          totalPrice={optimisticCart?.totalPrice}
+          discount={optimisticCart?.discount}
+          disabled={isPending || optimisticCart?.items.length === 0}
+        />
+      </div>
     </div>
   )
 }
 
-export function CartTableSkeleton() {
+export function CartPageSkeleton() {
   return (
-    <div className='space-y-1'>
-      <Skeleton className='h-[36px] w-[100%]' />
-      <Skeleton className='h-[36px] w-[100%]' />
-      <Skeleton className='h-[36px] w-[100%]' />
+    <div className='grid gap-6 lg:grid-cols-cart lg:gap-6'>
+      <div className='mb-auto'>
+        <CartTableSkeleton />
+      </div>
+      <div className='mb-auto'>
+        <CartOverviewSkeleton />
+      </div>
     </div>
   )
 }
