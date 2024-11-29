@@ -4,11 +4,6 @@ import { useMemo, useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
-import { cartItemSchema, CartItemValues } from './validation'
-import {
-  removeCartItemType,
-  updateCartItemType,
-} from '../../_actions/cart/actions'
 import { Combobox, SelectOptionType } from '@/components/custom/Combobox'
 import { Button } from '@/components/ui/button'
 import { Plus, Minus, X } from 'lucide-react'
@@ -17,6 +12,11 @@ import { fallbackImageURL } from '@/lib/consts'
 import Image from 'next/image'
 import { priceFormatter } from '@/lib/format'
 import { CartItemWithRelations } from '@/data/services/cart'
+import {
+  removeCartItemType,
+  updateCartItemType,
+} from '@/app/(shop)/_actions/cart/actions'
+import { cartItemSchema, CartItemValues } from './validation'
 
 type Props = {
   cartItem: CartItemWithRelations

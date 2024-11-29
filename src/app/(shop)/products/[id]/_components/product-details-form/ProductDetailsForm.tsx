@@ -40,8 +40,6 @@ type Props = {
 export function ProductDetailsForm({ product }: Props) {
   const { toast } = useToast()
 
-  // console.log('ProductDetailsForm', product)
-
   const { defaultValues, quantityOptions } = useMemo(() => {
     const defaultValues = {
       productId: product.id,
@@ -268,30 +266,33 @@ export function ProductDetailsForm({ product }: Props) {
           )}
         />
 
-        <FormField
-          name='personalization'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className='mr-4'>
-                {field.value
-                  ? 'Želim da personalizujem poklon'
-                  : 'Želim poklon bez personalizacije'}
-              </FormLabel>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <FormDescription>
-                {field.value
-                  ? 'Unosite tekst i slike za personalizaciju'
-                  : 'Poklon će biti izrađen bez personalizacije'}
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {product.textPersonalizationFields.length > 0 ||
+        product.imagePersonalizationFields.length > 0 ? (
+          <FormField
+            name='personalization'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='mr-4'>
+                  {field.value
+                    ? 'Želim da personalizujem poklon'
+                    : 'Želim poklon bez personalizacije'}
+                </FormLabel>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormDescription>
+                  {field.value
+                    ? 'Unosite tekst i slike za personalizaciju'
+                    : 'Poklon će biti izrađen bez personalizacije'}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ) : null}
 
         {personalization
           ? textFields.map((field, index) => (

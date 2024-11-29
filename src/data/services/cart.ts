@@ -7,6 +7,7 @@ import { slow } from '@/lib/slow'
 import { loggedInActionGuard } from '@/lib/actionGuard'
 import { subDays } from 'date-fns'
 import { CartItem, Media, Product, PriceRange, Cart } from '@prisma/client'
+import { updateCartOverviewData } from '@/app/(shop)/_actions/cart/actions'
 
 export type CartItemWithRelations = CartItem & {
   product: Product & {
@@ -15,7 +16,7 @@ export type CartItemWithRelations = CartItem & {
   }
 }
 
-type CartWithRelations = Cart & {
+export type CartWithRelations = Cart & {
   items: CartItemWithRelations[]
 }
 
@@ -54,6 +55,9 @@ export const getCart = cache(async (): GetCartReturnType => {
     cart = await prisma.cart.create({
       data: {
         userId,
+        onlinePrice: 0,
+        totalPrice: 0,
+        discount: 0,
       },
       include: {
         items: {
@@ -85,6 +89,8 @@ export const getCart = cache(async (): GetCartReturnType => {
           },
         },
       })
+
+      await updateCartOverviewData({ userId })
 
       cart = await getCart()
     }

@@ -81,6 +81,7 @@ const config: Config = {
       gridTemplateColumns: {
         // Products page
         products: '200px 1fr',
+        cart: '4fr 3fr',
       },
     },
   },

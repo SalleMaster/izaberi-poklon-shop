@@ -41,8 +41,8 @@ export default function ProductCarousel({ product }: Props) {
             <Image
               src={image.url}
               alt={image.name}
-              width={300}
-              height={300}
+              width={800}
+              height={800}
               priority
               className='w-full'
             />
@@ -57,10 +57,10 @@ export default function ProductCarousel({ product }: Props) {
 
 export function ProductCarouselSkeleton() {
   return (
-    <Carousel>
+    <Carousel className='mb-auto sm:sticky sm:top-[135px]'>
       <CarouselContent>
-        <CarouselItem>
-          <div className='h-auto w-[100%] aspect-square p-10'>
+        <CarouselItem className='px-10'>
+          <div className='h-auto w-[100%] aspect-square'>
             <Skeleton className='h-auto w-[100%] rounded-xl aspect-square' />
           </div>
         </CarouselItem>

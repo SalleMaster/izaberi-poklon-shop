@@ -39,9 +39,10 @@ export default function ProductGrid({ productPromise }: Props) {
 
 export function ProductGridSkeleton() {
   return (
-    <div className='sm:grid sm:grid-cols-2'>
+    <div className='sm:grid sm:grid-cols-2 sm:gap-4 md:gap-10'>
       <ProductCarouselSkeleton />
       <ProductDetailsSkeleton />
+      <div className='h-[500px]'></div>
     </div>
   )
 }
