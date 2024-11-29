@@ -45,7 +45,7 @@ export default function ProductDetails({ product }: Props) {
 
 export function ProductDetailsSkeleton() {
   return (
-    <div className='h-auto w-[100%] aspect-square p-10'>
+    <div className='h-auto w-[100%] aspect-square'>
       <Skeleton className='h-auto w-[100%] rounded-xl aspect-square' />
     </div>
   )

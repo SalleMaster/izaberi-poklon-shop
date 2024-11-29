@@ -35,7 +35,7 @@ export default function ProductDetailsInfo({
         Očekivano vreme isporuke: {deliveryText}
       </p>
       <p className='flex gap-2'>
-        <MessageCircleQuestion className='w-8 h-8' />
+        <MessageCircleQuestion />
         <span>
           Ukoliko vam je potrebna pomoć oko odabira poklona{' '}
           <a href='tel:+3816212312123' className='underline'>
