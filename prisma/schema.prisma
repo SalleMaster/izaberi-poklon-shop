@@ -92,6 +92,7 @@ model Coupon {
   id           String       @id @default(cuid())
   name         String
   code         String       @unique
+  carts        Cart[]
   discountType DiscountType
   discount     Int
   cartValue    Int
@@ -236,6 +237,8 @@ model Cart {
   onlinePrice Int
   totalPrice  Int
   discount    Int
+  coupon      Coupon?    @relation(fields: [couponId], references: [id])
+  couponId    String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

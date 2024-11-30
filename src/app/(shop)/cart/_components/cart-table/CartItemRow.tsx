@@ -20,6 +20,7 @@ import { cartItemSchema, CartItemValues } from './validation'
 
 type Props = {
   cartItem: CartItemWithRelations
+  disabled: boolean
   updateCartItemHandler: ({ id, quantity }: updateCartItemType) => void
   removeCartItemHandler: ({ id }: removeCartItemType) => void
   quantityOptions: SelectOptionType[]
@@ -30,6 +31,7 @@ export function CartItemRow({
   updateCartItemHandler,
   removeCartItemHandler,
   quantityOptions,
+  disabled,
 }: Props) {
   const defaultValues = useMemo(
     () => ({
@@ -102,8 +104,9 @@ export function CartItemRow({
                         form.handleSubmit(onSubmit)()
                       }}
                       disabled={
+                        disabled ||
                         form.getValues('quantity').toString() ===
-                        quantityOptions[0].value
+                          quantityOptions[0].value
                       }
                       size={'icon'}
                     >
@@ -121,6 +124,7 @@ export function CartItemRow({
                         }}
                         variant='ghost'
                         withChevron={false}
+                        disabled={disabled}
                       />
                     </div>
                   </FormControl>
@@ -136,8 +140,9 @@ export function CartItemRow({
                         form.handleSubmit(onSubmit)()
                       }}
                       disabled={
+                        disabled ||
                         form.getValues('quantity').toString() ===
-                        quantityOptions[quantityOptions.length - 1].value
+                          quantityOptions[quantityOptions.length - 1].value
                       }
                       size={'icon'}
                     >
@@ -156,6 +161,7 @@ export function CartItemRow({
           size='icon'
           className='rounded-full'
           aria-label='Ukloni proizvod iz korpe'
+          disabled={disabled}
           onClick={() => removeCartItemHandler({ id: cartItem.id })}
         >
           <X className='h-4 w-4' />

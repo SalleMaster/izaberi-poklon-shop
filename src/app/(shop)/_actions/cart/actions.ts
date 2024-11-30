@@ -7,7 +7,13 @@ import {
   productDetailsSchema,
   ProductDetailsValues,
 } from '@/app/(shop)/products/[id]/_components/product-details-form/validation'
+import {
+  cartCouponSchema,
+  CartCouponValues,
+} from '../../cart/_components/cart-coupon-form/validation'
 import { deleteMediaFromS3 } from '@/lib/actions'
+import { DiscountType } from '@prisma/client'
+import { priceFormatter } from '@/lib/format'
 
 type ProductDetailsWithoutImageFiles = Omit<
   ProductDetailsValues,
@@ -260,18 +266,154 @@ export async function removeCartItem({ id }: removeCartItemType) {
   }
 }
 
+export async function cartApplyCoupon(values: CartCouponValues) {
+  try {
+    const { userId } = await loggedInActionGuard()
+
+    const { coupon } = cartCouponSchema.parse(values)
+
+    const couponExists = await prisma.coupon.findUnique({
+      where: { code: coupon },
+    })
+
+    if (!couponExists) {
+      throw new Error('Kupon kod nije pronadjen.')
+    }
+
+    // Connect the coupon to the cart
+    const cart = await prisma.cart.update({
+      where: { userId },
+      data: {
+        coupon: {
+          connect: { code: coupon },
+        },
+      },
+      include: { items: true, coupon: true },
+    })
+
+    if (!cart) {
+      throw new Error('Korpa nije pronadjena.')
+    }
+
+    if (cart.coupon) {
+      const allItemsPrice = cart.items.reduce(
+        (acc, item) => acc + item.price,
+        0
+      )
+      const isCouponExpired = cart.coupon.expiresAt < new Date()
+      const isCouponActive = cart.coupon.active
+      const isCouponAvailable = cart.coupon.used < cart.coupon.available
+      const isMinCartValue = allItemsPrice >= cart.coupon.cartValue
+
+      const couponConditions =
+        !isCouponExpired &&
+        isCouponActive &&
+        isCouponAvailable &&
+        isMinCartValue
+
+      if (!couponConditions) {
+        await prisma.cart.update({
+          where: { userId },
+          data: {
+            coupon: {
+              disconnect: true,
+            },
+          },
+        })
+
+        let message = 'Kupon kod nije validan.'
+
+        if (isCouponExpired) {
+          message = 'Kupon kod je istekao.'
+        } else if (!isCouponActive) {
+          message = 'Kupon kod nije aktivan.'
+        } else if (!isCouponAvailable) {
+          message = 'Kupon kod više nije dostupan.'
+        } else if (!isMinCartValue) {
+          message = `Minimalna vrednost korpe za ovaj kupon je ${priceFormatter(cart.coupon.cartValue)}.`
+        }
+
+        throw new Error(message)
+      }
+    }
+
+    await updateCartOverviewData({ userId })
+
+    return {
+      status: 'success',
+      message: 'Kupon kod uspešno primenjen.',
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return {
+        status: 'fail',
+        message: error.message,
+      }
+    } else {
+      throw error
+    }
+  } finally {
+    revalidatePath('/cart') // Revalidate cart page
+  }
+}
+
 export async function updateCartOverviewData({ userId }: { userId: string }) {
   const cart = await prisma.cart.findUnique({
     where: { userId },
-    include: { items: true },
+    include: { items: true, coupon: true },
   })
 
   if (cart) {
+    const allItemsPrice = cart.items.reduce((acc, item) => acc + item.price, 0)
+    let onlinePrice = allItemsPrice
+    let totalPrice = allItemsPrice
+    let discount = 0
+
+    if (cart.coupon) {
+      const isCouponExpired = cart.coupon.expiresAt < new Date()
+      const isCouponActive = cart.coupon.active
+      const isCouponAvailable = cart.coupon.used < cart.coupon.available
+      const isMinCartValue = allItemsPrice >= cart.coupon.cartValue
+
+      const couponConditions =
+        !isCouponExpired &&
+        isCouponActive &&
+        isCouponAvailable &&
+        isMinCartValue
+
+      if (!couponConditions) {
+        await prisma.cart.update({
+          where: { userId },
+          data: {
+            coupon: {
+              disconnect: true,
+            },
+          },
+        })
+      }
+
+      if (couponConditions && cart.coupon.discountType === DiscountType.fixed) {
+        onlinePrice = allItemsPrice - cart.coupon.discount
+        totalPrice = allItemsPrice - cart.coupon.discount
+        discount = cart.coupon.discount
+      } else if (
+        couponConditions &&
+        cart.coupon.discountType === DiscountType.percentage
+      ) {
+        onlinePrice =
+          allItemsPrice - (allItemsPrice * cart.coupon.discount) / 100
+        totalPrice =
+          allItemsPrice - (allItemsPrice * cart.coupon.discount) / 100
+        discount = (allItemsPrice * cart.coupon.discount) / 100
+      }
+    }
+
     await prisma.cart.update({
       where: { userId },
       data: {
-        onlinePrice: cart.items.reduce((acc, item) => acc + item.price, 0),
-        totalPrice: cart.items.reduce((acc, item) => acc + item.price, 0),
+        onlinePrice,
+        totalPrice,
+        discount,
       },
     })
   }

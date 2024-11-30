@@ -6,7 +6,14 @@ import prisma from '@/lib/db'
 import { slow } from '@/lib/slow'
 import { loggedInActionGuard } from '@/lib/actionGuard'
 import { subDays } from 'date-fns'
-import { CartItem, Media, Product, PriceRange, Cart } from '@prisma/client'
+import {
+  CartItem,
+  Media,
+  Product,
+  PriceRange,
+  Cart,
+  Coupon,
+} from '@prisma/client'
 import { updateCartOverviewData } from '@/app/(shop)/_actions/cart/actions'
 
 export type CartItemWithRelations = CartItem & {
@@ -18,6 +25,7 @@ export type CartItemWithRelations = CartItem & {
 
 export type CartWithRelations = Cart & {
   items: CartItemWithRelations[]
+  coupon: Coupon | null
 }
 
 export type GetCartReturnType = Promise<CartWithRelations | null>
@@ -45,6 +53,7 @@ export const getCart = cache(async (): GetCartReturnType => {
           },
           orderBy: { createdAt: 'desc' },
         },
+        coupon: true,
       },
     })
   }
@@ -70,6 +79,7 @@ export const getCart = cache(async (): GetCartReturnType => {
             },
           },
         },
+        coupon: true,
       },
     })
   }

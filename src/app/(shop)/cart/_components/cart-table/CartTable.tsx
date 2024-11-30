@@ -12,12 +12,14 @@ import CartEmpty from '../cart-empty/CartEmpty'
 
 type Props = {
   optimisticCart: CartWithRelations | null
+  disabled: boolean
   updateCartItemHandler: ({ id, quantity }: updateCartItemType) => void
   removeCartItemHandler: ({ id }: removeCartItemType) => void
 }
 
 export default function CartTable({
   optimisticCart,
+  disabled,
   updateCartItemHandler,
   removeCartItemHandler,
 }: Props) {
@@ -38,6 +40,7 @@ export default function CartTable({
                   ? priceTableQuantityOptions
                   : quantityOptions
               }
+              disabled={disabled}
             />
             <Separator className='group-last-of-type:hidden' />
           </div>
