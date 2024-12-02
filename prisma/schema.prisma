@@ -299,6 +299,7 @@ model DeliveryAddress {
   zip       String
   phone     String
   email     String
+  note      String?
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   createdAt DateTime @default(now())
