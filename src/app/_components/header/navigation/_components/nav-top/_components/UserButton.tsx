@@ -52,6 +52,7 @@ const adminMenuOptions = [
 
 const userMenuOptions = [
   { href: '/dashboard/profile', text: 'Profile', icon: Settings },
+  { href: '/profil/adresa-dostave', text: 'Adresa dostave', icon: Truck },
 ]
 
 export default function UserButton({ user }: UserButtonProps) {

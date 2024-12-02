@@ -4,8 +4,8 @@ import CartPage, { CartPageSkeleton } from './CartPage'
 import pageGuard from '@/lib/pageGuard'
 
 export default async function Page() {
-  const cartPromise = getCart()
   await pageGuard({ callbackUrl: '/korpa' })
+  const cartPromise = getCart()
 
   return (
     <Suspense fallback={<CartPageSkeleton />}>
