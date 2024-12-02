@@ -63,6 +63,10 @@ const nextConfig = {
         source: '/korpa',
         destination: '/cart',
       },
+      {
+        source: '/profil/adresa-dostave',
+        destination: '/dashboard/delivery-address',
+      },
     ]
   },
 }

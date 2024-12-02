@@ -290,18 +290,36 @@ model ImagePersonalization {
   @@map("image_personalizations")
 }
 
+// Delivery address
+model DeliveryAddress {
+  id        String   @id @default(cuid())
+  name      String
+  address   String
+  city      String
+  zip       String
+  phone     String
+  email     String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("delivery_addresses")
+}
+
 // Auth
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  role          String?   @default("user")
-  media         Media[]
-  cart          Cart?
-  accounts      Account[]
-  sessions      Session[]
+  id                String            @id @default(cuid())
+  name              String?
+  email             String            @unique
+  emailVerified     DateTime?
+  image             String?
+  role              String?           @default("user")
+  media             Media[]
+  cart              Cart?
+  deliveryAddresses DeliveryAddress[]
+  accounts          Account[]
+  sessions          Session[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
