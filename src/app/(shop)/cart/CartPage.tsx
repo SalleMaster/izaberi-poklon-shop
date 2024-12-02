@@ -3,7 +3,6 @@
 import { use, useOptimistic, useTransition } from 'react'
 import { GetCartReturnType } from '@/data/services/cart'
 import {
-  cartApplyCoupon,
   removeCartItem,
   removeCartItemType,
   updateCartItem,
@@ -108,34 +107,6 @@ export default function CartPage({ cartPromise }: Props) {
     }
   }
 
-  const applyCouponHandler = async (data: { coupon: string }) => {
-    try {
-      startTransition(() => {})
-      const response = await cartApplyCoupon(data)
-
-      if (response) {
-        if (response.status === 'fail') {
-          return toast({
-            variant: 'destructive',
-            description: response.message,
-          })
-        }
-
-        if (response.status === 'success') {
-          toast({ description: response.message })
-        }
-      }
-    } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške. Molimo pokušajte ponovo.',
-      })
-    }
-  }
-
   return (
     <div
       className={cn(
@@ -161,7 +132,7 @@ export default function CartPage({ cartPromise }: Props) {
         <CartCouponForm
           disabled={isPending || optimisticCart?.items.length === 0}
           appliedCoupon={optimisticCart?.coupon?.code}
-          applyCouponHandler={applyCouponHandler}
+          startTransition={startTransition}
         />
       </div>
     </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useEffect } from 'react'
+import { useMemo, useEffect, TransitionStartFunction } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import {
@@ -24,17 +24,19 @@ import {
   CardDescription,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { cartApplyCoupon } from '@/app/(shop)/_actions/cart/actions'
+import { toast } from '@/hooks/use-toast'
 
 type Props = {
   disabled: boolean
   appliedCoupon?: string
-  applyCouponHandler: ({ coupon }: CartCouponValues) => void
+  startTransition: TransitionStartFunction
 }
 
 export function CartCouponForm({
   disabled,
   appliedCoupon,
-  applyCouponHandler,
+  startTransition,
 }: Props) {
   const defaultValues = useMemo(
     () => ({
@@ -50,8 +52,30 @@ export function CartCouponForm({
 
   const { reset } = form
 
-  function onSubmit(data: CartCouponValues) {
-    applyCouponHandler(data)
+  async function onSubmit(data: CartCouponValues) {
+    try {
+      const response = await cartApplyCoupon(data)
+      startTransition(() => {})
+      if (response) {
+        if (response.status === 'fail') {
+          return toast({
+            variant: 'destructive',
+            description: response.message,
+          })
+        }
+        if (response.status === 'success') {
+          toast({ description: response.message })
+        }
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        description:
+          error instanceof Error
+            ? error.message
+            : 'Došlo je do greške. Molimo pokušajte ponovo.',
+      })
+    }
   }
 
   // Use useEffect to reset the form when the product prop changes
@@ -90,7 +114,11 @@ export function CartCouponForm({
             />
 
             <div className='flex'>
-              <Button type='submit' disabled={disabled} className='ml-auto'>
+              <Button
+                type='submit'
+                disabled={disabled || form.formState.isSubmitting}
+                className='ml-auto'
+              >
                 {form.formState.isSubmitting ? (
                   <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                 ) : (
