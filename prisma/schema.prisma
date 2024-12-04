@@ -34,6 +34,18 @@ enum FontType {
   cyrillic
 }
 
+enum OrderDeliveryType {
+  delivery
+  pickup
+}
+
+enum OrderPaymentType {
+  onDelivery
+  card
+  ips
+  bankTransfer
+}
+
 // Category
 model Category {
   id        String    @id @default(cuid())
@@ -308,6 +320,43 @@ model DeliveryAddress {
   @@map("delivery_addresses")
 }
 
+// Order
+model Order {
+  id           String            @id @default(cuid())
+  deliveryType OrderDeliveryType
+  paymentType  OrderPaymentType
+
+  cart Json
+
+  deliveryName    String @default("")
+  deliveryAddress String @default("")
+  deliveryCity    String @default("")
+  deliveryZip     String @default("")
+  deliveryPhone   String @default("")
+  deliveryEmail   String @default("")
+  deliveryNote    String @default("")
+
+  pickupName  String @default("")
+  pickupPhone String @default("")
+  pickupEmail String @default("")
+
+  billingName    String @default("")
+  billingAddress String @default("")
+  billingCity    String @default("")
+  billingZip     String @default("")
+  billingPhone   String @default("")
+  billingEmail   String @default("")
+  billingNote    String @default("")
+
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("orders")
+}
+
 // Auth
 model User {
   id                String            @id @default(cuid())
@@ -319,6 +368,7 @@ model User {
   media             Media[]
   cart              Cart?
   deliveryAddresses DeliveryAddress[]
+  orders            Order[]
   accounts          Account[]
   sessions          Session[]
 
