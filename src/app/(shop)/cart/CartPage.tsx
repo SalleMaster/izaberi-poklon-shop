@@ -20,13 +20,17 @@ import {
   CartCouponForm,
   CartCouponFormSkeleton,
 } from './_components/cart-coupon-form/CartCouponForm'
+import { CartOrderForm } from './_components/cart-order-form/CartOrderForm'
+import { GetUserAddressesReturnType } from '@/data/services/user'
 
 type Props = {
   cartPromise: GetCartReturnType
+  userAddressesPromise: GetUserAddressesReturnType
 }
 
-export default function CartPage({ cartPromise }: Props) {
+export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
   const cart = use(cartPromise)
+  const userAddresses = use(userAddressesPromise)
   const [isPending, startTransition] = useTransition()
   const [optimisticCart, setOptimisticCart] = useOptimistic(cart)
   const { toast } = useToast()
@@ -120,6 +124,10 @@ export default function CartPage({ cartPromise }: Props) {
           updateCartItemHandler={updateCartItemHandler}
           removeCartItemHandler={removeCartItemHandler}
           disabled={isPending}
+        />
+        <CartOrderForm
+          disabled={isPending || optimisticCart?.items.length === 0}
+          userAddresses={userAddresses}
         />
       </div>
       <div className='mb-auto space-y-6'>
