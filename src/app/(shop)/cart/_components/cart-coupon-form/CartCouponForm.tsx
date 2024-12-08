@@ -42,7 +42,7 @@ export function CartCouponForm({
     () => ({
       coupon: '',
     }),
-    [disabled]
+    []
   )
 
   const form = useForm<CartCouponValues>({
