@@ -1,7 +1,7 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
-import { CircleArrowRight } from 'lucide-react'
+import { CircleArrowRight, Loader2 } from 'lucide-react'
 import {
   Card,
   CardContent,
@@ -17,6 +17,8 @@ type Props = {
   totalPrice?: number
   discount?: number
   disabled: boolean
+  isSubmitting: boolean
+  next: () => void
 }
 
 export default function CartOverview({
@@ -24,6 +26,8 @@ export default function CartOverview({
   totalPrice = 0,
   discount = 0,
   disabled = true,
+  isSubmitting,
+  next,
 }: Props) {
   const formattedOnlinePrice = priceFormatter(onlinePrice)
   const formattedTotalPrice = priceFormatter(totalPrice)
@@ -52,6 +56,19 @@ export default function CartOverview({
       </CardContent>
       <CardFooter>
         <Button
+          type='button'
+          disabled={disabled || isSubmitting}
+          className='ml-auto'
+          onClick={next}
+        >
+          Dalje
+          {isSubmitting ? (
+            <Loader2 className='ml-2 h-4 w-4 animate-spin' />
+          ) : (
+            <CircleArrowRight className='ml-2 w-4 h-4' />
+          )}
+        </Button>
+        {/* <Button
           className='ml-auto'
           disabled={disabled}
           asChild={disabled ? false : true}
@@ -61,11 +78,11 @@ export default function CartOverview({
               Dalje <CircleArrowRight className='w-4 h-4 ml-2 my-auto' />
             </div>
           ) : (
-            <Link href={'/'}>
+            <Button onClick={next}>
               Dalje <CircleArrowRight className='w-4 h-4 ml-2' />
-            </Link>
+            </Button>
           )}
-        </Button>
+        </Button> */}
       </CardFooter>
     </Card>
   )
