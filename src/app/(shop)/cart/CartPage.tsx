@@ -88,7 +88,7 @@ export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
       pickupPhone: '',
       pickupEmail: '',
     }),
-    []
+    [userAddresses]
   )
 
   const form = useForm<CartOrderValues>({
@@ -108,21 +108,12 @@ export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
       return
     }
 
-    console.log(currentStep, steps.length)
-
     if (currentStep < steps.length) {
       if (currentStep === steps.length - 1) {
         return form.handleSubmit(onSubmit)()
       }
       setCurrentStep((prev) => prev + 1)
     }
-
-    // if (currentStep < steps.length - 1) {
-    //   if (currentStep === steps.length - 2) {
-    //     return form.handleSubmit(onSubmit)()
-    //   }
-    //   setCurrentStep((prev) => prev + 1)
-    // }
   }
 
   async function onSubmit(data: CartOrderValues) {

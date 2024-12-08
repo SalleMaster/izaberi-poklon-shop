@@ -6,23 +6,6 @@ import prisma from '@/lib/db'
 import { slow } from '@/lib/slow'
 import { loggedInActionGuard } from '@/lib/actionGuard'
 import { Order } from '@prisma/client'
-import { CartWithRelations } from './cart'
-
-// export type CartItemWithRelations = CartItem & {
-//   product: Product & {
-//     coverImage: Media | null
-//     priceTable: PriceRange[]
-//   }
-// }
-
-// export type CartWithRelations = Cart & {
-//   items: CartItemWithRelations[]
-//   coupon: Coupon | null
-// }
-
-// export type OrderWithRelations = Order & {
-//   cart: CartWithRelations
-// }
 
 export type GetAllOrdersReturnType = Promise<Order[]>
 

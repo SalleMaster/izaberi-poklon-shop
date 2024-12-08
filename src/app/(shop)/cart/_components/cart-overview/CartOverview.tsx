@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { priceFormatter } from '@/lib/format'
-import Link from 'next/link'
 
 type Props = {
   onlinePrice?: number
@@ -68,21 +67,6 @@ export default function CartOverview({
             <CircleArrowRight className='ml-2 w-4 h-4' />
           )}
         </Button>
-        {/* <Button
-          className='ml-auto'
-          disabled={disabled}
-          asChild={disabled ? false : true}
-        >
-          {disabled ? (
-            <div className='flex'>
-              Dalje <CircleArrowRight className='w-4 h-4 ml-2 my-auto' />
-            </div>
-          ) : (
-            <Button onClick={next}>
-              Dalje <CircleArrowRight className='w-4 h-4 ml-2' />
-            </Button>
-          )}
-        </Button> */}
       </CardFooter>
     </Card>
   )

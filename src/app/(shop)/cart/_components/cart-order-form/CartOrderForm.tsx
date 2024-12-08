@@ -1,8 +1,6 @@
 'use client'
 
-import { useMemo, useEffect, useState } from 'react'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { FieldName, useForm, UseFormReturn } from 'react-hook-form'
+import { UseFormReturn } from 'react-hook-form'
 import {
   Form,
   FormControl,
@@ -12,18 +10,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
-import { Loader2, Gem, Divide } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
-import { toast } from '@/hooks/use-toast'
-import { cartOrderSchema, CartOrderValues } from './validation'
+import { CartOrderValues } from './validation'
 import {
   DeliveryAddress,
   OrderDeliveryType,
   OrderPaymentType,
 } from '@prisma/client'
-import { cartCreateOrder } from '@/app/(shop)/_actions/order/actions'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Combobox } from '@/components/custom/Combobox'
 import { Input } from '@/components/ui/input'

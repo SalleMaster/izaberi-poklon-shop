@@ -5,7 +5,6 @@ import { fallbackImageURL } from '@/lib/consts'
 import { priceFormatter } from '@/lib/format'
 import {
   DeliveryAddress,
-  DeliveryType,
   OrderDeliveryType,
   OrderPaymentType,
 } from '@prisma/client'
@@ -44,7 +43,7 @@ export default function CartOrderSummary({
       paymentTypeText = 'Plaćanje prilikom preuzimanja'
       break
     default:
-      'Nepoznat način plaćanja'
+      paymentTypeText = 'Nepoznat način plaćanja'
   }
 
   let deliveryTypeText
@@ -56,7 +55,7 @@ export default function CartOrderSummary({
       deliveryTypeText = 'Lično preuzimanje'
       break
     default:
-      'Nepoznat način isporuke'
+      deliveryTypeText = 'Nepoznat način isporuke'
   }
 
   const selectedDeliveryAddress = userAddresses.find(
