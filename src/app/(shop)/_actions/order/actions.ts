@@ -8,6 +8,8 @@ import {
   CartOrderValues,
 } from '../../cart/_components/cart-order-form/validation'
 import { updateCartOverviewData } from '../cart/actions'
+import { OrderDeliveryType } from '@prisma/client'
+import { ZodError } from 'zod'
 
 export async function cartCreateOrder(values: CartOrderValues) {
   try {
@@ -26,7 +28,10 @@ export async function cartCreateOrder(values: CartOrderValues) {
     let deliveryAddress = null
     let billingAddress = null
 
-    if (selectedDeliveryAddressId) {
+    if (
+      selectedDeliveryAddressId &&
+      deliveryType === OrderDeliveryType.delivery
+    ) {
       const selectedDeliveryAddress = await prisma.deliveryAddress.findUnique({
         where: {
           id: selectedDeliveryAddressId,
@@ -41,7 +46,10 @@ export async function cartCreateOrder(values: CartOrderValues) {
       }
     }
 
-    if (selectedBillingAddressId) {
+    if (
+      selectedBillingAddressId &&
+      deliveryType === OrderDeliveryType.delivery
+    ) {
       billingAddress = await prisma.deliveryAddress.findUnique({
         where: {
           id: selectedBillingAddressId,
@@ -120,6 +128,13 @@ export async function cartCreateOrder(values: CartOrderValues) {
       message: 'Narudžbina kreirana.',
     }
   } catch (error) {
+    if (error instanceof ZodError) {
+      return {
+        status: 'fail',
+        message: error.errors.map((e) => e.message).join(', '),
+      }
+    }
+
     if (error instanceof Error) {
       return {
         status: 'fail',

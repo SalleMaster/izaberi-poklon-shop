@@ -20,20 +20,16 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Combobox } from '@/components/custom/Combobox'
 import { Input } from '@/components/ui/input'
-import CartOrderSummary from '../cart-order-overview/CartOrderSummary'
-import { CartWithRelations } from '@/data/services/cart'
 import { Separator } from '@/components/ui/separator'
 
 type Props = {
-  optimisticCart: CartWithRelations | null
   userAddresses: DeliveryAddress[]
   form: UseFormReturn<CartOrderValues>
-  onSubmit: (data: CartOrderValues) => void
   currentStep: number
+  onSubmit: (data: CartOrderValues) => void
 }
 
 export function CartOrderForm({
-  optimisticCart,
   userAddresses,
   form,
   currentStep,
@@ -109,15 +105,13 @@ export function CartOrderForm({
                                   label: address.address,
                                 })) || []
                               }
-                              value={form.getValues(
-                                'selectedDeliveryAddressId'
-                              )}
-                              setValue={(value) =>
+                              value={form.watch('selectedDeliveryAddressId')}
+                              setValue={(value) => {
                                 form.setValue(
                                   'selectedDeliveryAddressId',
                                   value
                                 )
-                              }
+                              }}
                             />
                           </FormControl>
                           <FormDescription>
@@ -199,53 +193,80 @@ export function CartOrderForm({
               </CardTitle>
             </CardHeader>
             <CardContent className='space-y-2.5'>
-              <FormField
-                control={form.control}
-                name='paymentType'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Odaberite način plaćanja:</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        className='flex space-x-2'
-                      >
-                        <FormItem className='flex items-center space-x-3 space-y-0'>
-                          <FormControl>
-                            <RadioGroupItem
-                              value={OrderPaymentType.onDelivery}
-                            />
-                          </FormControl>
-                          <FormLabel>Plaćanje prilikom preuzimanja</FormLabel>
-                        </FormItem>
-                        <FormItem className='flex items-center space-x-3 space-y-0'>
-                          <FormControl>
-                            <RadioGroupItem value={OrderPaymentType.card} />
-                          </FormControl>
-                          <FormLabel>Plaćanje platnom karticom</FormLabel>
-                        </FormItem>
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className='mb-6'>
+                <FormField
+                  control={form.control}
+                  name='paymentType'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Odaberite način plaćanja:</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          className='flex space-x-2'
+                        >
+                          <FormItem className='flex items-center space-x-3 space-y-0'>
+                            <FormControl>
+                              <RadioGroupItem
+                                value={OrderPaymentType.onDelivery}
+                              />
+                            </FormControl>
+                            <FormLabel>Plaćanje prilikom preuzimanja</FormLabel>
+                          </FormItem>
+                          <FormItem className='flex items-center space-x-3 space-y-0'>
+                            <FormControl>
+                              <RadioGroupItem value={OrderPaymentType.card} />
+                            </FormControl>
+                            <FormLabel>Plaćanje platnom karticom</FormLabel>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {form.watch('deliveryType') === OrderDeliveryType.delivery ? (
+                <>
+                  <p className='font-semibold'>Adresa računa</p>
+                  <Separator />
+                  <FormField
+                    control={form.control}
+                    name='selectedBillingAddressId'
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>
+                          Izaberite adresu računa iz Vaše liste sačuvanih
+                          adresa:
+                        </FormLabel>
+                        <FormControl>
+                          <Combobox
+                            options={
+                              userAddresses?.map((address) => ({
+                                value: address.id,
+                                label: address.address,
+                              })) || []
+                            }
+                            value={form.watch('selectedBillingAddressId')}
+                            setValue={(value) =>
+                              form.setValue('selectedBillingAddressId', value)
+                            }
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Adresa za račun će biti automatski popunjena sa
+                          podacima izabrane adrese.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              ) : null}
             </CardContent>
           </Card>
-        ) : null}
-
-        {currentStep === 3 ? (
-          <CartOrderSummary
-            paymentType={form.watch('paymentType')}
-            deliveryType={form.watch('deliveryType')}
-            selectedDeliveryAddressId={form.watch('selectedDeliveryAddressId')}
-            pickupName={form.watch('pickupName')}
-            pickupPhone={form.watch('pickupPhone')}
-            pickupEmail={form.watch('pickupEmail')}
-            userAddresses={userAddresses}
-            optimisticCart={optimisticCart}
-          />
         ) : null}
       </form>
     </Form>

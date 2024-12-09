@@ -18,7 +18,7 @@ type Props = {
   pickupName?: string
   pickupPhone?: string
   pickupEmail?: string
-  selectedDeliveryAddressId: string
+  selectedDeliveryAddressId?: string
   selectedBillingAddressId?: string
   userAddresses: DeliveryAddress[]
 }
@@ -102,38 +102,43 @@ export default function CartOrderSummary({
               <p className='text-muted-foreground'>
                 {selectedDeliveryAddress.email}
               </p>
-              <p className='text-muted-foreground'>
-                Napomena: {selectedDeliveryAddress.note}
-              </p>
+              {selectedDeliveryAddress.note ? (
+                <p className='text-muted-foreground'>
+                  Napomena: {selectedDeliveryAddress.note}
+                </p>
+              ) : null}
             </div>
 
             <div>
               <p className='font-semibold'>Adresa računa</p>
-              {selectedBillingAddress ? (
-                <>
-                  <p className='text-muted-foreground'>
-                    {selectedBillingAddress.name}
-                  </p>
-                  <p className='text-muted-foreground'>
-                    {selectedBillingAddress.address}
-                  </p>
-                  <p className='text-muted-foreground'>
-                    {selectedBillingAddress.zip} {selectedBillingAddress.city}
-                  </p>
-                  <p className='text-muted-foreground'>
-                    {selectedBillingAddress.phone}
-                  </p>
-                  <p className='text-muted-foreground'>
-                    {selectedBillingAddress.email}
-                  </p>
-                  <p className='text-muted-foreground'>
-                    Napomena: {selectedBillingAddress.note}
-                  </p>
-                </>
-              ) : (
+              {selectedBillingAddressId === selectedDeliveryAddressId ||
+              selectedBillingAddressId === '' ? (
                 <p className='text-muted-foreground'>
                   Adresa računa je identična adresi dostave.
                 </p>
+              ) : (
+                <>
+                  <p className='text-muted-foreground'>
+                    {selectedBillingAddress?.name}
+                  </p>
+                  <p className='text-muted-foreground'>
+                    {selectedBillingAddress?.address}
+                  </p>
+                  <p className='text-muted-foreground'>
+                    {selectedBillingAddress?.zip} {selectedBillingAddress?.city}
+                  </p>
+                  <p className='text-muted-foreground'>
+                    {selectedBillingAddress?.phone}
+                  </p>
+                  <p className='text-muted-foreground'>
+                    {selectedBillingAddress?.email}
+                  </p>
+                  {selectedBillingAddress?.note && (
+                    <p className='text-muted-foreground'>
+                      Napomena: {selectedBillingAddress.note}
+                    </p>
+                  )}
+                </>
               )}
             </div>
           </>

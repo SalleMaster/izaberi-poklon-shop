@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect, TransitionStartFunction } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { DeliveryAddress } from '@prisma/client'
+import { DeliveryAddress, DeliveryAddressType } from '@prisma/client'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -24,14 +24,17 @@ import {
   deleteDeliveryAddress,
 } from '../_actions/actions'
 import { Textarea } from '@/components/ui/textarea'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 type DeliveryAddressFormProps = {
   deliveryAddress?: DeliveryAddress | null
+  deliveryAddressType?: DeliveryAddressType
   startTransition: TransitionStartFunction
 }
 
 export function DeliveryAddressForm({
   deliveryAddress,
+  deliveryAddressType,
   startTransition,
 }: DeliveryAddressFormProps) {
   const [isDeleting, setIsDeleting] = useState(false)
@@ -46,6 +49,10 @@ export function DeliveryAddressForm({
       phone: deliveryAddress?.phone || '',
       email: deliveryAddress?.email || '',
       note: deliveryAddress?.note || '',
+      type:
+        deliveryAddress?.type ||
+        deliveryAddressType ||
+        DeliveryAddressType.delivery,
     }),
     [deliveryAddress]
   )
@@ -239,8 +246,41 @@ export function DeliveryAddressForm({
           )}
         />
 
-        <div className='flex'>
-          {deliveryAddress?.id ? (
+        {!deliveryAddressType ? (
+          <FormField
+            control={form.control}
+            name='type'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Sačuvaj kao:</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    className='flex space-x-2'
+                  >
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value={DeliveryAddressType.delivery} />
+                      </FormControl>
+                      <FormLabel>Adresu isporuke</FormLabel>
+                    </FormItem>
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value={DeliveryAddressType.billing} />
+                      </FormControl>
+                      <FormLabel>Adresu računa</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ) : null}
+
+        <div className='flex pt-6'>
+          {deliveryAddress?.id && !deliveryAddressType ? (
             <ConfirmationDialog
               confirmAction={() => onDelete(deliveryAddress.id)}
               isLoading={isDeleting}

@@ -1,3 +1,4 @@
+import { DeliveryAddressType } from '@prisma/client'
 import { z } from 'zod'
 
 // Delivery address schema
@@ -34,6 +35,7 @@ export const deliveryAddressSchema = z.object({
     .max(255, 'Email ne može biti duži od 255 karaktera')
     .email('Email mora biti validan'),
   note: z.string().max(255, 'Napomena ne može biti duža od 255 karaktera'),
+  type: z.enum([DeliveryAddressType.delivery, DeliveryAddressType.billing]),
 })
 
 export type DeliveryAddressValues = z.infer<typeof deliveryAddressSchema>

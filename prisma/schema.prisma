@@ -46,6 +46,11 @@ enum OrderPaymentType {
   bankTransfer
 }
 
+enum DeliveryAddressType {
+  delivery
+  billing
+}
+
 // Category
 model Category {
   id        String    @id @default(cuid())
@@ -304,7 +309,7 @@ model ImagePersonalization {
 
 // Delivery address
 model DeliveryAddress {
-  id        String   @id @default(cuid())
+  id        String              @id @default(cuid())
   name      String
   address   String
   city      String
@@ -312,10 +317,11 @@ model DeliveryAddress {
   phone     String
   email     String
   note      String?
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      DeliveryAddressType
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
 
   @@map("delivery_addresses")
 }
