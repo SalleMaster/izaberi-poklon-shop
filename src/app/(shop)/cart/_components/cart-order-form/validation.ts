@@ -27,16 +27,8 @@ export const cartOrderSchema = z
       OrderDeliveryType.pickup,
     ]),
     paymentType: z.enum([OrderPaymentType.onDelivery, OrderPaymentType.card]),
-    // selectedDeliveryAddressId: z
-    //   .string()
-    //   .trim()
-    //   .min(1, 'Adresa dostave je obavezna'),
     selectedDeliveryAddressId: z.string().optional(),
     selectedBillingAddressId: z.string().optional(),
-    // selectedBillingAddressId: z
-    //   .string()
-    //   .trim()
-    //   .min(1, 'Adresa računa je obavezna'),
     pickupName: pickupSchema.pickupName,
     pickupPhone: pickupSchema.pickupPhone,
     pickupEmail: pickupSchema.pickupEmail,

@@ -57,7 +57,6 @@ export default function CartOverview({
         <Button
           type='button'
           disabled={disabled || isSubmitting}
-          // className='ml-auto'
           className='w-full'
           onClick={next}
         >

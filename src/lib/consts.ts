@@ -8,13 +8,7 @@ export const priceTableQuantityOptions = generateQuantityOptions({
   max: 500,
 })
 
-export type orderStepsType = {
-  id: string
-  name: string
-  fields: string[]
-}[]
-
-export const orderSteps: orderStepsType = [
+export const orderSteps = [
   {
     id: 'order-step-1',
     name: 'Korpa',

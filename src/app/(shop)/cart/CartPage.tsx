@@ -48,33 +48,6 @@ import CartOrderSteps, {
 } from './_components/cart-order-steps/CartOrderSteps'
 import { orderSteps } from '@/lib/consts'
 
-// const steps = [
-//   {
-//     id: 'step-1',
-//     name: 'Korpa',
-//   },
-//   {
-//     id: 'step-2',
-//     name: 'Način i adresa isporuke',
-//     fields: [
-//       'deliveryType',
-//       'selectedDeliveryAddressId',
-//       'pickupName',
-//       'pickupPhone',
-//       'pickupEmail',
-//     ],
-//   },
-//   {
-//     id: 'step-3',
-//     name: 'Plaćanje i adresa računa',
-//     fields: ['paymentType', 'selectedBillingAddressId'],
-//   },
-//   {
-//     id: 'step-4',
-//     name: 'Pregled porudžbine',
-//   },
-// ]
-
 type Props = {
   cartPromise: GetCartReturnType
   userAddressesPromise: GetUserAddressesReturnType
@@ -264,7 +237,6 @@ export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
         isPending && 'animate-pulse'
       )}
     >
-      {/* <h3 className='lg:col-span-2'>{steps[currentStep].name}</h3> */}
       <div className='mx-auto lg:col-span-2'>
         <CartOrderSteps
           currentStep={currentStep}
