@@ -29,7 +29,11 @@ import {
 } from './_components/cart-coupon-form/CartCouponForm'
 import { CartOrderForm } from './_components/cart-order-form/CartOrderForm'
 import { GetUserAddressesReturnType } from '@/data/services/user'
-import { OrderDeliveryType, OrderPaymentType } from '@prisma/client'
+import {
+  DeliveryAddressType,
+  OrderDeliveryType,
+  OrderPaymentType,
+} from '@prisma/client'
 import { FieldName, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -37,33 +41,12 @@ import {
   CartOrderValues,
 } from './_components/cart-order-form/validation'
 import { cartCreateOrder } from '../_actions/order/actions'
-
-const steps = [
-  {
-    id: 'step-1',
-    name: 'Korpa',
-  },
-  {
-    id: 'step-2',
-    name: 'Način i adresa isporuke',
-    fields: [
-      'deliveryType',
-      'selectedDeliveryAddressId',
-      'pickupName',
-      'pickupPhone',
-      'pickupEmail',
-    ],
-  },
-  {
-    id: 'step-3',
-    name: 'Plaćanje i adresa računa',
-    fields: ['paymentType'],
-  },
-  {
-    id: 'step-4',
-    name: 'Pregled porudžbine',
-  },
-]
+import CartOrderAddress from './_components/cart-order-address/CartOrderAddress'
+import CartOrderSummary from './_components/cart-order-overview/CartOrderSummary'
+import CartOrderSteps, {
+  CartOrderStepsSkeleton,
+} from './_components/cart-order-steps/CartOrderSteps'
+import { orderSteps } from '@/lib/consts'
 
 type Props = {
   cartPromise: GetCartReturnType
@@ -82,8 +65,18 @@ export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
     () => ({
       deliveryType: OrderDeliveryType.delivery,
       paymentType: OrderPaymentType.card,
-      selectedDeliveryAddressId: userAddresses[0]?.id,
-      selectedBillingAddressId: '',
+      selectedDeliveryAddressId:
+        userAddresses.filter(
+          (address) => address.type === DeliveryAddressType.delivery
+        )[0]?.id || '',
+      selectedBillingAddressId:
+        userAddresses.filter(
+          (address) => address.type === DeliveryAddressType.billing
+        )[0]?.id ||
+        userAddresses.filter(
+          (address) => address.type === DeliveryAddressType.delivery
+        )[0]?.id ||
+        '',
       pickupName: '',
       pickupPhone: '',
       pickupEmail: '',
@@ -98,18 +91,30 @@ export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
 
   const { reset, trigger } = form
 
-  const next = async () => {
-    const fields = steps[currentStep].fields
-    const output = await trigger(fields as FieldName<CartOrderValues>[], {
-      shouldFocus: true,
-    })
+  const selectedDeliveryAddress = userAddresses.find(
+    (address) => address.id === form.watch('selectedDeliveryAddressId')
+  )
+  const selectedBillingAddress = userAddresses.find(
+    (address) => address.id === form.watch('selectedBillingAddressId')
+  )
 
-    if (!output) {
-      return
+  const next = async () => {
+    const fields = orderSteps[currentStep].fields
+    if (fields) {
+      const output = await trigger(fields as FieldName<CartOrderValues>[], {
+        shouldFocus: true,
+      })
+
+      if (!output) {
+        return
+      }
     }
 
-    if (currentStep < steps.length) {
-      if (currentStep === steps.length - 1) {
+    // Scroll page to the top
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+
+    if (currentStep < orderSteps.length) {
+      if (currentStep === orderSteps.length - 1) {
         return form.handleSubmit(onSubmit)()
       }
       setCurrentStep((prev) => prev + 1)
@@ -232,7 +237,12 @@ export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
         isPending && 'animate-pulse'
       )}
     >
-      <h3 className='lg:col-span-2'>{steps[currentStep].name}</h3>
+      <div className='mx-auto lg:col-span-2'>
+        <CartOrderSteps
+          currentStep={currentStep}
+          setCurrentStep={setCurrentStep}
+        />
+      </div>
       <div className='mb-auto'>
         {currentStep === 0 ? (
           <CartTable
@@ -242,13 +252,49 @@ export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
             disabled={isPending}
           />
         ) : (
-          <CartOrderForm
-            userAddresses={userAddresses}
-            form={form}
-            currentStep={currentStep}
-            optimisticCart={optimisticCart}
-            onSubmit={onSubmit}
-          />
+          <>
+            <div className='space-y-6'>
+              <CartOrderForm
+                userAddresses={userAddresses}
+                form={form}
+                currentStep={currentStep}
+                onSubmit={onSubmit}
+              />
+              {currentStep === 1 &&
+              form.watch('deliveryType') === OrderDeliveryType.delivery ? (
+                <CartOrderAddress
+                  selectedAddress={selectedDeliveryAddress}
+                  startTransition={startTransition}
+                  deliveryAddressType={DeliveryAddressType.delivery}
+                />
+              ) : null}
+              {currentStep === 2 &&
+              form.watch('deliveryType') === OrderDeliveryType.delivery ? (
+                <CartOrderAddress
+                  selectedAddress={selectedBillingAddress}
+                  startTransition={startTransition}
+                  deliveryAddressType={DeliveryAddressType.billing}
+                />
+              ) : null}
+            </div>
+            {currentStep === 3 ? (
+              <CartOrderSummary
+                paymentType={form.watch('paymentType')}
+                deliveryType={form.watch('deliveryType')}
+                selectedDeliveryAddressId={form.watch(
+                  'selectedDeliveryAddressId'
+                )}
+                selectedBillingAddressId={form.watch(
+                  'selectedBillingAddressId'
+                )}
+                pickupName={form.watch('pickupName')}
+                pickupPhone={form.watch('pickupPhone')}
+                pickupEmail={form.watch('pickupEmail')}
+                userAddresses={userAddresses}
+                optimisticCart={optimisticCart}
+              />
+            ) : null}
+          </>
         )}
       </div>
       <div className='mb-auto space-y-6'>
@@ -277,6 +323,9 @@ export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
 export function CartPageSkeleton() {
   return (
     <div className='grid gap-6 lg:grid-cols-cart'>
+      <div className='mx-auto lg:col-span-2'>
+        <CartOrderStepsSkeleton />
+      </div>
       <div className='mb-auto'>
         <CartTableSkeleton />
       </div>

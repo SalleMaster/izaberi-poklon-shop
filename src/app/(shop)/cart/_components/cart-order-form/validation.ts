@@ -27,10 +27,7 @@ export const cartOrderSchema = z
       OrderDeliveryType.pickup,
     ]),
     paymentType: z.enum([OrderPaymentType.onDelivery, OrderPaymentType.card]),
-    selectedDeliveryAddressId: z
-      .string()
-      .trim()
-      .min(1, 'Adresa dostave je obavezna'),
+    selectedDeliveryAddressId: z.string().optional(),
     selectedBillingAddressId: z.string().optional(),
     pickupName: pickupSchema.pickupName,
     pickupPhone: pickupSchema.pickupPhone,
@@ -58,11 +55,32 @@ export const cartOrderSchema = z
           message: 'Email je obavezan',
           code: z.ZodIssueCode.custom,
         })
-        // } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.pickupEmail)) {
       } else if (!z.string().email().safeParse(data.pickupEmail).success) {
         ctx.addIssue({
           path: ['pickupEmail'],
           message: 'Email mora biti validan',
+          code: z.ZodIssueCode.custom,
+        })
+      }
+    } else if (data.deliveryType === OrderDeliveryType.delivery) {
+      if (
+        !data.selectedDeliveryAddressId ||
+        data.selectedDeliveryAddressId.trim().length < 1
+      ) {
+        console.log('add issue delivery')
+        ctx.addIssue({
+          path: ['selectedDeliveryAddressId'],
+          message: 'Adresa dostave je obavezna',
+          code: z.ZodIssueCode.custom,
+        })
+      }
+      if (
+        !data.selectedBillingAddressId ||
+        data.selectedBillingAddressId.trim().length < 1
+      ) {
+        ctx.addIssue({
+          path: ['selectedBillingAddressId'],
+          message: 'Adresa računa je obavezna',
           code: z.ZodIssueCode.custom,
         })
       }

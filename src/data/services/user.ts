@@ -21,5 +21,8 @@ export const getUserAddresses = cache(async (): GetUserAddressesReturnType => {
     where: {
       userId,
     },
+    orderBy: {
+      updatedAt: 'desc',
+    },
   })
 })

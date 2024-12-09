@@ -7,3 +7,32 @@ export const priceTableQuantityOptions = generateQuantityOptions({
   min: 10,
   max: 500,
 })
+
+export const orderSteps = [
+  {
+    id: 'order-step-1',
+    name: 'Korpa',
+    fields: [],
+  },
+  {
+    id: 'order-step-2',
+    name: 'Način i adresa isporuke',
+    fields: [
+      'deliveryType',
+      'selectedDeliveryAddressId',
+      'pickupName',
+      'pickupPhone',
+      'pickupEmail',
+    ],
+  },
+  {
+    id: 'order-step-3',
+    name: 'Plaćanje i adresa računa',
+    fields: ['paymentType', 'selectedBillingAddressId'],
+  },
+  {
+    id: 'order-step-4',
+    name: 'Pregled porudžbine',
+    fields: [],
+  },
+]

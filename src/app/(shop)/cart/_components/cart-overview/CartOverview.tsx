@@ -57,10 +57,10 @@ export default function CartOverview({
         <Button
           type='button'
           disabled={disabled || isSubmitting}
-          className='ml-auto'
+          className='w-full'
           onClick={next}
         >
-          Dalje
+          Nastavite
           {isSubmitting ? (
             <Loader2 className='ml-2 h-4 w-4 animate-spin' />
           ) : (
