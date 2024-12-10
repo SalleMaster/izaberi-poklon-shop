@@ -47,15 +47,23 @@ import CartOrderSteps, {
   CartOrderStepsSkeleton,
 } from './_components/cart-order-steps/CartOrderSteps'
 import { orderSteps } from '@/lib/consts'
+import { GetDeliveryServicesReturnType } from '@/data/services/delivery-services'
+import { se } from 'date-fns/locale'
 
 type Props = {
   cartPromise: GetCartReturnType
   userAddressesPromise: GetUserAddressesReturnType
+  deliveryServicesPromise: GetDeliveryServicesReturnType
 }
 
-export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
+export default function CartPage({
+  cartPromise,
+  userAddressesPromise,
+  deliveryServicesPromise,
+}: Props) {
   const cart = use(cartPromise)
   const userAddresses = use(userAddressesPromise)
+  const deliveryServices = use(deliveryServicesPromise)
   const [isPending, startTransition] = useTransition()
   const [optimisticCart, setOptimisticCart] = useOptimistic(cart)
   const { toast } = useToast()
@@ -77,6 +85,10 @@ export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
           (address) => address.type === DeliveryAddressType.delivery
         )[0]?.id ||
         '',
+      selectedDeliveryServiceId:
+        deliveryServices.find((service) => service.predefinedPrices)?.id ||
+        deliveryServices[0].id ||
+        '',
       pickupName: '',
       pickupPhone: '',
       pickupEmail: '',
@@ -96,6 +108,10 @@ export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
   )
   const selectedBillingAddress = userAddresses.find(
     (address) => address.id === form.watch('selectedBillingAddressId')
+  )
+
+  const selectedDeliveryService = deliveryServices.find(
+    (service) => service.id === form.watch('selectedDeliveryServiceId')
   )
 
   const next = async () => {
@@ -256,6 +272,9 @@ export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
             <div className='space-y-6'>
               <CartOrderForm
                 userAddresses={userAddresses}
+                deliveryServices={deliveryServices}
+                selectedDeliveryService={selectedDeliveryService}
+                deliveryFee={optimisticCart?.deliveryFee}
                 form={form}
                 currentStep={currentStep}
                 onSubmit={onSubmit}
@@ -290,6 +309,12 @@ export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
                 pickupName={form.watch('pickupName')}
                 pickupPhone={form.watch('pickupPhone')}
                 pickupEmail={form.watch('pickupEmail')}
+                selectedDeliveryService={
+                  form.watch('deliveryType') === OrderDeliveryType.delivery &&
+                  selectedDeliveryService
+                    ? selectedDeliveryService
+                    : null
+                }
                 userAddresses={userAddresses}
                 optimisticCart={optimisticCart}
               />
@@ -301,8 +326,15 @@ export default function CartPage({ cartPromise, userAddressesPromise }: Props) {
         <CartOverview
           onlinePrice={optimisticCart?.onlinePrice}
           totalPrice={optimisticCart?.totalPrice}
+          deliveryFee={optimisticCart?.deliveryFee}
+          totalPriceWithDeliveryFee={optimisticCart?.totalPriceWithDeliveryFee}
           discount={optimisticCart?.discount}
           disabled={isPending || optimisticCart?.items.length === 0}
+          withDeliveryFee={
+            form.watch('deliveryType') === OrderDeliveryType.delivery &&
+            form.watch('paymentType') === OrderPaymentType.card &&
+            selectedDeliveryService?.predefinedPrices
+          }
           isSubmitting={form.formState.isSubmitting}
           next={next}
         />

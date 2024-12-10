@@ -14,6 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CartOrderValues } from './validation'
 import {
   DeliveryAddress,
+  DeliveryService,
   OrderDeliveryType,
   OrderPaymentType,
 } from '@prisma/client'
@@ -21,9 +22,14 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Combobox } from '@/components/custom/Combobox'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { priceFormatter } from '@/lib/format'
+import Link from 'next/link'
 
 type Props = {
   userAddresses: DeliveryAddress[]
+  deliveryServices: DeliveryService[]
+  selectedDeliveryService?: DeliveryService
+  deliveryFee?: number
   form: UseFormReturn<CartOrderValues>
   currentStep: number
   onSubmit: (data: CartOrderValues) => void
@@ -31,10 +37,38 @@ type Props = {
 
 export function CartOrderForm({
   userAddresses,
+  deliveryServices,
+  selectedDeliveryService,
+  deliveryFee = 0,
   form,
   currentStep,
   onSubmit,
 }: Props) {
+  const formattedDeliveryFee = priceFormatter(deliveryFee)
+  const deliveryServicePricesLink = selectedDeliveryService ? (
+    <span className='text-primary underline'>
+      <Link href={selectedDeliveryService.link} target='_blank'>
+        cenovniku
+      </Link>
+    </span>
+  ) : (
+    'cenovniku'
+  )
+
+  const selectedDeliveryServiceDescription =
+    selectedDeliveryService?.predefinedPrices &&
+    form.watch('paymentType') === OrderPaymentType.card ? (
+      `Cena poštarine za selektovanu službu iznosi: ${formattedDeliveryFee}`
+    ) : (
+      <span>
+        Cena poštarine biće naplaćena prilikom preuzimanja paketa po zvaničnom{' '}
+        {deliveryServicePricesLink} kurirske službe.
+      </span>
+    )
+
+  const deliveryServiceDescription = form.watch('selectedDeliveryServiceId')
+    ? selectedDeliveryServiceDescription
+    : 'Kurirska služba koja će koristiti za isporuku.'
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2.5'>
@@ -115,8 +149,8 @@ export function CartOrderForm({
                             />
                           </FormControl>
                           <FormDescription>
-                            Adresa za isporuku će biti automatski popunjena sa
-                            podacima izabrane adrese.
+                            Adresa za isporuku će biti automatski popunjena
+                            sapodacima izabrane adrese.
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -227,6 +261,38 @@ export function CartOrderForm({
                   )}
                 />
               </div>
+
+              {form.watch('deliveryType') === OrderDeliveryType.delivery ? (
+                <FormField
+                  control={form.control}
+                  name='selectedDeliveryServiceId'
+                  render={() => (
+                    <FormItem>
+                      <FormLabel>
+                        Izaberite kurirsku službu za dostavu:
+                      </FormLabel>
+                      <FormControl>
+                        <Combobox
+                          options={
+                            deliveryServices?.map((service) => ({
+                              value: service.id,
+                              label: service.name,
+                            })) || []
+                          }
+                          value={form.watch('selectedDeliveryServiceId')}
+                          setValue={(value) =>
+                            form.setValue('selectedDeliveryServiceId', value)
+                          }
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        {deliveryServiceDescription}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ) : null}
 
               {form.watch('deliveryType') === OrderDeliveryType.delivery ? (
                 <>

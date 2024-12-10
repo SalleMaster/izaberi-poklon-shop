@@ -49,6 +49,9 @@ export function DeliveryServiceForm({
       name: deliveryService?.name || '',
       link: deliveryService?.link || '',
       active: deliveryService ? deliveryService.active : false,
+      predefinedPrices: deliveryService
+        ? deliveryService.predefinedPrices
+        : false,
       pdf: createEmptyFileList(),
     }),
     [deliveryService]
@@ -80,11 +83,7 @@ export function DeliveryServiceForm({
       if (deliveryService) {
         // Edit delivery service case
         const response = await editDeliveryService(
-          {
-            name: data.name,
-            link: data.link,
-            active: data.active,
-          },
+          data,
           deliveryService.id,
           removedMedia,
           mediaId
@@ -104,14 +103,7 @@ export function DeliveryServiceForm({
         }
       } else {
         // Create delivery service case
-        const response = await createDeliveryService(
-          {
-            name: data.name,
-            link: data.link,
-            active: data.active,
-          },
-          mediaId
-        )
+        const response = await createDeliveryService(data, mediaId)
 
         if (response) {
           if (response.status === 'fail') {
@@ -220,6 +212,27 @@ export function DeliveryServiceForm({
               </FormControl>
               <FormDescription>
                 Da li je kurirska služba aktivna
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='predefinedPrices'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='mr-4'>Koristi predefinisane cene</FormLabel>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormDescription>
+                Ukoliko je ova služba selektovana koristiće se cena za
+                naplaćivanje poštarine koju ste uneli prilikom kreiranja
+                proizvoda.
               </FormDescription>
               <FormMessage />
             </FormItem>

@@ -15,8 +15,11 @@ type Props = {
   onlinePrice?: number
   totalPrice?: number
   discount?: number
+  deliveryFee?: number
+  totalPriceWithDeliveryFee?: number
   disabled: boolean
   isSubmitting: boolean
+  withDeliveryFee?: boolean
   next: () => void
 }
 
@@ -24,13 +27,20 @@ export default function CartOverview({
   onlinePrice = 0,
   totalPrice = 0,
   discount = 0,
+  deliveryFee = 0,
+  totalPriceWithDeliveryFee = 0,
   disabled = true,
+  withDeliveryFee = false,
   isSubmitting,
   next,
 }: Props) {
   const formattedOnlinePrice = priceFormatter(onlinePrice)
   const formattedTotalPrice = priceFormatter(totalPrice)
   const formattedDiscount = priceFormatter(discount)
+  const formattedDeliveryFee = priceFormatter(deliveryFee)
+  const formattedTotalPriceWithDeliveryFee = priceFormatter(
+    totalPriceWithDeliveryFee
+  )
 
   return (
     <Card>
@@ -45,13 +55,30 @@ export default function CartOverview({
         <p className='flex justify-between'>
           <span>Popust:</span> <span>{formattedDiscount}</span>
         </p>
-        <Separator />
-        <p className='flex justify-between'>
-          <span className='text-l font-semibold'>Iznos kupovine:</span>{' '}
-          <span className='text-xl md:text-3xl font-semibold'>
-            {formattedTotalPrice}
-          </span>
-        </p>
+        {withDeliveryFee ? (
+          <>
+            <p className='flex justify-between'>
+              <span>Poštarina:</span> <span>{formattedDeliveryFee}</span>
+            </p>
+            <Separator />
+            <p className='flex justify-between'>
+              <span className='text-l font-semibold'>Iznos kupovine:</span>{' '}
+              <span className='text-xl md:text-3xl font-semibold'>
+                {formattedTotalPriceWithDeliveryFee}
+              </span>
+            </p>
+          </>
+        ) : (
+          <>
+            <Separator />
+            <p className='flex justify-between'>
+              <span className='text-l font-semibold'>Iznos kupovine:</span>{' '}
+              <span className='text-xl md:text-3xl font-semibold'>
+                {formattedTotalPrice}
+              </span>
+            </p>
+          </>
+        )}
       </CardContent>
       <CardFooter>
         <Button
@@ -60,7 +87,7 @@ export default function CartOverview({
           className='w-full'
           onClick={next}
         >
-          Nastavite
+          Nastavi
           {isSubmitting ? (
             <Loader2 className='ml-2 h-4 w-4 animate-spin' />
           ) : (

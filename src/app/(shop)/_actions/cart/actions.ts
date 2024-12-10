@@ -45,6 +45,8 @@ export async function addCartItem(
           onlinePrice: 0,
           totalPrice: 0,
           discount: 0,
+          deliveryFee: 0,
+          totalPriceWithDeliveryFee: 0,
         },
       })
     }
@@ -52,7 +54,9 @@ export async function addCartItem(
     const product = await prisma.product.findUnique({
       where: { id: productId },
       include: {
-        priceTable: true,
+        priceTable: {
+          include: { deliveryFee: true },
+        },
         discount: true,
       },
     })
@@ -67,6 +71,14 @@ export async function addCartItem(
 
     if (cartItemPrice === undefined) {
       throw new Error('Cena nije pronadjena za datu kolicinu.')
+    }
+
+    const cartItemDeliveryFee = product.priceTable.find(
+      (priceItem) => quantity >= priceItem.from && quantity <= priceItem.to
+    )?.deliveryFee.fee
+
+    if (cartItemDeliveryFee === undefined) {
+      throw new Error('Cena poštarine nije pronadjena za datu kolicinu.')
     }
 
     if (product.discount?.active) {
@@ -85,6 +97,7 @@ export async function addCartItem(
         quantity,
         fontType,
         price: totalCartItemPrice,
+        deliveryFee: cartItemDeliveryFee,
         textPersonalizations: {
           create: textPersonalizations?.map((field) => ({
             name: field.name,
@@ -149,7 +162,9 @@ export async function updateCartItem({ id, quantity }: updateCartItemType) {
     const product = await prisma.product.findUnique({
       where: { id: cartItem.productId },
       include: {
-        priceTable: true,
+        priceTable: {
+          include: { deliveryFee: true },
+        },
         discount: true,
       },
     })
@@ -172,6 +187,14 @@ export async function updateCartItem({ id, quantity }: updateCartItemType) {
       )
     }
 
+    const cartItemDeliveryFee = product.priceTable.find(
+      (priceItem) => quantity >= priceItem.from && quantity <= priceItem.to
+    )?.deliveryFee.fee
+
+    if (cartItemDeliveryFee === undefined) {
+      throw new Error('Cena poštarine nije pronadjena za datu kolicinu.')
+    }
+
     const totalCartItemPrice = cartItemPrice * quantity
 
     // Update the cart item
@@ -180,6 +203,7 @@ export async function updateCartItem({ id, quantity }: updateCartItemType) {
       data: {
         quantity,
         price: totalCartItemPrice,
+        deliveryFee: cartItemDeliveryFee,
       },
     })
 
@@ -365,8 +389,12 @@ export async function updateCartOverviewData({ userId }: { userId: string }) {
 
   if (cart) {
     const allItemsPrice = cart.items.reduce((acc, item) => acc + item.price, 0)
-    let onlinePrice = allItemsPrice
+    const deliveryFee = cart.items.sort(
+      (a, b) => b.deliveryFee - a.deliveryFee
+    )[0].deliveryFee
+    const onlinePrice = allItemsPrice
     let totalPrice = allItemsPrice
+    let totalPriceWithDeliveryFee = allItemsPrice + deliveryFee
     let discount = 0
 
     if (cart.coupon) {
@@ -393,17 +421,19 @@ export async function updateCartOverviewData({ userId }: { userId: string }) {
       }
 
       if (couponConditions && cart.coupon.discountType === DiscountType.fixed) {
-        onlinePrice = allItemsPrice - cart.coupon.discount
+        // onlinePrice = allItemsPrice - cart.coupon.discount
         totalPrice = allItemsPrice - cart.coupon.discount
+        totalPriceWithDeliveryFee = totalPrice + deliveryFee
         discount = cart.coupon.discount
       } else if (
         couponConditions &&
         cart.coupon.discountType === DiscountType.percentage
       ) {
-        onlinePrice =
-          allItemsPrice - (allItemsPrice * cart.coupon.discount) / 100
+        // onlinePrice =
+        //   allItemsPrice - (allItemsPrice * cart.coupon.discount) / 100
         totalPrice =
           allItemsPrice - (allItemsPrice * cart.coupon.discount) / 100
+        totalPriceWithDeliveryFee = totalPrice + deliveryFee
         discount = (allItemsPrice * cart.coupon.discount) / 100
       }
     }
@@ -414,6 +444,8 @@ export async function updateCartOverviewData({ userId }: { userId: string }) {
         onlinePrice,
         totalPrice,
         discount,
+        deliveryFee,
+        totalPriceWithDeliveryFee,
       },
     })
   }

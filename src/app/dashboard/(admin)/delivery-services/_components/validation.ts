@@ -6,6 +6,7 @@ export const deliveryServiceSchema = z.object({
   name: z.string().trim().min(1, 'Polje je neophodno'),
   link: z.string().trim().url('Polje mora biti validan URL'),
   active: z.boolean(),
+  predefinedPrices: z.boolean(),
   pdf: pdfListSchemaOptional,
 })
 

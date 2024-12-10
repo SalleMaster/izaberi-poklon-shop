@@ -28,7 +28,11 @@ export const orderSteps = [
   {
     id: 'order-step-3',
     name: 'Plaćanje i adresa računa',
-    fields: ['paymentType', 'selectedBillingAddressId'],
+    fields: [
+      'paymentType',
+      'selectedBillingAddressId',
+      'selectedDeliveryServiceId',
+    ],
   },
   {
     id: 'order-step-4',
