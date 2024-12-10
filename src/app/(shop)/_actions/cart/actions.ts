@@ -421,7 +421,6 @@ export async function updateCartOverviewData({ userId }: { userId: string }) {
       }
 
       if (couponConditions && cart.coupon.discountType === DiscountType.fixed) {
-        // onlinePrice = allItemsPrice - cart.coupon.discount
         totalPrice = allItemsPrice - cart.coupon.discount
         totalPriceWithDeliveryFee = totalPrice + deliveryFee
         discount = cart.coupon.discount
@@ -429,8 +428,6 @@ export async function updateCartOverviewData({ userId }: { userId: string }) {
         couponConditions &&
         cart.coupon.discountType === DiscountType.percentage
       ) {
-        // onlinePrice =
-        //   allItemsPrice - (allItemsPrice * cart.coupon.discount) / 100
         totalPrice =
           allItemsPrice - (allItemsPrice * cart.coupon.discount) / 100
         totalPriceWithDeliveryFee = totalPrice + deliveryFee
