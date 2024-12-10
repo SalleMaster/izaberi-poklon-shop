@@ -5,6 +5,7 @@ import { fallbackImageURL } from '@/lib/consts'
 import { priceFormatter } from '@/lib/format'
 import {
   DeliveryAddress,
+  DeliveryService,
   OrderDeliveryType,
   OrderPaymentType,
 } from '@prisma/client'
@@ -21,6 +22,7 @@ type Props = {
   selectedDeliveryAddressId?: string
   selectedBillingAddressId?: string
   userAddresses: DeliveryAddress[]
+  selectedDeliveryService: DeliveryService | null
 }
 
 export default function CartOrderSummary({
@@ -33,6 +35,7 @@ export default function CartOrderSummary({
   selectedDeliveryAddressId,
   selectedBillingAddressId,
   userAddresses,
+  selectedDeliveryService,
 }: Props) {
   let paymentTypeText
   switch (paymentType) {
@@ -82,6 +85,14 @@ export default function CartOrderSummary({
           <p className='font-semibold'>Način isporuke</p>
           <p className='text-muted-foreground'>{deliveryTypeText}</p>
         </div>
+        {selectedDeliveryService ? (
+          <div>
+            <p className='font-semibold'>Kurirska služba</p>
+            <p className='text-muted-foreground'>
+              {selectedDeliveryService.name}
+            </p>
+          </div>
+        ) : null}
         {deliveryType === OrderDeliveryType.delivery &&
         selectedDeliveryAddress ? (
           <>

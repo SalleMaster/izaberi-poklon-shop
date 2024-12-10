@@ -80,13 +80,14 @@ model PackageOption {
 
 // DeliveryService
 model DeliveryService {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  link      String
-  pdf       Media?
-  active    Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String   @id @default(cuid())
+  name             String   @unique
+  link             String
+  pdf              Media?
+  active           Boolean  @default(false)
+  predefinedPrices Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@map("delivery_services")
 }
@@ -247,15 +248,17 @@ model Media {
 }
 
 model Cart {
-  id          String     @id @default(cuid())
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String     @unique
-  items       CartItem[]
-  onlinePrice Int
-  totalPrice  Int
-  discount    Int
-  coupon      Coupon?    @relation(fields: [couponId], references: [id])
-  couponId    String?
+  id                        String     @id @default(cuid())
+  user                      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                    String     @unique
+  items                     CartItem[]
+  onlinePrice               Int
+  totalPrice                Int
+  deliveryFee               Int
+  totalPriceWithDeliveryFee Int
+  discount                  Int
+  coupon                    Coupon?    @relation(fields: [couponId], references: [id])
+  couponId                  String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -270,6 +273,7 @@ model CartItem {
   product               Product                @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId             String
   price                 Int
+  deliveryFee           Int
   quantity              Int
   fontType              FontType
   textPersonalizations  TextPersonalization[]
@@ -353,6 +357,13 @@ model Order {
   billingPhone   String @default("")
   billingEmail   String @default("")
   billingNote    String @default("")
+
+  deliveryServiceName String @default("")
+
+  orderOnlinePrice Int
+  orderDiscount    Int
+  orderDeliveryFee Int
+  orderTotalPrice  Int
 
   user   User?   @relation(fields: [userId], references: [id])
   userId String?

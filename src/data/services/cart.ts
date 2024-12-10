@@ -67,6 +67,8 @@ export const getCart = cache(async (): GetCartReturnType => {
         onlinePrice: 0,
         totalPrice: 0,
         discount: 0,
+        deliveryFee: 0,
+        totalPriceWithDeliveryFee: 0,
       },
       include: {
         items: {

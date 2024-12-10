@@ -8,7 +8,7 @@ import {
   CartOrderValues,
 } from '../../cart/_components/cart-order-form/validation'
 import { updateCartOverviewData } from '../cart/actions'
-import { OrderDeliveryType } from '@prisma/client'
+import { OrderDeliveryType, OrderPaymentType } from '@prisma/client'
 import { ZodError } from 'zod'
 
 export async function cartCreateOrder(values: CartOrderValues) {
@@ -20,6 +20,7 @@ export async function cartCreateOrder(values: CartOrderValues) {
       paymentType,
       selectedDeliveryAddressId,
       selectedBillingAddressId,
+      selectedDeliveryServiceId,
       pickupName,
       pickupPhone,
       pickupEmail,
@@ -27,38 +28,38 @@ export async function cartCreateOrder(values: CartOrderValues) {
 
     let deliveryAddress = null
     let billingAddress = null
+    let deliveryService = null
 
-    if (
-      selectedDeliveryAddressId &&
-      deliveryType === OrderDeliveryType.delivery
-    ) {
+    if (deliveryType === OrderDeliveryType.delivery) {
       const selectedDeliveryAddress = await prisma.deliveryAddress.findUnique({
         where: {
           id: selectedDeliveryAddressId,
         },
       })
-
       if (!selectedDeliveryAddress) {
         throw new Error('Adresa dostave nije pronađena.')
-      } else {
-        deliveryAddress = selectedDeliveryAddress
-        billingAddress = selectedDeliveryAddress
       }
-    }
+      deliveryAddress = selectedDeliveryAddress
 
-    if (
-      selectedBillingAddressId &&
-      deliveryType === OrderDeliveryType.delivery
-    ) {
-      billingAddress = await prisma.deliveryAddress.findUnique({
+      const selectedBillingAddress = await prisma.deliveryAddress.findUnique({
         where: {
           id: selectedBillingAddressId,
         },
       })
-
-      if (!billingAddress) {
+      if (!selectedBillingAddress) {
         throw new Error('Adresa računa nije pronađena.')
       }
+      billingAddress = selectedBillingAddress
+
+      const selectedDeliveryService = await prisma.deliveryService.findUnique({
+        where: {
+          id: selectedDeliveryServiceId,
+        },
+      })
+      if (!selectedDeliveryService) {
+        throw new Error('Kurirska služba nije pronađena.')
+      }
+      deliveryService = selectedDeliveryService
     }
 
     const cart = await prisma.cart.findFirst({
@@ -85,6 +86,22 @@ export async function cartCreateOrder(values: CartOrderValues) {
       throw new Error('Korpa nije pronađena.')
     }
 
+    const orderOnlinePrice = cart.onlinePrice
+    const orderDiscount = cart.discount
+    let orderDeliveryFee = 0
+    let orderTotalPrice = cart.totalPrice
+
+    if (
+      deliveryType === OrderDeliveryType.delivery &&
+      deliveryService?.predefinedPrices &&
+      paymentType === OrderPaymentType.card
+    ) {
+      orderDeliveryFee = cart.deliveryFee
+      orderTotalPrice = cart.totalPriceWithDeliveryFee
+    }
+
+    // Create a payment request here
+
     await prisma.order.create({
       data: {
         deliveryType,
@@ -106,6 +123,11 @@ export async function cartCreateOrder(values: CartOrderValues) {
         billingPhone: billingAddress?.phone ?? '',
         billingEmail: billingAddress?.email ?? '',
         billingNote: billingAddress?.note ?? '',
+        deliveryServiceName: deliveryService?.name ?? '',
+        orderOnlinePrice,
+        orderDiscount,
+        orderDeliveryFee,
+        orderTotalPrice,
         cart,
         user: {
           connect: {

@@ -29,6 +29,7 @@ export const cartOrderSchema = z
     paymentType: z.enum([OrderPaymentType.onDelivery, OrderPaymentType.card]),
     selectedDeliveryAddressId: z.string().optional(),
     selectedBillingAddressId: z.string().optional(),
+    selectedDeliveryServiceId: z.string().optional(),
     pickupName: pickupSchema.pickupName,
     pickupPhone: pickupSchema.pickupPhone,
     pickupEmail: pickupSchema.pickupEmail,
@@ -81,6 +82,16 @@ export const cartOrderSchema = z
         ctx.addIssue({
           path: ['selectedBillingAddressId'],
           message: 'Adresa računa je obavezna',
+          code: z.ZodIssueCode.custom,
+        })
+      }
+      if (
+        !data.selectedDeliveryServiceId ||
+        data.selectedDeliveryServiceId.trim().length < 1
+      ) {
+        ctx.addIssue({
+          path: ['selectedDeliveryServiceId'],
+          message: 'Kurirska služba je obavezna',
           code: z.ZodIssueCode.custom,
         })
       }

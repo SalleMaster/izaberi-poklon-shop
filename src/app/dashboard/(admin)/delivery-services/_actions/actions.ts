@@ -22,13 +22,11 @@ export async function createDeliveryService(
   try {
     await adminActionGuard()
 
-    const { name, link, active } = deliveryServiceSchemaWithoutPdf.parse(values)
+    const data = deliveryServiceSchemaWithoutPdf.parse(values)
 
     await prisma.deliveryService.create({
       data: {
-        name,
-        link,
-        active,
+        ...data,
         ...(mediaId && {
           pdf: {
             connect: {
@@ -75,14 +73,12 @@ export async function editDeliveryService(
   try {
     await adminActionGuard()
 
-    const { name, link, active } = deliveryServiceSchemaWithoutPdf.parse(values)
+    const data = deliveryServiceSchemaWithoutPdf.parse(values)
 
     await prisma.deliveryService.update({
       where: { id },
       data: {
-        name,
-        link,
-        active,
+        ...data,
         ...(mediaId && {
           pdf: {
             connect: {
