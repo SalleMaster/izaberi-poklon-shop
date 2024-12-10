@@ -48,7 +48,6 @@ import CartOrderSteps, {
 } from './_components/cart-order-steps/CartOrderSteps'
 import { orderSteps } from '@/lib/consts'
 import { GetDeliveryServicesReturnType } from '@/data/services/delivery-services'
-import { se } from 'date-fns/locale'
 
 type Props = {
   cartPromise: GetCartReturnType
@@ -346,6 +345,7 @@ export default function CartPage({
           }
           appliedCoupon={optimisticCart?.coupon?.code}
           startTransition={startTransition}
+          setCurrentStep={setCurrentStep}
         />
       </div>
     </div>

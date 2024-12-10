@@ -358,6 +358,13 @@ model Order {
   billingEmail   String @default("")
   billingNote    String @default("")
 
+  deliveryServiceName String @default("")
+
+  orderOnlinePrice Int
+  orderDiscount    Int
+  orderDeliveryFee Int
+  orderTotalPrice  Int
+
   user   User?   @relation(fields: [userId], references: [id])
   userId String?
 

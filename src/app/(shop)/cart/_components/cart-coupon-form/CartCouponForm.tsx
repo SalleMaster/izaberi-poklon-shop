@@ -31,12 +31,14 @@ type Props = {
   disabled: boolean
   appliedCoupon?: string
   startTransition: TransitionStartFunction
+  setCurrentStep: (step: number) => void
 }
 
 export function CartCouponForm({
   disabled,
   appliedCoupon,
   startTransition,
+  setCurrentStep,
 }: Props) {
   const defaultValues = useMemo(
     () => ({
@@ -55,7 +57,6 @@ export function CartCouponForm({
   async function onSubmit(data: CartCouponValues) {
     try {
       const response = await cartApplyCoupon(data)
-      startTransition(() => {})
       if (response) {
         if (response.status === 'fail') {
           return toast({
@@ -64,6 +65,7 @@ export function CartCouponForm({
           })
         }
         if (response.status === 'success') {
+          startTransition(() => setCurrentStep(0))
           toast({ description: response.message })
         }
       }

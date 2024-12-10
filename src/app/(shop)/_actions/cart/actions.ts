@@ -389,9 +389,9 @@ export async function updateCartOverviewData({ userId }: { userId: string }) {
 
   if (cart) {
     const allItemsPrice = cart.items.reduce((acc, item) => acc + item.price, 0)
-    const deliveryFee = cart.items.sort(
-      (a, b) => b.deliveryFee - a.deliveryFee
-    )[0].deliveryFee
+    const deliveryFee =
+      cart.items.sort((a, b) => b.deliveryFee - a.deliveryFee)[0]
+        ?.deliveryFee || 0
     const onlinePrice = allItemsPrice
     let totalPrice = allItemsPrice
     let totalPriceWithDeliveryFee = allItemsPrice + deliveryFee
