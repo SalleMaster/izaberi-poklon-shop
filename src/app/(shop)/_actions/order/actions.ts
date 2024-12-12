@@ -119,8 +119,16 @@ export async function cartCreateOrder(values: CartOrderValues) {
 
     // Create a payment request here
 
+    const lastOrder = await prisma.order.findFirst({
+      orderBy: {
+        orderNumber: 'desc',
+      },
+    })
+    const nextOrderNumber = lastOrder ? lastOrder.orderNumber + 1 : 1
+
     await prisma.order.create({
       data: {
+        orderNumber: nextOrderNumber,
         deliveryType,
         paymentType,
         pickupName,

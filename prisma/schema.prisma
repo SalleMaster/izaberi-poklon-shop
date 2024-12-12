@@ -46,6 +46,14 @@ enum OrderPaymentType {
   bankTransfer
 }
 
+enum OrderStatusType {
+  pending
+  processing
+  shipped
+  delivered
+  canceled
+}
+
 enum DeliveryAddressType {
   delivery
   billing
@@ -333,8 +341,10 @@ model DeliveryAddress {
 // Order
 model Order {
   id           String            @id @default(cuid())
+  orderNumber  Int               @unique
   deliveryType OrderDeliveryType
   paymentType  OrderPaymentType
+  status       OrderStatusType   @default(pending)
 
   cart Json
 

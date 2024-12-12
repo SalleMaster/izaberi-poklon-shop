@@ -61,7 +61,16 @@ export function Combobox({
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[200px] p-0'>
-        <Command>
+        <Command
+          filter={(value, search) => {
+            const item = options.find((item) => item.value === value)
+            if (!item) return 0
+            if (item.label.toLowerCase().includes(search.toLowerCase()))
+              return 1
+
+            return 0
+          }}
+        >
           <CommandInput placeholder='Pronađi opciju...' />
           <CommandList>
             <CommandEmpty>Opcija nije pronađena.</CommandEmpty>
