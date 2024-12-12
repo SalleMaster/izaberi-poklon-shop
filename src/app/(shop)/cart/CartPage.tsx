@@ -42,7 +42,7 @@ import {
 } from './_components/cart-order-form/validation'
 import { cartCreateOrder } from '../_actions/order/actions'
 import CartOrderAddress from './_components/cart-order-address/CartOrderAddress'
-import CartOrderSummary from './_components/cart-order-overview/CartOrderSummary'
+import CartOrderSummary from './_components/cart-order-summary/CartOrderSummary'
 import CartOrderSteps, {
   CartOrderStepsSkeleton,
 } from './_components/cart-order-steps/CartOrderSteps'

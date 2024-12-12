@@ -52,6 +52,10 @@ const nextConfig = {
         destination: '/dashboard/package-options',
       },
       {
+        source: '/admin/porudzbine',
+        destination: '/dashboard/orders',
+      },
+      {
         source: '/pokloni',
         destination: '/products',
       },

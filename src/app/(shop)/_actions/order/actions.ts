@@ -76,7 +76,11 @@ export async function cartCreateOrder(values: CartOrderValues) {
               },
             },
             textPersonalizations: true,
-            imagePersonalizations: true,
+            imagePersonalizations: {
+              include: {
+                images: true,
+              },
+            },
           },
         },
       },
@@ -98,6 +102,19 @@ export async function cartCreateOrder(values: CartOrderValues) {
     ) {
       orderDeliveryFee = cart.deliveryFee
       orderTotalPrice = cart.totalPriceWithDeliveryFee
+    }
+
+    if (cart.coupon) {
+      await prisma.coupon.update({
+        where: {
+          id: cart.coupon.id,
+        },
+        data: {
+          used: {
+            increment: 1,
+          },
+        },
+      })
     }
 
     // Create a payment request here

@@ -9,6 +9,7 @@ import {
   Gem,
   Package,
   PackagePlus,
+  ReceiptEuro,
   User as UserIcon,
 } from 'lucide-react'
 import { User } from 'next-auth'
@@ -47,6 +48,7 @@ const adminMenuOptions = [
   },
   { href: '/admin/proizvodi', text: 'Proizvodi', icon: Gift },
   { href: '/admin/proizvodi/novi', text: 'Novi Proizvod', icon: Gift },
+  { href: '/admin/porudzbine', text: 'Porudžbine', icon: ReceiptEuro },
   { href: '/dashboard/profile', text: 'Profile', icon: Settings },
 ]
 

@@ -192,6 +192,11 @@ type CartItemProps = {
 }
 
 function CartItem({ cartItem }: CartItemProps) {
+  const formattedSinglePrice = priceFormatter(
+    cartItem.price / cartItem.quantity
+  )
+  const formattedTotalPrice = priceFormatter(cartItem.price)
+
   return (
     <div className='flex gap-4 items-center'>
       <Link
@@ -208,11 +213,9 @@ function CartItem({ cartItem }: CartItemProps) {
       <div>
         <p className='font-semibold'>{cartItem.product.name}</p>
         <p className='text-muted-foreground'>Količina: {cartItem.quantity}</p>
-        <p className='text-muted-foreground'>
-          Cena: {priceFormatter(cartItem.price / cartItem.quantity)}
-        </p>
+        <p className='text-muted-foreground'>Cena: {formattedSinglePrice}</p>
       </div>
-      <p className='font-semibold ml-auto'>{priceFormatter(cartItem.price)}</p>
+      <p className='font-semibold ml-auto'>{formattedTotalPrice}</p>
     </div>
   )
 }
