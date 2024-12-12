@@ -92,7 +92,7 @@ export default function CartPage({
       pickupPhone: '',
       pickupEmail: '',
     }),
-    [userAddresses]
+    [userAddresses, deliveryServices]
   )
 
   const form = useForm<CartOrderValues>({
