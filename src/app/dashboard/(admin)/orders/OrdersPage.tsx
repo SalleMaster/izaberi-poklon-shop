@@ -36,7 +36,7 @@ type Props = {
 
 export default function OrdersPage({ ordersPromise }: Props) {
   const orders = use(ordersPromise)
-  const [isPending, startTransition] = useTransition()
+  const [isPending] = useTransition()
 
   return (
     <div className={cn('space-y-10', isPending && 'animate-pulse')}>
