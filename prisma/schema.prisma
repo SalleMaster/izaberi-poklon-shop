@@ -345,6 +345,7 @@ model Order {
   deliveryType OrderDeliveryType
   paymentType  OrderPaymentType
   status       OrderStatusType   @default(pending)
+  mediaRemoved Boolean           @default(false)
 
   cart Json
 

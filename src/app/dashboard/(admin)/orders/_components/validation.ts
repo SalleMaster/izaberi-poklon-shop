@@ -13,3 +13,11 @@ export const orderStatusSchema = z.object({
 })
 
 export type OrderStatusValues = z.infer<typeof orderStatusSchema>
+
+// Order delete images schema
+export const orderDeleteImagesSchema = z.object({
+  id: z.string(),
+  keys: z.array(z.string()),
+})
+
+export type OrderDeleteImagesValues = z.infer<typeof orderDeleteImagesSchema>

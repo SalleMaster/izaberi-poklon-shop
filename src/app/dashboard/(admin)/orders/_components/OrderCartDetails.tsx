@@ -26,7 +26,10 @@ export function OrderCartDetails({
       <div className='border rounded-xl p-4 space-y-2.5'>
         {cart.items.map((cartItem) => (
           <div key={cartItem.id} className='group space-y-4'>
-            <OrderCartItem cartItem={cartItem} />
+            <OrderCartItem
+              cartItem={cartItem}
+              mediaRemoved={order.mediaRemoved}
+            />
             <Separator className='group-last-of-type:hidden' />
           </div>
         ))}

@@ -9,9 +9,10 @@ import Link from 'next/link'
 
 type OrderCartItemProps = {
   cartItem: OrderCartItemWithRelations
+  mediaRemoved: boolean
 }
 
-export function OrderCartItem({ cartItem }: OrderCartItemProps) {
+export function OrderCartItem({ cartItem, mediaRemoved }: OrderCartItemProps) {
   let fontTypeText
   switch (cartItem.fontType) {
     case FontType.cyrillic:
@@ -94,12 +95,20 @@ export function OrderCartItem({ cartItem }: OrderCartItemProps) {
                       variant='secondary'
                       size='sm'
                       key={image.id}
-                      asChild
+                      disabled={mediaRemoved}
+                      asChild={!mediaRemoved}
                     >
-                      <Link href={image.url} target='_blank'>
-                        {image.name}
-                        <SquareArrowOutUpRight className='ml-2 w-4 h-4' />
-                      </Link>
+                      {mediaRemoved ? (
+                        <div className='flex items-center'>
+                          <span>{image.name}</span>
+                          <SquareArrowOutUpRight className='ml-2 w-4 h-4' />
+                        </div>
+                      ) : (
+                        <Link href={image.url} target='_blank'>
+                          {image.name}
+                          <SquareArrowOutUpRight className='ml-2 w-4 h-4' />
+                        </Link>
+                      )}
                     </Button>
                   ))}
                 </span>

@@ -101,3 +101,18 @@ export async function deleteMediaFromS3(key: string) {
 
   await s3.send(new DeleteObjectCommand(deleteParams))
 }
+
+export async function deleteMediasFromS3(keys: string[]) {
+  await adminActionGuard()
+
+  await Promise.all(
+    keys.map(async (key) => {
+      const deleteParams = {
+        Bucket: process.env.AWS_S3_BUCKET_NAME!,
+        Key: key,
+      }
+
+      await s3.send(new DeleteObjectCommand(deleteParams))
+    })
+  )
+}
