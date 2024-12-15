@@ -1,7 +1,9 @@
+import { Button } from '@/components/ui/button'
 import { OrderCartItemWithRelations } from '@/data/services/order'
 import { fallbackImageURL } from '@/lib/consts'
 import { priceFormatter } from '@/lib/format'
 import { FontType } from '@prisma/client'
+import { SquareArrowOutUpRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -86,10 +88,20 @@ export function OrderCartItem({ cartItem }: OrderCartItemProps) {
             <div key={personalization.id}>
               <p className='font-semibold'>
                 {personalization.name}:{' '}
-                <span className='font-medium text-muted-foreground'>
-                  {personalization.images
-                    ?.map((image) => image.name)
-                    .join(', ')}
+                <span className='space-x-2 space-y-2'>
+                  {personalization.images?.map((image) => (
+                    <Button
+                      variant='secondary'
+                      size='sm'
+                      key={image.id}
+                      asChild
+                    >
+                      <Link href={image.url} target='_blank'>
+                        {image.name}
+                        <SquareArrowOutUpRight className='ml-2 w-4 h-4' />
+                      </Link>
+                    </Button>
+                  ))}
                 </span>
               </p>
             </div>

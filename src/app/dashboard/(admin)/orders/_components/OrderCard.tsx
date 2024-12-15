@@ -43,11 +43,11 @@ export function OrderCard({ order, startTransition }: OrderCardProps) {
                 <Clock4 />
                 <p className='font-semibold'>{orderFormattedCreatedAt}</p>
               </div>
-              <OrderStatusBadge status={order.status} />
               <div className='flex items-center gap-4'>
                 <HandCoins />
                 <p className='font-semibold'>{orderFormattedTotalPrice}</p>
               </div>
+              <OrderStatusBadge status={order.status} />
             </div>
           </AccordionTrigger>
           <AccordionContent className='space-y-4'>
