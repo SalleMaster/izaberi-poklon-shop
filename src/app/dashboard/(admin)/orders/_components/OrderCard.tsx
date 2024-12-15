@@ -39,6 +39,14 @@ export function OrderCard({ order, startTransition }: OrderCardProps) {
     .map((item) => item.images)
     .flat()
     .map((image) => image.key)
+
+  const showDeleteImagesForm =
+    orderImageKeys.length > 0 &&
+    !order.mediaRemoved &&
+    (order.status === OrderStatusType.canceled ||
+      order.status === OrderStatusType.shipped ||
+      order.status === OrderStatusType.delivered)
+
   return (
     <Card>
       <Accordion type='single' collapsible className='px-4'>
@@ -76,11 +84,7 @@ export function OrderCard({ order, startTransition }: OrderCardProps) {
                 startTransition={startTransition}
               />
             </div>
-            {orderImageKeys.length > 0 &&
-            !order.mediaRemoved &&
-            (order.status === OrderStatusType.canceled ||
-              order.status === OrderStatusType.shipped ||
-              order.status === OrderStatusType.delivered) ? (
+            {showDeleteImagesForm ? (
               <div className='border rounded-xl p-4'>
                 <OrderDeleteImagesForm
                   id={order.id}

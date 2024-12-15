@@ -44,8 +44,6 @@ export async function deleteOrderImages(values: OrderDeleteImagesValues) {
   try {
     const { id, keys } = orderDeleteImagesSchema.parse(values)
 
-    console.log({ id, keys })
-
     await deleteMediasFromS3(keys)
 
     await prisma.order.update({
