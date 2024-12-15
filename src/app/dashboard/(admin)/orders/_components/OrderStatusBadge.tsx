@@ -11,7 +11,7 @@ export function OrderStatusBadge({ status }: Props) {
 
   return (
     badge && (
-      <Badge variant={badge.variant} className='mx-auto'>
+      <Badge variant={badge.variant} className='mr-auto'>
         {badge.label}
       </Badge>
     )

@@ -1,5 +1,5 @@
 import { priceFormatter } from '@/lib/format'
-import { Order } from '@prisma/client'
+import { Order, OrderStatusType } from '@prisma/client'
 import { Card } from '@/components/ui/card'
 import {
   Accordion,
@@ -15,6 +15,7 @@ import { OrderCartWithRelations } from '@/data/services/order'
 import { OrderStatusBadge } from './OrderStatusBadge'
 import { OrderStatusForm } from './OrderStatusForm'
 import { TransitionStartFunction } from 'react'
+import { OrderDeleteImagesForm } from './OrderDeleteImages'
 
 type OrderCardProps = {
   order: Order
@@ -29,6 +30,23 @@ export function OrderCard({ order, startTransition }: OrderCardProps) {
   const orderFormattedCreatedAt = format(order.createdAt, 'PPpp', {
     locale: srLatn,
   })
+
+  const cart = order.cart as unknown as OrderCartWithRelations
+
+  const orderImageKeys = cart.items
+    .map((item) => item.imagePersonalizations)
+    .flat()
+    .map((item) => item.images)
+    .flat()
+    .map((image) => image.key)
+
+  const showDeleteImagesForm =
+    orderImageKeys.length > 0 &&
+    !order.mediaRemoved &&
+    (order.status === OrderStatusType.canceled ||
+      order.status === OrderStatusType.shipped ||
+      order.status === OrderStatusType.delivered)
+
   return (
     <Card>
       <Accordion type='single' collapsible className='px-4'>
@@ -43,11 +61,11 @@ export function OrderCard({ order, startTransition }: OrderCardProps) {
                 <Clock4 />
                 <p className='font-semibold'>{orderFormattedCreatedAt}</p>
               </div>
-              <OrderStatusBadge status={order.status} />
               <div className='flex items-center gap-4'>
                 <HandCoins />
                 <p className='font-semibold'>{orderFormattedTotalPrice}</p>
               </div>
+              <OrderStatusBadge status={order.status} />
             </div>
           </AccordionTrigger>
           <AccordionContent className='space-y-4'>
@@ -66,6 +84,15 @@ export function OrderCard({ order, startTransition }: OrderCardProps) {
                 startTransition={startTransition}
               />
             </div>
+            {showDeleteImagesForm ? (
+              <div className='border rounded-xl p-4'>
+                <OrderDeleteImagesForm
+                  id={order.id}
+                  keys={orderImageKeys}
+                  startTransition={startTransition}
+                />
+              </div>
+            ) : null}
           </AccordionContent>
         </AccordionItem>
       </Accordion>
