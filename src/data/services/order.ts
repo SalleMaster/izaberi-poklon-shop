@@ -41,12 +41,16 @@ export type GetOrdersReturnType = Promise<Order[]>
 export type GetOrdersProps = {
   orderBy?: { createdAt: 'asc' | 'desc' }
   status?: string | string[]
+  skip?: number
+  take?: number
 }
 
 export const getOrders = cache(
   async ({
     orderBy = { createdAt: 'desc' },
     status,
+    skip,
+    take,
   }: GetOrdersProps): GetOrdersReturnType => {
     console.log('getOrders')
 
@@ -66,9 +70,24 @@ export const getOrders = cache(
             }
           : {}),
       },
+      skip,
+      take,
       orderBy,
     })
 
     return orders
   }
 )
+
+export type GetOrdersCountReturnType = Promise<number>
+
+export const getOrdersCount = cache(async (): GetOrdersCountReturnType => {
+  console.log('getOrdersCount')
+
+  unstable_noStore()
+  await slow(1000)
+
+  await loggedInActionGuard()
+
+  return await prisma.order.count()
+})
