@@ -12,6 +12,7 @@ import {
   ImagePersonalization,
   Media,
   Order,
+  OrderStatusType,
   PriceRange,
   Product,
   TextPersonalization,
@@ -35,19 +36,39 @@ export type OrderCartWithRelations = Cart & {
   coupon: Coupon | null
 }
 
-export type GetAllOrdersReturnType = Promise<Order[]>
+export type GetOrdersReturnType = Promise<Order[]>
 
-export const getAllOrders = cache(async (): GetAllOrdersReturnType => {
-  console.log('getAllOrders')
+export type GetOrdersProps = {
+  orderBy?: { createdAt: 'asc' | 'desc' }
+  status?: string | string[]
+}
 
-  unstable_noStore()
-  await slow(1000)
+export const getOrders = cache(
+  async ({
+    orderBy = { createdAt: 'desc' },
+    status,
+  }: GetOrdersProps): GetOrdersReturnType => {
+    console.log('getOrders')
 
-  await loggedInActionGuard()
+    unstable_noStore()
+    await slow(1000)
 
-  const orders = await prisma.order.findMany({
-    orderBy: { createdAt: 'desc' },
-  })
+    await loggedInActionGuard()
 
-  return orders
-})
+    const filterByStatus =
+      !Array.isArray(status) && status && status in OrderStatusType
+
+    const orders = await prisma.order.findMany({
+      where: {
+        ...(filterByStatus
+          ? {
+              status: status as OrderStatusType,
+            }
+          : {}),
+      },
+      orderBy,
+    })
+
+    return orders
+  }
+)

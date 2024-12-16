@@ -16,6 +16,7 @@ import { OrderStatusBadge } from './OrderStatusBadge'
 import { OrderStatusForm } from './OrderStatusForm'
 import { TransitionStartFunction } from 'react'
 import { OrderDeleteImagesForm } from './OrderDeleteImages'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type OrderCardProps = {
   order: Order
@@ -96,6 +97,30 @@ export function OrderCard({ order, startTransition }: OrderCardProps) {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+    </Card>
+  )
+}
+
+export function OrderCardSkeleton() {
+  return (
+    <Card className='p-4'>
+      <div className='w-full grid gap-3 sm:grid-cols-4 pr-4'>
+        <div className='flex items-center gap-4'>
+          <Hash />
+          <Skeleton className='h-4 w-3/4' />
+        </div>
+        <div className='flex items-center gap-4'>
+          <Clock4 />
+          <Skeleton className='h-4 w-3/4' />
+        </div>
+        <div className='flex items-center gap-4'>
+          <HandCoins />
+          <Skeleton className='h-4 w-3/4' />
+        </div>
+        <div className='flex items-center gap-4'>
+          <Skeleton className='h-4 w-3/4' />
+        </div>
+      </div>
     </Card>
   )
 }
