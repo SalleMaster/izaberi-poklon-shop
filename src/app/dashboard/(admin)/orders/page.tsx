@@ -27,10 +27,10 @@ export default async function Page(props: { searchParams: SearchParams }) {
   let orderBy: OrderByType
 
   switch (sortiranje) {
-    case OrderSortingValues.Najnovije:
+    case OrderSortingValues.Newest:
       orderBy = { createdAt: 'desc' }
       break
-    case OrderSortingValues.Najstarije:
+    case OrderSortingValues.Oldest:
       orderBy = { createdAt: 'asc' }
       break
     default:

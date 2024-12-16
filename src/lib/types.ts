@@ -1,11 +1,11 @@
 export const OrderSortingLabels = {
-  Najnovijim: 'Najnovijim',
-  Najstarijim: 'Najstarijim',
+  Newest: 'Najnovijim',
+  Oldest: 'Najstarijim',
 } as const
 
 export const OrderSortingValues = {
-  Najnovije: 'najnovije',
-  Najstarije: 'najstarije',
+  Newest: 'najnovije',
+  Oldest: 'najstarije',
 } as const
 
 export type OrderSortingLabel =
@@ -19,12 +19,12 @@ export type OrderSortingOptions = {
 }
 
 export const OrderStatusLabels = {
-  Primljene: 'Primljene',
-  UObradi: 'U obradi',
-  Poslate: 'Poslate',
-  Dostavljene: 'Dostavljene',
-  Otkazane: 'Otkazane',
-  Sve: 'Sve',
+  Pending: 'Primljene',
+  Processing: 'U obradi',
+  Shipped: 'Poslate',
+  Delivered: 'Dostavljene',
+  Canceled: 'Otkazane',
+  All: 'Sve',
 } as const
 
 export type OrderStatusLabel =

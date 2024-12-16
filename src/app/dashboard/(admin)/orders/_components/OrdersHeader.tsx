@@ -33,63 +33,59 @@ export default function OrdersHeader() {
 
   const sortingOptions = [
     {
-      label: OrderSortingLabels.Najnovijim,
+      label: OrderSortingLabels.Newest,
       url: `/admin/porudzbine?${createQueryString({
-        addParams: [
-          { name: 'sortiranje', value: OrderSortingValues.Najnovije },
-        ],
+        addParams: [{ name: 'sortiranje', value: OrderSortingValues.Newest }],
       })}`,
-      value: OrderSortingValues.Najnovije,
+      value: OrderSortingValues.Newest,
     },
     {
-      label: OrderSortingLabels.Najstarijim,
+      label: OrderSortingLabels.Oldest,
       url: `/admin/porudzbine?${createQueryString({
-        addParams: [
-          { name: 'sortiranje', value: OrderSortingValues.Najstarije },
-        ],
+        addParams: [{ name: 'sortiranje', value: OrderSortingValues.Oldest }],
       })}`,
-      value: OrderSortingValues.Najstarije,
+      value: OrderSortingValues.Oldest,
     },
   ]
 
   const statusOptions = [
     {
-      label: OrderStatusLabels.Primljene,
+      label: OrderStatusLabels.Pending,
       url: `/admin/porudzbine?${createQueryString({
         addParams: [{ name: 'status', value: OrderStatusType.pending }],
       })}`,
       value: OrderStatusType.pending,
     },
     {
-      label: OrderStatusLabels.UObradi,
+      label: OrderStatusLabels.Processing,
       url: `/admin/porudzbine?${createQueryString({
         addParams: [{ name: 'status', value: OrderStatusType.processing }],
       })}`,
       value: OrderStatusType.processing,
     },
     {
-      label: OrderStatusLabels.Poslate,
+      label: OrderStatusLabels.Shipped,
       url: `/admin/porudzbine?${createQueryString({
         addParams: [{ name: 'status', value: OrderStatusType.shipped }],
       })}`,
       value: OrderStatusType.shipped,
     },
     {
-      label: OrderStatusLabels.Dostavljene,
+      label: OrderStatusLabels.Delivered,
       url: `/admin/porudzbine?${createQueryString({
         addParams: [{ name: 'status', value: OrderStatusType.delivered }],
       })}`,
       value: OrderStatusType.delivered,
     },
     {
-      label: OrderStatusLabels.Otkazane,
+      label: OrderStatusLabels.Canceled,
       url: `/admin/porudzbine?${createQueryString({
         addParams: [{ name: 'status', value: OrderStatusType.canceled }],
       })}`,
       value: OrderStatusType.canceled,
     },
     {
-      label: OrderStatusLabels.Sve,
+      label: OrderStatusLabels.All,
       url: `/admin/porudzbine?${createQueryString({
         addParams: [{ name: 'status', value: '' }],
       })}`,
@@ -100,35 +96,35 @@ export default function OrdersHeader() {
   let orderingLabel: string
 
   switch (optimisticSort) {
-    case OrderSortingValues.Najnovije:
-      orderingLabel = OrderSortingLabels.Najnovijim
+    case OrderSortingValues.Newest:
+      orderingLabel = OrderSortingLabels.Newest
       break
-    case OrderSortingValues.Najstarije:
-      orderingLabel = OrderSortingLabels.Najstarijim
+    case OrderSortingValues.Oldest:
+      orderingLabel = OrderSortingLabels.Oldest
       break
     default:
-      orderingLabel = OrderSortingLabels.Najnovijim
+      orderingLabel = OrderSortingLabels.Newest
   }
 
   let statusLabel: OrderStatusLabel
   switch (optimisticStatus) {
     case OrderStatusType.pending:
-      statusLabel = OrderStatusLabels.Primljene
+      statusLabel = OrderStatusLabels.Pending
       break
     case OrderStatusType.processing:
-      statusLabel = OrderStatusLabels.UObradi
+      statusLabel = OrderStatusLabels.Processing
       break
     case OrderStatusType.shipped:
-      statusLabel = OrderStatusLabels.Poslate
+      statusLabel = OrderStatusLabels.Shipped
       break
     case OrderStatusType.delivered:
-      statusLabel = OrderStatusLabels.Dostavljene
+      statusLabel = OrderStatusLabels.Delivered
       break
     case OrderStatusType.canceled:
-      statusLabel = OrderStatusLabels.Otkazane
+      statusLabel = OrderStatusLabels.Canceled
       break
     default:
-      statusLabel = OrderStatusLabels.Sve
+      statusLabel = OrderStatusLabels.All
   }
 
   return (
