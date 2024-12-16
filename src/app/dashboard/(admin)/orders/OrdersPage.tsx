@@ -48,9 +48,9 @@ export function OrdersPageSkeleton() {
   return (
     <div className='space-y-10'>
       <div className='space-y-3'>
-        {[1, 2, 3].map((index) => (
-          <OrderCardSkeleton key={index} />
-        ))}
+        <OrderCardSkeleton />
+        <OrderCardSkeleton />
+        <OrderCardSkeleton />
       </div>
     </div>
   )

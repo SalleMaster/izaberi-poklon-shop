@@ -121,10 +121,6 @@ export function OrderCardSkeleton() {
           <Skeleton className='h-4 w-3/4' />
         </div>
       </div>
-      {/* <div className='flex items-center gap-4'>
-        <Truck />
-        <Skeleton className='h-4 w-1/2' />
-      </div> */}
     </Card>
   )
 }
