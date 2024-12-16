@@ -1,14 +1,14 @@
 'use client'
 
 import { use, useTransition } from 'react'
-import { GetAllOrdersReturnType } from '@/data/services/order'
+import { GetOrdersReturnType } from '@/data/services/order'
 
 import { cn } from '@/lib/utils'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
-import { OrderCard } from './_components/OrderCard'
+import { OrderCard, OrderCardSkeleton } from './_components/OrderCard'
 
 type Props = {
-  ordersPromise: GetAllOrdersReturnType
+  ordersPromise: GetOrdersReturnType
 }
 
 export default function OrdersPage({ ordersPromise }: Props) {
@@ -16,11 +16,14 @@ export default function OrdersPage({ ordersPromise }: Props) {
   const [isPending, startTransition] = useTransition()
 
   return (
-    <div className={cn('space-y-10', isPending && 'animate-pulse')}>
-      <h2 className='text-xl font-bold'>Porudžbine</h2>
-
+    <div
+      className={cn(
+        'space-y-10',
+        isPending && 'animate-pulse',
+        'group-has-[[data-pending-orders]]:animate-pulse'
+      )}
+    >
       <div className='space-y-3'>
-        <h2 className='text-lg font-medium'>Sve porudžbine</h2>
         {orders.length ? (
           orders.map((order) => (
             <OrderCard
@@ -42,5 +45,13 @@ export default function OrdersPage({ ordersPromise }: Props) {
 }
 
 export function OrdersPageSkeleton() {
-  return <p>Orders skeleton</p>
+  return (
+    <div className='space-y-10'>
+      <div className='space-y-3'>
+        {[1, 2, 3].map((index) => (
+          <OrderCardSkeleton key={index} />
+        ))}
+      </div>
+    </div>
+  )
 }
