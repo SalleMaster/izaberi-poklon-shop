@@ -44,7 +44,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const take = pageSize
 
   const ordersPromise = getOrders({ orderBy, status, skip, take })
-  const ordersCountPromise = getOrdersCount()
+  const ordersCountPromise = getOrdersCount({ status })
 
   return (
     <div className='space-y-5 group'>
