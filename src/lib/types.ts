@@ -29,3 +29,13 @@ export const OrderStatusLabels = {
 
 export type OrderStatusLabel =
   (typeof OrderStatusLabels)[keyof typeof OrderStatusLabels]
+
+export const PaginationDisplayValues = {
+  small: '10',
+  medium: '30',
+  large: '50',
+  extraLarge: '100',
+} as const
+
+export type PaginationDisplayValue =
+  (typeof PaginationDisplayValues)[keyof typeof PaginationDisplayValues]

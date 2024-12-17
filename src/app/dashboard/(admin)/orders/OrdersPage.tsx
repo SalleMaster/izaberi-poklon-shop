@@ -1,6 +1,6 @@
 'use client'
 
-import { use, useTransition } from 'react'
+import { use, useEffect, useTransition } from 'react'
 import { GetOrdersReturnType } from '@/data/services/order'
 
 import { cn } from '@/lib/utils'
@@ -14,6 +14,10 @@ type Props = {
 export default function OrdersPage({ ordersPromise }: Props) {
   const orders = use(ordersPromise)
   const [isPending, startTransition] = useTransition()
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [orders])
 
   return (
     <div

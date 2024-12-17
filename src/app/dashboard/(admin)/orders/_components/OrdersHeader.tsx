@@ -10,14 +10,24 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Card } from '@/components/ui/card'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import {
   OrderSortingLabels,
   OrderSortingValues,
   OrderStatusLabel,
   OrderStatusLabels,
+  PaginationDisplayValues,
 } from '@/lib/types'
 import { OrderStatusType } from '@prisma/client'
+import { SlidersHorizontal } from 'lucide-react'
+import { Separator } from '@/components/ui/separator'
 
 export default function OrdersHeader() {
   const searchParams = useSearchParams()
@@ -29,7 +39,44 @@ export default function OrdersHeader() {
     searchParams.get('status')
   )
 
+  const [optimisticDisplay, setOptimisticDisplay] = useOptimistic(
+    searchParams.get('prikazi')
+  )
+
   const createQueryString = useCreateQueryString(searchParams)
+
+  const paginationDisplayOptions = [
+    {
+      label: PaginationDisplayValues.small,
+      url: `/admin/porudzbine?${createQueryString({
+        addParams: [{ name: 'prikazi', value: PaginationDisplayValues.small }],
+      })}`,
+      value: PaginationDisplayValues.small,
+    },
+    {
+      label: PaginationDisplayValues.medium,
+      url: `/admin/porudzbine?${createQueryString({
+        addParams: [{ name: 'prikazi', value: PaginationDisplayValues.medium }],
+      })}`,
+      value: PaginationDisplayValues.medium,
+    },
+    {
+      label: PaginationDisplayValues.large,
+      url: `/admin/porudzbine?${createQueryString({
+        addParams: [{ name: 'prikazi', value: PaginationDisplayValues.large }],
+      })}`,
+      value: PaginationDisplayValues.large,
+    },
+    {
+      label: PaginationDisplayValues.extraLarge,
+      url: `/admin/porudzbine?${createQueryString({
+        addParams: [
+          { name: 'prikazi', value: PaginationDisplayValues.extraLarge },
+        ],
+      })}`,
+      value: PaginationDisplayValues.extraLarge,
+    },
+  ]
 
   const sortingOptions = [
     {
@@ -106,6 +153,25 @@ export default function OrdersHeader() {
       orderingLabel = OrderSortingLabels.Newest
   }
 
+  let displayLabel: string
+
+  switch (optimisticDisplay) {
+    case PaginationDisplayValues.small:
+      displayLabel = PaginationDisplayValues.small
+      break
+    case PaginationDisplayValues.medium:
+      displayLabel = PaginationDisplayValues.medium
+      break
+    case PaginationDisplayValues.large:
+      displayLabel = PaginationDisplayValues.large
+      break
+    case PaginationDisplayValues.extraLarge:
+      displayLabel = PaginationDisplayValues.extraLarge
+      break
+    default:
+      displayLabel = PaginationDisplayValues.small
+  }
+
   let statusLabel: OrderStatusLabel
   switch (optimisticStatus) {
     case OrderStatusType.pending:
@@ -127,6 +193,85 @@ export default function OrdersHeader() {
       statusLabel = OrderStatusLabels.All
   }
 
+  const filters = (
+    <div className='space-y-4 md:space-y-0 md:flex md:space-x-4'>
+      <div>
+        <span className='mr-2'>Prikazi:</span>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='secondary'>{displayLabel}</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {paginationDisplayOptions.map((option) => (
+              <DropdownMenuItem key={option.label} asChild>
+                <Link
+                  href={option.url}
+                  onClick={() => {
+                    startTransition(() => {
+                      setOptimisticDisplay(option.value)
+                    })
+                  }}
+                >
+                  {option.label}
+                </Link>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <Separator className='md:hidden' />
+      <div>
+        <span className='mr-2'>Status:</span>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='secondary'>{statusLabel}</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {statusOptions.map((option) => (
+              <DropdownMenuItem key={option.label} asChild>
+                <Link
+                  href={option.url}
+                  onClick={() => {
+                    startTransition(() => {
+                      setOptimisticStatus(option.value)
+                    })
+                  }}
+                >
+                  {option.label}
+                </Link>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <Separator className='md:hidden' />
+      <div>
+        <span className='mr-2'>Sortiranje prema:</span>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='secondary'>{orderingLabel}</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {sortingOptions.map((option) => (
+              <DropdownMenuItem key={option.label} asChild>
+                <Link
+                  href={option.url}
+                  onClick={() => {
+                    startTransition(() => {
+                      setOptimisticSort(option.value)
+                    })
+                  }}
+                >
+                  {option.label}
+                </Link>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
+  )
+
   return (
     <div
       data-pending-orders={isPending ? '' : undefined}
@@ -134,7 +279,44 @@ export default function OrdersHeader() {
     >
       <h2 className='text-xl font-bold'>Porudžbine</h2>
 
-      <div className='space-y-2.5 md:space-y-0 md:flex md:space-x-2.5'>
+      <div className='hidden md:block'>{filters}</div>
+
+      <Card className='md:hidden'>
+        <Accordion type='single' collapsible className='px-4'>
+          <AccordionItem value='item-1' className='border-b-0'>
+            <AccordionTrigger>
+              <SlidersHorizontal />
+            </AccordionTrigger>
+            <AccordionContent className='space-y-4'>{filters}</AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </Card>
+
+      {/* <div className='space-y-2.5 md:space-y-0 md:flex md:space-x-2.5'>
+        <div>
+          <span className='mr-2'>Prikazi:</span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant='secondary'>{displayLabel}</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {paginationDisplayOptions.map((option) => (
+                <DropdownMenuItem key={option.label} asChild>
+                  <Link
+                    href={option.url}
+                    onClick={() => {
+                      startTransition(() => {
+                        setOptimisticDisplay(option.value)
+                      })
+                    }}
+                  >
+                    {option.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <div>
           <span className='mr-2'>Status:</span>
           <DropdownMenu>
@@ -160,7 +342,7 @@ export default function OrdersHeader() {
           </DropdownMenu>
         </div>
         <div>
-          <span className='mr-2'>Sortiranje prema:</span>
+          <span className='mr-2'>Sortiranje:</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant='secondary'>{orderingLabel}</Button>
@@ -183,7 +365,7 @@ export default function OrdersHeader() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

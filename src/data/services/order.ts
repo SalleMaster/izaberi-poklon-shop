@@ -70,8 +70,8 @@ export const getOrders = cache(
             }
           : {}),
       },
-      skip,
-      take,
+      skip: skip && skip > 0 ? skip : undefined,
+      take: take && take > 0 ? take : undefined,
       orderBy,
     })
 
