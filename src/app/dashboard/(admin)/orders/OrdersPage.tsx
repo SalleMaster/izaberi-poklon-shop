@@ -1,6 +1,6 @@
 'use client'
 
-import { use, useTransition } from 'react'
+import { use, useEffect, useTransition } from 'react'
 import { GetOrdersReturnType } from '@/data/services/order'
 
 import { cn } from '@/lib/utils'
@@ -15,12 +15,17 @@ export default function OrdersPage({ ordersPromise }: Props) {
   const orders = use(ordersPromise)
   const [isPending, startTransition] = useTransition()
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [orders])
+
   return (
     <div
       className={cn(
         'space-y-10',
         isPending && 'animate-pulse',
-        'group-has-[[data-pending-orders]]:animate-pulse'
+        'group-has-[[data-pending-orders]]:animate-pulse',
+        'group-has-[[data-pending-pagination]]:animate-pulse'
       )}
     >
       <div className='space-y-3'>

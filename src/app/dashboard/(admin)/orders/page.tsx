@@ -2,10 +2,11 @@ import { Metadata } from 'next'
 import { Suspense } from 'react'
 import OrdersPage, { OrdersPageSkeleton } from './OrdersPage'
 import pageGuard from '@/lib/pageGuard'
-import { getOrders } from '@/data/services/order'
+import { getOrders, getOrdersCount } from '@/data/services/order'
 import OrdersHeader from './_components/OrdersHeader'
 import { Separator } from '@/components/ui/separator'
 import { OrderSortingValues } from '@/lib/types'
+import CustomPagination from '@/components/custom/CustomPagination'
 
 export const metadata: Metadata = {
   title: 'Admin | Porudžbine',
@@ -22,7 +23,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
   })
 
   const searchParams = await props.searchParams
-  const { sortiranje, status } = searchParams
+  const { sortiranje, status, stranica, prikazi } = searchParams
 
   let orderBy: OrderByType
 
@@ -37,7 +38,13 @@ export default async function Page(props: { searchParams: SearchParams }) {
       orderBy = { createdAt: 'desc' }
   }
 
-  const ordersPromise = getOrders({ orderBy, status })
+  const page = stranica ? Number(stranica) : 1
+  const pageSize = prikazi ? Number(prikazi) : 10
+  const skip = (page - 1) * pageSize
+  const take = pageSize
+
+  const ordersPromise = getOrders({ orderBy, status, skip, take })
+  const ordersCountPromise = getOrdersCount()
 
   return (
     <div className='space-y-5 group'>
@@ -47,6 +54,10 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
       <Suspense fallback={<OrdersPageSkeleton />}>
         <OrdersPage ordersPromise={ordersPromise} />
+        <CustomPagination
+          countPromise={ordersCountPromise}
+          pageUrl='/admin/porudzbine'
+        />
       </Suspense>
     </div>
   )
