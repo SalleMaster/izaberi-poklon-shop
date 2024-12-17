@@ -49,21 +49,30 @@ export default function OrdersHeader() {
     {
       label: PaginationDisplayValues.small,
       url: `/admin/porudzbine?${createQueryString({
-        addParams: [{ name: 'prikazi', value: PaginationDisplayValues.small }],
+        addParams: [
+          { name: 'prikazi', value: PaginationDisplayValues.small },
+          { name: 'stranica', value: '1' },
+        ],
       })}`,
       value: PaginationDisplayValues.small,
     },
     {
       label: PaginationDisplayValues.medium,
       url: `/admin/porudzbine?${createQueryString({
-        addParams: [{ name: 'prikazi', value: PaginationDisplayValues.medium }],
+        addParams: [
+          { name: 'prikazi', value: PaginationDisplayValues.medium },
+          { name: 'stranica', value: '1' },
+        ],
       })}`,
       value: PaginationDisplayValues.medium,
     },
     {
       label: PaginationDisplayValues.large,
       url: `/admin/porudzbine?${createQueryString({
-        addParams: [{ name: 'prikazi', value: PaginationDisplayValues.large }],
+        addParams: [
+          { name: 'prikazi', value: PaginationDisplayValues.large },
+          { name: 'stranica', value: '1' },
+        ],
       })}`,
       value: PaginationDisplayValues.large,
     },
@@ -72,6 +81,7 @@ export default function OrdersHeader() {
       url: `/admin/porudzbine?${createQueryString({
         addParams: [
           { name: 'prikazi', value: PaginationDisplayValues.extraLarge },
+          { name: 'stranica', value: '1' },
         ],
       })}`,
       value: PaginationDisplayValues.extraLarge,
@@ -82,14 +92,20 @@ export default function OrdersHeader() {
     {
       label: OrderSortingLabels.Newest,
       url: `/admin/porudzbine?${createQueryString({
-        addParams: [{ name: 'sortiranje', value: OrderSortingValues.Newest }],
+        addParams: [
+          { name: 'sortiranje', value: OrderSortingValues.Newest },
+          { name: 'stranica', value: '1' },
+        ],
       })}`,
       value: OrderSortingValues.Newest,
     },
     {
       label: OrderSortingLabels.Oldest,
       url: `/admin/porudzbine?${createQueryString({
-        addParams: [{ name: 'sortiranje', value: OrderSortingValues.Oldest }],
+        addParams: [
+          { name: 'sortiranje', value: OrderSortingValues.Oldest },
+          { name: 'stranica', value: '1' },
+        ],
       })}`,
       value: OrderSortingValues.Oldest,
     },
@@ -99,42 +115,60 @@ export default function OrdersHeader() {
     {
       label: OrderStatusLabels.Pending,
       url: `/admin/porudzbine?${createQueryString({
-        addParams: [{ name: 'status', value: OrderStatusType.pending }],
+        addParams: [
+          { name: 'status', value: OrderStatusType.pending },
+          { name: 'stranica', value: '1' },
+        ],
       })}`,
       value: OrderStatusType.pending,
     },
     {
       label: OrderStatusLabels.Processing,
       url: `/admin/porudzbine?${createQueryString({
-        addParams: [{ name: 'status', value: OrderStatusType.processing }],
+        addParams: [
+          { name: 'status', value: OrderStatusType.processing },
+          { name: 'stranica', value: '1' },
+        ],
       })}`,
       value: OrderStatusType.processing,
     },
     {
       label: OrderStatusLabels.Shipped,
       url: `/admin/porudzbine?${createQueryString({
-        addParams: [{ name: 'status', value: OrderStatusType.shipped }],
+        addParams: [
+          { name: 'status', value: OrderStatusType.shipped },
+          { name: 'stranica', value: '1' },
+        ],
       })}`,
       value: OrderStatusType.shipped,
     },
     {
       label: OrderStatusLabels.Delivered,
       url: `/admin/porudzbine?${createQueryString({
-        addParams: [{ name: 'status', value: OrderStatusType.delivered }],
+        addParams: [
+          { name: 'status', value: OrderStatusType.delivered },
+          { name: 'stranica', value: '1' },
+        ],
       })}`,
       value: OrderStatusType.delivered,
     },
     {
       label: OrderStatusLabels.Canceled,
       url: `/admin/porudzbine?${createQueryString({
-        addParams: [{ name: 'status', value: OrderStatusType.canceled }],
+        addParams: [
+          { name: 'status', value: OrderStatusType.canceled },
+          { name: 'stranica', value: '1' },
+        ],
       })}`,
       value: OrderStatusType.canceled,
     },
     {
       label: OrderStatusLabels.All,
       url: `/admin/porudzbine?${createQueryString({
-        addParams: [{ name: 'status', value: '' }],
+        addParams: [
+          { name: 'status', value: '' },
+          { name: 'stranica', value: '1' },
+        ],
       })}`,
       value: '',
     },

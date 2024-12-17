@@ -81,13 +81,30 @@ export const getOrders = cache(
 
 export type GetOrdersCountReturnType = Promise<number>
 
-export const getOrdersCount = cache(async (): GetOrdersCountReturnType => {
-  console.log('getOrdersCount')
+export type GetOrdersCountProps = {
+  status?: string | string[]
+}
 
-  unstable_noStore()
-  await slow(1000)
+export const getOrdersCount = cache(
+  async ({ status }: GetOrdersCountProps): GetOrdersCountReturnType => {
+    console.log('getOrdersCount')
 
-  await loggedInActionGuard()
+    unstable_noStore()
+    await slow(1000)
 
-  return await prisma.order.count()
-})
+    await loggedInActionGuard()
+
+    const filterByStatus =
+      !Array.isArray(status) && status && status in OrderStatusType
+
+    return await prisma.order.count({
+      where: {
+        ...(filterByStatus
+          ? {
+              status: status as OrderStatusType,
+            }
+          : {}),
+      },
+    })
+  }
+)
