@@ -25,6 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { UserRoleType } from '@prisma/client'
 
 type UserButtonProps = {
   user: User
@@ -54,11 +55,13 @@ const adminMenuOptions = [
 
 const userMenuOptions = [
   { href: '/dashboard/profile', text: 'Profile', icon: Settings },
+  { href: '/profil/porudzbine', text: 'Porudžbine', icon: ReceiptEuro },
   { href: '/profil/adresa-dostave', text: 'Adresa dostave', icon: Truck },
 ]
 
 export default function UserButton({ user }: UserButtonProps) {
-  const menuOptions = user.role === 'admin' ? adminMenuOptions : userMenuOptions
+  const menuOptions =
+    user.role === UserRoleType.admin ? adminMenuOptions : userMenuOptions
 
   return (
     <DropdownMenu>
