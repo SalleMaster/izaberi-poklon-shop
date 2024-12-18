@@ -7,6 +7,7 @@ import OrdersHeader from './_components/OrdersHeader'
 import { Separator } from '@/components/ui/separator'
 import { OrderSortingValues } from '@/lib/types'
 import CustomPagination from '@/components/custom/CustomPagination'
+import { UserRoleType } from '@prisma/client'
 
 export const metadata: Metadata = {
   title: 'Admin | Porudžbine',
@@ -17,9 +18,8 @@ type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 type OrderByType = { createdAt: 'desc' } | { createdAt: 'asc' }
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  await pageGuard({
+  const { userId, userRole } = await pageGuard({
     callbackUrl: '/admin/porudzbine',
-    adminGuard: true,
   })
 
   const searchParams = await props.searchParams
@@ -43,8 +43,17 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const skip = (page - 1) * pageSize
   const take = pageSize
 
-  const ordersPromise = getOrders({ orderBy, status, skip, take })
-  const ordersCountPromise = getOrdersCount({ status })
+  const ordersPromise = getOrders({
+    userId,
+    userRole,
+    orderBy,
+    status,
+    skip,
+    take,
+  })
+  const ordersCountPromise = getOrdersCount({ userId, userRole, status })
+
+  const isAdmin = userRole === UserRoleType.admin
 
   return (
     <div className='space-y-5 group'>
@@ -53,7 +62,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
       <Separator />
 
       <Suspense fallback={<OrdersPageSkeleton />}>
-        <OrdersPage ordersPromise={ordersPromise} />
+        <OrdersPage ordersPromise={ordersPromise} isAdmin={isAdmin} />
         <CustomPagination
           countPromise={ordersCountPromise}
           pageUrl='/admin/porudzbine'

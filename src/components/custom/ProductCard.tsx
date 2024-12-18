@@ -1,4 +1,10 @@
-import { Product, Discount, Media, PriceRange } from '@prisma/client'
+import {
+  Product,
+  Discount,
+  Media,
+  PriceRange,
+  UserRoleType,
+} from '@prisma/client'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
@@ -62,7 +68,7 @@ export default async function ProductCard({ product }: ProductCardProps) {
         )}
       </Link>
 
-      {userRole === 'admin' && (
+      {userRole === UserRoleType.admin && (
         <Button className='ml-auto mt-auto' asChild>
           <Link href={`/admin/proizvodi/${product.id}/edit`}>Edit</Link>
         </Button>

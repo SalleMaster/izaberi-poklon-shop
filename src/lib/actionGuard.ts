@@ -1,11 +1,12 @@
 import { auth } from '@/auth'
+import { UserRoleType } from '@prisma/client'
 
 export const adminActionGuard = async () => {
   const session = await auth()
   const userId = session?.user?.id
   const userRole = session?.user?.role
 
-  if (!userId || userRole !== 'admin') {
+  if (!userId || userRole !== UserRoleType.admin) {
     throw Error('Unauthorized')
   }
 

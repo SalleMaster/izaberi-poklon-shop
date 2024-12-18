@@ -9,9 +9,10 @@ import { OrderCard, OrderCardSkeleton } from './_components/OrderCard'
 
 type Props = {
   ordersPromise: GetOrdersReturnType
+  isAdmin: boolean
 }
 
-export default function OrdersPage({ ordersPromise }: Props) {
+export default function OrdersPage({ ordersPromise, isAdmin }: Props) {
   const orders = use(ordersPromise)
   const [isPending, startTransition] = useTransition()
 
@@ -34,6 +35,7 @@ export default function OrdersPage({ ordersPromise }: Props) {
             <OrderCard
               key={order.id}
               order={order}
+              isAdmin={isAdmin}
               startTransition={startTransition}
             />
           ))

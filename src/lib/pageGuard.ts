@@ -1,4 +1,5 @@
 import getSession from '@/lib/getSession'
+import { UserRoleType } from '@prisma/client'
 import { redirect } from 'next/navigation'
 
 type PageGuardParams = {
@@ -17,9 +18,14 @@ const pageGuard = async ({
     redirect(`/api/auth/signin?callbackUrl=${callbackUrl}`)
   }
 
-  if (adminGuard && user.role !== 'admin') {
+  const userId = user.id
+  const userRole = user.role
+
+  if (adminGuard && userRole !== UserRoleType.admin) {
     redirect('/')
   }
+
+  return { userId, userRole }
 }
 
 export default pageGuard

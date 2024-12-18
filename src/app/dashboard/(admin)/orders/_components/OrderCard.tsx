@@ -20,10 +20,15 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 type OrderCardProps = {
   order: Order
+  isAdmin: boolean
   startTransition: TransitionStartFunction
 }
 
-export function OrderCard({ order, startTransition }: OrderCardProps) {
+export function OrderCard({
+  order,
+  isAdmin = false,
+  startTransition,
+}: OrderCardProps) {
   const orderFormattedTotalPrice = priceFormatter(order.orderTotalPrice)
   const orderFormattedOnlinePrice = priceFormatter(order.orderOnlinePrice)
   const orderFormattedDiscount = priceFormatter(order.orderDiscount)
@@ -42,6 +47,7 @@ export function OrderCard({ order, startTransition }: OrderCardProps) {
     .map((image) => image.key)
 
   const showDeleteImagesForm =
+    isAdmin &&
     orderImageKeys.length > 0 &&
     !order.mediaRemoved &&
     (order.status === OrderStatusType.canceled ||
@@ -78,13 +84,15 @@ export function OrderCard({ order, startTransition }: OrderCardProps) {
               orderFormattedDiscount={orderFormattedDiscount}
               orderFormattedDeliveryFee={orderFormattedDeliveryFee}
             />
-            <div className='border rounded-xl p-4'>
-              <OrderStatusForm
-                status={order.status}
-                id={order.id}
-                startTransition={startTransition}
-              />
-            </div>
+            {isAdmin ? (
+              <div className='border rounded-xl p-4'>
+                <OrderStatusForm
+                  status={order.status}
+                  id={order.id}
+                  startTransition={startTransition}
+                />
+              </div>
+            ) : null}
             {showDeleteImagesForm ? (
               <div className='border rounded-xl p-4'>
                 <OrderDeleteImagesForm

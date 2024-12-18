@@ -16,6 +16,7 @@ import {
   PriceRange,
   Product,
   TextPersonalization,
+  UserRoleType,
 } from '@prisma/client'
 
 type ImagePersonalizationWithRelations = ImagePersonalization & {
@@ -43,6 +44,8 @@ export type GetOrdersProps = {
   status?: string | string[]
   skip?: number
   take?: number
+  userId?: string
+  userRole: string | null
 }
 
 export const getOrders = cache(
@@ -51,6 +54,8 @@ export const getOrders = cache(
     status,
     skip,
     take,
+    userId,
+    userRole,
   }: GetOrdersProps): GetOrdersReturnType => {
     console.log('getOrders')
 
@@ -62,6 +67,8 @@ export const getOrders = cache(
     const filterByStatus =
       !Array.isArray(status) && status && status in OrderStatusType
 
+    const isAdmin = userRole === UserRoleType.admin
+
     const orders = await prisma.order.findMany({
       where: {
         ...(filterByStatus
@@ -69,6 +76,7 @@ export const getOrders = cache(
               status: status as OrderStatusType,
             }
           : {}),
+        ...(!isAdmin ? { userId } : {}),
       },
       skip: skip && skip > 0 ? skip : undefined,
       take: take && take > 0 ? take : undefined,
@@ -83,10 +91,16 @@ export type GetOrdersCountReturnType = Promise<number>
 
 export type GetOrdersCountProps = {
   status?: string | string[]
+  userId?: string
+  userRole: string | null
 }
 
 export const getOrdersCount = cache(
-  async ({ status }: GetOrdersCountProps): GetOrdersCountReturnType => {
+  async ({
+    status,
+    userId,
+    userRole,
+  }: GetOrdersCountProps): GetOrdersCountReturnType => {
     console.log('getOrdersCount')
 
     unstable_noStore()
@@ -97,6 +111,8 @@ export const getOrdersCount = cache(
     const filterByStatus =
       !Array.isArray(status) && status && status in OrderStatusType
 
+    const isAdmin = userRole === UserRoleType.admin
+
     return await prisma.order.count({
       where: {
         ...(filterByStatus
@@ -104,6 +120,7 @@ export const getOrdersCount = cache(
               status: status as OrderStatusType,
             }
           : {}),
+        ...(!isAdmin ? { userId } : {}),
       },
     })
   }
