@@ -23,7 +23,7 @@ import Link from 'next/link'
 type OrderCardProps = {
   order: Order
   isAdmin: boolean
-  isSingleOrder: boolean
+  isSingleOrder?: boolean
   startTransition: TransitionStartFunction
 }
 
