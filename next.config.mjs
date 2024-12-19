@@ -75,6 +75,14 @@ const nextConfig = {
         source: '/profil/adresa-dostave',
         destination: '/dashboard/delivery-address',
       },
+      {
+        source: '/admin/porudzbine/:id',
+        destination: '/dashboard/orders/:id',
+      },
+      {
+        source: '/profil/porudzbine/:id',
+        destination: '/dashboard/orders/:id',
+      },
     ]
   },
 }
