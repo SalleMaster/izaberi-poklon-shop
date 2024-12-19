@@ -19,7 +19,7 @@ type OrderByType = { createdAt: 'desc' } | { createdAt: 'asc' }
 
 export default async function Page(props: { searchParams: SearchParams }) {
   const { userId, userRole } = await pageGuard({
-    callbackUrl: '/admin/porudzbine',
+    callbackUrl: '/profil/porudzbine',
   })
 
   const searchParams = await props.searchParams

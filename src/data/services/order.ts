@@ -125,3 +125,38 @@ export const getOrdersCount = cache(
     })
   }
 )
+
+export type GetOrderReturnType = Promise<Order | null>
+
+export type GetOrderProps = {
+  id: string
+  userId?: string
+  userRole: string | null
+}
+
+export const getOrder = cache(
+  async ({ id, userId, userRole }: GetOrderProps): GetOrderReturnType => {
+    console.log('getOrder')
+
+    unstable_noStore()
+    await slow(1000)
+
+    await loggedInActionGuard()
+
+    const isAdmin = userRole === UserRoleType.admin
+
+    const order = await prisma.order.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    if (isAdmin) {
+      return order
+    } else if (order?.userId === userId) {
+      return order
+    }
+
+    return null
+  }
+)
