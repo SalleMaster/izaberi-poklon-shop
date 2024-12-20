@@ -68,6 +68,14 @@ export function OrderCartItem({ cartItem, mediaRemoved }: OrderCartItemProps) {
             </span>
           </p>
         </div>
+        <div>
+          <p className='font-semibold'>
+            Poklon pakovanje:{' '}
+            <span className='font-medium text-muted-foreground'>
+              {cartItem.packageOptionSelected ? 'Da' : 'Ne'}
+            </span>
+          </p>
+        </div>
       </div>
       {cartItem.textPersonalizations.length > 0 ? (
         <div className='grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4'>

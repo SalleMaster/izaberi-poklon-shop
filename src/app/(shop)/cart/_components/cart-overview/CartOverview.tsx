@@ -49,8 +49,7 @@ export default function CartOverview({
       </CardHeader>
       <CardContent className='space-y-2.5'>
         <p className='flex justify-between'>
-          <span>Cena za online plaćanje:</span>{' '}
-          <span>{formattedOnlinePrice}</span>
+          <span>Cena korpe:</span> <span>{formattedOnlinePrice}</span>
         </p>
         <p className='flex justify-between'>
           <span>Popust:</span> <span>{formattedDiscount}</span>
@@ -107,8 +106,7 @@ export function CartOverviewSkeleton() {
       </CardHeader>
       <CardContent className='space-y-2.5'>
         <div className='flex justify-between'>
-          <span>Cena za online plaćanje:</span>{' '}
-          <Skeleton className='h-6 w-[40%]' />
+          <span>Cena korpe:</span> <Skeleton className='h-6 w-[40%]' />
         </div>
         <div className='flex justify-between'>
           <span>Popust:</span> <Skeleton className='h-6 w-[40%]' />

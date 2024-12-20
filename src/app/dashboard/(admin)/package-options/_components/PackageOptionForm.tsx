@@ -183,7 +183,7 @@ export function PackageOptionForm({ packageOption }: PackageOptionFormProps) {
               <FormControl>
                 <Input placeholder='Unesite cenu' {...field} />
               </FormControl>
-              <FormDescription>Cena poklon pakovanja</FormDescription>
+              <FormDescription>Cena poklon pakovanja po komadu</FormDescription>
               <FormMessage />
             </FormItem>
           )}

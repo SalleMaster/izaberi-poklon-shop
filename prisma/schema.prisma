@@ -289,6 +289,7 @@ model CartItem {
   deliveryFee           Int
   quantity              Int
   fontType              FontType
+  packageOptionSelected Boolean
   textPersonalizations  TextPersonalization[]
   imagePersonalizations ImagePersonalization[]
 

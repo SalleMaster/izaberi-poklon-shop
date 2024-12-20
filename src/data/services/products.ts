@@ -8,6 +8,7 @@ import {
   Discount,
   ImagePersonalizationField,
   Media,
+  PackageOption,
   PriceRange,
   Product,
   TextPersonalizationField,
@@ -73,6 +74,7 @@ export type ProductWithRelations = Product & {
   formatedPrice: string
   formatedFinalPrice: string
   formatedSavings: string
+  packageOption: PackageOption | null
 }
 
 export type GetProductReturnType = Promise<ProductWithRelations | null>
@@ -95,6 +97,7 @@ export const getProduct = cache(
         priceTable: {
           orderBy: { price: 'asc' },
         },
+        packageOption: true,
       },
     })
 

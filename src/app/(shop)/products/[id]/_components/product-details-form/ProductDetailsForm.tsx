@@ -32,6 +32,7 @@ import { imageFileTypes } from '@/lib/validation'
 import { createMedia } from '@/lib/actions'
 import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
+import { priceFormatter } from '@/lib/format'
 
 type Props = {
   product: ProductWithRelations
@@ -49,6 +50,7 @@ export function ProductDetailsForm({ product }: Props) {
           : 1,
       fontType: FontType.cyrillic,
       personalization: true,
+      packageOptionSelected: false,
       textPersonalizations: [],
       imagePersonalizations: [],
     }
@@ -231,6 +233,29 @@ export function ProductDetailsForm({ product }: Props) {
             )}
           />
         </div>
+
+        {product.packageOption ? (
+          <FormField
+            name='packageOptionSelected'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='mr-4'>Poklon pakovanje</FormLabel>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormDescription>
+                  {product.packageOption?.description} <br />
+                  Cena po komadu:{' '}
+                  {priceFormatter(product.packageOption?.price || 0)}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ) : null}
 
         <FormField
           control={form.control}
