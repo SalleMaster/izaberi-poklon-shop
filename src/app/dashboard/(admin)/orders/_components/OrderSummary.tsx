@@ -141,7 +141,7 @@ export function OrderSummary({
 
       <div className='grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4'>
         <div>
-          <p className='font-semibold'>Cena za online plaćanje</p>
+          <p className='font-semibold'>Cena korpe</p>
           <p className='text-muted-foreground'>{orderFormattedOnlinePrice}</p>
         </div>
         <div>

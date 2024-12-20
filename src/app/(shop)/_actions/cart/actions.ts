@@ -30,8 +30,13 @@ export async function addCartItem(
   try {
     const { userId } = await loggedInActionGuard()
 
-    const { productId, quantity, fontType, textPersonalizations } =
-      productDetailsSchemaWithoutImages.parse(values)
+    const {
+      productId,
+      quantity,
+      fontType,
+      textPersonalizations,
+      packageOptionSelected,
+    } = productDetailsSchemaWithoutImages.parse(values)
 
     // Find or create a cart for the user
     let cart = await prisma.cart.findUnique({
@@ -58,6 +63,7 @@ export async function addCartItem(
           include: { deliveryFee: true },
         },
         discount: true,
+        packageOption: true,
       },
     })
 
@@ -81,10 +87,18 @@ export async function addCartItem(
       throw new Error('Cena poštarine nije pronadjena za datu kolicinu.')
     }
 
+    if (cartItemDeliveryFee === undefined) {
+      throw new Error('Cena poštarine nije pronadjena za datu kolicinu.')
+    }
+
     if (product.discount?.active) {
       cartItemPrice = Math.floor(
         cartItemPrice - (cartItemPrice * product.discount.percentage) / 100
       )
+    }
+
+    if (packageOptionSelected && product.packageOption) {
+      cartItemPrice = cartItemPrice + product.packageOption.price
     }
 
     const totalCartItemPrice = cartItemPrice * quantity
@@ -98,6 +112,7 @@ export async function addCartItem(
         fontType,
         price: totalCartItemPrice,
         deliveryFee: cartItemDeliveryFee,
+        packageOptionSelected,
         textPersonalizations: {
           create: textPersonalizations?.map((field) => ({
             name: field.name,
@@ -141,14 +156,16 @@ export type updateCartItemType = {
 }
 
 export async function updateCartItem({ id, quantity }: updateCartItemType) {
-  console.log('updateCartItem ', quantity)
   try {
     const { userId } = await loggedInActionGuard()
 
     // Fetch the cart item and include the cart relation
     const cartItem = await prisma.cartItem.findUnique({
       where: { id },
-      include: { cart: true, product: true },
+      include: {
+        cart: true,
+        product: true,
+      },
     })
 
     // Verify that the cart item belongs to the user's cart
@@ -166,6 +183,7 @@ export async function updateCartItem({ id, quantity }: updateCartItemType) {
           include: { deliveryFee: true },
         },
         discount: true,
+        packageOption: true,
       },
     })
 
@@ -193,6 +211,10 @@ export async function updateCartItem({ id, quantity }: updateCartItemType) {
 
     if (cartItemDeliveryFee === undefined) {
       throw new Error('Cena poštarine nije pronadjena za datu kolicinu.')
+    }
+
+    if (cartItem.packageOptionSelected && product.packageOption) {
+      cartItemPrice = cartItemPrice + product.packageOption.price
     }
 
     const totalCartItemPrice = cartItemPrice * quantity

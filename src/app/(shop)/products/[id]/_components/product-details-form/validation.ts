@@ -30,6 +30,7 @@ export const productDetailsSchema = z.object({
   ),
   fontType: z.enum([FontType.latin, FontType.cyrillic]),
   personalization: z.boolean(),
+  packageOptionSelected: z.boolean(),
   textPersonalizations: z.array(textPersonalizationSchema).optional(),
   imagePersonalizations: z.array(imagePersonalizationSchema).optional(),
 })
