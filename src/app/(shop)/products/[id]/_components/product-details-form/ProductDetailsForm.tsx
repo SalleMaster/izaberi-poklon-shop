@@ -4,6 +4,8 @@ import { useMemo, useEffect } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { signIn } from 'next-auth/react'
+import { User as UserType } from 'next-auth'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -36,9 +38,10 @@ import { priceFormatter } from '@/lib/format'
 
 type Props = {
   product: ProductWithRelations
+  user?: UserType
 }
 
-export function ProductDetailsForm({ product }: Props) {
+export function ProductDetailsForm({ product, user }: Props) {
   const { toast } = useToast()
 
   const { defaultValues, quantityOptions } = useMemo(() => {
@@ -319,7 +322,7 @@ export function ProductDetailsForm({ product }: Props) {
           />
         ) : null}
 
-        {personalization
+        {user && personalization
           ? textFields.map((field, index) => (
               <div key={field.id} className='flex flex-col space-y-2'>
                 <FormField
@@ -339,7 +342,6 @@ export function ProductDetailsForm({ product }: Props) {
                           {...field}
                         />
                       </FormControl>
-                      {/* <FormDescription>Personalizacija.</FormDescription> */}
                       <FormMessage />
                     </FormItem>
                   )}
@@ -348,7 +350,7 @@ export function ProductDetailsForm({ product }: Props) {
             ))
           : null}
 
-        {personalization
+        {user && personalization
           ? imageFields.map((field, index) => (
               <div key={field.id} className='flex flex-col space-y-2'>
                 <FormField
@@ -396,18 +398,27 @@ export function ProductDetailsForm({ product }: Props) {
           : null}
 
         <div className='flex'>
-          <Button
-            type='submit'
-            disabled={form.formState.isSubmitting}
-            className='ml-auto'
-          >
-            {form.formState.isSubmitting ? (
-              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-            ) : (
+          {user && (
+            <Button
+              type='submit'
+              disabled={form.formState.isSubmitting}
+              className='ml-auto'
+            >
+              {form.formState.isSubmitting ? (
+                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+              ) : (
+                <ShoppingCart className='mr-2 h-4 w-4' />
+              )}
+              Dodaj u korpu
+            </Button>
+          )}
+
+          {!user && (
+            <Button type='button' className='ml-auto' onClick={() => signIn()}>
               <ShoppingCart className='mr-2 h-4 w-4' />
-            )}
-            Dodaj u korpu
-          </Button>
+              Dodaj u korpu
+            </Button>
+          )}
         </div>
       </form>
     </Form>

@@ -1,4 +1,5 @@
 import { use } from 'react'
+import { Session } from 'next-auth'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
 import { GetProductReturnType } from '@/data/services/products'
 import ProductCarousel, {
@@ -10,10 +11,13 @@ import ProductDetails, {
 
 type Props = {
   productPromise: GetProductReturnType
+  sessionPromise: Promise<Session | null>
 }
 
-export default function ProductGrid({ productPromise }: Props) {
+export default function ProductGrid({ productPromise, sessionPromise }: Props) {
   const product = use(productPromise)
+  const session = use(sessionPromise)
+  const user = session?.user
 
   return (
     <>
@@ -21,7 +25,7 @@ export default function ProductGrid({ productPromise }: Props) {
         <div>
           <div className='relative sm:grid sm:grid-cols-2 sm:gap-4 md:gap-10'>
             <ProductCarousel product={product} />
-            <ProductDetails product={product} />
+            <ProductDetails product={product} user={user} />
           </div>
           <div className='h-[1000px]'></div>
         </div>
