@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import UserButton from './UserButton'
-import { SessionContextValue, signIn } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import { User as UserType } from 'next-auth'
 
 type Props = {
