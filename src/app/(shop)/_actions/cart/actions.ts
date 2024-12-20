@@ -87,10 +87,6 @@ export async function addCartItem(
       throw new Error('Cena poštarine nije pronadjena za datu kolicinu.')
     }
 
-    if (cartItemDeliveryFee === undefined) {
-      throw new Error('Cena poštarine nije pronadjena za datu kolicinu.')
-    }
-
     if (product.discount?.active) {
       cartItemPrice = Math.floor(
         cartItemPrice - (cartItemPrice * product.discount.percentage) / 100
