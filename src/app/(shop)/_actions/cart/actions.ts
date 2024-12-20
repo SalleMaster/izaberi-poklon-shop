@@ -71,6 +71,10 @@ export async function addCartItem(
       throw new Error('Poklon nije prodadjen.')
     }
 
+    if (!product.inStock) {
+      throw new Error('Poklon nije dostupan za poručivanje.')
+    }
+
     let cartItemPrice = product.priceTable.find(
       (priceItem) => quantity >= priceItem.from && quantity <= priceItem.to
     )?.price

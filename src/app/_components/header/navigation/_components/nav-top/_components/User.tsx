@@ -2,15 +2,18 @@
 
 import { Button } from '@/components/ui/button'
 import UserButton from './UserButton'
-import { signIn, useSession } from 'next-auth/react'
+import { SessionContextValue, signIn } from 'next-auth/react'
+import { User as UserType } from 'next-auth'
 
-export default function User() {
-  const session = useSession()
-  const user = session.data?.user
+type Props = {
+  user?: UserType
+}
+
+export default function User({ user }: Props) {
   return (
     <>
       {user && <UserButton user={user} />}
-      {!user && session.status !== 'loading' && <SignInButton />}
+      {!user && <SignInButton />}
     </>
   )
 }

@@ -13,7 +13,7 @@ import CategoriesList, {
 } from './_components/CategoriesList'
 
 export default async function NavbarMenu() {
-  const activeCategories = getActiveCategories()
+  const activeCategoriesPromise = getActiveCategories()
 
   return (
     <div className='bg-primary'>
@@ -28,7 +28,7 @@ export default async function NavbarMenu() {
             <DropdownMenuLabel>Kategorije</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <Suspense fallback={<CategoriesListSkeleton />}>
-              <CategoriesList categoriesPromise={activeCategories} />
+              <CategoriesList categoriesPromise={activeCategoriesPromise} />
             </Suspense>
           </DropdownMenuContent>
         </DropdownMenu>

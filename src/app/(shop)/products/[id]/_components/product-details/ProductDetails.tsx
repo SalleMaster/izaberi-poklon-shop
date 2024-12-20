@@ -4,12 +4,15 @@ import ProductDetailsPrice from '../product-details-price/ProductDetailsPrice'
 import ProductDetailsPriceTable from '../product-details-price-table/ProductDetailsPriceTable'
 import { ProductDetailsForm } from '../product-details-form/ProductDetailsForm'
 import ProductDetailsInfo from '../product-details-info/ProductDetailsInfo'
+import { User as UserType } from 'next-auth'
+import { NotificationAlert } from '@/components/custom/NotificationAlert'
 
 type Props = {
   product: ProductWithRelations
+  user?: UserType
 }
 
-export default function ProductDetails({ product }: Props) {
+export default function ProductDetails({ product, user }: Props) {
   return (
     <div className='space-y-2.5'>
       <h3 className='text-2xl font-extrabold'>{product.name}</h3>
@@ -29,7 +32,15 @@ export default function ProductDetails({ product }: Props) {
       ) : null}
 
       <div className='space-y-10'>
-        <ProductDetailsForm product={product} />
+        {product.inStock ? (
+          <ProductDetailsForm product={product} user={user} />
+        ) : (
+          <NotificationAlert
+            title='Obaveštenje:'
+            description='Ovaj proizvod trenutno nije dostupan za poručivanje.'
+            className='mt-10'
+          />
+        )}
 
         <ProductDetailsInfo
           delivery={product.delivery}

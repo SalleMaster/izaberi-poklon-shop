@@ -4,7 +4,8 @@ import { useMemo, useEffect } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { signIn, useSession } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
+import { User as UserType } from 'next-auth'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -37,13 +38,11 @@ import { priceFormatter } from '@/lib/format'
 
 type Props = {
   product: ProductWithRelations
+  user?: UserType
 }
 
-export function ProductDetailsForm({ product }: Props) {
+export function ProductDetailsForm({ product, user }: Props) {
   const { toast } = useToast()
-
-  const session = useSession()
-  const user = session.data?.user
 
   const { defaultValues, quantityOptions } = useMemo(() => {
     const defaultValues = {
@@ -414,7 +413,7 @@ export function ProductDetailsForm({ product }: Props) {
             </Button>
           )}
 
-          {!user && session.status !== 'loading' && (
+          {!user && (
             <Button type='button' className='ml-auto' onClick={() => signIn()}>
               <ShoppingCart className='mr-2 h-4 w-4' />
               Dodaj u korpu
