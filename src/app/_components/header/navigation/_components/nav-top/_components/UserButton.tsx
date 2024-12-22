@@ -54,7 +54,7 @@ const adminMenuOptions = [
 ]
 
 const userMenuOptions = [
-  { href: '/dashboard/profile', text: 'Profile', icon: Settings },
+  { href: '/profil/moji-podaci', text: 'Moji podaci', icon: Settings },
   { href: '/profil/porudzbine', text: 'Porudžbine', icon: ReceiptEuro },
   { href: '/profil/adresa-dostave', text: 'Adresa dostave', icon: Truck },
 ]

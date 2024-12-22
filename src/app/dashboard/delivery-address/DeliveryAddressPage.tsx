@@ -28,8 +28,6 @@ export default function DeliveryAddressPage({
 
   return (
     <div className={cn('space-y-10', isPending && 'animate-pulse')}>
-      <h2 className='text-xl font-bold'>Adresa Dostave</h2>
-
       <div className='space-y-3'>
         <h2 className='text-lg font-medium'>Nova</h2>
         <DeliveryAddressCard startTransition={startTransition} />
@@ -60,8 +58,6 @@ export default function DeliveryAddressPage({
 export function DeliveryAddressPageSkeleton() {
   return (
     <div className='space-y-10'>
-      <h2 className='text-xl font-bold'>Adresa Dostave</h2>
-
       <div className='space-y-3'>
         <h2 className='text-lg font-medium'>Nova</h2>
         <DeliveryAddressCardSkeleton />

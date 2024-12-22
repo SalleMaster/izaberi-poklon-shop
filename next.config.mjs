@@ -60,6 +60,10 @@ const nextConfig = {
         destination: '/dashboard/orders',
       },
       {
+        source: '/profil/moji-podaci',
+        destination: '/dashboard/profile',
+      },
+      {
         source: '/pokloni',
         destination: '/products',
       },
