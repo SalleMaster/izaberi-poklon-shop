@@ -1,3 +1,4 @@
+import { isValidSerbianPhoneNumber } from '@/lib/validation'
 import { OrderDeliveryType, OrderPaymentType } from '@prisma/client'
 import { z } from 'zod'
 
@@ -11,6 +12,7 @@ const pickupSchema = {
     .string()
     .trim()
     .max(255, 'Broj telefona ne može biti duži od 255 karaktera')
+    .refine(isValidSerbianPhoneNumber, 'Broj telefona mora biti validan')
     .optional(),
   pickupEmail: z
     .string()

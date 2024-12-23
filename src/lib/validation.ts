@@ -1,4 +1,11 @@
 import { z } from 'zod'
+import { parsePhoneNumberFromString } from 'libphonenumber-js'
+
+// Custom validation function for Serbian phone numbers
+export const isValidSerbianPhoneNumber = (phone: string) => {
+  const phoneNumber = parsePhoneNumberFromString(phone, 'RS')
+  return phoneNumber?.isValid() || false
+}
 
 export const imageFileTypes = ['image/jpeg', 'image/png']
 export const pdfFileTypes = ['application/pdf']

@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { isValidSerbianPhoneNumber } from '@/lib/validation'
 
 // Profile schema
 export const profileSchema = z.object({
@@ -10,7 +11,8 @@ export const profileSchema = z.object({
   phone: z
     .string()
     .trim()
-    .max(255, 'Broj telefona ne može biti duži od 255 karaktera'),
+    .max(255, 'Broj telefona ne može biti duži od 255 karaktera')
+    .refine(isValidSerbianPhoneNumber, 'Broj telefona mora biti validan'),
   email: z
     .string()
     .trim()
