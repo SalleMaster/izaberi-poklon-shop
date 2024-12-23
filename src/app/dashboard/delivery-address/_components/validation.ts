@@ -1,3 +1,4 @@
+import { isValidSerbianPhoneNumber } from '@/lib/validation'
 import { DeliveryAddressType } from '@prisma/client'
 import { z } from 'zod'
 
@@ -27,7 +28,8 @@ export const deliveryAddressSchema = z.object({
     .string()
     .trim()
     .min(1, 'Broj telefona je obavezan')
-    .max(255, 'Broj telefona ne može biti duži od 255 karaktera'),
+    .max(255, 'Broj telefona ne može biti duži od 255 karaktera')
+    .refine(isValidSerbianPhoneNumber, 'Broj telefona mora biti validan'),
   email: z
     .string()
     .trim()

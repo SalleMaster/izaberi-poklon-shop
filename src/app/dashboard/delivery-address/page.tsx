@@ -5,6 +5,7 @@ import DeliveryAddressPage, {
 } from './DeliveryAddressPage'
 import pageGuard from '@/lib/pageGuard'
 import { getAllDeliveryAddresses } from '@/data/services/delivery-addresses'
+import { Separator } from '@/components/ui/separator'
 
 export const metadata: Metadata = {
   title: 'Adresa dostave | Profil',
@@ -15,10 +16,16 @@ export default async function Page() {
   const deliveryAddressesPromise = getAllDeliveryAddresses()
 
   return (
-    <Suspense fallback={<DeliveryAddressPageSkeleton />}>
-      <DeliveryAddressPage
-        deliveryAddressesPromise={deliveryAddressesPromise}
-      />
-    </Suspense>
+    <div className='space-y-5'>
+      <h2 className='text-xl font-bold'>Adresa Dostave</h2>
+
+      <Separator />
+
+      <Suspense fallback={<DeliveryAddressPageSkeleton />}>
+        <DeliveryAddressPage
+          deliveryAddressesPromise={deliveryAddressesPromise}
+        />
+      </Suspense>
+    </div>
   )
 }
