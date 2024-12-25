@@ -175,8 +175,6 @@ export async function cartCreateOrder(values: CartOrderValues) {
       message: 'Narudžbina kreirana.',
       orderId: order.id,
     }
-
-    // Navigate to the order created page
   } catch (error) {
     if (error instanceof ZodError) {
       return {
