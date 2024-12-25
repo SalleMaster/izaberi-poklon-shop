@@ -126,7 +126,7 @@ export async function cartCreateOrder(values: CartOrderValues) {
     })
     const nextOrderNumber = lastOrder ? lastOrder.orderNumber + 1 : 1
 
-    await prisma.order.create({
+    const order = await prisma.order.create({
       data: {
         orderNumber: nextOrderNumber,
         deliveryType,
@@ -173,7 +173,10 @@ export async function cartCreateOrder(values: CartOrderValues) {
     return {
       status: 'success',
       message: 'Narudžbina kreirana.',
+      orderId: order.id,
     }
+
+    // Navigate to the order created page
   } catch (error) {
     if (error instanceof ZodError) {
       return {

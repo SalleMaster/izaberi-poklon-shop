@@ -24,12 +24,14 @@ type OrderCardProps = {
   order: Order
   isAdmin: boolean
   isSingleOrder?: boolean
+  showForm?: boolean
   startTransition: TransitionStartFunction
 }
 
 export function OrderCard({
   order,
   isAdmin = false,
+  showForm = true,
   isSingleOrder = false,
   startTransition,
 }: OrderCardProps) {
@@ -51,6 +53,7 @@ export function OrderCard({
     .map((image) => image.key)
 
   const showDeleteImagesForm =
+    showForm &&
     isAdmin &&
     orderImageKeys.length > 0 &&
     !order.mediaRemoved &&
@@ -102,7 +105,7 @@ export function OrderCard({
               orderFormattedDiscount={orderFormattedDiscount}
               orderFormattedDeliveryFee={orderFormattedDeliveryFee}
             />
-            {isAdmin ? (
+            {isAdmin && showForm ? (
               <div className='border rounded-xl p-4'>
                 <OrderStatusForm
                   status={order.status}

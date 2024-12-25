@@ -8,6 +8,7 @@ import {
   useState,
   useTransition,
 } from 'react'
+import { useRouter } from 'next/navigation'
 import { GetCartReturnType } from '@/data/services/cart'
 import {
   removeCartItem,
@@ -67,6 +68,7 @@ export default function CartPage({
   const [optimisticCart, setOptimisticCart] = useOptimistic(cart)
   const { toast } = useToast()
   const [currentStep, setCurrentStep] = useState(0)
+  const router = useRouter()
 
   const defaultValues = useMemo(
     () => ({
@@ -149,6 +151,7 @@ export default function CartPage({
         }
         if (response.status === 'success') {
           toast({ description: response.message })
+          router.push(`/porudzbina-kreirana/${response.orderId}`)
         }
       }
     } catch (error) {
