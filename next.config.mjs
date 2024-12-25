@@ -72,6 +72,10 @@ const nextConfig = {
         destination: '/products/:id',
       },
       {
+        source: '/porudzbina-kreirana/:id',
+        destination: '/order-created/:id',
+      },
+      {
         source: '/korpa',
         destination: '/cart',
       },

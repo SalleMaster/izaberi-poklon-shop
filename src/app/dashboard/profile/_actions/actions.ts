@@ -9,11 +9,14 @@ export async function editProfile(values: ProfileValues) {
   try {
     const { userId } = await loggedInActionGuard()
 
-    const data = profileSchema.parse(values)
+    const { name, phone } = profileSchema.parse(values)
 
     await prisma.user.update({
       where: { id: userId },
-      data,
+      data: {
+        name,
+        phone,
+      },
     })
 
     return {

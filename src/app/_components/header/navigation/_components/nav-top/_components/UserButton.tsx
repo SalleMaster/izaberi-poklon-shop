@@ -50,7 +50,7 @@ const adminMenuOptions = [
   { href: '/admin/proizvodi', text: 'Proizvodi', icon: Gift },
   { href: '/admin/proizvodi/novi', text: 'Novi Proizvod', icon: Gift },
   { href: '/admin/porudzbine', text: 'Porudžbine', icon: ReceiptEuro },
-  { href: '/dashboard/profile', text: 'Profile', icon: Settings },
+  { href: '/profil/moji-podaci', text: 'Moji podaci', icon: Settings },
 ]
 
 const userMenuOptions = [
