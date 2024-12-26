@@ -11,6 +11,7 @@ import {
 } from '@/app/dashboard/(admin)/orders/_components/OrderCard'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type Props = {
   orderPromise: GetOrderReturnType
@@ -22,7 +23,18 @@ export default function OrderCreatedPage({ orderPromise, isAdmin }: Props) {
   const [isPending, startTransition] = useTransition()
 
   return (
-    <div className={cn('space-y-10', isPending && 'animate-pulse')}>
+    <div className={cn('space-y-5', isPending && 'animate-pulse')}>
+      <div>
+        <p>
+          Broj Vaše porudžbenice je:{' '}
+          <span className='font-semibold'>{order?.orderNumber}</span>
+        </p>
+        <p>
+          Putem e-maila ćemo Vam poslati potvrdu porudžbine sa detaljima i
+          informacijama o praćenju.
+        </p>
+      </div>
+
       <div className='space-y-5'>
         {order ? (
           <>
@@ -54,6 +66,16 @@ export default function OrderCreatedPage({ orderPromise, isAdmin }: Props) {
 export function OrderCreatedPageSkeleton() {
   return (
     <div className='space-y-5'>
+      <div>
+        <div className='flex items-center space-x-2'>
+          <span>Broj Vaše porudžbenice je: </span>
+          <Skeleton className='w-1/4 h-4' />
+        </div>
+        <p>
+          Putem e-maila ćemo Vam poslati potvrdu porudžbine sa detaljima i
+          informacijama o praćenju.
+        </p>
+      </div>
       <OrderCardOpenSkeleton />
       <div className='flex'>
         <Button className='ml-auto' disabled>

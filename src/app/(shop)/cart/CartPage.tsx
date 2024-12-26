@@ -54,12 +54,18 @@ type Props = {
   cartPromise: GetCartReturnType
   userAddressesPromise: GetUserAddressesReturnType
   deliveryServicesPromise: GetDeliveryServicesReturnType
+  userName: string
+  userEmail: string
+  userPhone: string
 }
 
 export default function CartPage({
   cartPromise,
   userAddressesPromise,
   deliveryServicesPromise,
+  userName,
+  userEmail,
+  userPhone,
 }: Props) {
   const cart = use(cartPromise)
   const userAddresses = use(userAddressesPromise)
@@ -90,11 +96,11 @@ export default function CartPage({
         deliveryServices.find((service) => service.predefinedPrices)?.id ||
         deliveryServices[0].id ||
         '',
-      pickupName: '',
-      pickupPhone: '',
-      pickupEmail: '',
+      pickupName: userName,
+      pickupPhone: userPhone,
+      pickupEmail: userEmail,
     }),
-    [userAddresses, deliveryServices]
+    [userAddresses, deliveryServices, userEmail, userName, userPhone]
   )
 
   const form = useForm<CartOrderValues>({

@@ -6,7 +6,9 @@ import { getUserAddresses } from '@/data/services/user'
 import { getAllDeliveryServices } from '@/data/services/delivery-services'
 
 export default async function Page() {
-  await pageGuard({ callbackUrl: '/korpa' })
+  const { userName, userEmail, userPhone } = await pageGuard({
+    callbackUrl: '/korpa',
+  })
   const cartPromise = getCart()
   const userAddressesPromise = getUserAddresses()
   const deliveryServicesPromise = getAllDeliveryServices()
@@ -17,6 +19,9 @@ export default async function Page() {
         cartPromise={cartPromise}
         userAddressesPromise={userAddressesPromise}
         deliveryServicesPromise={deliveryServicesPromise}
+        userName={userName || ''}
+        userEmail={userEmail || ''}
+        userPhone={userPhone || ''}
       />
     </Suspense>
   )

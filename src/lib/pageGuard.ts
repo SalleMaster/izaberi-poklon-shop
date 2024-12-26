@@ -20,12 +20,15 @@ const pageGuard = async ({
 
   const userId = user.id
   const userRole = user.role
+  const userName = user.name
+  const userEmail = user.email
+  const userPhone = user.phone
 
   if (adminGuard && userRole !== UserRoleType.admin) {
     redirect('/')
   }
 
-  return { userId, userRole }
+  return { userId, userRole, userName, userEmail, userPhone }
 }
 
 export default pageGuard

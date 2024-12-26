@@ -12,7 +12,6 @@ const pickupSchema = {
     .string()
     .trim()
     .max(255, 'Broj telefona ne može biti duži od 255 karaktera')
-    .refine(isValidSerbianPhoneNumber, 'Broj telefona mora biti validan')
     .optional(),
   pickupEmail: z
     .string()
@@ -49,6 +48,13 @@ export const cartOrderSchema = z
         ctx.addIssue({
           path: ['pickupPhone'],
           message: 'Broj telefona je obavezan',
+          code: z.ZodIssueCode.custom,
+        })
+      }
+      if (!isValidSerbianPhoneNumber(data.pickupPhone || '')) {
+        ctx.addIssue({
+          path: ['pickupPhone'],
+          message: 'Broj telefona mora biti validan',
           code: z.ZodIssueCode.custom,
         })
       }
