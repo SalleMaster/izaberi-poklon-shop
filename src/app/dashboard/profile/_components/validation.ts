@@ -12,7 +12,11 @@ export const profileSchema = z.object({
     .string()
     .trim()
     .max(255, 'Broj telefona ne može biti duži od 255 karaktera')
-    .refine(isValidSerbianPhoneNumber, 'Broj telefona mora biti validan'),
+    .optional()
+    .refine(
+      (value) => !value || isValidSerbianPhoneNumber(value),
+      'Broj telefona mora biti validan'
+    ),
   email: z
     .string()
     .trim()
