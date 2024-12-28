@@ -124,8 +124,6 @@ export function ProductRatingsSkeleton() {
       <h4 className='text-xl font-semibold mb-4'>Recenzije</h4>
       <div className='space-y-10'>
         <ProductRatingOverviewSkeleton />
-        {/* <ProductRatingFormSkeleton />
-        <ProductRatingListSkeleton /> */}
       </div>
     </div>
   )
