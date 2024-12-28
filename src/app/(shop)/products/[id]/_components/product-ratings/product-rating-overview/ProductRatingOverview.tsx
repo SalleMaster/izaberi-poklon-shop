@@ -50,47 +50,44 @@ export default function ProductRatingOverview({ ratings }: Props) {
   }
 
   return (
-    <div>
-      <h4 className='text-xl font-semibold mb-4'>Recenzije</h4>
-      <Card className='flex items-center space-x-4 p-6'>
-        <div className='flex flex-col items-center'>
-          <div className='flex items-center space-x-2'>
-            <span className='text-5xl font-semibold'>{averageRating}</span>
-            <Star fill='primary' />
-          </div>
-          <p className='text-muted-foreground text-sm text-center'>
-            Ukupna ocena proizvoda
-          </p>
+    <Card className='flex items-center space-x-4 p-6'>
+      <div className='flex flex-col items-center'>
+        <div className='flex items-center space-x-2'>
+          <span className='text-5xl font-semibold'>{averageRating}</span>
+          <Star fill='primary' />
         </div>
-        <div className='w-full'>
-          <ReviewScore
-            score={5}
-            percentage={percentageOfFiveStarRatings}
-            numberOfStars={numberOfFiveStarRatings}
-          />
-          <ReviewScore
-            score={4}
-            percentage={percentageOfFourStarRatings}
-            numberOfStars={numberOfFourStarRatings}
-          />
-          <ReviewScore
-            score={3}
-            percentage={percentageOfThreeStarRatings}
-            numberOfStars={numberOfThreeStarRatings}
-          />
-          <ReviewScore
-            score={2}
-            percentage={percentageOfTwoStarRatings}
-            numberOfStars={numberOfTwoStarRatings}
-          />
-          <ReviewScore
-            score={1}
-            percentage={percentageOfOneStarRatings}
-            numberOfStars={numberOfOneStarRatings}
-          />
-        </div>
-      </Card>
-    </div>
+        <p className='text-muted-foreground text-sm text-center'>
+          Ukupna ocena proizvoda
+        </p>
+      </div>
+      <div className='w-full'>
+        <ReviewScore
+          score={5}
+          percentage={percentageOfFiveStarRatings}
+          numberOfStars={numberOfFiveStarRatings}
+        />
+        <ReviewScore
+          score={4}
+          percentage={percentageOfFourStarRatings}
+          numberOfStars={numberOfFourStarRatings}
+        />
+        <ReviewScore
+          score={3}
+          percentage={percentageOfThreeStarRatings}
+          numberOfStars={numberOfThreeStarRatings}
+        />
+        <ReviewScore
+          score={2}
+          percentage={percentageOfTwoStarRatings}
+          numberOfStars={numberOfTwoStarRatings}
+        />
+        <ReviewScore
+          score={1}
+          percentage={percentageOfOneStarRatings}
+          numberOfStars={numberOfOneStarRatings}
+        />
+      </div>
+    </Card>
   )
 }
 
@@ -115,5 +112,41 @@ function ReviewScore({
       </span>
       <span className='text-muted-foreground'>{numberOfStars}</span>
     </div>
+  )
+}
+
+function ReviewScoreSkeleton({ numberOfStars }: { numberOfStars: number }) {
+  return (
+    <div className='flex items-center space-x-2'>
+      <b>{numberOfStars}</b>
+      <Star className='w-4 h-4' />
+      <span className='w-full h-1 bg-muted rounded-sm relative'>
+        <span className='absolute top-0 left-0 h-1 bg-muted-foreground'></span>
+      </span>
+      <span className='text-muted-foreground'>0</span>
+    </div>
+  )
+}
+
+export function ProductRatingOverviewSkeleton() {
+  return (
+    <Card className='flex items-center space-x-4 p-6 animate-pulse'>
+      <div className='flex flex-col items-center'>
+        <div className='flex items-center space-x-2'>
+          <span className='text-5xl font-semibold'>0</span>
+          <Star fill='primary' />
+        </div>
+        <p className='text-muted-foreground text-sm text-center'>
+          Ukupna ocena proizvoda
+        </p>
+      </div>
+      <div className='w-full'>
+        <ReviewScoreSkeleton numberOfStars={5} />
+        <ReviewScoreSkeleton numberOfStars={4} />
+        <ReviewScoreSkeleton numberOfStars={3} />
+        <ReviewScoreSkeleton numberOfStars={2} />
+        <ReviewScoreSkeleton numberOfStars={1} />
+      </div>
+    </Card>
   )
 }

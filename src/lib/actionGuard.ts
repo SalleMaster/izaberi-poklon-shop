@@ -24,3 +24,11 @@ export const loggedInActionGuard = async () => {
 
   return { userId, userRole }
 }
+
+export const loggedInUser = async () => {
+  const session = await auth()
+  const userId = session?.user?.id
+  const userRole = session?.user?.role
+
+  return { userId, userRole }
+}

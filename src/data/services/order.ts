@@ -4,7 +4,7 @@ import { unstable_noStore } from 'next/cache'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 import { slow } from '@/lib/slow'
-import { loggedInActionGuard } from '@/lib/actionGuard'
+import { loggedInActionGuard, loggedInUser } from '@/lib/actionGuard'
 import {
   Cart,
   CartItem,
@@ -158,5 +158,33 @@ export const getOrder = cache(
     }
 
     return null
+  }
+)
+
+export type GetOrderedProductIdsReturnType = Promise<string[]>
+
+export const getOrderedProductIds = cache(
+  async (): GetOrderedProductIdsReturnType => {
+    console.log('getOrderedProductIds')
+
+    unstable_noStore()
+    await slow(1000)
+
+    const { userId } = await loggedInUser()
+
+    if (!userId) {
+      return []
+    }
+
+    const orders = await prisma.order.findMany({
+      where: { userId },
+    })
+
+    const orderedProductIds = orders.flatMap((order) => {
+      const orderCart = order.cart as unknown as OrderCartWithRelations
+      return orderCart.items.map((item) => item.productId)
+    })
+
+    return orderedProductIds
   }
 )
