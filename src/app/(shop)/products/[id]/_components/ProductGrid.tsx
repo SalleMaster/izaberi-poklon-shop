@@ -12,7 +12,9 @@ import {
   GetProductAlreadyRatedReturnType,
   GetProductRatingsReturnType,
 } from '@/data/services/ratings'
-import ProductRatings from './product-ratings/ProductRatings'
+import ProductRatings, {
+  ProductRatingsSkeleton,
+} from './product-ratings/ProductRatings'
 import { GetOrderedProductIdsReturnType } from '@/data/services/order'
 
 type Props = {
@@ -36,8 +38,6 @@ export default function ProductGrid({
   const productAlreadyRated = use(productAlreadyRatedPromise)
   const session = use(sessionPromise)
   const user = session?.user
-
-  console.log(ratings)
 
   return (
     <>
@@ -69,10 +69,12 @@ export default function ProductGrid({
 
 export function ProductGridSkeleton() {
   return (
-    <div className='sm:grid sm:grid-cols-2 sm:gap-4 md:gap-10'>
-      <ProductCarouselSkeleton />
-      <ProductDetailsSkeleton />
-      <div className='h-[500px]'></div>
+    <div className='space-y-10'>
+      <div className='relative sm:grid sm:grid-cols-2 sm:gap-4 md:gap-10'>
+        <ProductCarouselSkeleton />
+        <ProductDetailsSkeleton />
+      </div>
+      <ProductRatingsSkeleton />
     </div>
   )
 }

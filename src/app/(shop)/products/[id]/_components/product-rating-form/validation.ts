@@ -6,7 +6,7 @@ export const productRatingSchema = z.object({
     .string()
     .trim()
     .min(1, 'Molimo unesite ime')
-    .max(255, 'Ime i prezime ne može biti duže od 255 karaktera'),
+    .max(255, 'Ime ne može biti duže od 255 karaktera'),
   score: z
     .number()
     .int()
@@ -15,7 +15,7 @@ export const productRatingSchema = z.object({
   comment: z
     .string()
     .trim()
-    .min(1, 'Molimo ostavite komentar')
+    .min(1, 'Molimo unesite komentar')
     .max(500, 'Komentar ne može biti duži od 500 karaktera'),
 })
 

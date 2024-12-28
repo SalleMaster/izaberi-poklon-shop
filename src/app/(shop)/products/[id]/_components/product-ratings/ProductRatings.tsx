@@ -13,7 +13,9 @@ import {
 import { Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Product, Rating } from '@prisma/client'
-import ProductRatingOverview from './product-rating-overview/ProductRatingOverview'
+import ProductRatingOverview, {
+  ProductRatingOverviewSkeleton,
+} from './product-rating-overview/ProductRatingOverview'
 import ProductRatingList from './product-rating-list/ProductRatingList'
 import { ProductRatingForm } from '../product-rating-form/ProductRatingForm'
 import { Button } from '@/components/ui/button'
@@ -34,8 +36,6 @@ export default function ProductRatings({
   productAlreadyRated,
 }: Props) {
   const [isPending, startTransition] = useTransition()
-
-  console.log({ orderedProductIds })
 
   const hasOrderedProduct = orderedProductIds.includes(product.id)
 
@@ -115,5 +115,18 @@ function ProductRatingFormCard({
         </AccordionItem>
       </Accordion>
     </Card>
+  )
+}
+
+export function ProductRatingsSkeleton() {
+  return (
+    <div>
+      <h4 className='text-xl font-semibold mb-4'>Recenzije</h4>
+      <div className='space-y-10'>
+        <ProductRatingOverviewSkeleton />
+        {/* <ProductRatingFormSkeleton />
+        <ProductRatingListSkeleton /> */}
+      </div>
+    </div>
   )
 }

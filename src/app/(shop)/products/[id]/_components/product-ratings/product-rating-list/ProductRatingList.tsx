@@ -23,8 +23,6 @@ export default function ProductRatingList({ ratings }: Props) {
 
   const ratingsToShow = ratings.slice(0, visibleCount)
 
-  console.log(ratings)
-
   return (
     <>
       <p className='text-muted-foreground'>

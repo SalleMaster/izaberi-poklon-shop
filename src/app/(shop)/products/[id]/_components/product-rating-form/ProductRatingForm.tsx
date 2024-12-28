@@ -93,7 +93,7 @@ export function ProductRatingForm({
             <FormItem>
               <FormLabel>Ime *</FormLabel>
               <FormControl>
-                <Input placeholder='Unesite ime i prezime' {...field} />
+                <Input placeholder='Unesite ime' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
