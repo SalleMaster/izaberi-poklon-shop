@@ -50,47 +50,44 @@ export default function ProductRatingOverview({ ratings }: Props) {
   }
 
   return (
-    <div>
-      <h4 className='text-xl font-semibold mb-4'>Recenzije</h4>
-      <Card className='flex items-center space-x-4 p-6'>
-        <div className='flex flex-col items-center'>
-          <div className='flex items-center space-x-2'>
-            <span className='text-5xl font-semibold'>{averageRating}</span>
-            <Star fill='primary' />
-          </div>
-          <p className='text-muted-foreground text-sm text-center'>
-            Ukupna ocena proizvoda
-          </p>
+    <Card className='flex items-center space-x-4 p-6'>
+      <div className='flex flex-col items-center'>
+        <div className='flex items-center space-x-2'>
+          <span className='text-5xl font-semibold'>{averageRating}</span>
+          <Star fill='primary' />
         </div>
-        <div className='w-full'>
-          <ReviewScore
-            score={5}
-            percentage={percentageOfFiveStarRatings}
-            numberOfStars={numberOfFiveStarRatings}
-          />
-          <ReviewScore
-            score={4}
-            percentage={percentageOfFourStarRatings}
-            numberOfStars={numberOfFourStarRatings}
-          />
-          <ReviewScore
-            score={3}
-            percentage={percentageOfThreeStarRatings}
-            numberOfStars={numberOfThreeStarRatings}
-          />
-          <ReviewScore
-            score={2}
-            percentage={percentageOfTwoStarRatings}
-            numberOfStars={numberOfTwoStarRatings}
-          />
-          <ReviewScore
-            score={1}
-            percentage={percentageOfOneStarRatings}
-            numberOfStars={numberOfOneStarRatings}
-          />
-        </div>
-      </Card>
-    </div>
+        <p className='text-muted-foreground text-sm text-center'>
+          Ukupna ocena proizvoda
+        </p>
+      </div>
+      <div className='w-full'>
+        <ReviewScore
+          score={5}
+          percentage={percentageOfFiveStarRatings}
+          numberOfStars={numberOfFiveStarRatings}
+        />
+        <ReviewScore
+          score={4}
+          percentage={percentageOfFourStarRatings}
+          numberOfStars={numberOfFourStarRatings}
+        />
+        <ReviewScore
+          score={3}
+          percentage={percentageOfThreeStarRatings}
+          numberOfStars={numberOfThreeStarRatings}
+        />
+        <ReviewScore
+          score={2}
+          percentage={percentageOfTwoStarRatings}
+          numberOfStars={numberOfTwoStarRatings}
+        />
+        <ReviewScore
+          score={1}
+          percentage={percentageOfOneStarRatings}
+          numberOfStars={numberOfOneStarRatings}
+        />
+      </div>
+    </Card>
   )
 }
 

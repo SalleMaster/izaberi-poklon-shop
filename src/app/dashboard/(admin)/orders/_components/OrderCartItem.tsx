@@ -34,7 +34,7 @@ export function OrderCartItem({ cartItem, mediaRemoved }: OrderCartItemProps) {
     <div className='space-y-2.5'>
       <div className='flex gap-4 items-center'>
         <Link
-          href={`pokloni/${cartItem.product.id}`}
+          href={`/pokloni/${cartItem.product.id}`}
           className='flex gap-4 items-center'
         >
           <Image

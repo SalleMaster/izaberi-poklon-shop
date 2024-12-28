@@ -8,23 +8,32 @@ import ProductCarousel, {
 import ProductDetails, {
   ProductDetailsSkeleton,
 } from './product-details/ProductDetails'
-import { GetProductRatingsReturnType } from '@/data/services/ratings'
-import ProductRatingOverview from './product-ratings/product-rating-overview/ProductRatingOverview'
-import ProductRatingList from './product-ratings/product-rating-list/ProductRatingList'
+import {
+  GetProductAlreadyRatedReturnType,
+  GetProductRatingsReturnType,
+} from '@/data/services/ratings'
+import ProductRatings from './product-ratings/ProductRatings'
+import { GetOrderedProductIdsReturnType } from '@/data/services/order'
 
 type Props = {
   productPromise: GetProductReturnType
   productRatingsPromise: GetProductRatingsReturnType
+  orderedProductIdsPromise: GetOrderedProductIdsReturnType
+  productAlreadyRatedPromise: GetProductAlreadyRatedReturnType
   sessionPromise: Promise<Session | null>
 }
 
 export default function ProductGrid({
   productPromise,
   productRatingsPromise,
+  orderedProductIdsPromise,
+  productAlreadyRatedPromise,
   sessionPromise,
 }: Props) {
   const product = use(productPromise)
   const ratings = use(productRatingsPromise)
+  const orderedProductIds = use(orderedProductIdsPromise)
+  const productAlreadyRated = use(productAlreadyRatedPromise)
   const session = use(sessionPromise)
   const user = session?.user
 
@@ -38,23 +47,13 @@ export default function ProductGrid({
             <ProductCarousel product={product} />
             <ProductDetails product={product} user={user} />
           </div>
-          <div className='space-y-10'>
-            {ratings.length > 0 && (
-              <>
-                <ProductRatingOverview ratings={ratings} />
-                <p className='text-muted-foreground'>
-                  Recenzije proizvoda koje slede mogu da napišu isključivo
-                  korisnici koji su kupili ovaj proizvod u našoj internet
-                  prodavnici. Zahvaljujući utisku i oceni korisnika koji su
-                  kupili ovaj proizvod, svi posetioci našeg sajta sada imaju
-                  realan uvid u prednosti i mane proizvoda zasnovan na
-                  korisničkom iskustvu. Nadamo se da će Vam ova opcija biti od
-                  koristi pri odabiru pravog proizvoda za Vas.
-                </p>
-                <ProductRatingList ratings={ratings} />
-              </>
-            )}
-          </div>
+          <ProductRatings
+            product={product}
+            ratings={ratings}
+            user={user}
+            orderedProductIds={orderedProductIds}
+            productAlreadyRated={productAlreadyRated}
+          />
         </div>
       ) : (
         <NotificationAlert

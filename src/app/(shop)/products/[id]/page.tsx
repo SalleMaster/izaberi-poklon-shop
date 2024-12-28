@@ -2,8 +2,12 @@ import { getProduct } from '@/data/services/products'
 import { Suspense } from 'react'
 import getSession from '@/lib/getSession'
 import ProductGrid, { ProductGridSkeleton } from './_components/ProductGrid'
-import { getProductRatings } from '@/data/services/ratings'
+import {
+  getProductAlreadyRated,
+  getProductRatings,
+} from '@/data/services/ratings'
 import { RatingStatusType } from '@prisma/client'
+import { getOrderedProductIds } from '@/data/services/order'
 
 type Props = {
   params: Promise<{ id: string }>
@@ -19,6 +23,8 @@ export default async function ProductDetailsPage(props: Props) {
     id,
     status: RatingStatusType.approved,
   })
+  const orderedProductIdsPromise = getOrderedProductIds()
+  const productAlreadyRatedPromise = getProductAlreadyRated({ id })
   const sessionPromise = getSession()
 
   return (
@@ -26,6 +32,8 @@ export default async function ProductDetailsPage(props: Props) {
       <ProductGrid
         productPromise={productPromise}
         productRatingsPromise={productRatingsPromise}
+        orderedProductIdsPromise={orderedProductIdsPromise}
+        productAlreadyRatedPromise={productAlreadyRatedPromise}
         sessionPromise={sessionPromise}
       />
     </Suspense>
