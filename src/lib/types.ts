@@ -8,16 +8,6 @@ export const SortingValues = {
   Oldest: 'najstarije',
 } as const
 
-// export type OrderSortingLabel =
-//   (typeof SortingLabels)[keyof typeof SortingLabels]
-// export type OrderSortingValue =
-//   (typeof SortingValues)[keyof typeof SortingValues]
-
-// export type OrderSortingOptions = {
-//   label: OrderSortingLabel
-//   value: OrderSortingValue
-// }
-
 export const OrderStatusLabels = {
   Pending: 'Primljene',
   Processing: 'U obradi',
