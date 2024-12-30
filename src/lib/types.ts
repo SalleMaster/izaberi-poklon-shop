@@ -1,22 +1,12 @@
-export const OrderSortingLabels = {
+export const SortingLabels = {
   Newest: 'Najnovijim',
   Oldest: 'Najstarijim',
 } as const
 
-export const OrderSortingValues = {
+export const SortingValues = {
   Newest: 'najnovije',
   Oldest: 'najstarije',
 } as const
-
-export type OrderSortingLabel =
-  (typeof OrderSortingLabels)[keyof typeof OrderSortingLabels]
-export type OrderSortingValue =
-  (typeof OrderSortingValues)[keyof typeof OrderSortingValues]
-
-export type OrderSortingOptions = {
-  label: OrderSortingLabel
-  value: OrderSortingValue
-}
 
 export const OrderStatusLabels = {
   Pending: 'Primljene',
@@ -39,3 +29,13 @@ export const PaginationDisplayValues = {
 
 export type PaginationDisplayValue =
   (typeof PaginationDisplayValues)[keyof typeof PaginationDisplayValues]
+
+export const RatingStatusLabels = {
+  Pending: 'Kreirane',
+  Approved: 'Odobrene',
+  Rejected: 'Odbijene',
+  All: 'Sve',
+} as const
+
+export type RatingStatusLabel =
+  (typeof RatingStatusLabels)[keyof typeof RatingStatusLabels]

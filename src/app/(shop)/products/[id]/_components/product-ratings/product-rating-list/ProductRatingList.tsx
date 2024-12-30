@@ -55,7 +55,7 @@ export default function ProductRatingList({ ratings }: Props) {
   )
 }
 
-function UserRating({ rating }: { rating: Rating }) {
+export function UserRating({ rating }: { rating: Rating }) {
   const ratingCreatedAt = format(rating.createdAt, 'dd. MMMM yyyy.', {
     locale: srLatn,
   })
@@ -74,7 +74,7 @@ function UserRating({ rating }: { rating: Rating }) {
         })}
       </div>
       <p>{rating.comment}</p>
-      <div className='flex justify-between text-muted-foreground'>
+      <div className='flex gap-2 justify-between text-muted-foreground flex-wrap'>
         <span>{rating.name}</span>
         <span className='flex items-center space-x-2'>
           <Clock className='w-4 h-4' />

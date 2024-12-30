@@ -1,4 +1,4 @@
-import { OrderStatusType } from '@prisma/client'
+import { OrderStatusType, RatingStatusType } from '@prisma/client'
 import { generateQuantityOptions } from './product-utils'
 import { BadgeVariant } from '@/components/ui/badge'
 
@@ -72,6 +72,30 @@ export const orderStatusOptions: OrderStatusOptionsType = [
   {
     value: OrderStatusType.canceled,
     label: 'Otkazana',
+    variant: 'danger',
+  },
+]
+
+type RatingStatusOptionsType = {
+  value: RatingStatusType
+  label: string
+  variant: BadgeVariant
+}[]
+
+export const ratingStatusOptions: RatingStatusOptionsType = [
+  {
+    value: RatingStatusType.pending,
+    label: 'Kreirana',
+    variant: 'info',
+  },
+  {
+    value: RatingStatusType.approved,
+    label: 'Odobrena',
+    variant: 'success',
+  },
+  {
+    value: RatingStatusType.rejected,
+    label: 'Odbijena',
     variant: 'danger',
   },
 ]
