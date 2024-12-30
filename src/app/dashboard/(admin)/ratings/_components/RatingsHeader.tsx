@@ -21,15 +21,15 @@ import { Button } from '@/components/ui/button'
 import {
   SortingLabels,
   SortingValues,
-  OrderStatusLabel,
-  OrderStatusLabels,
   PaginationDisplayValues,
+  RatingStatusLabel,
+  RatingStatusLabels,
 } from '@/lib/types'
-import { OrderStatusType } from '@prisma/client'
+import { RatingStatusType } from '@prisma/client'
 import { SlidersHorizontal } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 
-export default function OrdersHeader() {
+export default function RatingsHeader() {
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
   const [optimisticSort, setOptimisticSort] = useOptimistic(
@@ -48,7 +48,7 @@ export default function OrdersHeader() {
   const paginationDisplayOptions = [
     {
       label: PaginationDisplayValues.small,
-      url: `/admin/porudzbine?${createQueryString({
+      url: `/admin/recenzije?${createQueryString({
         addParams: [
           { name: 'prikazi', value: PaginationDisplayValues.small },
           { name: 'stranica', value: '1' },
@@ -58,7 +58,7 @@ export default function OrdersHeader() {
     },
     {
       label: PaginationDisplayValues.medium,
-      url: `/admin/porudzbine?${createQueryString({
+      url: `/admin/recenzije?${createQueryString({
         addParams: [
           { name: 'prikazi', value: PaginationDisplayValues.medium },
           { name: 'stranica', value: '1' },
@@ -68,7 +68,7 @@ export default function OrdersHeader() {
     },
     {
       label: PaginationDisplayValues.large,
-      url: `/admin/porudzbine?${createQueryString({
+      url: `/admin/recenzije?${createQueryString({
         addParams: [
           { name: 'prikazi', value: PaginationDisplayValues.large },
           { name: 'stranica', value: '1' },
@@ -78,7 +78,7 @@ export default function OrdersHeader() {
     },
     {
       label: PaginationDisplayValues.extraLarge,
-      url: `/admin/porudzbine?${createQueryString({
+      url: `/admin/recenzije?${createQueryString({
         addParams: [
           { name: 'prikazi', value: PaginationDisplayValues.extraLarge },
           { name: 'stranica', value: '1' },
@@ -91,7 +91,7 @@ export default function OrdersHeader() {
   const sortingOptions = [
     {
       label: SortingLabels.Newest,
-      url: `/admin/porudzbine?${createQueryString({
+      url: `/admin/recenzije?${createQueryString({
         addParams: [
           { name: 'sortiranje', value: SortingValues.Newest },
           { name: 'stranica', value: '1' },
@@ -101,7 +101,7 @@ export default function OrdersHeader() {
     },
     {
       label: SortingLabels.Oldest,
-      url: `/admin/porudzbine?${createQueryString({
+      url: `/admin/recenzije?${createQueryString({
         addParams: [
           { name: 'sortiranje', value: SortingValues.Oldest },
           { name: 'stranica', value: '1' },
@@ -113,58 +113,38 @@ export default function OrdersHeader() {
 
   const statusOptions = [
     {
-      label: OrderStatusLabels.Pending,
-      url: `/admin/porudzbine?${createQueryString({
+      label: RatingStatusLabels.Pending,
+      url: `/admin/recenzije?${createQueryString({
         addParams: [
-          { name: 'status', value: OrderStatusType.pending },
+          { name: 'status', value: RatingStatusType.pending },
           { name: 'stranica', value: '1' },
         ],
       })}`,
-      value: OrderStatusType.pending,
+      value: RatingStatusType.pending,
     },
     {
-      label: OrderStatusLabels.Processing,
-      url: `/admin/porudzbine?${createQueryString({
+      label: RatingStatusLabels.Approved,
+      url: `/admin/recenzije?${createQueryString({
         addParams: [
-          { name: 'status', value: OrderStatusType.processing },
+          { name: 'status', value: RatingStatusType.approved },
           { name: 'stranica', value: '1' },
         ],
       })}`,
-      value: OrderStatusType.processing,
+      value: RatingStatusType.approved,
     },
     {
-      label: OrderStatusLabels.Shipped,
-      url: `/admin/porudzbine?${createQueryString({
+      label: RatingStatusLabels.Rejected,
+      url: `/admin/recenzije?${createQueryString({
         addParams: [
-          { name: 'status', value: OrderStatusType.shipped },
+          { name: 'status', value: RatingStatusType.rejected },
           { name: 'stranica', value: '1' },
         ],
       })}`,
-      value: OrderStatusType.shipped,
+      value: RatingStatusType.rejected,
     },
     {
-      label: OrderStatusLabels.Delivered,
-      url: `/admin/porudzbine?${createQueryString({
-        addParams: [
-          { name: 'status', value: OrderStatusType.delivered },
-          { name: 'stranica', value: '1' },
-        ],
-      })}`,
-      value: OrderStatusType.delivered,
-    },
-    {
-      label: OrderStatusLabels.Canceled,
-      url: `/admin/porudzbine?${createQueryString({
-        addParams: [
-          { name: 'status', value: OrderStatusType.canceled },
-          { name: 'stranica', value: '1' },
-        ],
-      })}`,
-      value: OrderStatusType.canceled,
-    },
-    {
-      label: OrderStatusLabels.All,
-      url: `/admin/porudzbine?${createQueryString({
+      label: RatingStatusLabels.All,
+      url: `/admin/recenzije?${createQueryString({
         addParams: [
           { name: 'status', value: '' },
           { name: 'stranica', value: '1' },
@@ -206,25 +186,19 @@ export default function OrdersHeader() {
       displayLabel = PaginationDisplayValues.small
   }
 
-  let statusLabel: OrderStatusLabel
+  let statusLabel: RatingStatusLabel
   switch (optimisticStatus) {
-    case OrderStatusType.pending:
-      statusLabel = OrderStatusLabels.Pending
+    case RatingStatusType.pending:
+      statusLabel = RatingStatusLabels.Pending
       break
-    case OrderStatusType.processing:
-      statusLabel = OrderStatusLabels.Processing
+    case RatingStatusType.approved:
+      statusLabel = RatingStatusLabels.Approved
       break
-    case OrderStatusType.shipped:
-      statusLabel = OrderStatusLabels.Shipped
-      break
-    case OrderStatusType.delivered:
-      statusLabel = OrderStatusLabels.Delivered
-      break
-    case OrderStatusType.canceled:
-      statusLabel = OrderStatusLabels.Canceled
+    case RatingStatusType.rejected:
+      statusLabel = RatingStatusLabels.Rejected
       break
     default:
-      statusLabel = OrderStatusLabels.All
+      statusLabel = RatingStatusLabels.All
   }
 
   const filters = (
@@ -308,10 +282,10 @@ export default function OrdersHeader() {
 
   return (
     <div
-      data-pending-orders={isPending ? '' : undefined}
+      data-pending-ratings={isPending ? '' : undefined}
       className='space-y-2.5 md:space-y-0 md:flex md:justify-between'
     >
-      <h2 className='text-xl font-bold'>Porudžbine</h2>
+      <h2 className='text-xl font-bold'>Recenzije</h2>
 
       <div className='hidden md:block'>{filters}</div>
 

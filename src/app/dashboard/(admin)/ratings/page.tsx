@@ -1,16 +1,15 @@
 import { Metadata } from 'next'
 import { Suspense } from 'react'
-import OrdersPage, { OrdersPageSkeleton } from './OrdersPage'
 import pageGuard from '@/lib/pageGuard'
-import { getOrders, getOrdersCount } from '@/data/services/order'
-import OrdersHeader from './_components/OrdersHeader'
 import { Separator } from '@/components/ui/separator'
 import { SortingValues } from '@/lib/types'
 import CustomPagination from '@/components/custom/CustomPagination'
-import { UserRoleType } from '@prisma/client'
+import { getRatings, getRatingsCount } from '@/data/services/ratings'
+import RatingsHeader from './_components/RatingsHeader'
+import RatingsPage, { RatingsPageSkeleton } from './RatingsPage'
 
 export const metadata: Metadata = {
-  title: 'Admin | Porudžbine',
+  title: 'Admin | Recenzije',
 }
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -18,8 +17,9 @@ type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 type OrderByType = { createdAt: 'desc' } | { createdAt: 'asc' }
 
 export default async function Page(props: { searchParams: SearchParams }) {
-  const { userId, userRole } = await pageGuard({
-    callbackUrl: '/profil/porudzbine',
+  await pageGuard({
+    callbackUrl: '/admin/recenzije',
+    adminGuard: true,
   })
 
   const searchParams = await props.searchParams
@@ -43,29 +43,26 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const skip = (page - 1) * pageSize
   const take = pageSize
 
-  const ordersPromise = getOrders({
-    userId,
-    userRole,
+  const ratingsPromise = getRatings({
     orderBy,
     status,
     skip,
     take,
   })
-  const ordersCountPromise = getOrdersCount({ userId, userRole, status })
 
-  const isAdmin = userRole === UserRoleType.admin
+  const ratingsCountPromise = getRatingsCount({ status })
 
   return (
     <div className='space-y-5 group'>
-      <OrdersHeader />
+      <RatingsHeader />
 
       <Separator />
 
-      <Suspense fallback={<OrdersPageSkeleton />}>
-        <OrdersPage ordersPromise={ordersPromise} isAdmin={isAdmin} />
+      <Suspense fallback={<RatingsPageSkeleton />}>
+        <RatingsPage ratingsPromise={ratingsPromise} />
         <CustomPagination
-          countPromise={ordersCountPromise}
-          pageUrl='/admin/porudzbine'
+          countPromise={ratingsCountPromise}
+          pageUrl='/admin/recenzije'
         />
       </Suspense>
     </div>
