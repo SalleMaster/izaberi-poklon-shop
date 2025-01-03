@@ -127,6 +127,7 @@ export function ProductForm({
       description: product?.description || '',
       delivery: product?.delivery || DeliveryType.fast,
       inStock: product ? product.inStock : true,
+      trending: product ? product.trending : false,
       packageOption: product?.packageOption?.id || '',
       imagePersonalizationFields:
         product?.imagePersonalizationFields?.map((field) => ({
@@ -222,6 +223,7 @@ export function ProductForm({
             description: data.description,
             delivery: data.delivery,
             inStock: data.inStock,
+            trending: data.trending,
             packageOption: data.packageOption,
             textPersonalizationFields: data.textPersonalizationFields,
             imagePersonalizationFields: data.imagePersonalizationFields,
@@ -260,6 +262,7 @@ export function ProductForm({
             description: data.description,
             delivery: data.delivery,
             inStock: data.inStock,
+            trending: data.trending,
             packageOption: data.packageOption,
             textPersonalizationFields: data.textPersonalizationFields,
             imagePersonalizationFields: data.imagePersonalizationFields,
@@ -603,6 +606,24 @@ export function ProductForm({
               <FormDescription>
                 Da li je proizvod dostupan za poručivanje
               </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='trending'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='mr-4'>Aktuelan</FormLabel>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormDescription>Da li je proizvod aktuelan</FormDescription>
               <FormMessage />
             </FormItem>
           )}

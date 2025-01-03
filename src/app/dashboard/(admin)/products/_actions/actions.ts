@@ -33,6 +33,7 @@ export async function createProduct(
     description,
     delivery,
     inStock,
+    trending,
     packageOption,
     imagePersonalizationFields,
     textPersonalizationFields,
@@ -68,6 +69,7 @@ export async function createProduct(
         description,
         delivery,
         inStock,
+        trending,
         packageOption: packageOption
           ? {
               connect: {
@@ -155,6 +157,7 @@ export async function editProduct(
     description,
     delivery,
     inStock,
+    trending,
     packageOption,
     imagePersonalizationFields,
     textPersonalizationFields,
@@ -197,6 +200,7 @@ export async function editProduct(
         description,
         delivery,
         inStock,
+        trending,
         packageOption: packageOption
           ? {
               connect: {
