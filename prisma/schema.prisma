@@ -226,6 +226,7 @@ model Product {
   description                String
   delivery                   DeliveryType
   inStock                    Boolean                     @default(true)
+  trending                   Boolean                     @default(false)
   packageOption              PackageOption?              @relation(fields: [packageOptionId], references: [id])
   packageOptionId            String?
   coverImage                 Media?                      @relation("CoverImageRelation")
