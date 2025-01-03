@@ -46,38 +46,6 @@ const initialMedias: Prisma.MediaCreateInput[] = [
   },
 ]
 
-// const initialImagePersonalizationFields: Prisma.ImagePersonalizationFieldCreateInput[] =
-//   [
-//     {
-//       name: 'Image Personalization Field 1',
-//       min: 1,
-//     },
-//     {
-//       name: 'Image Personalization Field 2',
-//       min: 2,
-//     },
-//     {
-//       name: 'Image Personalization Field 3',
-//       min: 3,
-//     },
-//   ]
-
-// const initialTextPersonalizationFields: Prisma.TextPersonalizationFieldCreateInput[] =
-//   [
-//     {
-//       name: 'Text Personalization Field 1',
-//       placeholder: 'Text Personalization Field 1 placeholder',
-//     },
-//     {
-//       name: 'Text Personalization Field 2',
-//       placeholder: 'Text Personalization Field 2 placeholder',
-//     },
-//     {
-//       name: 'Text Personalization Field 3',
-//       placeholder: 'Text Personalization Field 3 placeholder',
-//     },
-//   ]
-
 const initialCategories: Prisma.CategoryCreateInput[] = [
   {
     id: 'category-id-1',
@@ -93,6 +61,7 @@ const initialCategories: Prisma.CategoryCreateInput[] = [
     name: 'Category 2',
     slug: 'category-2',
     active: true,
+    special: false,
     image: {
       create: initialMedias[1],
     },
@@ -102,9 +71,101 @@ const initialCategories: Prisma.CategoryCreateInput[] = [
     name: 'Category 3',
     slug: 'category-3',
     active: true,
+    special: false,
     image: {
       create: initialMedias[2],
     },
+  },
+  {
+    id: 'category-id-4',
+    name: 'Category 4',
+    slug: 'category-4',
+    active: true,
+    special: false,
+  },
+  {
+    id: 'category-id-5',
+    name: 'Category 5',
+    slug: 'category-5',
+    active: true,
+    special: false,
+  },
+  {
+    id: 'category-id-6',
+    name: 'Category 6',
+    slug: 'category-6',
+    active: true,
+    special: false,
+  },
+  {
+    id: 'category-id-7',
+    name: 'Category 7',
+    slug: 'category-7',
+    active: true,
+    special: false,
+  },
+  {
+    id: 'category-id-8',
+    name: 'Category 8',
+    slug: 'category-8',
+    active: true,
+    special: false,
+  },
+  {
+    id: 'category-id-9',
+    name: 'Category 9',
+    slug: 'category-9',
+    active: true,
+    special: false,
+  },
+  {
+    id: 'category-id-10',
+    name: 'Category 10',
+    slug: 'category-10',
+    active: true,
+    special: false,
+  },
+  {
+    id: 'category-id-11',
+    name: 'Category 11',
+    slug: 'category-11',
+    active: true,
+    special: false,
+  },
+  {
+    id: 'category-id-12',
+    name: 'Category 12',
+    slug: 'category-12',
+    active: true,
+    special: false,
+  },
+  {
+    id: 'category-id-13',
+    name: 'New Year',
+    slug: 'category-13',
+    active: true,
+    special: true,
+  },
+  {
+    id: 'category-id-14',
+    name: 'Christmas',
+    slug: 'category-14',
+    active: true,
+    special: true,
+  },
+  {
+    id: 'category-id-15',
+    name: '8th of March',
+    slug: 'category-15',
+    active: true,
+    special: true,
+  },
+  {
+    id: 'category-id-16',
+    name: "Valentine's Day",
+    slug: 'category-16',
+    active: true,
+    special: true,
   },
 ]
 
@@ -123,6 +184,7 @@ const initialDeliveryServices: Prisma.DeliveryServiceCreateInput[] = [
     name: 'Delivery Service 2',
     link: 'https://example.com',
     active: true,
+    predefinedPrices: true,
   },
   {
     id: 'delivery-service-id-3',
@@ -176,38 +238,18 @@ const initialDeliveryFees: Prisma.DeliveryFeeCreateInput[] = [
   },
 ]
 
-// const initialProducts: Prisma.ProductCreateInput[] = [
-//   {
-//     id: 'product-id-1',
-//     name: 'Product 1',
-//     categories: {
-//       connect: [{ id: 'category-id-1' }],
-//     },
-//     code: '0001',
-//     price: 1000,
-//     discount: {
-//       connect: { id: 'discount-id-1' },
-//     },
-//     material: 'Material 1',
-//     dimensions: 'Dimensions 1',
-//     personalization: 'Personalization 1',
-//     description: 'Product 1 description',
-//     delivery: DeliveryType.fast,
-//     inStock: true,
-//     coverImage: {
-//       create: initialMedias[3],
-//     },
-//     images: {
-//       create: [initialMedias[4], initialMedias[5]],
-//     },
-//     imagePersonalizationFields: {
-//       create: initialImagePersonalizationFields,
-//     },
-//     textPersonalizationFields: {
-//       create: initialTextPersonalizationFields,
-//     },
-//   },
-// ]
+const initialPackageOptions: Prisma.PackageOptionCreateInput[] = [
+  {
+    name: 'Picture frame',
+    description: 'Lux picture frame package option',
+    price: 300,
+  },
+  {
+    name: 'Magnet set',
+    description: 'Lux magnet set package option',
+    price: 400,
+  },
+]
 
 async function main() {
   console.log('Start seeding ...')
@@ -235,12 +277,12 @@ async function main() {
     })
     console.log(`Created delivery fee with id: ${newDeliveryFee.id}`)
   }
-  // for (const product of initialProducts) {
-  //   const newProduct = await prisma.product.create({
-  //     data: product,
-  //   })
-  //   console.log(`Created product with id: ${newProduct.id}`)
-  // }
+  for (const packageOption of initialPackageOptions) {
+    const newPackageOption = await prisma.packageOption.create({
+      data: packageOption,
+    })
+    console.log(`Created package option with id: ${newPackageOption.id}`)
+  }
   console.log('Seeding finished.')
 }
 

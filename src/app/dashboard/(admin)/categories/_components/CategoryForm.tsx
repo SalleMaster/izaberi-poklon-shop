@@ -52,6 +52,7 @@ export function CategoryForm({
     () => ({
       name: category?.name || '',
       active: category ? category?.active : false,
+      special: category ? category?.special : false,
       image: createEmptyFileList(),
     }),
     [category]
@@ -86,6 +87,7 @@ export function CategoryForm({
           {
             name: data.name,
             active: data.active,
+            special: data.special,
           },
           category.id,
           removedMedia,
@@ -109,6 +111,7 @@ export function CategoryForm({
           {
             name: data.name,
             active: data.active,
+            special: data.special,
           },
           mediaId
         )
@@ -202,6 +205,26 @@ export function CategoryForm({
                 />
               </FormControl>
               <FormDescription>Da li je kategorija aktivna</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='special'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className='mr-4'>Specijalna</FormLabel>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormDescription>
+                Specijalne kategorije će biti promovisane na raznim mestima u
+                aplikaciji
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
