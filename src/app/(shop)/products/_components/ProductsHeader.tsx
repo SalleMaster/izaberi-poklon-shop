@@ -11,6 +11,16 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
+import { PaginationDisplayValues } from '@/lib/types'
+import { Separator } from '@/components/ui/separator'
+import { Card } from '@/components/ui/card'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
+import { SlidersHorizontal } from 'lucide-react'
 
 export default function ProductsHeader() {
   const searchParams = useSearchParams()
@@ -18,8 +28,54 @@ export default function ProductsHeader() {
   const [optimisticSort, setOptimisticSort] = useOptimistic(
     searchParams.get('sortiranje')
   )
+  const [optimisticDisplay, setOptimisticDisplay] = useOptimistic(
+    searchParams.get('prikazi')
+  )
 
   const createQueryString = useCreateQueryString(searchParams)
+
+  const paginationDisplayOptions = [
+    {
+      label: PaginationDisplayValues.small,
+      url: `/pokloni?${createQueryString({
+        addParams: [
+          { name: 'prikazi', value: PaginationDisplayValues.small },
+          { name: 'stranica', value: '1' },
+        ],
+      })}`,
+      value: PaginationDisplayValues.small,
+    },
+    {
+      label: PaginationDisplayValues.medium,
+      url: `/pokloni?${createQueryString({
+        addParams: [
+          { name: 'prikazi', value: PaginationDisplayValues.medium },
+          { name: 'stranica', value: '1' },
+        ],
+      })}`,
+      value: PaginationDisplayValues.medium,
+    },
+    {
+      label: PaginationDisplayValues.large,
+      url: `/pokloni?${createQueryString({
+        addParams: [
+          { name: 'prikazi', value: PaginationDisplayValues.large },
+          { name: 'stranica', value: '1' },
+        ],
+      })}`,
+      value: PaginationDisplayValues.large,
+    },
+    {
+      label: PaginationDisplayValues.extraLarge,
+      url: `/pokloni?${createQueryString({
+        addParams: [
+          { name: 'prikazi', value: PaginationDisplayValues.extraLarge },
+          { name: 'stranica', value: '1' },
+        ],
+      })}`,
+      value: PaginationDisplayValues.extraLarge,
+    },
+  ]
 
   const sortingOptions = [
     {
@@ -57,13 +113,52 @@ export default function ProductsHeader() {
       orderingLabel = 'Najnovijim'
   }
 
-  return (
-    <div
-      data-pending-products={isPending ? '' : undefined}
-      className='flex justify-between'
-    >
-      <h2 className='text-xl font-bold'>Pokloni</h2>
+  let displayLabel: string
 
+  switch (optimisticDisplay) {
+    case PaginationDisplayValues.small:
+      displayLabel = PaginationDisplayValues.small
+      break
+    case PaginationDisplayValues.medium:
+      displayLabel = PaginationDisplayValues.medium
+      break
+    case PaginationDisplayValues.large:
+      displayLabel = PaginationDisplayValues.large
+      break
+    case PaginationDisplayValues.extraLarge:
+      displayLabel = PaginationDisplayValues.extraLarge
+      break
+    default:
+      displayLabel = PaginationDisplayValues.small
+  }
+
+  const filters = (
+    <div className='space-y-4 md:space-y-0 md:flex md:space-x-4'>
+      <div>
+        <span className='mr-2'>Prikazi:</span>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='secondary'>{displayLabel}</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {paginationDisplayOptions.map((option) => (
+              <DropdownMenuItem key={option.label} asChild>
+                <Link
+                  href={option.url}
+                  onClick={() => {
+                    startTransition(() => {
+                      setOptimisticDisplay(option.value)
+                    })
+                  }}
+                >
+                  {option.label}
+                </Link>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <Separator className='md:hidden' />
       <div>
         <span className='mr-2'>Sortiranje prema:</span>
         <DropdownMenu>
@@ -88,6 +183,28 @@ export default function ProductsHeader() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+    </div>
+  )
+
+  return (
+    <div
+      data-pending-products={isPending ? '' : undefined}
+      className='space-y-2.5 md:space-y-0 md:flex md:justify-between'
+    >
+      <h2 className='text-xl font-bold'>Pokloni</h2>
+
+      <div className='hidden md:block'>{filters}</div>
+
+      <Card className='md:hidden'>
+        <Accordion type='single' collapsible className='px-4'>
+          <AccordionItem value='item-1' className='border-b-0'>
+            <AccordionTrigger>
+              <SlidersHorizontal />
+            </AccordionTrigger>
+            <AccordionContent className='space-y-4'>{filters}</AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </Card>
     </div>
   )
 }

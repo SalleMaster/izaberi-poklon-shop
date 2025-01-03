@@ -19,9 +19,13 @@ export const getProducts = cache(
   async ({
     kategorija,
     orderBy = { createdAt: 'desc' },
+    skip,
+    take,
   }: {
     kategorija: string | string[] | undefined
     orderBy?: { price: 'asc' | 'desc' } | { createdAt: 'desc' }
+    skip?: number
+    take?: number
   }) => {
     console.log('getProducts')
 
@@ -48,8 +52,11 @@ export const getProducts = cache(
                 },
               },
             }),
+        inStock: true,
       },
       orderBy,
+      skip: skip && skip > 0 ? skip : undefined,
+      take: take && take > 0 ? take : undefined,
       include: {
         coverImage: true,
         discount: true,
@@ -78,6 +85,45 @@ export type ProductWithRelations = Product & {
 }
 
 export type GetProductReturnType = Promise<ProductWithRelations | null>
+
+export const getProductsCount = cache(
+  async ({
+    kategorija,
+  }: {
+    kategorija: string | string[] | undefined
+  }): GetProductsCountReturnType => {
+    console.log('getProductsCount')
+
+    unstable_noStore()
+    await slow(1000)
+
+    return await prisma.product.count({
+      where: {
+        ...(kategorija
+          ? {
+              categories: {
+                some: {
+                  slug: Array.isArray(kategorija)
+                    ? { in: kategorija }
+                    : kategorija,
+                  active: true,
+                },
+              },
+            }
+          : {
+              categories: {
+                some: {
+                  active: true,
+                },
+              },
+            }),
+        inStock: true,
+      },
+    })
+  }
+)
+
+export type GetProductsCountReturnType = Promise<number>
 
 export const getProduct = cache(
   async ({ id }: { id: string }): GetProductReturnType => {
