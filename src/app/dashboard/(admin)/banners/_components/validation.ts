@@ -8,12 +8,14 @@ import { z } from 'zod'
 export const bannerSchema = z.object({
   name: z.string().trim().min(1, 'Polje je neophodno'),
   link: z.string().trim().url('Polje mora biti validan URL'),
-  image: imageListSchemaRequired,
+  desktopImage: imageListSchemaRequired,
+  mobileImage: imageListSchemaRequired,
   active: z.boolean(),
 })
 
 export const editBannerSchema = bannerSchema.extend({
-  image: imageListSchemaOptional,
+  desktopImage: imageListSchemaOptional,
+  mobileImage: imageListSchemaOptional,
 })
 
 export type BannerValues = z.infer<typeof bannerSchema>

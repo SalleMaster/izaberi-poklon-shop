@@ -6,7 +6,7 @@ import Benefits from './_components/benefits/Benefits'
 export default function Landing() {
   const bannersPromise = getActiveBanners()
   return (
-    <div className='space-y-10'>
+    <div className='flex flex-col gap-10'>
       <Suspense fallback={<BannersSkeleton />}>
         <Banners bannersPromise={bannersPromise} />
       </Suspense>

@@ -7,26 +7,22 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { Banner, Media } from '@prisma/client'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
 import { BannerForm } from './_components/BannerForm'
 import { fallbackImageURL } from '@/lib/consts'
-
-type BannerWithImage = Banner & {
-  image: Media | null
-}
+import { BannerWithImageType } from '@/data/services/banners'
 
 export default async function BannersPage() {
   const activeBanners = await prisma.banner.findMany({
     where: { active: true },
     orderBy: { createdAt: 'desc' },
-    include: { image: true },
+    include: { desktopImage: true, mobileImage: true },
   })
 
   const inactiveBanners = await prisma.banner.findMany({
     where: { active: false },
     orderBy: { createdAt: 'desc' },
-    include: { image: true },
+    include: { desktopImage: true, mobileImage: true },
   })
   return (
     <div className='space-y-10'>
@@ -70,7 +66,7 @@ export default async function BannersPage() {
   )
 }
 
-function BannerCard({ banner }: { banner?: BannerWithImage }) {
+function BannerCard({ banner }: { banner?: BannerWithImageType }) {
   return (
     <Card>
       <Accordion type='single' collapsible className='px-4'>
@@ -82,8 +78,8 @@ function BannerCard({ banner }: { banner?: BannerWithImage }) {
             <div className='flex items-center gap-4'>
               <div className='w-6'>
                 <Image
-                  src={banner?.image?.url || fallbackImageURL}
-                  alt={banner?.image?.name || 'No image'}
+                  src={banner?.desktopImage?.url || fallbackImageURL}
+                  alt={banner?.desktopImage?.name || 'No image'}
                   width={24}
                   height={24}
                 />

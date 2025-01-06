@@ -114,13 +114,14 @@ model DeliveryService {
 
 // Banner
 model Banner {
-  id        String   @id @default(cuid())
-  name      String
-  link      String
-  image     Media?
-  active    Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  name         String
+  link         String
+  desktopImage Media?   @relation("DesktopImageRelation")
+  mobileImage  Media?   @relation("MobileImageRelation")
+  active       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("banners")
 }
@@ -271,10 +272,12 @@ model Media {
   userId                 String?
   category               Category?             @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId             String?               @unique
-  banner                 Banner?               @relation(fields: [bannerId], references: [id], onDelete: Cascade)
-  bannerId               String?               @unique
   deliveryService        DeliveryService?      @relation(fields: [deliveryServiceId], references: [id], onDelete: Cascade)
   deliveryServiceId      String?               @unique
+  desktopBannerImage     Banner?               @relation("DesktopImageRelation", fields: [desktopBannerImageId], references: [id], onDelete: Cascade)
+  desktopBannerImageId   String?               @unique
+  mobileBannerImage      Banner?               @relation("MobileImageRelation", fields: [mobileBannerImageId], references: [id], onDelete: Cascade)
+  mobileBannerImageId    String?               @unique
   productCover           Product?              @relation("CoverImageRelation", fields: [productCoverId], references: [id], onDelete: Cascade)
   productCoverId         String?               @unique
   productImages          Product?              @relation("ImagesRelation", fields: [productImagesId], references: [id], onDelete: Cascade)
