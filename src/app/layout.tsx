@@ -4,6 +4,7 @@ import localFont from 'next/font/local'
 import './globals.css'
 import Header from '@/app/_components/header/navigation/Header'
 import { Toaster } from '@/components/ui/toaster'
+import Footer from './_components/footer/Footer'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -29,12 +30,12 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
         <SessionProvider>
           <Header />
           <div className='container px-4 my-6 mx-auto'>{children}</div>
-          {/* <div className='border-1 h-[500px]'>Footer</div> */}
+          <Footer />
           <Toaster />
         </SessionProvider>
       </body>
