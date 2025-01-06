@@ -2,7 +2,7 @@ import { OrderStatusType, RatingStatusType } from '@prisma/client'
 import { generateQuantityOptions } from './product-utils'
 import { BadgeVariant } from '@/components/ui/badge'
 
-export const fallbackImageURL = `${process.env.AWS_BUCKET_URL}/fallback-image.png`
+export const fallbackImageURL = `${process.env.NEXT_PUBLIC_AWS_BUCKET_URL}/fallback-image.png`
 
 export const quantityOptions = generateQuantityOptions({ min: 1, max: 500 })
 export const priceTableQuantityOptions = generateQuantityOptions({
@@ -99,3 +99,12 @@ export const ratingStatusOptions: RatingStatusOptionsType = [
     variant: 'danger',
   },
 ]
+
+export const shopInfo = {
+  name: 'Red Dot',
+  description:
+    'RED DOT PR MIlanović Zoran zanatska radnja za izradu personalizovanih poklona i reklamnog materijala',
+  address: 'Pavla Vujisića 12, 34300 Aranđelovac',
+  pib: '111521702',
+  phone: '061 2251 225',
+}
