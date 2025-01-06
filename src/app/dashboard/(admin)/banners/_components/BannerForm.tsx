@@ -28,11 +28,6 @@ import { imageFileTypes } from '@/lib/validation'
 import { createEmptyFileList } from '@/lib/formUtils'
 import { BannerWithImageType } from '@/data/services/banners'
 
-// type BannerWithImage = Banner & {
-//   desktopImage: Media | null
-//   mobileImage: Media | null
-// }
-
 export function BannerForm({
   banner,
 }: {
