@@ -187,11 +187,9 @@ export function BannerForm({ banner }: { banner?: BannerWithImage | null }) {
             <FormItem>
               <FormLabel>Link</FormLabel>
               <FormControl>
-                <Input placeholder='Unesite link kurirske službe' {...field} />
+                <Input placeholder='Unesite link banera' {...field} />
               </FormControl>
-              <FormDescription>
-                Zvanični link sa cenama kurirske službe
-              </FormDescription>
+              <FormDescription>Link banera</FormDescription>
               <FormMessage />
             </FormItem>
           )}
