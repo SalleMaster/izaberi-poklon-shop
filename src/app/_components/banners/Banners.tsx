@@ -32,11 +32,20 @@ export default function Banners({ bannersPromise }: Props) {
           <CarouselItem key={banner.id}>
             <Link href={banner.link}>
               <Image
-                src={banner.image?.url || fallbackImageURL}
-                alt={banner.image?.name || banner.name}
-                width={1000}
-                height={333}
+                src={banner.desktopImage?.url || fallbackImageURL}
+                alt={banner.desktopImage?.name || banner.name}
+                width={1200}
+                height={600}
                 style={{ width: '100%' }}
+                className='hidden md:block'
+              />
+              <Image
+                src={banner.mobileImage?.url || fallbackImageURL}
+                alt={banner.mobileImage?.name || banner.name}
+                width={500}
+                height={600}
+                style={{ width: '100%' }}
+                className='md:hidden'
               />
             </Link>
           </CarouselItem>
@@ -50,10 +59,10 @@ export default function Banners({ bannersPromise }: Props) {
 
 export function BannersSkeleton() {
   return (
-    <Carousel>
+    <Carousel className='mt-0'>
       <CarouselContent>
         <CarouselItem>
-          <Skeleton className='w-full rounded-none h-[333px]' />
+          <Skeleton className='w-full rounded-none h-[600px]' />
         </CarouselItem>
       </CarouselContent>
       <CarouselPrevious />

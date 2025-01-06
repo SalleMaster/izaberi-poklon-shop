@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Banner, Media } from '@prisma/client'
+import { Media } from '@prisma/client'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -26,21 +26,29 @@ import { createMedia } from '@/lib/actions'
 import { createBanner, editBanner, deleteBanner } from '../_actions/actions'
 import { imageFileTypes } from '@/lib/validation'
 import { createEmptyFileList } from '@/lib/formUtils'
+import { BannerWithImageType } from '@/data/services/banners'
 
-type BannerWithImage = Banner & {
-  image: Media | null
-}
+// type BannerWithImage = Banner & {
+//   desktopImage: Media | null
+//   mobileImage: Media | null
+// }
 
-export function BannerForm({ banner }: { banner?: BannerWithImage | null }) {
+export function BannerForm({
+  banner,
+}: {
+  banner?: BannerWithImageType | null
+}) {
   const [isDeleting, setIsDeleting] = useState(false)
-  const [removedMedia, setRemovedMedia] = useState<Media[]>([])
+  const [removedDesktopMedia, setRemovedDesktopMedia] = useState<Media[]>([])
+  const [removedMobileMedia, setRemovedMobileMedia] = useState<Media[]>([])
   const { toast } = useToast()
 
   const defaultValues = useMemo(
     () => ({
       name: banner?.name || '',
       link: banner?.link || '',
-      image: createEmptyFileList(),
+      desktopImage: createEmptyFileList(),
+      mobileImage: createEmptyFileList(),
       active: banner ? banner?.active : false,
     }),
     [banner]
@@ -53,20 +61,32 @@ export function BannerForm({ banner }: { banner?: BannerWithImage | null }) {
 
   const { reset } = form
 
-  const imageRef = form.register('image')
+  const desktopImageRef = form.register('desktopImage')
+  const mobileImageRef = form.register('mobileImage')
 
   async function onSubmit(data: BannerValues) {
     try {
-      let mediaId = banner?.image?.id
+      let desktopMediaId = banner?.desktopImage?.id
+      let mobileMediaId = banner?.mobileImage?.id
 
-      // Upload new file if provided
-      if (data.image && data.image.length > 0) {
+      // Upload new desktop file if provided
+      if (data.desktopImage && data.desktopImage.length > 0) {
         const { key, name, type, fileURL } = await uploadFile(
-          data.image[0],
+          data.desktopImage[0],
           imageFileTypes
         )
         const media = await createMedia(key, name, type, fileURL)
-        mediaId = media.id
+        desktopMediaId = media.id
+      }
+
+      // Upload new mobile file if provided
+      if (data.mobileImage && data.mobileImage.length > 0) {
+        const { key, name, type, fileURL } = await uploadFile(
+          data.mobileImage[0],
+          imageFileTypes
+        )
+        const media = await createMedia(key, name, type, fileURL)
+        mobileMediaId = media.id
       }
 
       if (banner) {
@@ -78,8 +98,10 @@ export function BannerForm({ banner }: { banner?: BannerWithImage | null }) {
             active: data.active,
           },
           banner.id,
-          removedMedia,
-          mediaId
+          removedDesktopMedia,
+          removedMobileMedia,
+          desktopMediaId,
+          mobileMediaId
         )
         if (response) {
           if (response.status === 'fail') {
@@ -101,7 +123,8 @@ export function BannerForm({ banner }: { banner?: BannerWithImage | null }) {
             link: data.link,
             active: data.active,
           },
-          mediaId
+          desktopMediaId,
+          mobileMediaId
         )
         if (response) {
           if (response.status === 'fail') {
@@ -213,24 +236,61 @@ export function BannerForm({ banner }: { banner?: BannerWithImage | null }) {
         />
         <FormField
           control={form.control}
-          name='image'
+          name='desktopImage'
           render={() => (
             <FormItem>
-              <FormLabel>Slika</FormLabel>
+              <FormLabel>Veća slika</FormLabel>
               <FormControl>
                 <FileUpload
                   type='file'
-                  formFiles={form.getValues('image')}
-                  formSetValue={(values) => form.setValue('image', values)}
-                  existingFiles={banner?.image ? [banner.image] : []}
-                  removedExistingFiles={removedMedia}
-                  setRemovedExistingFile={(media) =>
-                    setRemovedMedia((prev) => [...prev, media])
+                  formFiles={form.getValues('desktopImage')}
+                  formSetValue={(values) =>
+                    form.setValue('desktopImage', values)
                   }
-                  {...imageRef}
+                  existingFiles={
+                    banner?.desktopImage ? [banner.desktopImage] : []
+                  }
+                  removedExistingFiles={removedDesktopMedia}
+                  setRemovedExistingFile={(media) =>
+                    setRemovedDesktopMedia((prev) => [...prev, media])
+                  }
+                  {...desktopImageRef}
                 />
               </FormControl>
-              <FormDescription>Slika banera</FormDescription>
+              <FormDescription>
+                Slika banera koja će se koristiti na većim ekranima
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='mobileImage'
+          render={() => (
+            <FormItem>
+              <FormLabel>Manja slika</FormLabel>
+              <FormControl>
+                <FileUpload
+                  type='file'
+                  formFiles={form.getValues('mobileImage')}
+                  formSetValue={(values) =>
+                    form.setValue('mobileImage', values)
+                  }
+                  existingFiles={
+                    banner?.mobileImage ? [banner.mobileImage] : []
+                  }
+                  removedExistingFiles={removedMobileMedia}
+                  setRemovedExistingFile={(media) =>
+                    setRemovedMobileMedia((prev) => [...prev, media])
+                  }
+                  {...mobileImageRef}
+                />
+              </FormControl>
+              <FormDescription>
+                Slika banera koja će se koristiti na većim ekranima
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

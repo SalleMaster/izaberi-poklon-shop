@@ -7,7 +7,8 @@ import { slow } from '@/lib/slow'
 import { Banner, Media } from '@prisma/client'
 
 export type BannerWithImageType = Banner & {
-  image: Media | null
+  desktopImage: Media | null
+  mobileImage: Media | null
 }
 
 export type GetActiveBannersReturnType = Promise<BannerWithImageType[]>
@@ -23,7 +24,8 @@ export const getActiveBanners = cache(async (): GetActiveBannersReturnType => {
       active: true,
     },
     include: {
-      image: true,
+      desktopImage: true,
+      mobileImage: true,
     },
   })
 })

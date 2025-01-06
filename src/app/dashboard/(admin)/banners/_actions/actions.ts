@@ -7,14 +7,16 @@ import { bannerSchema, BannerValues } from '../_components/validation'
 import { deleteMedia, deleteMediaFromS3 } from '@/lib/actions'
 import { adminActionGuard } from '@/lib/actionGuard'
 
-type BannerWithoutImageFile = Omit<BannerValues, 'image'>
+type BannerWithoutImageFile = Omit<BannerValues, 'desktopImage' | 'mobileImage'>
 const bannerSchemaWithoutImage = bannerSchema.omit({
-  image: true,
+  desktopImage: true,
+  mobileImage: true,
 })
 
 export async function createBanner(
   values: BannerWithoutImageFile,
-  mediaId?: string
+  desktopMediaId?: string,
+  mobileMediaId?: string
 ) {
   try {
     await adminActionGuard()
@@ -26,10 +28,17 @@ export async function createBanner(
         name,
         link,
         active,
-        ...(mediaId && {
-          image: {
+        ...(desktopMediaId && {
+          desktopImage: {
             connect: {
-              id: mediaId,
+              id: desktopMediaId,
+            },
+          },
+        }),
+        ...(mobileMediaId && {
+          mobileImage: {
+            connect: {
+              id: mobileMediaId,
             },
           },
         }),
@@ -42,8 +51,11 @@ export async function createBanner(
     }
   } catch (error) {
     // Remove media if there is an error
-    if (mediaId) {
-      await deleteMedia(mediaId)
+    if (desktopMediaId) {
+      await deleteMedia(desktopMediaId)
+    }
+    if (mobileMediaId) {
+      await deleteMedia(mobileMediaId)
     }
 
     if (error instanceof Error) {
@@ -62,8 +74,10 @@ export async function createBanner(
 export async function editBanner(
   values: BannerWithoutImageFile,
   id: string,
-  removedMedia: Media[],
-  mediaId?: string
+  removedDesktopMedia: Media[],
+  removedMobileMedia: Media[],
+  desktopMediaId?: string,
+  mobileMediaId?: string
 ) {
   try {
     await adminActionGuard()
@@ -76,18 +90,29 @@ export async function editBanner(
         name,
         link,
         active,
-        ...(mediaId && {
-          image: {
+        ...(desktopMediaId && {
+          desktopImage: {
             connect: {
-              id: mediaId,
+              id: desktopMediaId,
+            },
+          },
+        }),
+        ...(mobileMediaId && {
+          mobileImage: {
+            connect: {
+              id: mobileMediaId,
             },
           },
         }),
       },
     })
 
-    if (removedMedia.length > 0) {
-      removedMedia.forEach(async (media) => await deleteMedia(media.id))
+    if (removedDesktopMedia.length > 0) {
+      removedDesktopMedia.forEach(async (media) => await deleteMedia(media.id))
+    }
+
+    if (removedMobileMedia.length > 0) {
+      removedMobileMedia.forEach(async (media) => await deleteMedia(media.id))
     }
 
     return {
@@ -96,8 +121,11 @@ export async function editBanner(
     }
   } catch (error) {
     // Remove media if there is an error
-    if (mediaId) {
-      await deleteMedia(mediaId)
+    if (desktopMediaId) {
+      await deleteMedia(desktopMediaId)
+    }
+    if (mobileMediaId) {
+      await deleteMedia(mobileMediaId)
     }
 
     if (error instanceof Error) {
@@ -120,14 +148,21 @@ export async function deleteBanner(id: string) {
     const deletedBanner = await prisma.banner.delete({
       where: { id },
       include: {
-        image: true,
+        desktopImage: true,
+        mobileImage: true,
       },
     })
 
-    const mediaKey = deletedBanner.image?.key
+    const desktopMediaKey = deletedBanner.desktopImage?.key
 
-    if (mediaKey) {
-      await deleteMediaFromS3(mediaKey)
+    if (desktopMediaKey) {
+      await deleteMediaFromS3(desktopMediaKey)
+    }
+
+    const mobileMediaKey = deletedBanner.mobileImage?.key
+
+    if (mobileMediaKey) {
+      await deleteMediaFromS3(mobileMediaKey)
     }
 
     return {
