@@ -27,16 +27,17 @@ export type GetProductsProps = {
   orderBy?: { price: 'asc' | 'desc' } | { createdAt: 'desc' }
   skip?: number
   take?: number
+  isAdmin?: boolean
 }
 
-export type ProductCardProductType = Product &
+export type ProductCardType = Product &
   ProductPricesType & {
     discount: Discount | null
     coverImage: Media | null
     priceTable: PriceRange[]
   }
 
-export type GetProductsReturnType = Promise<ProductCardProductType[]>
+export type GetProductsReturnType = Promise<ProductCardType[]>
 
 export const getProducts = cache(
   async ({
@@ -44,11 +45,14 @@ export const getProducts = cache(
     orderBy = { createdAt: 'desc' },
     skip,
     take,
+    isAdmin = false,
   }: GetProductsProps): GetProductsReturnType => {
     console.log('getProducts')
 
     unstable_noStore()
     await slow(1000)
+
+    console.log(isAdmin)
 
     const products = await prisma.product.findMany({
       where: {
@@ -59,18 +63,26 @@ export const getProducts = cache(
                   slug: Array.isArray(kategorija)
                     ? { in: kategorija }
                     : kategorija,
-                  active: true,
+                  ...(isAdmin
+                    ? {}
+                    : {
+                        active: true,
+                      }),
                 },
               },
             }
           : {
               categories: {
                 some: {
-                  active: true,
+                  ...(isAdmin
+                    ? {}
+                    : {
+                        active: true,
+                      }),
                 },
               },
             }),
-        inStock: true,
+        ...(isAdmin ? {} : { inStock: true }),
       },
       orderBy,
       skip: skip && skip > 0 ? skip : undefined,
@@ -85,27 +97,25 @@ export const getProducts = cache(
     })
 
     if (products.length) {
-      const productsWithPrices: ProductCardProductType[] = products.map(
-        (product) => {
-          const {
-            finalPrice,
-            formattedPrice,
-            formattedFinalPrice,
-            formattedSavings,
-          } = calculatePrice({
-            discount: product?.discount,
-            priceTable: product?.priceTable,
-          })
+      const productsWithPrices: ProductCardType[] = products.map((product) => {
+        const {
+          finalPrice,
+          formattedPrice,
+          formattedFinalPrice,
+          formattedSavings,
+        } = calculatePrice({
+          discount: product?.discount,
+          priceTable: product?.priceTable,
+        })
 
-          return {
-            ...product,
-            finalPrice,
-            formattedPrice,
-            formattedFinalPrice,
-            formattedSavings,
-          }
+        return {
+          ...product,
+          finalPrice,
+          formattedPrice,
+          formattedFinalPrice,
+          formattedSavings,
         }
-      )
+      })
 
       return productsWithPrices
     }
@@ -130,8 +140,10 @@ export type GetProductReturnType = Promise<ProductWithRelations | null>
 export const getProductsCount = cache(
   async ({
     kategorija,
+    isAdmin = false,
   }: {
     kategorija: string | string[] | undefined
+    isAdmin?: boolean
   }): GetProductsCountReturnType => {
     console.log('getProductsCount')
 
@@ -147,18 +159,26 @@ export const getProductsCount = cache(
                   slug: Array.isArray(kategorija)
                     ? { in: kategorija }
                     : kategorija,
-                  active: true,
+                  ...(isAdmin
+                    ? {}
+                    : {
+                        active: true,
+                      }),
                 },
               },
             }
           : {
               categories: {
                 some: {
-                  active: true,
+                  ...(isAdmin
+                    ? {}
+                    : {
+                        active: true,
+                      }),
                 },
               },
             }),
-        inStock: true,
+        ...(isAdmin ? {} : { inStock: true }),
       },
     })
   }
@@ -237,27 +257,25 @@ export const getDiscountedProducts = cache(
     })
 
     if (products.length) {
-      const productsWithPrices: ProductCardProductType[] = products.map(
-        (product) => {
-          const {
-            finalPrice,
-            formattedPrice,
-            formattedFinalPrice,
-            formattedSavings,
-          } = calculatePrice({
-            discount: product?.discount,
-            priceTable: product?.priceTable,
-          })
+      const productsWithPrices: ProductCardType[] = products.map((product) => {
+        const {
+          finalPrice,
+          formattedPrice,
+          formattedFinalPrice,
+          formattedSavings,
+        } = calculatePrice({
+          discount: product?.discount,
+          priceTable: product?.priceTable,
+        })
 
-          return {
-            ...product,
-            finalPrice,
-            formattedPrice,
-            formattedFinalPrice,
-            formattedSavings,
-          }
+        return {
+          ...product,
+          finalPrice,
+          formattedPrice,
+          formattedFinalPrice,
+          formattedSavings,
         }
-      )
+      })
 
       return productsWithPrices
     }
@@ -291,27 +309,25 @@ export const getTrendingProducts = cache(
     })
 
     if (products.length) {
-      const productsWithPrices: ProductCardProductType[] = products.map(
-        (product) => {
-          const {
-            finalPrice,
-            formattedPrice,
-            formattedFinalPrice,
-            formattedSavings,
-          } = calculatePrice({
-            discount: product?.discount,
-            priceTable: product?.priceTable,
-          })
+      const productsWithPrices: ProductCardType[] = products.map((product) => {
+        const {
+          finalPrice,
+          formattedPrice,
+          formattedFinalPrice,
+          formattedSavings,
+        } = calculatePrice({
+          discount: product?.discount,
+          priceTable: product?.priceTable,
+        })
 
-          return {
-            ...product,
-            finalPrice,
-            formattedPrice,
-            formattedFinalPrice,
-            formattedSavings,
-          }
+        return {
+          ...product,
+          finalPrice,
+          formattedPrice,
+          formattedFinalPrice,
+          formattedSavings,
         }
-      )
+      })
 
       return productsWithPrices
     }

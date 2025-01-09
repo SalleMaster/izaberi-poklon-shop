@@ -8,7 +8,11 @@ import { Suspense } from 'react'
 import { getActiveCategories } from '@/data/services/category'
 import CategoriesList, { CategoriesListSkeleton } from './CategoriesList'
 
-export default async function ProductsSidebar() {
+type Props = {
+  pageUrl: string
+}
+
+export default async function ProductsSidebar({ pageUrl }: Props) {
   const activeCategories = getActiveCategories()
 
   return (
@@ -18,7 +22,10 @@ export default async function ProductsSidebar() {
       </CardHeader>
       <CardContent>
         <Suspense fallback={<CategoriesListSkeleton />}>
-          <CategoriesList categoriesPromise={activeCategories} />
+          <CategoriesList
+            categoriesPromise={activeCategories}
+            pageUrl={pageUrl}
+          />
         </Suspense>
       </CardContent>
     </Card>

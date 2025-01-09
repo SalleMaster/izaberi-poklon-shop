@@ -5,10 +5,10 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import getUserRole from '@/lib/userRole'
 import { Skeleton } from '@/components/ui/skeleton'
-import { ProductCardProductType } from '@/data/services/products'
+import { ProductCardType } from '@/data/services/products'
 
 type ProductCardProps = {
-  product: ProductCardProductType
+  product: ProductCardType
 }
 
 export default async function ProductCard({ product }: ProductCardProps) {

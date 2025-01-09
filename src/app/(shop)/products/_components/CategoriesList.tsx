@@ -17,9 +17,10 @@ type CategoryWithImage = Category & {
 
 type Props = {
   categoriesPromise: Promise<CategoryWithImage[]>
+  pageUrl: string
 }
 
-export default function CategoriesList({ categoriesPromise }: Props) {
+export default function CategoriesList({ categoriesPromise, pageUrl }: Props) {
   const categories = use(categoriesPromise)
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
@@ -40,7 +41,7 @@ export default function CategoriesList({ categoriesPromise }: Props) {
                 optimisticCategory?.includes(category.slug) &&
                   'bg-accent text-accent-foreground'
               )}
-              href={`/pokloni?${createQueryString({
+              href={`${pageUrl}?${createQueryString({
                 addParams: [{ name: 'kategorija', value: category.slug }],
               })}`}
               onClick={() => {
@@ -66,7 +67,7 @@ export default function CategoriesList({ categoriesPromise }: Props) {
       <Separator className='my-4' />
 
       <Link
-        href={`/pokloni?${createQueryString({ removeParams: ['kategorija'] })}`}
+        href={`${pageUrl}?${createQueryString({ removeParams: ['kategorija'] })}`}
         className={cn(
           'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
           optimisticCategory.length === 0 && 'bg-accent text-accent-foreground'
