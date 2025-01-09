@@ -18,9 +18,9 @@ export default function ProductDetails({ product, user }: Props) {
       <h3 className='text-2xl font-extrabold'>{product.name}</h3>
       <ProductDetailsPrice
         discount={product.discount}
-        formatedPrice={product.formatedPrice}
-        formatedFinalPrice={product.formatedFinalPrice}
-        formatedSavings={product.formatedSavings}
+        formattedPrice={product.formattedPrice}
+        formattedFinalPrice={product.formattedFinalPrice}
+        formattedSavings={product.formattedSavings}
         priceTable={product.priceTable}
       />
 

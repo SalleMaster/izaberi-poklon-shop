@@ -17,14 +17,14 @@ export const calculatePrice = ({ discount, priceTable }: Props) => {
 
   const savings = discount?.active ? price - finalPrice : 0
 
-  const formatedPrice = priceFormatter(price)
-  const formatedFinalPrice = priceFormatter(finalPrice)
-  const formatedSavings = priceFormatter(savings)
+  const formattedPrice = priceFormatter(price)
+  const formattedFinalPrice = priceFormatter(finalPrice)
+  const formattedSavings = priceFormatter(savings)
 
   return {
     finalPrice,
-    formatedPrice,
-    formatedFinalPrice,
-    formatedSavings,
+    formattedPrice,
+    formattedFinalPrice,
+    formattedSavings,
   }
 }

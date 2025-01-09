@@ -2,15 +2,41 @@ import { Suspense } from 'react'
 import Banners, { BannersSkeleton } from './_components/banners/Banners'
 import { getActiveBanners } from '@/data/services/banners'
 import Benefits from './_components/benefits/Benefits'
+import {
+  getDiscountedProducts,
+  getTrendingProducts,
+} from '@/data/services/products'
+import ProductsCarousel, {
+  ProductsCarouselSkeleton,
+} from './_components/products-carousel/ProductsCarousel'
 
 export default function Landing() {
   const bannersPromise = getActiveBanners()
+  const discountedProductsPromise = getDiscountedProducts({ take: 10 })
+  const trendingProductsPromise = getTrendingProducts({ take: 10 })
+
   return (
-    <div className='flex flex-col gap-10'>
-      <Suspense fallback={<BannersSkeleton />}>
-        <Banners bannersPromise={bannersPromise} />
+    <div className='flex flex-col gap-20'>
+      <div className='flex flex-col gap-10'>
+        <Suspense fallback={<BannersSkeleton />}>
+          <Banners bannersPromise={bannersPromise} />
+        </Suspense>
+        <Benefits />
+      </div>
+
+      <Suspense fallback={<ProductsCarouselSkeleton title='Aktuelno' />}>
+        <ProductsCarousel
+          productsPromise={trendingProductsPromise}
+          title='Aktuelno'
+        />
       </Suspense>
-      <Benefits />
+
+      <Suspense fallback={<ProductsCarouselSkeleton title='Na popustu' />}>
+        <ProductsCarousel
+          productsPromise={discountedProductsPromise}
+          title='Na popustu'
+        />
+      </Suspense>
     </div>
   )
 }

@@ -83,6 +83,10 @@ const config: Config = {
         products: '200px 1fr',
         cart: '4fr 3fr',
       },
+      aspectRatio: {
+        '10/3': '10 / 3',
+        '3/5': '3 / 5',
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],

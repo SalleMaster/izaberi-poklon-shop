@@ -28,15 +28,14 @@ export default async function ProductCard({ product }: ProductCardProps) {
 
   const discount = product.discount
 
-  const { formatedPrice, formatedFinalPrice, formatedSavings } = calculatePrice(
-    {
+  const { formattedPrice, formattedFinalPrice, formattedSavings } =
+    calculatePrice({
       discount,
       priceTable: product.priceTable,
-    }
-  )
+    })
 
   return (
-    <div className='relative flex flex-col bg-white p-4 rounded-md shadow-md text-center'>
+    <div className='relative flex flex-col bg-white p-4 rounded-md shadow-md text-center h-full'>
       <Link href={`/pokloni/${product.id}`}>
         {discount?.active && (
           <Badge className='absolute top-4 right-4 bg-secondary text-secondary-foreground'>
@@ -56,15 +55,17 @@ export default async function ProductCard({ product }: ProductCardProps) {
 
         <h3 className='text-lg font-bold'>{product.name}</h3>
         {discount?.active && (
-          <p className='text-muted-foreground'>
-            <span className='line-through'>{formatedPrice}</span>
+          <p className='text-muted-foreground text-sm'>
+            <span className='line-through'>{formattedPrice}</span>
           </p>
         )}
         <p className='text-xl font-bold'>
-          {product.priceTable.length > 1 && 'Od '} {formatedFinalPrice}
+          {product.priceTable.length > 1 && 'Od '} {formattedFinalPrice}
         </p>
         {discount?.active && (
-          <p className='text-muted-foreground'>Ušteda {formatedSavings}</p>
+          <p className='text-muted-foreground text-sm'>
+            Ušteda {formattedSavings}
+          </p>
         )}
       </Link>
 

@@ -3,17 +3,17 @@ import { Discount, PriceRange } from '@prisma/client'
 
 type Props = {
   discount: Discount | null
-  formatedPrice: string
-  formatedFinalPrice: string
-  formatedSavings: string
+  formattedPrice: string
+  formattedFinalPrice: string
+  formattedSavings: string
   priceTable: PriceRange[]
 }
 
 export default function ProductDetailsPrice({
   discount,
-  formatedPrice,
-  formatedFinalPrice,
-  formatedSavings,
+  formattedPrice,
+  formattedFinalPrice,
+  formattedSavings,
   priceTable,
 }: Props) {
   return (
@@ -23,7 +23,7 @@ export default function ProductDetailsPrice({
         {discount?.active && (
           <div className='flex gap-2'>
             <p className='text-muted-foreground'>
-              <span className='line-through'>{formatedPrice}</span>
+              <span className='line-through'>{formattedPrice}</span>
             </p>
             <Badge className='bg-secondary text-secondary-foreground'>
               -{discount.percentage}%
@@ -31,10 +31,10 @@ export default function ProductDetailsPrice({
           </div>
         )}
         <p className='text-3xl font-bold'>
-          {priceTable.length > 1 && 'Od '} {formatedFinalPrice}
+          {priceTable.length > 1 && 'Od '} {formattedFinalPrice}
         </p>
         {discount?.active && (
-          <p className='text-muted-foreground'>Ušteda {formatedSavings}</p>
+          <p className='text-muted-foreground'>Ušteda {formattedSavings}</p>
         )}
       </div>
     </div>
