@@ -17,7 +17,7 @@ export default function ProductDetailsPriceTable({
       forrmatedFinalPrice: calculatePrice({
         discount,
         priceTable: [priceRange],
-      }).formatedFinalPrice,
+      }).formattedFinalPrice,
     }
   })
 

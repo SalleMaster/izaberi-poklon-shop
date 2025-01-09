@@ -78,9 +78,9 @@ export type ProductWithRelations = Product & {
   imagePersonalizationFields: ImagePersonalizationField[]
   textPersonalizationFields: TextPersonalizationField[]
   finalPrice: number
-  formatedPrice: string
-  formatedFinalPrice: string
-  formatedSavings: string
+  formattedPrice: string
+  formattedFinalPrice: string
+  formattedSavings: string
   packageOption: PackageOption | null
 }
 
@@ -148,19 +148,151 @@ export const getProduct = cache(
     })
 
     if (product) {
-      const { finalPrice, formatedPrice, formatedFinalPrice, formatedSavings } =
-        calculatePrice({
-          discount: product?.discount,
-          priceTable: product?.priceTable,
-        })
+      const {
+        finalPrice,
+        formattedPrice,
+        formattedFinalPrice,
+        formattedSavings,
+      } = calculatePrice({
+        discount: product?.discount,
+        priceTable: product?.priceTable,
+      })
 
       return {
         ...product,
         finalPrice,
-        formatedPrice,
-        formatedFinalPrice,
-        formatedSavings,
+        formattedPrice,
+        formattedFinalPrice,
+        formattedSavings,
       }
+    }
+
+    return null
+  }
+)
+
+export type CarouselProductWithRelations = Product & {
+  discount: Discount | null
+  coverImage: Media | null
+  priceTable: PriceRange[]
+  finalPrice: number
+  formattedPrice: string
+  formattedFinalPrice: string
+  formattedSavings: string
+}
+
+export type GetDiscountedProductsReturnType = Promise<
+  CarouselProductWithRelations[] | null
+>
+
+export type GetDiscountedProductsProps = {
+  take: number
+}
+
+export const getDiscountedProducts = cache(
+  async ({
+    take,
+  }: GetDiscountedProductsProps): GetDiscountedProductsReturnType => {
+    console.log('getDiscountedProducts')
+
+    unstable_noStore()
+    await slow(1000)
+
+    const products = await prisma.product.findMany({
+      where: { discount: { isNot: null }, inStock: true },
+      include: {
+        discount: true,
+        coverImage: true,
+        priceTable: {
+          orderBy: { price: 'asc' },
+        },
+      },
+      take,
+      orderBy: { updatedAt: 'asc' },
+    })
+
+    if (products.length) {
+      const productsWithPrices: CarouselProductWithRelations[] = products.map(
+        (product) => {
+          const {
+            finalPrice,
+            formattedPrice,
+            formattedFinalPrice,
+            formattedSavings,
+          } = calculatePrice({
+            discount: product?.discount,
+            priceTable: product?.priceTable,
+          })
+
+          return {
+            ...product,
+            finalPrice,
+            formattedPrice,
+            formattedFinalPrice,
+            formattedSavings,
+          }
+        }
+      )
+
+      return productsWithPrices
+    }
+
+    return null
+  }
+)
+
+export type GetTrendingProductsProps = {
+  take: number
+}
+
+export type GetTrendingProductsReturnType = Promise<
+  CarouselProductWithRelations[] | null
+>
+
+export const getTrendingProducts = cache(
+  async ({ take }: GetTrendingProductsProps): GetTrendingProductsReturnType => {
+    console.log('getTrendingProducts')
+
+    unstable_noStore()
+    await slow(1000)
+
+    const products = await prisma.product.findMany({
+      where: { inStock: true, trending: true },
+      include: {
+        discount: true,
+        coverImage: true,
+        priceTable: {
+          orderBy: { price: 'asc' },
+        },
+      },
+      take,
+      orderBy: { updatedAt: 'asc' },
+    })
+
+    if (products.length) {
+      const productsWithPrices: CarouselProductWithRelations[] = products.map(
+        (product) => {
+          const {
+            finalPrice,
+            formattedPrice,
+            formattedFinalPrice,
+            formattedSavings,
+          } = calculatePrice({
+            discount: product?.discount,
+            priceTable: product?.priceTable,
+          })
+
+          return {
+            ...product,
+            finalPrice,
+            formattedPrice,
+            formattedFinalPrice,
+            formattedSavings,
+          }
+        }
+      )
+
+      return productsWithPrices
     }
 
     return null
