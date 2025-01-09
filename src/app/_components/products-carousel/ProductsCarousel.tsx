@@ -6,20 +6,20 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
-import { CarouselProductWithRelations } from '@/data/services/products'
+import { GetProductsReturnType } from '@/data/services/products'
 import ProductCard, {
   ProductCardSkeleton,
 } from '@/components/custom/ProductCard'
 
 type Props = {
-  productsPromise: Promise<CarouselProductWithRelations[] | null>
+  productsPromise: GetProductsReturnType
   title: string
 }
 
 export default function ProductsCarousel({ productsPromise, title }: Props) {
   const products = use(productsPromise)
 
-  if (!products) {
+  if (!products.length) {
     return null
   }
 

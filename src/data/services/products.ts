@@ -15,18 +15,36 @@ import {
 } from '@prisma/client'
 import { calculatePrice } from '@/lib/price'
 
+type ProductPricesType = {
+  finalPrice: number
+  formattedPrice: string
+  formattedFinalPrice: string
+  formattedSavings: string
+}
+
+export type GetProductsProps = {
+  kategorija: string | string[] | undefined
+  orderBy?: { price: 'asc' | 'desc' } | { createdAt: 'desc' }
+  skip?: number
+  take?: number
+}
+
+export type ProductCardProductType = Product &
+  ProductPricesType & {
+    discount: Discount | null
+    coverImage: Media | null
+    priceTable: PriceRange[]
+  }
+
+export type GetProductsReturnType = Promise<ProductCardProductType[]>
+
 export const getProducts = cache(
   async ({
     kategorija,
     orderBy = { createdAt: 'desc' },
     skip,
     take,
-  }: {
-    kategorija: string | string[] | undefined
-    orderBy?: { price: 'asc' | 'desc' } | { createdAt: 'desc' }
-    skip?: number
-    take?: number
-  }) => {
+  }: GetProductsProps): GetProductsReturnType => {
     console.log('getProducts')
 
     unstable_noStore()
@@ -66,23 +84,46 @@ export const getProducts = cache(
       },
     })
 
-    return products
+    if (products.length) {
+      const productsWithPrices: ProductCardProductType[] = products.map(
+        (product) => {
+          const {
+            finalPrice,
+            formattedPrice,
+            formattedFinalPrice,
+            formattedSavings,
+          } = calculatePrice({
+            discount: product?.discount,
+            priceTable: product?.priceTable,
+          })
+
+          return {
+            ...product,
+            finalPrice,
+            formattedPrice,
+            formattedFinalPrice,
+            formattedSavings,
+          }
+        }
+      )
+
+      return productsWithPrices
+    }
+
+    return []
   }
 )
 
-export type ProductWithRelations = Product & {
-  discount: Discount | null
-  coverImage: Media | null
-  images: Media[]
-  priceTable: PriceRange[]
-  imagePersonalizationFields: ImagePersonalizationField[]
-  textPersonalizationFields: TextPersonalizationField[]
-  finalPrice: number
-  formattedPrice: string
-  formattedFinalPrice: string
-  formattedSavings: string
-  packageOption: PackageOption | null
-}
+export type ProductWithRelations = Product &
+  ProductPricesType & {
+    discount: Discount | null
+    coverImage: Media | null
+    images: Media[]
+    priceTable: PriceRange[]
+    imagePersonalizationFields: ImagePersonalizationField[]
+    textPersonalizationFields: TextPersonalizationField[]
+    packageOption: PackageOption | null
+  }
 
 export type GetProductReturnType = Promise<ProductWithRelations | null>
 
@@ -171,28 +212,12 @@ export const getProduct = cache(
   }
 )
 
-export type CarouselProductWithRelations = Product & {
-  discount: Discount | null
-  coverImage: Media | null
-  priceTable: PriceRange[]
-  finalPrice: number
-  formattedPrice: string
-  formattedFinalPrice: string
-  formattedSavings: string
-}
-
-export type GetDiscountedProductsReturnType = Promise<
-  CarouselProductWithRelations[] | null
->
-
 export type GetDiscountedProductsProps = {
   take: number
 }
 
 export const getDiscountedProducts = cache(
-  async ({
-    take,
-  }: GetDiscountedProductsProps): GetDiscountedProductsReturnType => {
+  async ({ take }: GetDiscountedProductsProps): GetProductsReturnType => {
     console.log('getDiscountedProducts')
 
     unstable_noStore()
@@ -212,7 +237,7 @@ export const getDiscountedProducts = cache(
     })
 
     if (products.length) {
-      const productsWithPrices: CarouselProductWithRelations[] = products.map(
+      const productsWithPrices: ProductCardProductType[] = products.map(
         (product) => {
           const {
             finalPrice,
@@ -237,7 +262,7 @@ export const getDiscountedProducts = cache(
       return productsWithPrices
     }
 
-    return null
+    return []
   }
 )
 
@@ -245,12 +270,8 @@ export type GetTrendingProductsProps = {
   take: number
 }
 
-export type GetTrendingProductsReturnType = Promise<
-  CarouselProductWithRelations[] | null
->
-
 export const getTrendingProducts = cache(
-  async ({ take }: GetTrendingProductsProps): GetTrendingProductsReturnType => {
+  async ({ take }: GetTrendingProductsProps): GetProductsReturnType => {
     console.log('getTrendingProducts')
 
     unstable_noStore()
@@ -270,7 +291,7 @@ export const getTrendingProducts = cache(
     })
 
     if (products.length) {
-      const productsWithPrices: CarouselProductWithRelations[] = products.map(
+      const productsWithPrices: ProductCardProductType[] = products.map(
         (product) => {
           const {
             finalPrice,
@@ -295,6 +316,6 @@ export const getTrendingProducts = cache(
       return productsWithPrices
     }
 
-    return null
+    return []
   }
 )
