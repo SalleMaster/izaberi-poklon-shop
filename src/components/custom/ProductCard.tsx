@@ -1,45 +1,25 @@
-import {
-  Product,
-  Discount,
-  Media,
-  PriceRange,
-  UserRoleType,
-} from '@prisma/client'
+import { UserRoleType } from '@prisma/client'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import getUserRole from '@/lib/userRole'
 import { Skeleton } from '@/components/ui/skeleton'
-import { calculatePrice } from '@/lib/price'
-
-type ProductWithRelations = Product & {
-  discount: Discount | null
-  coverImage: Media | null
-  priceTable: PriceRange[]
-}
+import { ProductCardType } from '@/data/services/products'
 
 type ProductCardProps = {
-  product: ProductWithRelations
+  product: ProductCardType
 }
 
 export default async function ProductCard({ product }: ProductCardProps) {
   const userRole = await getUserRole()
 
-  const discount = product.discount
-
-  const { formattedPrice, formattedFinalPrice, formattedSavings } =
-    calculatePrice({
-      discount,
-      priceTable: product.priceTable,
-    })
-
   return (
     <div className='relative flex flex-col bg-white p-4 rounded-md shadow-md text-center h-full'>
       <Link href={`/pokloni/${product.id}`}>
-        {discount?.active && (
+        {product.discount?.active && (
           <Badge className='absolute top-4 right-4 bg-secondary text-secondary-foreground'>
-            -{discount.percentage}%
+            -{product.discount.percentage}%
           </Badge>
         )}
         {product.coverImage && (
@@ -54,17 +34,17 @@ export default async function ProductCard({ product }: ProductCardProps) {
         )}
 
         <h3 className='text-lg font-bold'>{product.name}</h3>
-        {discount?.active && (
+        {product.discount?.active && (
           <p className='text-muted-foreground text-sm'>
-            <span className='line-through'>{formattedPrice}</span>
+            <span className='line-through'>{product.formattedPrice}</span>
           </p>
         )}
         <p className='text-xl font-bold'>
-          {product.priceTable.length > 1 && 'Od '} {formattedFinalPrice}
+          {product.priceTable.length > 1 && 'Od '} {product.formattedFinalPrice}
         </p>
-        {discount?.active && (
+        {product.discount?.active && (
           <p className='text-muted-foreground text-sm'>
-            Ušteda {formattedSavings}
+            Ušteda {product.formattedSavings}
           </p>
         )}
       </Link>

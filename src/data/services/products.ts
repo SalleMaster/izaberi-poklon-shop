@@ -15,22 +15,44 @@ import {
 } from '@prisma/client'
 import { calculatePrice } from '@/lib/price'
 
+type ProductPricesType = {
+  finalPrice: number
+  formattedPrice: string
+  formattedFinalPrice: string
+  formattedSavings: string
+}
+
+export type GetProductsProps = {
+  kategorija: string | string[] | undefined
+  orderBy?: { price: 'asc' | 'desc' } | { createdAt: 'desc' }
+  skip?: number
+  take?: number
+  isAdmin?: boolean
+}
+
+export type ProductCardType = Product &
+  ProductPricesType & {
+    discount: Discount | null
+    coverImage: Media | null
+    priceTable: PriceRange[]
+  }
+
+export type GetProductsReturnType = Promise<ProductCardType[]>
+
 export const getProducts = cache(
   async ({
     kategorija,
     orderBy = { createdAt: 'desc' },
     skip,
     take,
-  }: {
-    kategorija: string | string[] | undefined
-    orderBy?: { price: 'asc' | 'desc' } | { createdAt: 'desc' }
-    skip?: number
-    take?: number
-  }) => {
+    isAdmin = false,
+  }: GetProductsProps): GetProductsReturnType => {
     console.log('getProducts')
 
     unstable_noStore()
     await slow(1000)
+
+    console.log(isAdmin)
 
     const products = await prisma.product.findMany({
       where: {
@@ -41,18 +63,26 @@ export const getProducts = cache(
                   slug: Array.isArray(kategorija)
                     ? { in: kategorija }
                     : kategorija,
-                  active: true,
+                  ...(isAdmin
+                    ? {}
+                    : {
+                        active: true,
+                      }),
                 },
               },
             }
           : {
               categories: {
                 some: {
-                  active: true,
+                  ...(isAdmin
+                    ? {}
+                    : {
+                        active: true,
+                      }),
                 },
               },
             }),
-        inStock: true,
+        ...(isAdmin ? {} : { inStock: true }),
       },
       orderBy,
       skip: skip && skip > 0 ? skip : undefined,
@@ -66,31 +96,54 @@ export const getProducts = cache(
       },
     })
 
-    return products
+    if (products.length) {
+      const productsWithPrices: ProductCardType[] = products.map((product) => {
+        const {
+          finalPrice,
+          formattedPrice,
+          formattedFinalPrice,
+          formattedSavings,
+        } = calculatePrice({
+          discount: product?.discount,
+          priceTable: product?.priceTable,
+        })
+
+        return {
+          ...product,
+          finalPrice,
+          formattedPrice,
+          formattedFinalPrice,
+          formattedSavings,
+        }
+      })
+
+      return productsWithPrices
+    }
+
+    return []
   }
 )
 
-export type ProductWithRelations = Product & {
-  discount: Discount | null
-  coverImage: Media | null
-  images: Media[]
-  priceTable: PriceRange[]
-  imagePersonalizationFields: ImagePersonalizationField[]
-  textPersonalizationFields: TextPersonalizationField[]
-  finalPrice: number
-  formattedPrice: string
-  formattedFinalPrice: string
-  formattedSavings: string
-  packageOption: PackageOption | null
-}
+export type ProductWithRelations = Product &
+  ProductPricesType & {
+    discount: Discount | null
+    coverImage: Media | null
+    images: Media[]
+    priceTable: PriceRange[]
+    imagePersonalizationFields: ImagePersonalizationField[]
+    textPersonalizationFields: TextPersonalizationField[]
+    packageOption: PackageOption | null
+  }
 
 export type GetProductReturnType = Promise<ProductWithRelations | null>
 
 export const getProductsCount = cache(
   async ({
     kategorija,
+    isAdmin = false,
   }: {
     kategorija: string | string[] | undefined
+    isAdmin?: boolean
   }): GetProductsCountReturnType => {
     console.log('getProductsCount')
 
@@ -106,18 +159,26 @@ export const getProductsCount = cache(
                   slug: Array.isArray(kategorija)
                     ? { in: kategorija }
                     : kategorija,
-                  active: true,
+                  ...(isAdmin
+                    ? {}
+                    : {
+                        active: true,
+                      }),
                 },
               },
             }
           : {
               categories: {
                 some: {
-                  active: true,
+                  ...(isAdmin
+                    ? {}
+                    : {
+                        active: true,
+                      }),
                 },
               },
             }),
-        inStock: true,
+        ...(isAdmin ? {} : { inStock: true }),
       },
     })
   }
@@ -171,28 +232,12 @@ export const getProduct = cache(
   }
 )
 
-export type CarouselProductWithRelations = Product & {
-  discount: Discount | null
-  coverImage: Media | null
-  priceTable: PriceRange[]
-  finalPrice: number
-  formattedPrice: string
-  formattedFinalPrice: string
-  formattedSavings: string
-}
-
-export type GetDiscountedProductsReturnType = Promise<
-  CarouselProductWithRelations[] | null
->
-
 export type GetDiscountedProductsProps = {
   take: number
 }
 
 export const getDiscountedProducts = cache(
-  async ({
-    take,
-  }: GetDiscountedProductsProps): GetDiscountedProductsReturnType => {
+  async ({ take }: GetDiscountedProductsProps): GetProductsReturnType => {
     console.log('getDiscountedProducts')
 
     unstable_noStore()
@@ -212,32 +257,30 @@ export const getDiscountedProducts = cache(
     })
 
     if (products.length) {
-      const productsWithPrices: CarouselProductWithRelations[] = products.map(
-        (product) => {
-          const {
-            finalPrice,
-            formattedPrice,
-            formattedFinalPrice,
-            formattedSavings,
-          } = calculatePrice({
-            discount: product?.discount,
-            priceTable: product?.priceTable,
-          })
+      const productsWithPrices: ProductCardType[] = products.map((product) => {
+        const {
+          finalPrice,
+          formattedPrice,
+          formattedFinalPrice,
+          formattedSavings,
+        } = calculatePrice({
+          discount: product?.discount,
+          priceTable: product?.priceTable,
+        })
 
-          return {
-            ...product,
-            finalPrice,
-            formattedPrice,
-            formattedFinalPrice,
-            formattedSavings,
-          }
+        return {
+          ...product,
+          finalPrice,
+          formattedPrice,
+          formattedFinalPrice,
+          formattedSavings,
         }
-      )
+      })
 
       return productsWithPrices
     }
 
-    return null
+    return []
   }
 )
 
@@ -245,12 +288,8 @@ export type GetTrendingProductsProps = {
   take: number
 }
 
-export type GetTrendingProductsReturnType = Promise<
-  CarouselProductWithRelations[] | null
->
-
 export const getTrendingProducts = cache(
-  async ({ take }: GetTrendingProductsProps): GetTrendingProductsReturnType => {
+  async ({ take }: GetTrendingProductsProps): GetProductsReturnType => {
     console.log('getTrendingProducts')
 
     unstable_noStore()
@@ -270,31 +309,29 @@ export const getTrendingProducts = cache(
     })
 
     if (products.length) {
-      const productsWithPrices: CarouselProductWithRelations[] = products.map(
-        (product) => {
-          const {
-            finalPrice,
-            formattedPrice,
-            formattedFinalPrice,
-            formattedSavings,
-          } = calculatePrice({
-            discount: product?.discount,
-            priceTable: product?.priceTable,
-          })
+      const productsWithPrices: ProductCardType[] = products.map((product) => {
+        const {
+          finalPrice,
+          formattedPrice,
+          formattedFinalPrice,
+          formattedSavings,
+        } = calculatePrice({
+          discount: product?.discount,
+          priceTable: product?.priceTable,
+        })
 
-          return {
-            ...product,
-            finalPrice,
-            formattedPrice,
-            formattedFinalPrice,
-            formattedSavings,
-          }
+        return {
+          ...product,
+          finalPrice,
+          formattedPrice,
+          formattedFinalPrice,
+          formattedSavings,
         }
-      )
+      })
 
       return productsWithPrices
     }
 
-    return null
+    return []
   }
 )

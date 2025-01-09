@@ -10,11 +10,17 @@ type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
 type OrderByType = { price: 'asc' | 'desc' } | { createdAt: 'desc' }
 
-export default async function ProductsPage(props: {
+type ProductsPageProps = {
   searchParams: SearchParams
-}) {
-  const searchParams = await props.searchParams
-  const { kategorija, sortiranje, stranica, prikazi } = searchParams
+  isAdmin?: boolean
+}
+
+export default async function ProductsPage({
+  searchParams,
+  isAdmin = false,
+}: ProductsPageProps) {
+  const searchParameters = await searchParams
+  const { kategorija, sortiranje, stranica, prikazi } = searchParameters
 
   let orderBy: OrderByType
 
@@ -37,8 +43,14 @@ export default async function ProductsPage(props: {
   const skip = (page - 1) * pageSize
   const take = pageSize
 
-  const productsPromise = getProducts({ kategorija, orderBy, skip, take })
-  const productsCountPromise = getProductsCount({ kategorija })
+  const productsPromise = getProducts({
+    kategorija,
+    orderBy,
+    skip,
+    take,
+    isAdmin,
+  })
+  const productsCountPromise = getProductsCount({ kategorija, isAdmin })
 
   return (
     <div className='space-y-5 group'>
@@ -47,14 +59,14 @@ export default async function ProductsPage(props: {
       <Separator />
 
       <div className='md:grid gap-5 grid-cols-products'>
-        <ProductsSidebar />
+        <ProductsSidebar pageUrl={isAdmin ? '/admin/proizvodi' : '/pokloni'} />
 
         <Suspense fallback={<ProductsGridSkeleton />}>
           <div className='space-y-5'>
             <ProductsGrid productsPromise={productsPromise} />
             <CustomPagination
               countPromise={productsCountPromise}
-              pageUrl='/pokloni'
+              pageUrl={isAdmin ? '/admin/proizvodi' : '/pokloni'}
             />
           </div>
         </Suspense>

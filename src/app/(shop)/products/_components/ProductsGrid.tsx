@@ -1,18 +1,12 @@
-import type { Product, Discount, Media, PriceRange } from '@prisma/client'
 import { use } from 'react'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
 import ProductCard, {
   ProductCardSkeleton,
 } from '@/components/custom/ProductCard'
-
-type ProductWithRelations = Product & {
-  discount: Discount | null
-  coverImage: Media | null
-  priceTable: PriceRange[]
-}
+import { GetProductsReturnType } from '@/data/services/products'
 
 type Props = {
-  productsPromise: Promise<ProductWithRelations[]>
+  productsPromise: GetProductsReturnType
 }
 
 export default function ProductsGrid({ productsPromise }: Props) {

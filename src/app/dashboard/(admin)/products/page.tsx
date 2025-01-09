@@ -1,16 +1,18 @@
 import { Metadata } from 'next'
-import ProductsPage from './ProductsPage'
+import ProductsPage from '@/app/(shop)/products/page'
 import pageGuard from '@/lib/pageGuard'
 
 export const metadata: Metadata = {
   title: 'Admin | Proizvodi',
 }
 
-export default async function Page() {
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
+
+export default async function Page(props: { searchParams: SearchParams }) {
   await pageGuard({
     callbackUrl: '/admin/proizvodi',
     adminGuard: true,
   })
 
-  return <ProductsPage />
+  return <ProductsPage searchParams={props.searchParams} isAdmin={true} />
 }
