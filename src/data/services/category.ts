@@ -29,7 +29,6 @@ export const getActiveCategories = cache(
     console.log('getActiveCategories')
 
     unstable_noStore()
-    // await slow(1000000)
     await slow(1000)
 
     const categories = await prisma.category.findMany({
