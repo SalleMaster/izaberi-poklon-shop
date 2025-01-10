@@ -9,11 +9,16 @@ import {
 import ProductsCarousel, {
   ProductsCarouselSkeleton,
 } from './_components/products-carousel/ProductsCarousel'
+import { getActiveCategories } from '@/data/services/category'
+import Categories, {
+  CategoriesSkeleton,
+} from './_components/categories/Categories'
 
 export default function Landing() {
   const bannersPromise = getActiveBanners()
   const discountedProductsPromise = getDiscountedProducts({ take: 10 })
   const trendingProductsPromise = getTrendingProducts({ take: 10 })
+  const categoriesPromise = getActiveCategories()
 
   return (
     <div className='flex flex-col gap-20'>
@@ -36,6 +41,10 @@ export default function Landing() {
           productsPromise={discountedProductsPromise}
           title='Na popustu'
         />
+      </Suspense>
+
+      <Suspense fallback={<CategoriesSkeleton />}>
+        <Categories categoriesPromise={categoriesPromise} />
       </Suspense>
     </div>
   )
