@@ -2,7 +2,8 @@ import { OrderStatusType, RatingStatusType } from '@prisma/client'
 import { generateQuantityOptions } from './product-utils'
 import { BadgeVariant } from '@/components/ui/badge'
 
-export const fallbackImageURL = `${process.env.NEXT_PUBLIC_AWS_BUCKET_URL}/fallback-image.png`
+export const fallbackImageLightURL = '/img/placeholder-image-light.png'
+export const fallbackImageURL = '/img/placeholder-image.png'
 
 export const quantityOptions = generateQuantityOptions({ min: 1, max: 500 })
 export const priceTableQuantityOptions = generateQuantityOptions({
