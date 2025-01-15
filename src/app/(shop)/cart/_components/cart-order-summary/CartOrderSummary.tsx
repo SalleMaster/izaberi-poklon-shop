@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { CartItemWithRelations, CartWithRelations } from '@/data/services/cart'
-import { fallbackImageURL } from '@/lib/consts'
+import { fallbackImageURL, shopInfo } from '@/lib/consts'
 import { priceFormatter } from '@/lib/format'
 import {
   DeliveryAddress,
@@ -159,9 +159,7 @@ export default function CartOrderSummary({
           <>
             <div>
               <p className='font-semibold'>Adresa isporuke</p>
-              <p className='text-muted-foreground'>
-                Izaberi poklon shop adresa za preuzimanje
-              </p>
+              <p className='text-muted-foreground'>{shopInfo.pickupAddress}</p>
             </div>
             <div>
               <p className='font-semibold'>

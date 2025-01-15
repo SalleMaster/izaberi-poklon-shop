@@ -1,4 +1,5 @@
 import { Separator } from '@/components/ui/separator'
+import { shopInfo } from '@/lib/consts'
 import { Order, OrderDeliveryType, OrderPaymentType } from '@prisma/client'
 
 type OrderSummaryProps = {
@@ -121,9 +122,7 @@ export function OrderSummary({
           <>
             <div>
               <p className='font-semibold'>Adresa isporuke</p>
-              <p className='text-muted-foreground'>
-                Izaberi poklon shop adresa za preuzimanje
-              </p>
+              <p className='text-muted-foreground'>{shopInfo.pickupAddress}</p>
             </div>
             <div>
               <p className='font-semibold'>

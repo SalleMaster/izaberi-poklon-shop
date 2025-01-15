@@ -22,6 +22,8 @@ export default function OrderCreatedPage({ orderPromise, isAdmin }: Props) {
   const order = use(orderPromise)
   const [isPending, startTransition] = useTransition()
 
+  console.log('OrderCreatedPage', order)
+
   return (
     <div className={cn('space-y-5', isPending && 'animate-pulse')}>
       <div>
