@@ -107,5 +107,9 @@ export const shopInfo = {
     'RED DOT PR MIlanović Zoran zanatska radnja za izradu personalizovanih poklona i reklamnog materijala',
   address: 'Pavla Vujisića 12, 34300 Aranđelovac',
   pib: '111521702',
+  bankAccountNumber: '325-9500700034631-92',
+  idNumber: '17479946',
   phone: '061 2251 225',
+  email: 'red@dot.com',
+  pickupAddress: 'Pavla Vujisića 12, 34300 Aranđelovac',
 }

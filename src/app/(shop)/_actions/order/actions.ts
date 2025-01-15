@@ -162,6 +162,19 @@ export async function cartCreateOrder(values: CartOrderValues) {
       },
     })
 
+    // Send email
+    await fetch(`${process.env.APP_URL}/api/send`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        order,
+        orderEmail:
+          billingAddress?.email || deliveryAddress?.email || pickupEmail,
+      }),
+    })
+
     // Clear the cart
     await prisma.cartItem.deleteMany({
       where: {
