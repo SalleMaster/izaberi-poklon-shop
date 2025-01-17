@@ -12,7 +12,8 @@ import {
 import { OrderInformation } from './components/OrderInformation'
 import { Order } from '@prisma/client'
 import { shopInfo } from '@/lib/consts'
-import tailwindConfig from '../../tailwind.config'
+import { EmailHeader } from './components/EmailHeader'
+import { EmailFooter } from './components/EmailFooter'
 
 type PurchaseReceiptEmailProps = {
   order: Order
@@ -123,11 +124,11 @@ export default function PurchaseReceiptEmail({
   return (
     <Html>
       <Preview>Potvrda porudžbine</Preview>
-      <Tailwind config={tailwindConfig}>
+      <Tailwind>
         <Head />
         <Body className='font-sans bg-white'>
           <Container className='max-w-xl'>
-            <Heading>Potvrda porudžbine</Heading>
+            <EmailHeader />
             <Section>
               <Text>
                 Poštovani/a{' '}
@@ -137,7 +138,7 @@ export default function PurchaseReceiptEmail({
                 Vaša porudžbina je uspešno primljena.
               </Text>
               <Text>
-                Porudžbenica će automatski biti obrađena, u slučaju potrebe,
+                Porudžbina će automatski biti obrađena, u slučaju potrebe,
                 operater Call centra će Vas kontaktirati. Vaša porudžbenica je
                 evidentirana pod brojem{' '}
                 <span className='font-semibold'>{order.orderNumber}</span>.
@@ -157,6 +158,7 @@ export default function PurchaseReceiptEmail({
               </Text>
             </Section>
             <OrderInformation order={order} />
+            <EmailFooter />
           </Container>
         </Body>
       </Tailwind>

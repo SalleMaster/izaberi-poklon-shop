@@ -88,7 +88,13 @@ export function OrderCard({
                 <OrderStatusBadge status={order.status} />
                 {!isSingleOrder && (
                   <Button variant='outline' size='sm' asChild>
-                    <Link href={`/admin/porudzbine/${order.id}`}>
+                    <Link
+                      href={
+                        isAdmin
+                          ? `/admin/porudzbine/${order.id}`
+                          : `/profil/porudzbine/${order.id}`
+                      }
+                    >
                       <SquareArrowOutUpRight className='w-4 h-4' />
                     </Link>
                   </Button>

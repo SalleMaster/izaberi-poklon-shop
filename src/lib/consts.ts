@@ -112,4 +112,6 @@ export const shopInfo = {
   phone: '061 2251 225',
   email: 'red@dot.com',
   pickupAddress: 'Pavla Vujisića 12, 34300 Aranđelovac',
+  facebook: 'https://www.facebook.com',
+  instagram: 'https://www.instagram.com',
 }
