@@ -2,15 +2,13 @@ import { OrderCartWithRelations } from '@/data/services/order'
 import { shopInfo } from '@/lib/consts'
 import { priceFormatter } from '@/lib/format'
 import { Order, OrderDeliveryType, OrderPaymentType } from '@prisma/client'
-import { Column, Img, Row, Section, Text } from '@react-email/components'
+import { Column, Img, Row, Section, Text, Link } from '@react-email/components'
 import { format } from 'date-fns'
 import { srLatn } from 'date-fns/locale'
 
 type OrderInformationProps = {
   order: Order
 }
-
-// const dateFormatter = new Intl.DateTimeFormat('en', { dateStyle: 'medium' })
 
 export function OrderInformation({ order }: OrderInformationProps) {
   const orderFormattedCreatedAt = format(order.createdAt, 'PPpp', {
@@ -90,7 +88,7 @@ export function OrderInformation({ order }: OrderInformationProps) {
     <>
       <Section className='rounded-xl border border-solid border-gray-300 p-4 mb-5'>
         <Row>
-          <Column align='left' className='w-1/2'>
+          <Column align='left' className='w-1/2 align-top'>
             <Text>
               <span className='font-semibold'>Datum naručivanja:</span> <br />
               {orderFormattedCreatedAt} <br />
@@ -104,7 +102,7 @@ export function OrderInformation({ order }: OrderInformationProps) {
               {userInformation.email}
             </Text>
           </Column>
-          <Column align='left' className='w-1/2'>
+          <Column align='left' className='w-1/2 align-top'>
             <Text>
               <span className='font-semibold'>Prodaci o prodavcu:</span> <br />
               {shopInfo.name} <br />
@@ -112,14 +110,15 @@ export function OrderInformation({ order }: OrderInformationProps) {
               {shopInfo.phone} <br />
               {shopInfo.email} <br />
               <span className='font-semibold'>PIB:</span> {shopInfo.pib} <br />
-              <span className='font-semibold'>BR. RAČUNA:</span>{' '}
-              {shopInfo.bankAccountNumber} <br />
               <span className='font-semibold'>MATIČNI BROJ:</span>{' '}
-              {shopInfo.idNumber}
+              {shopInfo.idNumber} <br />
+              <span className='font-semibold'>BR. RAČUNA:</span>{' '}
+              <span className='break-all'>{shopInfo.bankAccountNumber}</span>
             </Text>
           </Column>
         </Row>
       </Section>
+
       <Section className='rounded-xl border border-solid border-gray-300 p-4 mb-5'>
         <table width='100%'>
           <tbody>
@@ -140,12 +139,17 @@ export function OrderInformation({ order }: OrderInformationProps) {
             {cart.items.map((item) => (
               <tr key={item.id}>
                 <td className='text-sm border-0 border-b border-solid border-gray-200 py-3'>
-                  <Img
-                    width='100px'
-                    alt={item.product.name}
-                    src={item.product.coverImage?.url}
-                  />
-                  {item.product.name}
+                  <Link
+                    href={`${process.env.APP_URL}/pokloni/${item.product.id}`}
+                    className='text-black'
+                  >
+                    <Img
+                      width='100px'
+                      alt={item.product.name}
+                      src={item.product.coverImage?.url}
+                    />
+                    {item.product.name}
+                  </Link>
                 </td>
                 <td className='text-sm border-0 border-b border-solid border-gray-200 py-3'>
                   {priceFormatter(item.price / item.quantity)}
@@ -189,13 +193,13 @@ export function OrderInformation({ order }: OrderInformationProps) {
 
       <Section className='rounded-xl border border-solid border-gray-300 p-4 mb-5'>
         <Row>
-          <Column align='left' className='w-1/2'>
+          <Column align='left' className='w-1/2 align-top'>
             <Text>
               <span className='font-semibold'>Način plaćanja:</span> <br />
               {paymentTypeText}
             </Text>
           </Column>
-          <Column align='left' className='w-1/2'>
+          <Column align='left' className='w-1/2 align-top'>
             <Text>
               <span className='font-semibold'>Način isporuke:</span> <br />
               {deliveryTypeText}
@@ -283,6 +287,25 @@ export function OrderInformation({ order }: OrderInformationProps) {
             </Row>
           </>
         ) : null}
+      </Section>
+
+      <Section className='rounded-xl border border-solid border-gray-300 px-4 mb-5'>
+        <Row>
+          <Column align='left' className='w-1/2'>
+            <Text>
+              Pratite status porudžbine na svom <br /> Izaberi Poklon Shop
+              profilu.
+            </Text>
+          </Column>
+          <Column align='right' className='w-1/2'>
+            <Link
+              href={`${process.env.APP_URL}/profil/porudzbine/${order.id}`}
+              className='p-2 bg-black text-white rounded-lg text-sm'
+            >
+              Detalji porudžbine
+            </Link>
+          </Column>
+        </Row>
       </Section>
     </>
   )

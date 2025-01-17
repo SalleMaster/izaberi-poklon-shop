@@ -12,20 +12,18 @@ export async function POST(req: NextRequest) {
     const { data, error } = await resend.emails.send({
       from: `${shopInfo.name} <${process.env.SENDER_EMAIL}>`,
       to: [
-        `${process.env.NODE_ENV === 'development' ? 'salle90ar@gmail.com' : orderEmail}`,
+        `${process.env.NODE_ENV === 'production' ? orderEmail : process.env.RECIPIENT_EMAIL}`,
       ],
       subject: 'Potvrda porudžbine',
       react: PurchaseReceiptEmail({ order }),
     })
 
     if (error) {
-      console.log('Error sending email', error)
       return NextResponse.json({ error }, { status: 500 })
     }
 
     return NextResponse.json(data)
   } catch (error) {
-    console.log('Error sending email', error)
     return NextResponse.json({ error }, { status: 500 })
   }
 }
