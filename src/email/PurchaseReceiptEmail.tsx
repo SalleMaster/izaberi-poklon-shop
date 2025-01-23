@@ -21,7 +21,7 @@ type PurchaseReceiptEmailProps = {
 PurchaseReceiptEmail.PreviewProps = {
   order: {
     id: 'cm5uvydjo00044412i0ii6irr',
-    orderNumber: 1,
+    orderNumber: '0DDBE531',
     deliveryType: 'pickup',
     paymentType: 'onDelivery',
     status: 'pending',
