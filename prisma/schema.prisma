@@ -377,7 +377,7 @@ model DeliveryAddress {
 // Order
 model Order {
   id           String            @id @default(cuid())
-  orderNumber  Int               @unique
+  orderNumber  String
   deliveryType OrderDeliveryType
   paymentType  OrderPaymentType
   status       OrderStatusType   @default(pending)
