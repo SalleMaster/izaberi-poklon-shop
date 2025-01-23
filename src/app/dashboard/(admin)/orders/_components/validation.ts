@@ -10,6 +10,7 @@ export const orderStatusSchema = z.object({
     OrderStatusType.delivered,
     OrderStatusType.canceled,
   ]),
+  shippingNumber: z.string().optional(),
 })
 
 export type OrderStatusValues = z.infer<typeof orderStatusSchema>

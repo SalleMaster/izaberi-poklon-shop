@@ -115,6 +115,7 @@ export function OrderCard({
               <div className='border rounded-xl p-4'>
                 <OrderStatusForm
                   status={order.status}
+                  shippingNumber={order.shippingNumber}
                   id={order.id}
                   startTransition={startTransition}
                 />

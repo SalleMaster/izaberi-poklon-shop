@@ -20,21 +20,29 @@ import { orderStatusSchema, OrderStatusValues } from './validation'
 import { updateOrderStatus } from '../_actions/actions'
 import { Combobox } from '@/components/custom/Combobox'
 import { orderStatusOptions } from '@/lib/consts'
+import { Input } from '@/components/ui/input'
 
 type Props = {
   status: OrderStatusType
+  shippingNumber: string
   id: string
   startTransition: TransitionStartFunction
 }
 
-export function OrderStatusForm({ status, id, startTransition }: Props) {
+export function OrderStatusForm({
+  status,
+  shippingNumber,
+  id,
+  startTransition,
+}: Props) {
   const { toast } = useToast()
 
   const defaultValues = useMemo(
     () => ({
       status,
+      shippingNumber,
     }),
-    [status]
+    [status, shippingNumber]
   )
 
   const form = useForm<OrderStatusValues>({
@@ -98,6 +106,29 @@ export function OrderStatusForm({ status, id, startTransition }: Props) {
                 />
               </FormControl>
               <FormDescription>Izaberite status porudžbine</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='shippingNumber'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Broj pošiljke</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder='Unesite broj pošiljke'
+                  {...field}
+                  disabled={
+                    form.watch('status') === OrderStatusType.pending ||
+                    form.watch('status') === OrderStatusType.canceled ||
+                    form.watch('status') === OrderStatusType.processing
+                  }
+                />
+              </FormControl>
+              <FormDescription>Broj pošiljke za praćenje</FormDescription>
               <FormMessage />
             </FormItem>
           )}

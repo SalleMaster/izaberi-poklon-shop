@@ -376,12 +376,13 @@ model DeliveryAddress {
 
 // Order
 model Order {
-  id           String            @id @default(cuid())
-  orderNumber  String
-  deliveryType OrderDeliveryType
-  paymentType  OrderPaymentType
-  status       OrderStatusType   @default(pending)
-  mediaRemoved Boolean           @default(false)
+  id             String            @id @default(cuid())
+  orderNumber    String
+  shippingNumber String            @default("")
+  deliveryType   OrderDeliveryType
+  paymentType    OrderPaymentType
+  status         OrderStatusType   @default(pending)
+  mediaRemoved   Boolean           @default(false)
 
   cart Json
 
