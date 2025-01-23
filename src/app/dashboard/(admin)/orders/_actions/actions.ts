@@ -10,6 +10,7 @@ import {
 } from '../_components/validation'
 import { adminActionGuard } from '@/lib/actionGuard'
 import { deleteMediasFromS3 } from '@/lib/actions'
+import { OrderStatusType } from '@prisma/client'
 
 export async function updateOrderStatus(values: OrderStatusValues, id: string) {
   try {
@@ -17,10 +18,25 @@ export async function updateOrderStatus(values: OrderStatusValues, id: string) {
 
     const data = orderStatusSchema.parse(values)
 
-    await prisma.order.update({
+    const order = await prisma.order.update({
       where: { id },
       data,
     })
+
+    if (data.status === OrderStatusType.shipped && data.shippingNumber) {
+      // Send email
+      await fetch(`${process.env.APP_URL}/api/order-sent`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          order,
+          orderEmail:
+            order.billingEmail || order.deliveryEmail || order.pickupEmail,
+        }),
+      })
+    }
 
     return {
       status: 'success',
