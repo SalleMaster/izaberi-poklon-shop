@@ -36,6 +36,7 @@ export default function CategoriesList({ categoriesPromise }: Props) {
           <Link
             href={`/pokloni?${createQueryString({
               addParams: [{ name: 'kategorija', value: category.slug }],
+              removeParams: ['stranica'],
             })}`}
             className={cn(
               selectedCategory?.includes(category.slug) &&
@@ -57,7 +58,7 @@ export default function CategoriesList({ categoriesPromise }: Props) {
       <DropdownMenuSeparator />
       <DropdownMenuItem asChild className='text-end'>
         <Link
-          href={`/pokloni?${createQueryString({ removeParams: ['kategorija'] })}`}
+          href={`/pokloni?${createQueryString({ removeParams: ['kategorija', 'stranica'] })}`}
           className={cn(
             selectedCategory.length === 0 && 'bg-accent text-accent-foreground'
           )}
