@@ -159,7 +159,12 @@ export default function ProductsHeader({ pageUrl }: Props) {
       setOptimisticTrending(checked ? 'da' : 'ne')
     })
     router.push(
-      `${pageUrl}?${createQueryString({ addParams: [{ name: 'aktuelno', value: checked ? 'da' : 'ne' }] })}`
+      `${pageUrl}?${createQueryString({
+        addParams: [
+          { name: 'aktuelno', value: checked ? 'da' : 'ne' },
+          { name: 'stranica', value: '1' },
+        ],
+      })}`
     )
   }
 
