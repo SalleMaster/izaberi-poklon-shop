@@ -47,30 +47,24 @@ export default function ProductsHeader({ pageUrl }: Props) {
     {
       label: PaginationDisplayValues.small,
       url: `${pageUrl}?${createQueryString({
-        addParams: [
-          { name: 'prikazi', value: PaginationDisplayValues.small },
-          { name: 'stranica', value: '1' },
-        ],
+        addParams: [{ name: 'prikazi', value: PaginationDisplayValues.small }],
+        removeParams: ['stranica'],
       })}`,
       value: PaginationDisplayValues.small,
     },
     {
       label: PaginationDisplayValues.medium,
       url: `${pageUrl}?${createQueryString({
-        addParams: [
-          { name: 'prikazi', value: PaginationDisplayValues.medium },
-          { name: 'stranica', value: '1' },
-        ],
+        addParams: [{ name: 'prikazi', value: PaginationDisplayValues.medium }],
+        removeParams: ['stranica'],
       })}`,
       value: PaginationDisplayValues.medium,
     },
     {
       label: PaginationDisplayValues.large,
       url: `${pageUrl}?${createQueryString({
-        addParams: [
-          { name: 'prikazi', value: PaginationDisplayValues.large },
-          { name: 'stranica', value: '1' },
-        ],
+        addParams: [{ name: 'prikazi', value: PaginationDisplayValues.large }],
+        removeParams: ['stranica'],
       })}`,
       value: PaginationDisplayValues.large,
     },
@@ -79,8 +73,8 @@ export default function ProductsHeader({ pageUrl }: Props) {
       url: `${pageUrl}?${createQueryString({
         addParams: [
           { name: 'prikazi', value: PaginationDisplayValues.extraLarge },
-          { name: 'stranica', value: '1' },
         ],
+        removeParams: ['stranica'],
       })}`,
       value: PaginationDisplayValues.extraLarge,
     },
@@ -160,10 +154,8 @@ export default function ProductsHeader({ pageUrl }: Props) {
     })
     router.push(
       `${pageUrl}?${createQueryString({
-        addParams: [
-          { name: 'aktuelno', value: checked ? 'da' : 'ne' },
-          { name: 'stranica', value: '1' },
-        ],
+        addParams: [{ name: 'aktuelno', value: checked ? 'da' : 'ne' }],
+        removeParams: ['stranica'],
       })}`
     )
   }
