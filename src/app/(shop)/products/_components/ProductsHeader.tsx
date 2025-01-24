@@ -1,6 +1,6 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import React, { useOptimistic, useTransition } from 'react'
 import useCreateQueryString from '@/hooks/use-create-query-string'
 import Link from 'next/link'
@@ -21,8 +21,10 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { SlidersHorizontal } from 'lucide-react'
+import { Switch } from '@/components/ui/switch'
 
 export default function ProductsHeader() {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
   const [optimisticSort, setOptimisticSort] = useOptimistic(
@@ -30,6 +32,9 @@ export default function ProductsHeader() {
   )
   const [optimisticDisplay, setOptimisticDisplay] = useOptimistic(
     searchParams.get('prikazi')
+  )
+  const [optimisticTrending, setOptimisticTrending] = useOptimistic(
+    searchParams.get('aktuelno')
   )
 
   const createQueryString = useCreateQueryString(searchParams)
@@ -132,8 +137,35 @@ export default function ProductsHeader() {
       displayLabel = PaginationDisplayValues.small
   }
 
+  let trending
+
+  switch (optimisticTrending) {
+    case 'da':
+      trending = true
+      break
+    case 'ne':
+      trending = false
+      break
+    default:
+      trending = false
+  }
+
+  const handleTrendingChange = (checked: boolean) => {
+    startTransition(() => {
+      setOptimisticTrending(checked ? 'da' : 'ne')
+    })
+    router.push(
+      `/pokloni?${createQueryString({ addParams: [{ name: 'aktuelno', value: checked ? 'da' : 'ne' }] })}`
+    )
+  }
+
   const filters = (
-    <div className='space-y-4 md:space-y-0 md:flex md:space-x-4'>
+    <div className='space-y-4 md:space-y-0 md:flex md:space-x-4 items-center'>
+      <div className='flex items-center'>
+        <span className='mr-2'>Samo aktuelno:</span>
+        <Switch checked={trending} onCheckedChange={handleTrendingChange} />
+      </div>
+      <Separator className='md:hidden' />
       <div>
         <span className='mr-2'>Prikazi:</span>
         <DropdownMenu>

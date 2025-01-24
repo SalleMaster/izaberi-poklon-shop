@@ -11,6 +11,7 @@ import { getActiveCategories } from '@/data/services/category'
 import CategoriesList, {
   CategoriesListSkeleton,
 } from './_components/CategoriesList'
+import Link from 'next/link'
 
 export default async function NavbarMenu() {
   const activeCategoriesPromise = getActiveCategories()
@@ -32,8 +33,14 @@ export default async function NavbarMenu() {
             </Suspense>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button className='rounded-none'>Akcija</Button>
-        <Button className='rounded-none'>Korporativni pokloni</Button>
+        <Button className='rounded-none'>
+          <Link href={`/pokloni?aktuelno=da`}>Aktuelno</Link>
+        </Button>
+        <Button className='rounded-none' asChild>
+          <Link href={`/pokloni?kategorija=korporativni-pokloni`}>
+            Korporativni pokloni
+          </Link>
+        </Button>
         <Button className='rounded-none'>O nama</Button>
         <Button className='rounded-none ml-auto' asChild>
           <a href='tel:+3816212312123'>Call centar: 062 123 12 123</a>
