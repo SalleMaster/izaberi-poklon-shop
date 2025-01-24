@@ -22,12 +22,17 @@ export function RatingUserInfo({ user }: RatingUserInfoProps) {
           {user.email}
         </a>
       </div>
-      <div className='space-y-1'>
-        <p className='text-muted-foreground'>Telefon:</p>
-        <a className='block bg-secondary px-2 py-1' href={`tel:${user.phone}`}>
-          {user.phone}
-        </a>
-      </div>
+      {user.phone ? (
+        <div className='space-y-1'>
+          <p className='text-muted-foreground'>Telefon:</p>
+          <a
+            className='block bg-secondary px-2 py-1'
+            href={`tel:${user.phone}`}
+          >
+            {user.phone}
+          </a>
+        </div>
+      ) : null}
     </div>
   )
 }
