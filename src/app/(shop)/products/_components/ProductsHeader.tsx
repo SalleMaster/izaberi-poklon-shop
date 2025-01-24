@@ -1,6 +1,6 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import React, { useOptimistic, useTransition } from 'react'
 import useCreateQueryString from '@/hooks/use-create-query-string'
 import Link from 'next/link'
@@ -21,8 +21,14 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { SlidersHorizontal } from 'lucide-react'
+import { Switch } from '@/components/ui/switch'
 
-export default function ProductsHeader() {
+type Props = {
+  pageUrl: string
+}
+
+export default function ProductsHeader({ pageUrl }: Props) {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
   const [optimisticSort, setOptimisticSort] = useOptimistic(
@@ -31,13 +37,16 @@ export default function ProductsHeader() {
   const [optimisticDisplay, setOptimisticDisplay] = useOptimistic(
     searchParams.get('prikazi')
   )
+  const [optimisticTrending, setOptimisticTrending] = useOptimistic(
+    searchParams.get('aktuelno')
+  )
 
   const createQueryString = useCreateQueryString(searchParams)
 
   const paginationDisplayOptions = [
     {
       label: PaginationDisplayValues.small,
-      url: `/pokloni?${createQueryString({
+      url: `${pageUrl}?${createQueryString({
         addParams: [
           { name: 'prikazi', value: PaginationDisplayValues.small },
           { name: 'stranica', value: '1' },
@@ -47,7 +56,7 @@ export default function ProductsHeader() {
     },
     {
       label: PaginationDisplayValues.medium,
-      url: `/pokloni?${createQueryString({
+      url: `${pageUrl}?${createQueryString({
         addParams: [
           { name: 'prikazi', value: PaginationDisplayValues.medium },
           { name: 'stranica', value: '1' },
@@ -57,7 +66,7 @@ export default function ProductsHeader() {
     },
     {
       label: PaginationDisplayValues.large,
-      url: `/pokloni?${createQueryString({
+      url: `${pageUrl}?${createQueryString({
         addParams: [
           { name: 'prikazi', value: PaginationDisplayValues.large },
           { name: 'stranica', value: '1' },
@@ -67,7 +76,7 @@ export default function ProductsHeader() {
     },
     {
       label: PaginationDisplayValues.extraLarge,
-      url: `/pokloni?${createQueryString({
+      url: `${pageUrl}?${createQueryString({
         addParams: [
           { name: 'prikazi', value: PaginationDisplayValues.extraLarge },
           { name: 'stranica', value: '1' },
@@ -80,19 +89,19 @@ export default function ProductsHeader() {
   const sortingOptions = [
     {
       label: 'Najnovijim',
-      url: `/pokloni?${createQueryString({
+      url: `${pageUrl}?${createQueryString({
         addParams: [{ name: 'sortiranje', value: 'najnoviji' }],
       })}`,
       value: 'najnoviji',
     },
     {
       label: 'Najnižoj ceni',
-      url: `/pokloni?${createQueryString({ addParams: [{ name: 'sortiranje', value: 'najniza-cena' }] })}`,
+      url: `${pageUrl}?${createQueryString({ addParams: [{ name: 'sortiranje', value: 'najniza-cena' }] })}`,
       value: 'najniza-cena',
     },
     {
       label: 'Najvišoj ceni',
-      url: `/pokloni?${createQueryString({ addParams: [{ name: 'sortiranje', value: 'najvisa-cena' }] })}`,
+      url: `${pageUrl}?${createQueryString({ addParams: [{ name: 'sortiranje', value: 'najvisa-cena' }] })}`,
       value: 'najvisa-cena',
     },
   ]
@@ -132,8 +141,35 @@ export default function ProductsHeader() {
       displayLabel = PaginationDisplayValues.small
   }
 
+  let trending
+
+  switch (optimisticTrending) {
+    case 'da':
+      trending = true
+      break
+    case 'ne':
+      trending = false
+      break
+    default:
+      trending = false
+  }
+
+  const handleTrendingChange = (checked: boolean) => {
+    startTransition(() => {
+      setOptimisticTrending(checked ? 'da' : 'ne')
+    })
+    router.push(
+      `${pageUrl}?${createQueryString({ addParams: [{ name: 'aktuelno', value: checked ? 'da' : 'ne' }] })}`
+    )
+  }
+
   const filters = (
-    <div className='space-y-4 md:space-y-0 md:flex md:space-x-4'>
+    <div className='space-y-4 md:space-y-0 md:flex md:space-x-4 items-center'>
+      <div className='flex items-center'>
+        <span className='mr-2'>Samo aktuelno:</span>
+        <Switch checked={trending} onCheckedChange={handleTrendingChange} />
+      </div>
+      <Separator className='md:hidden' />
       <div>
         <span className='mr-2'>Prikazi:</span>
         <DropdownMenu>

@@ -28,6 +28,7 @@ export type GetProductsProps = {
   skip?: number
   take?: number
   isAdmin?: boolean
+  trending?: boolean
 }
 
 export type ProductCardType = Product &
@@ -46,13 +47,12 @@ export const getProducts = cache(
     skip,
     take,
     isAdmin = false,
+    trending = false,
   }: GetProductsProps): GetProductsReturnType => {
     console.log('getProducts')
 
     unstable_noStore()
     await slow(1000)
-
-    console.log(isAdmin)
 
     const products = await prisma.product.findMany({
       where: {
@@ -83,6 +83,11 @@ export const getProducts = cache(
               },
             }),
         ...(isAdmin ? {} : { inStock: true }),
+        ...(trending
+          ? {
+              trending: true,
+            }
+          : {}),
       },
       orderBy,
       skip: skip && skip > 0 ? skip : undefined,

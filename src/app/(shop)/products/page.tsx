@@ -20,7 +20,8 @@ export default async function ProductsPage({
   isAdmin = false,
 }: ProductsPageProps) {
   const searchParameters = await searchParams
-  const { kategorija, sortiranje, stranica, prikazi } = searchParameters
+  const { kategorija, sortiranje, stranica, prikazi, aktuelno } =
+    searchParameters
 
   let orderBy: OrderByType
 
@@ -38,6 +39,19 @@ export default async function ProductsPage({
       orderBy = { createdAt: 'desc' }
   }
 
+  let trending
+
+  switch (aktuelno) {
+    case 'da':
+      trending = true
+      break
+    case 'ne':
+      trending = false
+      break
+    default:
+      trending = false
+  }
+
   const page = stranica ? Number(stranica) : 1
   const pageSize = prikazi ? Number(prikazi) : 10
   const skip = (page - 1) * pageSize
@@ -49,12 +63,13 @@ export default async function ProductsPage({
     skip,
     take,
     isAdmin,
+    trending,
   })
   const productsCountPromise = getProductsCount({ kategorija, isAdmin })
 
   return (
     <div className='space-y-5 group'>
-      <ProductsHeader />
+      <ProductsHeader pageUrl={isAdmin ? '/admin/proizvodi' : '/pokloni'} />
 
       <Separator />
 
