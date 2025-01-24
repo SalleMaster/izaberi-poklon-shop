@@ -69,7 +69,7 @@ export default async function ProductsPage({
 
   return (
     <div className='space-y-5 group'>
-      <ProductsHeader />
+      <ProductsHeader pageUrl={isAdmin ? '/admin/proizvodi' : '/pokloni'} />
 
       <Separator />
 

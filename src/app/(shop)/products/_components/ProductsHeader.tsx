@@ -23,7 +23,11 @@ import {
 import { SlidersHorizontal } from 'lucide-react'
 import { Switch } from '@/components/ui/switch'
 
-export default function ProductsHeader() {
+type Props = {
+  pageUrl: string
+}
+
+export default function ProductsHeader({ pageUrl }: Props) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
@@ -42,7 +46,7 @@ export default function ProductsHeader() {
   const paginationDisplayOptions = [
     {
       label: PaginationDisplayValues.small,
-      url: `/pokloni?${createQueryString({
+      url: `${pageUrl}?${createQueryString({
         addParams: [
           { name: 'prikazi', value: PaginationDisplayValues.small },
           { name: 'stranica', value: '1' },
@@ -52,7 +56,7 @@ export default function ProductsHeader() {
     },
     {
       label: PaginationDisplayValues.medium,
-      url: `/pokloni?${createQueryString({
+      url: `${pageUrl}?${createQueryString({
         addParams: [
           { name: 'prikazi', value: PaginationDisplayValues.medium },
           { name: 'stranica', value: '1' },
@@ -62,7 +66,7 @@ export default function ProductsHeader() {
     },
     {
       label: PaginationDisplayValues.large,
-      url: `/pokloni?${createQueryString({
+      url: `${pageUrl}?${createQueryString({
         addParams: [
           { name: 'prikazi', value: PaginationDisplayValues.large },
           { name: 'stranica', value: '1' },
@@ -72,7 +76,7 @@ export default function ProductsHeader() {
     },
     {
       label: PaginationDisplayValues.extraLarge,
-      url: `/pokloni?${createQueryString({
+      url: `${pageUrl}?${createQueryString({
         addParams: [
           { name: 'prikazi', value: PaginationDisplayValues.extraLarge },
           { name: 'stranica', value: '1' },
@@ -85,19 +89,19 @@ export default function ProductsHeader() {
   const sortingOptions = [
     {
       label: 'Najnovijim',
-      url: `/pokloni?${createQueryString({
+      url: `${pageUrl}?${createQueryString({
         addParams: [{ name: 'sortiranje', value: 'najnoviji' }],
       })}`,
       value: 'najnoviji',
     },
     {
       label: 'Najnižoj ceni',
-      url: `/pokloni?${createQueryString({ addParams: [{ name: 'sortiranje', value: 'najniza-cena' }] })}`,
+      url: `${pageUrl}?${createQueryString({ addParams: [{ name: 'sortiranje', value: 'najniza-cena' }] })}`,
       value: 'najniza-cena',
     },
     {
       label: 'Najvišoj ceni',
-      url: `/pokloni?${createQueryString({ addParams: [{ name: 'sortiranje', value: 'najvisa-cena' }] })}`,
+      url: `${pageUrl}?${createQueryString({ addParams: [{ name: 'sortiranje', value: 'najvisa-cena' }] })}`,
       value: 'najvisa-cena',
     },
   ]
@@ -155,7 +159,7 @@ export default function ProductsHeader() {
       setOptimisticTrending(checked ? 'da' : 'ne')
     })
     router.push(
-      `/pokloni?${createQueryString({ addParams: [{ name: 'aktuelno', value: checked ? 'da' : 'ne' }] })}`
+      `${pageUrl}?${createQueryString({ addParams: [{ name: 'aktuelno', value: checked ? 'da' : 'ne' }] })}`
     )
   }
 
