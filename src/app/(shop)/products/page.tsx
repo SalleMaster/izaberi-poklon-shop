@@ -65,7 +65,11 @@ export default async function ProductsPage({
     isAdmin,
     trending,
   })
-  const productsCountPromise = getProductsCount({ kategorija, isAdmin })
+  const productsCountPromise = getProductsCount({
+    kategorija,
+    isAdmin,
+    trending,
+  })
 
   return (
     <div className='space-y-5 group'>

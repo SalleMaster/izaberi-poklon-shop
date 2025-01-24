@@ -146,9 +146,11 @@ export const getProductsCount = cache(
   async ({
     kategorija,
     isAdmin = false,
+    trending = false,
   }: {
     kategorija: string | string[] | undefined
     isAdmin?: boolean
+    trending?: boolean
   }): GetProductsCountReturnType => {
     console.log('getProductsCount')
 
@@ -184,6 +186,11 @@ export const getProductsCount = cache(
               },
             }),
         ...(isAdmin ? {} : { inStock: true }),
+        ...(trending
+          ? {
+              trending: true,
+            }
+          : {}),
       },
     })
   }
