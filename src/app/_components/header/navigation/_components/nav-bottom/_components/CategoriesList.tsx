@@ -38,7 +38,11 @@ export default function CategoriesList({ categoriesPromise }: Props) {
   return (
     <>
       {categories.map((category) => (
-        <DropdownMenuItem key={category.id} asChild>
+        <DropdownMenuItem
+          data-pending-products={isPending ? '' : undefined}
+          key={category.id}
+          asChild
+        >
           <Link
             href={`/pokloni?${createQueryString({
               addParams: [{ name: 'kategorija', value: category.slug }],
