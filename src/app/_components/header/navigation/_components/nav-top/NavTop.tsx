@@ -16,7 +16,7 @@ export default function NavTop({ sessionPromise }: Props) {
   const user = session?.user
 
   return (
-    <div className='container mx-auto flex items-center justify-between py-2'>
+    <div className='container px-4 mx-auto flex items-center justify-between py-2'>
       <Link href='/' className='font-bold'>
         <Image src='/img/red-dot-logo.png' alt='Logo' width={52} height={56} />
       </Link>

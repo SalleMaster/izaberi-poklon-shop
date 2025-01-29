@@ -12,6 +12,7 @@ import CategoriesList, {
   CategoriesListSkeleton,
 } from './_components/CategoriesList'
 import Link from 'next/link'
+import { shopInfo } from '@/lib/consts'
 
 export default async function NavbarMenu() {
   const activeCategoriesPromise = getActiveCategories()
@@ -25,7 +26,7 @@ export default async function NavbarMenu() {
               Pokloni
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent className='max-h-[75vh] w-[90vw] overflow-y-auto md:px-4 md:w-72'>
             <DropdownMenuLabel>Kategorije</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <Suspense fallback={<CategoriesListSkeleton />}>
@@ -41,9 +42,11 @@ export default async function NavbarMenu() {
             Korporativni pokloni
           </Link>
         </Button>
-        <Button className='rounded-none'>O nama</Button>
-        <Button className='rounded-none ml-auto' asChild>
-          <a href='tel:+3816212312123'>Call centar: 062 123 12 123</a>
+        <Button className='hidden md:block rounded-none' asChild>
+          <Link href={'/o-nama'}>O nama</Link>
+        </Button>
+        <Button className='hidden md:block rounded-none ml-auto' asChild>
+          <a href={`tel:${shopInfo.phone}`}>Call centar: {shopInfo.phone}</a>
         </Button>
       </div>
     </div>
