@@ -1,8 +1,12 @@
 'use client'
 
 import type { Category, Media } from '@prisma/client'
-import { usePathname } from 'next/navigation'
-import React, { use, useOptimistic, useTransition } from 'react'
+import { ReadonlyURLSearchParams, usePathname } from 'next/navigation'
+import React, {
+  TransitionStartFunction,
+  useOptimistic,
+  useTransition,
+} from 'react'
 import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import {
@@ -14,35 +18,46 @@ import { fallbackImageURL, shopInfo } from '@/lib/consts'
 import useCreateQueryString from '@/hooks/use-create-query-string'
 import { cn } from '@/lib/utils'
 import { Skeleton } from '@/components/ui/skeleton'
-
-type CategoryWithImage = Category & {
-  image: Media | null
-}
+import { CategoryWithImage } from '@/data/services/category'
 
 type Props = {
-  categoriesPromise: Promise<CategoryWithImage[]>
+  categories: CategoryWithImage[]
+  pathname: string
+  optimisticCategory: string[]
+  setOptimisticCategories: (categories: string[]) => void
+  startTransition: TransitionStartFunction
+  createQueryString: ({
+    addParams,
+    removeParams,
+  }: {
+    addParams?: {
+      name: string
+      value: string
+    }[]
+    removeParams?: string[]
+  }) => string
 }
 
-export default function CategoriesList({ categoriesPromise }: Props) {
-  const pathname = usePathname()
-  const categories = use(categoriesPromise)
-  const searchParams = useSearchParams()
-  const [isPending, startTransition] = useTransition()
-  const [optimisticCategory, setOptimisticCategories] = useOptimistic(
-    searchParams.getAll('kategorija')
-  )
-  // const selectedCategory = searchParams.getAll('kategorija')
+export default function CategoriesList({
+  categories,
+  pathname,
+  optimisticCategory,
+  setOptimisticCategories,
+  startTransition,
+  createQueryString,
+}: Props) {
+  // const pathname = usePathname()
+  // const searchParams = useSearchParams()
+  // const [optimisticCategory, setOptimisticCategories] = useOptimistic(
+  //   searchParams.getAll('kategorija')
+  // )
 
-  const createQueryString = useCreateQueryString(searchParams)
+  // const createQueryString = useCreateQueryString(searchParams)
 
   return (
     <>
       {categories.map((category) => (
-        <DropdownMenuItem
-          data-pending-products={isPending ? '' : undefined}
-          key={category.id}
-          asChild
-        >
+        <DropdownMenuItem key={category.id} asChild>
           <Link
             href={`/pokloni?${createQueryString({
               addParams: [{ name: 'kategorija', value: category.slug }],
