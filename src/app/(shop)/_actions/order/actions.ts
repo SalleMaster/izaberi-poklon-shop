@@ -159,7 +159,7 @@ export async function cartCreateOrder(values: CartOrderValues) {
     })
 
     // Send email
-    await fetch(`${process.env.APP_URL}/api/send`, {
+    await fetch(`${process.env.APP_URL}/api/order-created`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -114,4 +114,16 @@ export const shopInfo = {
   pickupAddress: 'Pavla Vujisića 12, 34300 Aranđelovac',
   facebook: 'https://www.facebook.com',
   instagram: 'https://www.instagram.com',
-}
+} as const
+
+export const orderQuitForm = {
+  label: 'Obrazac za odustanak',
+  fileName: 'Obrazac za odustanak.pdf',
+  url: `${process.env.AWS_BUCKET_URL}/obrazac-za-odustanak.pdf`,
+} as const
+
+export const onlinePurchaseContract = {
+  label: 'Ugovor o kupovini na daljinu - Red Dot',
+  fileName: 'Ugovor o kupovini na daljinu - Red Dot.pdf',
+  url: `${process.env.AWS_BUCKET_URL}/ugovor-o-kupovini-na-daljinu-red-dot.pdf`,
+} as const
