@@ -1,13 +1,4 @@
-'use client'
-
-import type { Category, Media } from '@prisma/client'
-import { ReadonlyURLSearchParams, usePathname } from 'next/navigation'
-import React, {
-  TransitionStartFunction,
-  useOptimistic,
-  useTransition,
-} from 'react'
-import { useSearchParams } from 'next/navigation'
+import React, { TransitionStartFunction } from 'react'
 import Image from 'next/image'
 import {
   DropdownMenuItem,
@@ -15,7 +6,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import Link from 'next/link'
 import { fallbackImageURL, shopInfo } from '@/lib/consts'
-import useCreateQueryString from '@/hooks/use-create-query-string'
 import { cn } from '@/lib/utils'
 import { Skeleton } from '@/components/ui/skeleton'
 import { CategoryWithImage } from '@/data/services/category'
@@ -24,6 +14,7 @@ type Props = {
   categories: CategoryWithImage[]
   pathname: string
   optimisticCategory: string[]
+  pageUrl: string
   setOptimisticCategories: (categories: string[]) => void
   startTransition: TransitionStartFunction
   createQueryString: ({
@@ -41,25 +32,18 @@ type Props = {
 export default function CategoriesList({
   categories,
   pathname,
+  pageUrl,
   optimisticCategory,
   setOptimisticCategories,
   startTransition,
   createQueryString,
 }: Props) {
-  // const pathname = usePathname()
-  // const searchParams = useSearchParams()
-  // const [optimisticCategory, setOptimisticCategories] = useOptimistic(
-  //   searchParams.getAll('kategorija')
-  // )
-
-  // const createQueryString = useCreateQueryString(searchParams)
-
   return (
     <>
       {categories.map((category) => (
         <DropdownMenuItem key={category.id} asChild>
           <Link
-            href={`/pokloni?${createQueryString({
+            href={`${pageUrl}?${createQueryString({
               addParams: [{ name: 'kategorija', value: category.slug }],
               removeParams: ['stranica'],
             })}`}
@@ -88,9 +72,9 @@ export default function CategoriesList({
       <DropdownMenuSeparator className='my-4' />
       <DropdownMenuItem className='text-end' asChild>
         <Link
-          href={`/pokloni?${createQueryString({ removeParams: ['kategorija', 'stranica'] })}`}
+          href={`${pageUrl}?${createQueryString({ removeParams: ['kategorija', 'stranica'] })}`}
           className={cn(
-            pathname === '/pokloni' &&
+            pathname === pageUrl &&
               optimisticCategory.length === 0 &&
               'bg-accent text-accent-foreground'
           )}
@@ -123,6 +107,21 @@ export default function CategoriesList({
 export function CategoriesListSkeleton() {
   return (
     <div className='space-y-1'>
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
       <Skeleton className='h-[36px] w-[100%]' />
       <Skeleton className='h-[36px] w-[100%]' />
       <Skeleton className='h-[36px] w-[100%]' />
