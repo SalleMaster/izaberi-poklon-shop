@@ -50,7 +50,7 @@ export default function Footer() {
         <div className='space-y-6 md:space-y-0 md:flex justify-between'>
           <FooterLinks title='O nama' links={mainLinks} />
           <FooterLinks title='Korisne informacije' links={usefulLinks} />
-          <FooterLinks title='Socijalne mreže' links={socialLinks} />
+          <FooterLinks title='Društvene mreže' links={socialLinks} />
           <FooterLinks title='Profil' links={profileLinks} />
           <Suspense fallback={<SpecialCategoriesSkeleton />}>
             <SpecialCategories categoriesPromise={specialCategoriesPromise} />

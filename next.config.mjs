@@ -95,6 +95,10 @@ const nextConfig = {
         source: '/profil/porudzbine/:id',
         destination: '/dashboard/orders/:id',
       },
+      {
+        source: '/kontakt',
+        destination: '/contact',
+      },
     ]
   },
 }
