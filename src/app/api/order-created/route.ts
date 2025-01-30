@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import PurchaseReceiptEmail from '@/email/PurchaseReceiptEmail'
-import { shopInfo } from '@/lib/consts'
+import { onlinePurchaseContract, orderQuitForm, shopInfo } from '@/lib/consts'
 import { Resend } from 'resend'
 
 const resend = new Resend(process.env.AUTH_RESEND_KEY)
@@ -16,6 +16,16 @@ export async function POST(req: NextRequest) {
       ],
       subject: 'Potvrda porudžbine',
       react: PurchaseReceiptEmail({ order }),
+      attachments: [
+        {
+          path: orderQuitForm.url,
+          filename: orderQuitForm.fileName,
+        },
+        {
+          path: onlinePurchaseContract.url,
+          filename: onlinePurchaseContract.fileName,
+        },
+      ],
     })
 
     if (error) {
