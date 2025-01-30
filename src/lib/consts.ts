@@ -114,6 +114,7 @@ export const shopInfo = {
   pickupAddress: 'Pavla Vujisića 12, 34300 Aranđelovac',
   facebook: 'https://www.facebook.com',
   instagram: 'https://www.instagram.com',
+  tikTok: 'https://www.tiktok.com',
 } as const
 
 export const orderQuitForm = {
