@@ -1,9 +1,4 @@
-'use client'
-
-import type { Category, Media } from '@prisma/client'
-import { usePathname } from 'next/navigation'
-import React, { use, useOptimistic, useTransition } from 'react'
-import { useSearchParams } from 'next/navigation'
+import React, { TransitionStartFunction } from 'react'
 import Image from 'next/image'
 import {
   DropdownMenuItem,
@@ -11,40 +6,44 @@ import {
 } from '@/components/ui/dropdown-menu'
 import Link from 'next/link'
 import { fallbackImageURL, shopInfo } from '@/lib/consts'
-import useCreateQueryString from '@/hooks/use-create-query-string'
 import { cn } from '@/lib/utils'
 import { Skeleton } from '@/components/ui/skeleton'
-
-type CategoryWithImage = Category & {
-  image: Media | null
-}
+import { CategoryWithImage } from '@/data/services/category'
 
 type Props = {
-  categoriesPromise: Promise<CategoryWithImage[]>
+  categories: CategoryWithImage[]
+  pathname: string
+  optimisticCategory: string[]
+  pageUrl: string
+  setOptimisticCategories: (categories: string[]) => void
+  startTransition: TransitionStartFunction
+  createQueryString: ({
+    addParams,
+    removeParams,
+  }: {
+    addParams?: {
+      name: string
+      value: string
+    }[]
+    removeParams?: string[]
+  }) => string
 }
 
-export default function CategoriesList({ categoriesPromise }: Props) {
-  const pathname = usePathname()
-  const categories = use(categoriesPromise)
-  const searchParams = useSearchParams()
-  const [isPending, startTransition] = useTransition()
-  const [optimisticCategory, setOptimisticCategories] = useOptimistic(
-    searchParams.getAll('kategorija')
-  )
-  // const selectedCategory = searchParams.getAll('kategorija')
-
-  const createQueryString = useCreateQueryString(searchParams)
-
+export default function CategoriesList({
+  categories,
+  pathname,
+  pageUrl,
+  optimisticCategory,
+  setOptimisticCategories,
+  startTransition,
+  createQueryString,
+}: Props) {
   return (
     <>
       {categories.map((category) => (
-        <DropdownMenuItem
-          data-pending-products={isPending ? '' : undefined}
-          key={category.id}
-          asChild
-        >
+        <DropdownMenuItem key={category.id} asChild>
           <Link
-            href={`/pokloni?${createQueryString({
+            href={`${pageUrl}?${createQueryString({
               addParams: [{ name: 'kategorija', value: category.slug }],
               removeParams: ['stranica'],
             })}`}
@@ -73,9 +72,9 @@ export default function CategoriesList({ categoriesPromise }: Props) {
       <DropdownMenuSeparator className='my-4' />
       <DropdownMenuItem className='text-end' asChild>
         <Link
-          href={`/pokloni?${createQueryString({ removeParams: ['kategorija', 'stranica'] })}`}
+          href={`${pageUrl}?${createQueryString({ removeParams: ['kategorija', 'stranica'] })}`}
           className={cn(
-            pathname === '/pokloni' &&
+            pathname === pageUrl &&
               optimisticCategory.length === 0 &&
               'bg-accent text-accent-foreground'
           )}
@@ -108,6 +107,21 @@ export default function CategoriesList({ categoriesPromise }: Props) {
 export function CategoriesListSkeleton() {
   return (
     <div className='space-y-1'>
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
+      <Skeleton className='h-[36px] w-[100%]' />
       <Skeleton className='h-[36px] w-[100%]' />
       <Skeleton className='h-[36px] w-[100%]' />
       <Skeleton className='h-[36px] w-[100%]' />
