@@ -99,6 +99,18 @@ const nextConfig = {
         source: '/kontakt',
         destination: '/contact',
       },
+      {
+        source: '/nacin-isporuke',
+        destination: '/delivery-info',
+      },
+      {
+        source: '/politika-privatnosti',
+        destination: '/privacy-policy',
+      },
+      {
+        source: '/reklamacije',
+        destination: '/product-return',
+      },
     ]
   },
 }
