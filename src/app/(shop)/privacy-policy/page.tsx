@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import { orderQuitForm, shopInfo } from '@/lib/consts'
 import Link from 'next/link'
 
 export default function Page() {
