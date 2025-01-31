@@ -1,6 +1,6 @@
 type FooterLinkGroupProps = {
   title: string
-  links: { href: string; label: string }[]
+  links: { href: string; target?: string; label: string }[]
 }
 
 export default function FooterLinks({ title, links }: FooterLinkGroupProps) {
@@ -10,7 +10,7 @@ export default function FooterLinks({ title, links }: FooterLinkGroupProps) {
       <ul className='space-y-2.5'>
         {links.map((link) => (
           <li key={link.href}>
-            <a href={link.href} className='text-sm'>
+            <a href={link.href} target={link.target ?? ''} className='text-sm'>
               {link.label}
             </a>
           </li>

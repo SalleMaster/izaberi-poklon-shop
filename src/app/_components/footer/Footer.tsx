@@ -4,7 +4,7 @@ import FooterLinks from './_components/FooterLinks'
 import SpecialCategories, {
   SpecialCategoriesSkeleton,
 } from './_components/SpecialCategories'
-import { shopInfo } from '@/lib/consts'
+import { orderQuitForm, shopInfo } from '@/lib/consts'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import Image from 'next/image'
 
@@ -18,8 +18,9 @@ const mainLinks = [
 
 const usefulLinks = [
   { href: '/kako-naruciti', label: 'Kako naručiti' },
-  { href: '/uslovi-koriscenja', label: 'Uslovi korišćenja' },
-  { href: '/odustanak-i-povrati', label: 'Odustanak i Povrati' },
+  { href: '/nacin-isporuke', label: 'Način isporuke' },
+  { href: '/politika-privatnosti', label: 'Politika privatnosti' },
+  { href: orderQuitForm.url, target: '_blank', label: 'Odustanak obrazac' },
   { href: '/reklamacije', label: 'Reklamacije' },
   {
     href: '/zastita-podataka-p-licnosti',
