@@ -8,7 +8,6 @@ export default function Page() {
       <h2 className='text-2xl'>Politika privatnosti</h2>
 
       <div className='space-y-3'>
-        {/* <p className='text-xl font-semibold'>Prijem porudžbine</p> */}
         <p>
           Ovim putem Vas obaveštavamo o informacijama koje prikupljamo od Vas
           kada nam pošaljete upit putem našeg vebsajta. Prikupljajući ove
