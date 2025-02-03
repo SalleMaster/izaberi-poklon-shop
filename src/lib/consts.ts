@@ -103,12 +103,13 @@ export const ratingStatusOptions: RatingStatusOptionsType = [
 
 export const shopInfo = {
   name: 'Red Dot',
+  shortDescription: 'Red Dot PR Milanović Zoran',
   description:
-    'RED DOT PR MIlanović Zoran zanatska radnja za izradu personalizovanih poklona i reklamnog materijala',
+    'Red Dot PR Milanović Zoran zanatska radnja za izradu personalizovanih poklona i reklamnog materijala',
   address: 'Pavla Vujisića 12, 34300 Aranđelovac, Srbija',
   pib: '111521702',
   bankAccountNumber: '325-9500700034631-92',
-  idNumber: '17479946',
+  idNumber: '65473488',
   phone: '061 2251 225',
   email: 'red@dot.com',
   pickupAddress: 'Pavla Vujisića 12, 34300 Aranđelovac',
