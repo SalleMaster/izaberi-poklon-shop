@@ -4,7 +4,7 @@ import FooterLinks from './_components/FooterLinks'
 import SpecialCategories, {
   SpecialCategoriesSkeleton,
 } from './_components/SpecialCategories'
-import { orderQuitForm, shopInfo } from '@/lib/consts'
+import { onlinePurchaseContract, orderQuitForm, shopInfo } from '@/lib/consts'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import Image from 'next/image'
 
@@ -23,15 +23,24 @@ const usefulLinks = [
   { href: orderQuitForm.url, target: '_blank', label: 'Odustanak obrazac' },
   { href: '/reklamacije', label: 'Reklamacije' },
   {
-    href: '/zastita-podataka-p-licnosti',
-    label: 'Zaštita podataka o ličnosti',
+    href: '/uslovi-koriscenja',
+    label: 'Uslovi korišćenja',
+  },
+  {
+    href: onlinePurchaseContract.url,
+    target: '_blank',
+    label: 'Ugovor o kupovini na daljinu',
+  },
+  {
+    href: '/povracaj-proizvoda',
+    label: 'Povraćaj proizvoda',
   },
 ]
 
 const socialLinks = [
-  { href: '/facebook', label: 'Facebook' },
-  { href: '/instagram', label: 'Instagram' },
-  { href: '/x', label: 'X' },
+  { href: shopInfo.facebook, label: 'Facebook' },
+  { href: shopInfo.instagram, label: 'Instagram' },
+  { href: shopInfo.tikTok, label: 'TikTok' },
 ]
 
 const profileLinks = [

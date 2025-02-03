@@ -109,6 +109,14 @@ const nextConfig = {
       },
       {
         source: '/reklamacije',
+        destination: '/complaints',
+      },
+      {
+        source: '/uslovi-koriscenja',
+        destination: '/terms-of-use',
+      },
+      {
+        source: '/povracaj-proizvoda',
         destination: '/product-return',
       },
     ]
