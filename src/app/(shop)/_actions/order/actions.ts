@@ -25,11 +25,18 @@ export async function cartCreateOrder(values: CartOrderValues) {
       pickupName,
       pickupPhone,
       pickupEmail,
+      termsAccepted,
     } = cartOrderSchema.parse(values)
 
     let deliveryAddress = null
     let billingAddress = null
     let deliveryService = null
+
+    if (termsAccepted !== true) {
+      throw new Error(
+        'Da biste izvršili kupovinu potrebno je prihvatiti uslove kupovine.'
+      )
+    }
 
     if (deliveryType === OrderDeliveryType.delivery) {
       const selectedDeliveryAddress = await prisma.deliveryAddress.findUnique({
@@ -125,6 +132,7 @@ export async function cartCreateOrder(values: CartOrderValues) {
     const order = await prisma.order.create({
       data: {
         orderNumber,
+        termsAccepted,
         deliveryType,
         paymentType,
         pickupName,

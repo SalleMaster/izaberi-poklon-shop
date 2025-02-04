@@ -378,6 +378,7 @@ model DeliveryAddress {
 model Order {
   id             String            @id @default(cuid())
   orderNumber    String
+  termsAccepted  Boolean           @default(false)
   shippingNumber String            @default("")
   deliveryType   OrderDeliveryType
   paymentType    OrderPaymentType
