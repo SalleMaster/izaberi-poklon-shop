@@ -24,6 +24,7 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { priceFormatter } from '@/lib/format'
 import Link from 'next/link'
+import { Checkbox } from '@/components/ui/checkbox'
 
 type Props = {
   userAddresses: DeliveryAddress[]
@@ -331,6 +332,45 @@ export function CartOrderForm({
                   />
                 </>
               ) : null}
+
+              <FormField
+                control={form.control}
+                name='termsAccepted'
+                render={({ field }) => (
+                  <FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={(e) => {
+                          field.onChange(e)
+                          form.trigger('termsAccepted')
+                        }}
+                      />
+                    </FormControl>
+                    <div className='space-y-2 leading-none'>
+                      <FormLabel>
+                        Slažem se sa{' '}
+                        <Link
+                          href='/uslovi-koriscenja'
+                          target='_blank'
+                          className='underline'
+                        >
+                          uslovima korišćenja
+                        </Link>{' '}
+                        i{' '}
+                        <Link
+                          href='/politika-privatnosti'
+                          target='_blank'
+                          className='underline'
+                        >
+                          politikom privatnosti
+                        </Link>
+                      </FormLabel>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
             </CardContent>
           </Card>
         ) : null}

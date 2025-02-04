@@ -34,6 +34,10 @@ export const cartOrderSchema = z
     pickupName: pickupSchema.pickupName,
     pickupPhone: pickupSchema.pickupPhone,
     pickupEmail: pickupSchema.pickupEmail,
+    termsAccepted: z.boolean().refine((val) => val === true, {
+      message:
+        'Da biste izvršili kupovinu potrebno je prihvatiti uslove kupovine.',
+    }),
   })
   .superRefine((data, ctx) => {
     if (data.deliveryType === OrderDeliveryType.pickup) {

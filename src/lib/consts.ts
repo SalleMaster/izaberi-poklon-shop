@@ -35,6 +35,7 @@ export const orderSteps = [
       'paymentType',
       'selectedBillingAddressId',
       'selectedDeliveryServiceId',
+      'termsAccepted',
     ],
   },
   {

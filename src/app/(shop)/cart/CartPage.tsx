@@ -99,6 +99,7 @@ export default function CartPage({
       pickupName: userName,
       pickupPhone: userPhone,
       pickupEmail: userEmail,
+      termsAccepted: false,
     }),
     [userAddresses, deliveryServices, userEmail, userName, userPhone]
   )
