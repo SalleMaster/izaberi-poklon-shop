@@ -22,6 +22,7 @@ OrderSentEmail.PreviewProps = {
   order: {
     id: 'cm5uvydjo00044412i0ii6irr',
     orderNumber: '0DDBE531',
+    termsAccepted: true,
     shippingNumber: '123ABC456HJK789',
     deliveryType: 'pickup',
     paymentType: 'onDelivery',
