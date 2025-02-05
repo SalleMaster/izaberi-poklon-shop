@@ -68,54 +68,64 @@ export default function Footer() {
         </div>
         <div className='flex flex-wrap justify-center items-center gap-4'>
           <Separator className='w-full h-px bg-muted-foreground' />
-          <Image
-            src='/img/payment-cards/logo-payments-amex-1.svg'
-            alt='Logo'
-            width={70}
-            height={50}
-          />
-          <Image
-            src='/img/payment-cards/logo-payments-dinacard.svg'
-            alt='Logo'
-            width={70}
-            height={50}
-          />
-          <Image
-            src='/img/payment-cards/logo-payments-diners-1.svg'
-            alt='Logo'
-            width={70}
-            height={50}
-          />
-          <Image
-            src='/img/payment-cards/logo-payments-discover-1.svg'
-            alt='Logo'
-            width={70}
-            height={50}
-          />
-          <Image
-            src='/img/payment-cards/logo-payments-maestro-1.svg'
-            alt='Logo'
-            width={70}
-            height={50}
-          />
-          <Image
-            src='/img/payment-cards/logo-payments-master-1.svg'
-            alt='Logo'
-            width={70}
-            height={50}
-          />
-          <Image
-            src='/img/payment-cards/logo-payments-visa.svg'
-            alt='Logo'
-            width={70}
-            height={50}
-          />
-          <Image
+          <div className='relative w-[70px] h-[50px]'>
+            <Image
+              src='/img/payment-cards/logo-payments-amex-1.svg'
+              alt='Logo'
+              fill={true}
+            />
+          </div>
+          <div className='relative w-[70px] h-[50px]'>
+            <Image
+              src='/img/payment-cards/logo-payments-dinacard.svg'
+              alt='Logo'
+              fill={true}
+            />
+          </div>
+          <div className='relative w-[70px] h-[50px]'>
+            <Image
+              src='/img/payment-cards/logo-payments-diners-1.svg'
+              alt='Logo'
+              fill={true}
+            />
+          </div>
+          <div className='relative w-[70px] h-[50px]'>
+            <Image
+              src='/img/payment-cards/logo-payments-discover-1.svg'
+              alt='Logo'
+              fill={true}
+            />
+          </div>
+          <div className='relative w-[70px] h-[50px]'>
+            <Image
+              src='/img/payment-cards/logo-payments-maestro-1.svg'
+              alt='Logo'
+              fill={true}
+            />
+          </div>
+          <div className='relative w-[70px] h-[50px]'>
+            <Image
+              src='/img/payment-cards/logo-payments-master-1.svg'
+              alt='Logo'
+              fill={true}
+            />
+          </div>
+          <div className='relative w-[70px] h-[50px]'>
+            <Image
+              src='/img/payment-cards/logo-payments-visa.svg'
+              alt='Logo'
+              fill={true}
+            />
+          </div>
+
+          {/* <Image
             src='/img/payment-cards/ips-qr.png'
             alt='Logo'
             width={70}
-            height={50}
-          />
+            height={40}
+            className='w-[70px] h-[40px]'
+          /> */}
+
           <Separator className='w-full h-px bg-muted-foreground' />
         </div>
         <div className='text-center space-y-2 text-sm'>

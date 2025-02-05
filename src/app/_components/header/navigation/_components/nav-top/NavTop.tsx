@@ -18,7 +18,7 @@ export default function NavTop({ sessionPromise }: Props) {
   return (
     <div className='container px-4 mx-auto flex items-center justify-between py-2'>
       <Link href='/' className='font-bold'>
-        <Image src='/img/red-dot-logo.png' alt='Logo' width={52} height={56} />
+        <Image src='/img/red-dot-logo.png' alt='Logo' width={60} height={60} />
       </Link>
 
       <div className='flex gap-3 align-middle'>
@@ -33,7 +33,7 @@ export function NavTopSkeleton() {
   return (
     <div className='container mx-auto flex items-center justify-between py-2'>
       <Link href='/' className='font-bold'>
-        <Image src='/img/red-dot-logo.png' alt='Logo' width={52} height={56} />
+        <Image src='/img/red-dot-logo.png' alt='Logo' width={60} height={60} />
       </Link>
     </div>
   )
