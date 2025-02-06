@@ -8,14 +8,16 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-export default async function ErrorPage(props: {
-  searchParams: { error: string | undefined; callbackUrl: string | undefined }
-}) {
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
+
+export default async function ErrorPage(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams
+
   const session = await getSession()
   const user = session?.user
 
   if (user) {
-    redirect(props.searchParams?.callbackUrl ?? '/')
+    redirect('/')
   }
 
   return (
@@ -27,9 +29,7 @@ export default async function ErrorPage(props: {
             Izvinjavamo se, došlo je do greške prilikom prijave. Molimo
             pokušajte ponovo.
           </CardDescription>
-          <CardDescription>
-            Kod greške: {props.searchParams.error}
-          </CardDescription>
+          <CardDescription>Kod greške: {searchParams.error}</CardDescription>
         </CardHeader>
       </Card>
     </div>

@@ -19,14 +19,22 @@ import { Label } from '@/components/ui/label'
 
 const SIGNIN_ERROR_URL = '/auth/error'
 
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
+
 export default async function SignInPage(props: {
-  searchParams: { callbackUrl: string | undefined }
+  searchParams: SearchParams
 }) {
+  const searchParams = await props.searchParams
+  let callbackUrl = searchParams?.callbackUrl
+  if (Array.isArray(callbackUrl)) {
+    callbackUrl = callbackUrl[0]
+  }
+
   const session = await getSession()
   const user = session?.user
 
   if (user) {
-    redirect(props.searchParams?.callbackUrl ?? '/')
+    redirect(callbackUrl ?? '/')
   }
 
   return (
@@ -46,7 +54,7 @@ export default async function SignInPage(props: {
 
                 try {
                   await signIn(provider.id, formData, {
-                    redirectTo: props.searchParams?.callbackUrl ?? '/',
+                    redirectTo: callbackUrl ?? '/',
                   })
                 } catch (error) {
                   // Signin can fail for a number of reasons, such as the user
@@ -68,7 +76,7 @@ export default async function SignInPage(props: {
                 <>
                   <Separator className='mb-5' />
                   <div className='space-y-2'>
-                    <Label htmlFor='email'>Prijava putem email-a</Label>
+                    <Label htmlFor='email'>Prijava putem email-a:</Label>
                     <Input type='email' name='email' placeholder='Email' />
                     <Button type='submit' variant='outline' className='w-full'>
                       <Mail className='w-5 h-5 mr-4' /> Prijavite se
