@@ -4,7 +4,7 @@ import { unstable_noStore } from 'next/cache'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 import { slow } from '@/lib/slow'
-import { loggedInActionGuard } from '@/lib/actionGuard'
+import { loggedInActionGuard, loggedInUser } from '@/lib/actionGuard'
 import { subDays } from 'date-fns'
 import {
   CartItem,
@@ -110,3 +110,41 @@ export const getCart = cache(async (): GetCartReturnType => {
 
   return cart
 })
+
+export type GetCartItemsNumberReturnType = Promise<number>
+
+export const getCartItemsNumber = cache(
+  async (): GetCartItemsNumberReturnType => {
+    console.log('getCartItemsNumber')
+
+    unstable_noStore()
+    await slow(1000)
+
+    const { userId } = await loggedInUser()
+
+    if (!userId) {
+      return 0
+    }
+
+    const getCart = async () => {
+      return await prisma.cart.findUnique({
+        where: { userId },
+        include: {
+          items: true,
+        },
+      })
+    }
+
+    const cart = await getCart()
+
+    if (!cart) {
+      return 0
+    }
+
+    const cartItemsNumber = cart?.items.reduce(
+      (acc, item) => acc + item.quantity,
+      0
+    )
+    return cartItemsNumber
+  }
+)
