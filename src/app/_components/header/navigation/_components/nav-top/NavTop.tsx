@@ -2,17 +2,23 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import CartButton from './_components/CartButton'
 import User from './_components/User'
 import { Session } from 'next-auth'
 import { use } from 'react'
+import { GetCartItemsNumberReturnType } from '@/data/services/cart'
+import CartButton from './_components/CartButton'
 
 type Props = {
   sessionPromise: Promise<Session | null>
+  cartItemsNumberPromise: GetCartItemsNumberReturnType
 }
 
-export default function NavTop({ sessionPromise }: Props) {
+export default function NavTop({
+  sessionPromise,
+  cartItemsNumberPromise,
+}: Props) {
   const session = use(sessionPromise)
+  const cartItemsNumber = use(cartItemsNumberPromise)
   const user = session?.user
 
   return (
@@ -22,7 +28,7 @@ export default function NavTop({ sessionPromise }: Props) {
       </Link>
 
       <div className='flex gap-3 align-middle'>
-        {user && <CartButton />}
+        {user && <CartButton cartItemsNumber={cartItemsNumber} />}
         <User user={user} />
       </div>
     </div>

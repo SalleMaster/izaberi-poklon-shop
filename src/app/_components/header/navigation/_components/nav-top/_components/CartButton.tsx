@@ -1,35 +1,35 @@
 import { ShoppingCart } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-  DropdownMenuItem,
-} from '@/components/ui/dropdown-menu'
+import { buttonVariants } from '@/components/ui/button'
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
 
-export default function CartButton() {
+type Props = {
+  cartItemsNumber: number
+}
+
+export default function CartButton({ cartItemsNumber }: Props) {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant='ghost'
-          size='icon'
-          className='rounded-full'
-          aria-label='Korpa'
+    <Link
+      href='/korpa'
+      className={cn(
+        buttonVariants({
+          variant: 'ghost',
+          size: 'icon',
+        }),
+        'relative rounded-full z-10'
+      )}
+    >
+      {cartItemsNumber > 0 ? (
+        <Badge
+          variant='secondary'
+          className='absolute -z-10 top-[-4px] right-5'
         >
-          <ShoppingCart className='h-4 w-4' />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-56'>
-        <DropdownMenuLabel>Cart</DropdownMenuLabel>
-        <DropdownMenuItem asChild>
-          <Link href='/korpa'>
-            <span>Korpa</span>
-          </Link>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+          {cartItemsNumber}
+        </Badge>
+      ) : null}
+
+      <ShoppingCart className='h-4 w-4' />
+    </Link>
   )
 }
