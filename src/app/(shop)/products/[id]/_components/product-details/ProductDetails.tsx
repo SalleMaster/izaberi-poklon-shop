@@ -13,6 +13,8 @@ type Props = {
 }
 
 export default function ProductDetails({ product, user }: Props) {
+  const isAvailable =
+    product?.inStock && product.categories.some((category) => category.active)
   return (
     <div className='space-y-2.5'>
       <h3 className='text-2xl font-extrabold'>{product.name}</h3>
@@ -32,7 +34,7 @@ export default function ProductDetails({ product, user }: Props) {
       ) : null}
 
       <div className='space-y-10'>
-        {product.inStock ? (
+        {isAvailable ? (
           <ProductDetailsForm product={product} user={user} />
         ) : (
           <NotificationAlert

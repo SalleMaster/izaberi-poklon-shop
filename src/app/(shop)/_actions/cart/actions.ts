@@ -64,6 +64,7 @@ export async function addCartItem(
         },
         discount: true,
         packageOption: true,
+        categories: true,
       },
     })
 
@@ -72,6 +73,10 @@ export async function addCartItem(
     }
 
     if (!product.inStock) {
+      throw new Error('Poklon nije dostupan za poručivanje.')
+    }
+
+    if (!product.categories.some((category) => category.active)) {
       throw new Error('Poklon nije dostupan za poručivanje.')
     }
 
