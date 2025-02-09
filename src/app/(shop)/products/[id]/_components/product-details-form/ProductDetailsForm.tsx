@@ -131,7 +131,6 @@ export function ProductDetailsForm({ product, user }: Props) {
         }
 
         if (response.status === 'success') {
-          // toast({ description: response.message })
           setIsModalOpen(true)
           // Reset form after submission
           form.reset(defaultValues)
