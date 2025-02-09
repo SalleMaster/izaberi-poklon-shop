@@ -5,6 +5,7 @@ import { cache } from 'react'
 import prisma from '@/lib/db'
 import { slow } from '@/lib/slow'
 import {
+  Category,
   Discount,
   ImagePersonalizationField,
   Media,
@@ -138,6 +139,7 @@ export type ProductWithRelations = Product &
     imagePersonalizationFields: ImagePersonalizationField[]
     textPersonalizationFields: TextPersonalizationField[]
     packageOption: PackageOption | null
+    categories: Category[]
   }
 
 export type GetProductReturnType = Promise<ProductWithRelations | null>
@@ -217,6 +219,7 @@ export const getProduct = cache(
           orderBy: { price: 'asc' },
         },
         packageOption: true,
+        categories: true,
       },
     })
 
@@ -256,7 +259,11 @@ export const getDiscountedProducts = cache(
     await slow(1000)
 
     const products = await prisma.product.findMany({
-      where: { discount: { isNot: null }, inStock: true },
+      where: {
+        discount: { isNot: null },
+        inStock: true,
+        categories: { some: { active: true } },
+      },
       include: {
         discount: true,
         coverImage: true,
@@ -308,7 +315,11 @@ export const getTrendingProducts = cache(
     await slow(1000)
 
     const products = await prisma.product.findMany({
-      where: { inStock: true, trending: true },
+      where: {
+        inStock: true,
+        trending: true,
+        categories: { some: { active: true } },
+      },
       include: {
         discount: true,
         coverImage: true,
