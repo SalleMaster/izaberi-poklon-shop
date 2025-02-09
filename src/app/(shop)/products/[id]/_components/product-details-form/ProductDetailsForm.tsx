@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useEffect } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFieldArray, useForm } from 'react-hook-form'
@@ -16,7 +16,18 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Loader2, Minus, Plus, ShoppingCart } from 'lucide-react'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+
+import { CheckCheck, Loader2, Minus, Plus, ShoppingCart } from 'lucide-react'
 import { productDetailsSchema, ProductDetailsValues } from './validation'
 import { addCartItem } from '@/app/(shop)/_actions/cart/actions'
 import { ProductWithRelations } from '@/data/services/products'
@@ -35,6 +46,7 @@ import { createMedia } from '@/lib/actions'
 import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
 import { priceFormatter } from '@/lib/format'
+import Link from 'next/link'
 
 type Props = {
   product: ProductWithRelations
@@ -43,6 +55,7 @@ type Props = {
 
 export function ProductDetailsForm({ product, user }: Props) {
   const { toast } = useToast()
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const { defaultValues, quantityOptions } = useMemo(() => {
     const defaultValues = {
@@ -118,7 +131,7 @@ export function ProductDetailsForm({ product, user }: Props) {
         }
 
         if (response.status === 'success') {
-          toast({ description: response.message })
+          setIsModalOpen(true)
           // Reset form after submission
           form.reset(defaultValues)
         }
@@ -420,6 +433,29 @@ export function ProductDetailsForm({ product, user }: Props) {
             </Button>
           )}
         </div>
+
+        <AlertDialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle className='text-center'>
+                <CheckCheck
+                  size={70}
+                  className='bg-emerald-100 text-emerald-800 rounded-full p-3 mx-auto mb-4'
+                />
+                Proizvod je dodat u korpu
+              </AlertDialogTitle>
+              <AlertDialogDescription className='text-center'>
+                Odaberite sledeću akciju
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter className='flex sm:justify-between'>
+              <AlertDialogCancel>Nastavi kupovinu</AlertDialogCancel>
+              <AlertDialogAction>
+                <Link href='/korpa'>Idi u korpu</Link>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </form>
     </Form>
   )
