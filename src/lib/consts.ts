@@ -130,3 +130,5 @@ export const onlinePurchaseContract = {
   fileName: 'Ugovor o kupovini na daljinu - Red Dot.pdf',
   url: `${process.env.AWS_BUCKET_URL}/ugovor-o-kupovini-na-daljinu-red-dot.pdf`,
 } as const
+
+export const freeShippingThreshold = 10000 as const

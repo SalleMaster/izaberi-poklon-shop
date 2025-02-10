@@ -14,6 +14,7 @@ import {
 import { deleteMediaFromS3 } from '@/lib/actions'
 import { DiscountType } from '@prisma/client'
 import { priceFormatter } from '@/lib/format'
+import { freeShippingThreshold } from '@/lib/consts'
 
 type ProductDetailsWithoutImageFiles = Omit<
   ProductDetailsValues,
@@ -421,7 +422,10 @@ export async function updateCartOverviewData({ userId }: { userId: string }) {
         ?.deliveryFee || 0
     const onlinePrice = allItemsPrice
     let totalPrice = allItemsPrice
-    let totalPriceWithDeliveryFee = allItemsPrice + deliveryFee
+    let totalPriceWithDeliveryFee =
+      allItemsPrice > freeShippingThreshold
+        ? allItemsPrice
+        : allItemsPrice + deliveryFee
     let discount = 0
 
     if (cart.coupon) {
@@ -449,7 +453,10 @@ export async function updateCartOverviewData({ userId }: { userId: string }) {
 
       if (couponConditions && cart.coupon.discountType === DiscountType.fixed) {
         totalPrice = allItemsPrice - cart.coupon.discount
-        totalPriceWithDeliveryFee = totalPrice + deliveryFee
+        totalPriceWithDeliveryFee =
+          totalPrice > freeShippingThreshold
+            ? totalPrice
+            : totalPrice + deliveryFee
         discount = cart.coupon.discount
       } else if (
         couponConditions &&
@@ -457,7 +464,10 @@ export async function updateCartOverviewData({ userId }: { userId: string }) {
       ) {
         totalPrice =
           allItemsPrice - (allItemsPrice * cart.coupon.discount) / 100
-        totalPriceWithDeliveryFee = totalPrice + deliveryFee
+        totalPriceWithDeliveryFee =
+          totalPrice > freeShippingThreshold
+            ? totalPrice
+            : totalPrice + deliveryFee
         discount = (allItemsPrice * cart.coupon.discount) / 100
       }
     }
@@ -468,7 +478,7 @@ export async function updateCartOverviewData({ userId }: { userId: string }) {
         onlinePrice,
         totalPrice,
         discount,
-        deliveryFee,
+        deliveryFee: totalPrice > freeShippingThreshold ? 0 : deliveryFee,
         totalPriceWithDeliveryFee,
       },
     })
