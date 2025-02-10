@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { priceFormatter } from '@/lib/format'
+import { freeShippingThreshold } from '@/lib/consts'
 
 type Props = {
   onlinePrice?: number
@@ -41,6 +42,7 @@ export default function CartOverview({
   const formattedTotalPriceWithDeliveryFee = priceFormatter(
     totalPriceWithDeliveryFee
   )
+  const formattedFreeShippingThreshold = priceFormatter(freeShippingThreshold)
 
   return (
     <Card>
@@ -58,6 +60,10 @@ export default function CartOverview({
           <>
             <p className='flex justify-between'>
               <span>Poštarina:</span> <span>{formattedDeliveryFee}</span>
+            </p>
+            <p className='text-sm text-muted-foreground'>
+              Poštarina je besplatna za porudžbine preko{' '}
+              {formattedFreeShippingThreshold}
             </p>
             <Separator />
             <p className='flex justify-between'>

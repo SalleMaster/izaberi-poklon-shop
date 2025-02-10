@@ -78,7 +78,7 @@ export function CartItemRow({
           />
         </Link>
 
-        <div className='flex flex-col sm:flex-row gap-2 flex-grow'>
+        <div className='flex flex-col gap-2.5 sm:flex-row sm:gap-4 sm:items-center flex-grow'>
           <Link
             href={`pokloni/${cartItem.product.id}`}
             className='flex gap-4 items-center'
@@ -86,74 +86,72 @@ export function CartItemRow({
             {cartItem.product.name}
           </Link>
 
-          <div className='flex gap-4 items-center'>
-            <FormField
-              control={form.control}
-              name='quantity'
-              render={() => (
-                <FormItem className='flex space-y-0 border rounded-md shadow-sm sm:mr-auto'>
-                  <FormControl>
-                    <Button
-                      type='button'
-                      variant='ghost'
-                      onClick={() => {
-                        form.setValue(
-                          'quantity',
-                          Number(form.getValues('quantity')) - 1
-                        )
+          <FormField
+            control={form.control}
+            name='quantity'
+            render={() => (
+              <FormItem className='flex space-y-0 border rounded-md shadow-sm mr-auto sm:mx-auto'>
+                <FormControl>
+                  <Button
+                    type='button'
+                    variant='ghost'
+                    onClick={() => {
+                      form.setValue(
+                        'quantity',
+                        Number(form.getValues('quantity')) - 1
+                      )
+                      form.handleSubmit(onSubmit)()
+                    }}
+                    disabled={
+                      disabled ||
+                      form.getValues('quantity').toString() ===
+                        quantityOptions[0].value
+                    }
+                    size={'icon'}
+                  >
+                    <Minus className='h-4 w-4' />
+                  </Button>
+                </FormControl>
+                <FormControl>
+                  <div>
+                    <Combobox
+                      options={quantityOptions}
+                      value={form.getValues('quantity').toString()}
+                      setValue={(value) => {
+                        form.setValue('quantity', Number(value))
                         form.handleSubmit(onSubmit)()
                       }}
-                      disabled={
-                        disabled ||
-                        form.getValues('quantity').toString() ===
-                          quantityOptions[0].value
-                      }
-                      size={'icon'}
-                    >
-                      <Minus className='h-4 w-4' />
-                    </Button>
-                  </FormControl>
-                  <FormControl>
-                    <div>
-                      <Combobox
-                        options={quantityOptions}
-                        value={form.getValues('quantity').toString()}
-                        setValue={(value) => {
-                          form.setValue('quantity', Number(value))
-                          form.handleSubmit(onSubmit)()
-                        }}
-                        variant='ghost'
-                        withChevron={false}
-                        disabled={disabled}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormControl>
-                    <Button
-                      type='button'
                       variant='ghost'
-                      onClick={() => {
-                        form.setValue(
-                          'quantity',
-                          Number(form.getValues('quantity')) + 1
-                        )
-                        form.handleSubmit(onSubmit)()
-                      }}
-                      disabled={
-                        disabled ||
-                        form.getValues('quantity').toString() ===
-                          quantityOptions[quantityOptions.length - 1].value
-                      }
-                      size={'icon'}
-                    >
-                      <Plus className='h-4 w-4' />
-                    </Button>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <p className='font-semibold'>{priceFormatter(cartItem.price)}</p>
-          </div>
+                      withChevron={false}
+                      disabled={disabled}
+                    />
+                  </div>
+                </FormControl>
+                <FormControl>
+                  <Button
+                    type='button'
+                    variant='ghost'
+                    onClick={() => {
+                      form.setValue(
+                        'quantity',
+                        Number(form.getValues('quantity')) + 1
+                      )
+                      form.handleSubmit(onSubmit)()
+                    }}
+                    disabled={
+                      disabled ||
+                      form.getValues('quantity').toString() ===
+                        quantityOptions[quantityOptions.length - 1].value
+                    }
+                    size={'icon'}
+                  >
+                    <Plus className='h-4 w-4' />
+                  </Button>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <p className='font-semibold'>{priceFormatter(cartItem.price)}</p>
         </div>
 
         <Button

@@ -25,6 +25,7 @@ import { Separator } from '@/components/ui/separator'
 import { priceFormatter } from '@/lib/format'
 import Link from 'next/link'
 import { Checkbox } from '@/components/ui/checkbox'
+import { freeShippingThreshold } from '@/lib/consts'
 
 type Props = {
   userAddresses: DeliveryAddress[]
@@ -46,6 +47,7 @@ export function CartOrderForm({
   onSubmit,
 }: Props) {
   const formattedDeliveryFee = priceFormatter(deliveryFee)
+  const formattedFreeShippingThreshold = priceFormatter(freeShippingThreshold)
   const deliveryServicePricesLink = selectedDeliveryService ? (
     <span className='text-primary underline'>
       <Link href={selectedDeliveryService.link} target='_blank'>
@@ -70,6 +72,7 @@ export function CartOrderForm({
   const deliveryServiceDescription = form.watch('selectedDeliveryServiceId')
     ? selectedDeliveryServiceDescription
     : 'Kurirska služba koja će koristiti za isporuku.'
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2.5'>
@@ -93,9 +96,9 @@ export function CartOrderForm({
                           <RadioGroup
                             onValueChange={field.onChange}
                             value={field.value}
-                            className='flex space-x-2'
+                            className='space-y-2 sm:flex sm:space-x-2 sm:space-y-0'
                           >
-                            <FormItem className='flex items-center space-x-3 space-y-0'>
+                            <FormItem className='flex items-center space-x-3 space-y-0 rounded-md border p-4 w-full'>
                               <FormControl>
                                 <RadioGroupItem
                                   value={OrderDeliveryType.delivery}
@@ -103,7 +106,7 @@ export function CartOrderForm({
                               </FormControl>
                               <FormLabel>Na kućnu adresu</FormLabel>
                             </FormItem>
-                            <FormItem className='flex items-center space-x-3 space-y-0'>
+                            <FormItem className='flex items-center space-x-3 space-y-0 rounded-md border p-4 w-full'>
                               <FormControl>
                                 <RadioGroupItem
                                   value={OrderDeliveryType.pickup}
@@ -239,9 +242,9 @@ export function CartOrderForm({
                         <RadioGroup
                           onValueChange={field.onChange}
                           value={field.value}
-                          className='flex space-x-2'
+                          className='space-y-2 sm:flex sm:space-x-2 sm:space-y-0'
                         >
-                          <FormItem className='flex items-center space-x-3 space-y-0'>
+                          <FormItem className='flex items-center space-x-3 space-y-0 rounded-md border p-4 w-full'>
                             <FormControl>
                               <RadioGroupItem
                                 value={OrderPaymentType.onDelivery}
@@ -249,7 +252,7 @@ export function CartOrderForm({
                             </FormControl>
                             <FormLabel>Plaćanje prilikom preuzimanja</FormLabel>
                           </FormItem>
-                          <FormItem className='flex items-center space-x-3 space-y-0'>
+                          <FormItem className='flex items-center space-x-3 space-y-0 rounded-md border p-4 w-full'>
                             <FormControl>
                               <RadioGroupItem value={OrderPaymentType.card} />
                             </FormControl>
@@ -287,7 +290,9 @@ export function CartOrderForm({
                         />
                       </FormControl>
                       <FormDescription>
-                        {deliveryServiceDescription}
+                        {deliveryServiceDescription} <br />
+                        Poštarina je besplatna za porudžbine preko{' '}
+                        {formattedFreeShippingThreshold}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -345,6 +350,7 @@ export function CartOrderForm({
                           field.onChange(e)
                           form.trigger('termsAccepted')
                         }}
+                        ref={field.ref}
                       />
                     </FormControl>
                     <div className='space-y-2 leading-none'>
