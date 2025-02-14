@@ -44,11 +44,11 @@ export default async function SignInPage(props: {
           <CardTitle>Vaš nalog</CardTitle>
           <CardDescription>Odaberite opciju za prijavu</CardDescription>
         </CardHeader>
-        <CardContent className='grid grid-cols-2 gap-5'>
+        <CardContent className='grid grid-cols-1 gap-5'>
           {Object.values(providerMap).map((provider) => (
             <form
               key={provider.id}
-              className={provider.id === 'resend' ? 'col-span-2' : ''}
+              // className={provider.id === 'resend' ? 'col-span-2' : ''}
               action={async (formData) => {
                 'use server'
 
@@ -112,8 +112,8 @@ export default async function SignInPage(props: {
         <CardFooter>
           <p className='text-muted-foreground text-sm'>
             Nema potrebe za klasičnom registracijom i čuvanjem šifara.
-            Jednostavno se prijavite sa svojim Google / Apple nalogom ili
-            unesite email i pratite dalje korake.
+            Jednostavno se prijavite sa svojim Google nalogom ili unesite email
+            i pratite dalje korake.
           </p>
         </CardFooter>
       </Card>
