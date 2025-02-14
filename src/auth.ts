@@ -3,14 +3,12 @@ import { Adapter } from 'next-auth/adapters'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import type { Provider } from 'next-auth/providers'
 import Google from 'next-auth/providers/google'
-import Apple from 'next-auth/providers/apple'
 import Resend from 'next-auth/providers/resend'
 import prisma from './lib/db'
 import { sendVerification } from './lib/sendVerification'
 
 const providers: Provider[] = [
   Google,
-  Apple,
   Resend({
     sendVerificationRequest({ identifier: email, url }) {
       sendVerification({ to: email, url })
