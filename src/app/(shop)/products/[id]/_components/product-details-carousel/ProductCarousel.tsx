@@ -3,9 +3,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import {
   Carousel,
   CarouselContent,
+  CarouselControls,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from '@/components/ui/carousel'
 import { ProductWithRelations } from '@/data/services/products'
 
@@ -24,7 +23,7 @@ export default function ProductCarousel({ product }: Props) {
     >
       <CarouselContent>
         {product.coverImage && (
-          <CarouselItem className='px-10'>
+          <CarouselItem>
             <Image
               src={product.coverImage.url}
               alt={product.coverImage.name}
@@ -37,7 +36,7 @@ export default function ProductCarousel({ product }: Props) {
         )}
 
         {product.images.map((image) => (
-          <CarouselItem key={image.id} className='px-10'>
+          <CarouselItem key={image.id}>
             <Image
               src={image.url}
               alt={image.name}
@@ -49,8 +48,7 @@ export default function ProductCarousel({ product }: Props) {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className='left-0' />
-      <CarouselNext className='right-0' />
+      <CarouselControls />
     </Carousel>
   )
 }
@@ -59,14 +57,13 @@ export function ProductCarouselSkeleton() {
   return (
     <Carousel className='mb-auto sm:sticky sm:top-[135px]'>
       <CarouselContent>
-        <CarouselItem className='px-10'>
+        <CarouselItem>
           <div className='h-auto w-[100%] aspect-square'>
             <Skeleton className='h-auto w-[100%] rounded-xl aspect-square' />
           </div>
         </CarouselItem>
       </CarouselContent>
-      <CarouselPrevious className='left-0' />
-      <CarouselNext className='right-0' />
+      <CarouselControls />
     </Carousel>
   )
 }

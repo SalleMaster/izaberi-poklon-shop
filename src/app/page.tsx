@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import Banners, { BannersSkeleton } from './_components/banners/Banners'
+import Banners from './_components/banners/Banners'
 import { getActiveBanners } from '@/data/services/banners'
 import Benefits from './_components/benefits/Benefits'
 import {
@@ -13,6 +13,7 @@ import { getActiveCategories } from '@/data/services/category'
 import Categories, {
   CategoriesSkeleton,
 } from './_components/categories/Categories'
+import { BannersSkeleton } from './_components/banners/BannersCarousel'
 
 export default function Landing() {
   const bannersPromise = getActiveBanners()

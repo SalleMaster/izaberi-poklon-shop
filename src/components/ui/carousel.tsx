@@ -7,6 +7,8 @@ import useEmblaCarousel, {
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons'
+import { Circle } from 'lucide-react'
+import { EmblaCarouselType } from 'embla-carousel'
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -136,7 +138,7 @@ const Carousel = React.forwardRef<
         <div
           ref={ref}
           onKeyDownCapture={handleKeyDown}
-          className={cn('relative', className)}
+          className={cn('relative', 'space-y-4', className)}
           role='region'
           aria-roledescription='carousel'
           {...props}
@@ -160,8 +162,9 @@ const CarouselContent = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          'flex',
-          orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col',
+          'flex gap-4',
+          orientation === 'vertical' && 'flex-col',
+          // orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col',
           // orientation === 'horizontal' ? '' : 'flex-col',
           className
         )}
@@ -176,7 +179,7 @@ const CarouselItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
-  const { orientation } = useCarousel()
+  // const { orientation } = useCarousel()
 
   return (
     <div
@@ -185,7 +188,7 @@ const CarouselItem = React.forwardRef<
       aria-roledescription='slide'
       className={cn(
         'min-w-0 shrink-0 grow-0 basis-full',
-        orientation === 'horizontal' ? 'pl-4' : 'pt-4',
+        // orientation === 'horizontal' ? 'pl-4' : 'pt-4',
         className
       )}
       {...props}
@@ -206,12 +209,19 @@ const CarouselPrevious = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        'absolute  h-8 w-8 rounded-full',
-        orientation === 'horizontal'
-          ? '-left-12 top-1/2 -translate-y-1/2'
-          : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
+        'h-8 w-8 rounded-full',
+        orientation === 'vertical' && 'rotate-90',
         className
       )}
+      // className={cn(
+      //   'hidden',
+      //   'md:flex',
+      //   'absolute  h-8 w-8 rounded-full',
+      //   orientation === 'horizontal'
+      //     ? '-left-12 top-1/2 -translate-y-1/2'
+      //     : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
+      //   className
+      // )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}
@@ -235,12 +245,19 @@ const CarouselNext = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        'absolute h-8 w-8 rounded-full',
-        orientation === 'horizontal'
-          ? '-right-12 top-1/2 -translate-y-1/2'
-          : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
+        'h-8 w-8 rounded-full',
+        orientation === 'vertical' && 'rotate-90',
         className
       )}
+      // className={cn(
+      //   'hidden',
+      //   'md:flex',
+      //   'absolute h-8 w-8 rounded-full',
+      //   orientation === 'horizontal'
+      //     ? '-right-12 top-1/2 -translate-y-1/2'
+      //     : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
+      //   className
+      // )}
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}
@@ -252,6 +269,96 @@ const CarouselNext = React.forwardRef<
 })
 CarouselNext.displayName = 'CarouselNext'
 
+type UseDotButtonType = {
+  selectedIndex: number
+  scrollSnaps: number[]
+  onDotButtonClick: (index: number) => void
+}
+
+const useDotButton = (
+  emblaApi: EmblaCarouselType | undefined
+): UseDotButtonType => {
+  const [selectedIndex, setSelectedIndex] = React.useState(0)
+  const [scrollSnaps, setScrollSnaps] = React.useState<number[]>([])
+
+  const onDotButtonClick = React.useCallback(
+    (index: number) => {
+      if (!emblaApi) return
+      emblaApi.scrollTo(index)
+    },
+    [emblaApi]
+  )
+
+  const onInit = React.useCallback((emblaApi: EmblaCarouselType) => {
+    setScrollSnaps(emblaApi.scrollSnapList())
+  }, [])
+
+  const onSelect = React.useCallback((emblaApi: EmblaCarouselType) => {
+    setSelectedIndex(emblaApi.selectedScrollSnap())
+  }, [])
+
+  React.useEffect(() => {
+    if (!emblaApi) return
+
+    onInit(emblaApi)
+    onSelect(emblaApi)
+    emblaApi.on('reInit', onInit).on('reInit', onSelect).on('select', onSelect)
+  }, [emblaApi, onInit, onSelect])
+
+  return {
+    selectedIndex,
+    scrollSnaps,
+    onDotButtonClick,
+  }
+}
+
+const CarouselButtons = React.forwardRef<
+  HTMLButtonElement,
+  React.ComponentProps<typeof Button>
+>(() => {
+  const { api } = useCarousel()
+
+  const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(api)
+
+  return (
+    <div className='flex gap-2 items-center'>
+      {scrollSnaps.length > 1
+        ? scrollSnaps.map((_, index) => (
+            <Button
+              key={index}
+              onClick={() => onDotButtonClick(index)}
+              variant='ghost'
+              size='icon'
+              className={cn(
+                'h-4 w-4',
+                index === selectedIndex ? 'text-foreground' : 'text-gray-300'
+              )}
+            >
+              <Circle className='w-4 h-4' />
+            </Button>
+          ))
+        : null}
+    </div>
+  )
+})
+CarouselButtons.displayName = 'CarouselButtons'
+
+const CarouselControls = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className }, ref) => {
+  return (
+    <div className={cn('flex justify-between', className)} ref={ref}>
+      <div className='flex gap-2'>
+        <CarouselPrevious />
+        <CarouselNext />
+      </div>
+      <CarouselButtons />
+    </div>
+  )
+})
+CarouselControls.displayName = 'CarouselControls'
+
 export {
   type CarouselApi,
   Carousel,
@@ -259,4 +366,6 @@ export {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
+  CarouselButtons,
+  CarouselControls,
 }
