@@ -52,7 +52,6 @@ const adminMenuOptions = [
   { href: '/admin/proizvodi/novi', text: 'Novi Proizvod', icon: Gift },
   { href: '/admin/porudzbine', text: 'Porudžbine', icon: ReceiptEuro },
   { href: '/admin/recenzije', text: 'Recenzije', icon: Star },
-  // { href: '/profil/moji-podaci', text: 'Moji podaci', icon: Settings },
 ]
 
 const userMenuOptions = [

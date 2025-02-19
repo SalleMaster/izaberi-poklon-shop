@@ -2,11 +2,9 @@ import type { Metadata } from 'next'
 import { SessionProvider } from 'next-auth/react'
 import localFont from 'next/font/local'
 import './globals.css'
-// import Header from '@/app/_components/header/navigation/Header'
 import { Toaster } from '@/components/ui/toaster'
 import Header from '@/components/layout/header/navigation/Header'
 import Footer from '@/components/layout/footer/Footer'
-// import Footer from './_components/footer/Footer'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
