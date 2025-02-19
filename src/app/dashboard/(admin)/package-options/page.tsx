@@ -3,7 +3,7 @@ import PackageOptionsPage from './PackageOptionsPage'
 import pageGuard from '@/lib/pageGuard'
 
 export const metadata: Metadata = {
-  title: 'Admin | Poklon pakovanja',
+  title: 'Poklon pakovanja | Admin',
 }
 
 export default async function Page() {

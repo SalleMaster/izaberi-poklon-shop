@@ -3,7 +3,7 @@ import BannersPage from './BannersPage'
 import pageGuard from '@/lib/pageGuard'
 
 export const metadata: Metadata = {
-  title: 'Admin | Baneri',
+  title: 'Baneri | Admin',
 }
 
 export default async function Page() {

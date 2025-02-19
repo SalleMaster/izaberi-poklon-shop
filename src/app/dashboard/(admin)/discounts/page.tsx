@@ -3,7 +3,7 @@ import DiscountsPage from './DiscountsPage'
 import pageGuard from '@/lib/pageGuard'
 
 export const metadata: Metadata = {
-  title: 'Popusti',
+  title: 'Popusti | Admin',
 }
 
 export default async function Page() {

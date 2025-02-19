@@ -3,7 +3,7 @@ import ProductsPage from '@/app/(shop)/products/page'
 import pageGuard from '@/lib/pageGuard'
 
 export const metadata: Metadata = {
-  title: 'Admin | Proizvodi',
+  title: 'Proizvodi | Admin',
 }
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>

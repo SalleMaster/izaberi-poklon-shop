@@ -52,7 +52,6 @@ const adminMenuOptions = [
   { href: '/admin/proizvodi/novi', text: 'Novi Proizvod', icon: Gift },
   { href: '/admin/porudzbine', text: 'Porudžbine', icon: ReceiptEuro },
   { href: '/admin/recenzije', text: 'Recenzije', icon: Star },
-  { href: '/profil/moji-podaci', text: 'Moji podaci', icon: Settings },
 ]
 
 const userMenuOptions = [
@@ -62,8 +61,8 @@ const userMenuOptions = [
 ]
 
 export default function UserButton({ user }: UserButtonProps) {
-  const menuOptions =
-    user.role === UserRoleType.admin ? adminMenuOptions : userMenuOptions
+  const isAdmin = user.role === UserRoleType.admin
+  const menuOptions = isAdmin ? adminMenuOptions : userMenuOptions
 
   return (
     <DropdownMenu>
@@ -90,6 +89,22 @@ export default function UserButton({ user }: UserButtonProps) {
             </DropdownMenuItem>
           ))}
         </DropdownMenuGroup>
+        {isAdmin ? (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Lični meni</DropdownMenuLabel>
+            <DropdownMenuGroup>
+              {userMenuOptions.map((link) => (
+                <DropdownMenuItem key={link.href} asChild>
+                  <Link href={link.href}>
+                    <link.icon className='mr-2 h-4 w-4' />
+                    <span>{link.text}</span>
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuGroup>
+          </>
+        ) : null}
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <button

@@ -3,7 +3,7 @@ import DeliveryFeesPage from './DeliveryFeesPage'
 import pageGuard from '@/lib/pageGuard'
 
 export const metadata: Metadata = {
-  title: 'Admin | Poštarine',
+  title: 'Poštarine | Admin',
 }
 
 export default async function Page() {

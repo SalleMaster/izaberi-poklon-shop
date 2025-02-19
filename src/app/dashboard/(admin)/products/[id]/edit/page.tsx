@@ -3,7 +3,7 @@ import EditProductPage from './EditProductPage'
 import pageGuard from '@/lib/pageGuard'
 
 export const metadata: Metadata = {
-  title: 'Proizvodi | Edit',
+  title: 'Edit proizvoda | Admin',
 }
 
 type PageProps = {
@@ -11,11 +11,9 @@ type PageProps = {
 }
 
 export default async function Page(props: PageProps) {
-  const params = await props.params;
+  const params = await props.params
 
-  const {
-    id
-  } = params;
+  const { id } = params
 
   await pageGuard({
     callbackUrl: `/admin/proizvodi/${id}/edit`,
