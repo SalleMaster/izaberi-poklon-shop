@@ -3,7 +3,7 @@ import DeliveryServicesPage from './DeliveryServicesPage'
 import pageGuard from '@/lib/pageGuard'
 
 export const metadata: Metadata = {
-  title: 'Delivery services',
+  title: 'Kurirske službe | Admin',
 }
 
 export default async function Page() {

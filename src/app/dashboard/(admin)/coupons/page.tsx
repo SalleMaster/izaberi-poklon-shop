@@ -3,7 +3,7 @@ import CouponsPage from './CouponsPage'
 import pageGuard from '@/lib/pageGuard'
 
 export const metadata: Metadata = {
-  title: 'Admin | Kuponi',
+  title: 'Kuponi | Admin',
 }
 
 export default async function Page() {

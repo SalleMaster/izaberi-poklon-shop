@@ -9,7 +9,7 @@ import RatingsHeader from './_components/RatingsHeader'
 import RatingsPage, { RatingsPageSkeleton } from './RatingsPage'
 
 export const metadata: Metadata = {
-  title: 'Admin | Recenzije',
+  title: 'Recenzije | Admin',
 }
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>

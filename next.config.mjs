@@ -61,7 +61,7 @@ const nextConfig = {
       },
       {
         source: '/profil/porudzbine',
-        destination: '/dashboard/orders',
+        destination: '/dashboard/my-orders',
       },
       {
         source: '/profil/moji-podaci',

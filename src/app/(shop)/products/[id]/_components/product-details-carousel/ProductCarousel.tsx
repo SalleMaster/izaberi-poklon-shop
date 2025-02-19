@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -7,6 +9,7 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel'
 import { ProductWithRelations } from '@/data/services/products'
+import Autoplay from 'embla-carousel-autoplay'
 
 type Props = {
   product: ProductWithRelations
@@ -19,6 +22,12 @@ export default function ProductCarousel({ product }: Props) {
         align: 'start',
         loop: true,
       }}
+      plugins={[
+        Autoplay({
+          delay: 5000,
+          stopOnInteraction: true,
+        }),
+      ]}
       className='mb-auto sm:sticky sm:top-[135px]'
     >
       <CarouselContent>

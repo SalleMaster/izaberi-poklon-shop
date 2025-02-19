@@ -1,16 +1,15 @@
 import { Metadata } from 'next'
 import { Suspense } from 'react'
-import OrdersPage, { OrdersPageSkeleton } from './OrdersPage'
 import pageGuard from '@/lib/pageGuard'
 import { getOrders, getOrdersCount } from '@/data/services/order'
-import OrdersHeader from './_components/OrdersHeader'
 import { Separator } from '@/components/ui/separator'
 import { SortingValues } from '@/lib/types'
 import CustomPagination from '@/components/custom/CustomPagination'
-import { UserRoleType } from '@prisma/client'
+import OrdersHeader from '../(admin)/orders/_components/OrdersHeader'
+import OrdersPage, { OrdersPageSkeleton } from '../(admin)/orders/OrdersPage'
 
 export const metadata: Metadata = {
-  title: 'Porudžbine | Admin',
+  title: 'Porudžbine | Profil',
 }
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -19,7 +18,7 @@ type OrderByType = { createdAt: 'desc' } | { createdAt: 'asc' }
 
 export default async function Page(props: { searchParams: SearchParams }) {
   const { userId, userRole } = await pageGuard({
-    callbackUrl: '/admin/porudzbine',
+    callbackUrl: '/profil/porudzbine',
   })
 
   const searchParams = await props.searchParams
@@ -45,15 +44,13 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
   const ordersPromise = getOrders({
     userId,
-    userRole,
+    userRole: 'user',
     orderBy,
     status,
     skip,
     take,
   })
   const ordersCountPromise = getOrdersCount({ userId, userRole, status })
-
-  const isAdmin = userRole === UserRoleType.admin
 
   return (
     <div className='space-y-5 group'>
@@ -62,10 +59,10 @@ export default async function Page(props: { searchParams: SearchParams }) {
       <Separator />
 
       <Suspense fallback={<OrdersPageSkeleton />}>
-        <OrdersPage ordersPromise={ordersPromise} isAdmin={isAdmin} />
+        <OrdersPage ordersPromise={ordersPromise} isAdmin={false} />
         <CustomPagination
           countPromise={ordersCountPromise}
-          pageUrl='/admin/porudzbine'
+          pageUrl='/profil/porudzbine'
         />
       </Suspense>
     </div>

@@ -3,7 +3,7 @@ import CategoriesPage from './CategoriesPage'
 import pageGuard from '@/lib/pageGuard'
 
 export const metadata: Metadata = {
-  title: 'Categories',
+  title: 'Kategorije | Admin',
 }
 
 export default async function Page() {
