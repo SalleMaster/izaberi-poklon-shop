@@ -2,9 +2,8 @@ import { use } from 'react'
 import {
   Carousel,
   CarouselContent,
+  CarouselControls,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from '@/components/ui/carousel'
 import { GetProductsReturnType } from '@/data/services/products'
 import ProductCard, {
@@ -24,7 +23,7 @@ export default function ProductsCarousel({ productsPromise, title }: Props) {
   }
 
   return (
-    <div className='md:px-12'>
+    <div>
       <h2 className='text-2xl font-bold text-center mb-5'>{title}</h2>
       <Carousel
         opts={{
@@ -41,8 +40,7 @@ export default function ProductsCarousel({ productsPromise, title }: Props) {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselControls />
       </Carousel>
     </div>
   )
@@ -56,7 +54,7 @@ export function ProductsCarouselSkeleton({
   title,
 }: ProductsCarouselSkeletonProps) {
   return (
-    <div className='md:px-12'>
+    <div>
       <h2 className='text-2xl font-bold text-center mb-5'>{title}</h2>
       <Carousel>
         <CarouselContent className='py-1'>
@@ -91,8 +89,7 @@ export function ProductsCarouselSkeleton({
             <ProductCardSkeleton />
           </CarouselItem>
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselControls />
       </Carousel>
     </div>
   )
