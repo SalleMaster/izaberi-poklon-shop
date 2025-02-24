@@ -182,7 +182,6 @@ model PriceRange {
 model Discount {
   id         String    @id @default(cuid())
   name       String    @unique
-  removeme   String    @default("remove me")
   percentage Int
   active     Boolean   @default(false)
   products   Product[]
