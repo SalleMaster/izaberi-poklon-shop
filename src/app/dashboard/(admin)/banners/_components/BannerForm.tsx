@@ -284,7 +284,7 @@ export function BannerForm({
                 />
               </FormControl>
               <FormDescription>
-                Slika banera koja će se koristiti na većim ekranima
+                Slika banera koja će se koristiti na manjim ekranima
               </FormDescription>
               <FormMessage />
             </FormItem>
