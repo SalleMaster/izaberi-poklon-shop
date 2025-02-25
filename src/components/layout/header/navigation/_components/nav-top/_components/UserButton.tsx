@@ -92,7 +92,7 @@ export default function UserButton({ user }: UserButtonProps) {
         {isAdmin ? (
           <>
             <DropdownMenuSeparator />
-            <DropdownMenuLabel>Lični meni</DropdownMenuLabel>
+            <DropdownMenuLabel>Profil</DropdownMenuLabel>
             <DropdownMenuGroup>
               {userMenuOptions.map((link) => (
                 <DropdownMenuItem key={link.href} asChild>
