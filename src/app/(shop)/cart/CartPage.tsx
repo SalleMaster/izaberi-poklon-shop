@@ -94,7 +94,7 @@ export default function CartPage({
         '',
       selectedDeliveryServiceId:
         deliveryServices.find((service) => service.predefinedPrices)?.id ||
-        deliveryServices[0].id ||
+        deliveryServices[0]?.id ||
         '',
       pickupName: userName,
       pickupPhone: userPhone,
