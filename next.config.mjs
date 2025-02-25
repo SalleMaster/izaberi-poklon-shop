@@ -7,6 +7,11 @@ const nextConfig = {
         hostname:
           'izaberi-poklon-shop-development-bucket-salle.s3.eu-north-1.amazonaws.com',
       },
+      {
+        protocol: 'https',
+        hostname:
+          'izaberi-poklon-shop-production-bucket-salle.s3.eu-north-1.amazonaws.com',
+      },
     ],
   },
   async rewrites() {
