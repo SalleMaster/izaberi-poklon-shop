@@ -43,7 +43,7 @@ export default function ProductGrid({
     <>
       {product ? (
         <div className='space-y-10'>
-          <div className='relative space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 md:gap-10'>
+          <div className='relative grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-10'>
             <ProductCarousel product={product} />
             <ProductDetails product={product} user={user} />
           </div>
@@ -70,7 +70,7 @@ export default function ProductGrid({
 export function ProductGridSkeleton() {
   return (
     <div className='space-y-10'>
-      <div className='relative space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 md:gap-10'>
+      <div className='relative grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-10'>
         <ProductCarouselSkeleton />
         <ProductDetailsSkeleton />
       </div>

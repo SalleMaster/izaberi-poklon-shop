@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { signIn } from 'next-auth/react'
 import { User as UserType } from 'next-auth'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -17,16 +17,14 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
-
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogClose,
+} from '@/components/ui/dialog'
 import { CheckCheck, Loader2, Minus, Plus, ShoppingCart } from 'lucide-react'
 import { productDetailsSchema, ProductDetailsValues } from './validation'
 import { addCartItem } from '@/app/(shop)/_actions/cart/actions'
@@ -434,28 +432,33 @@ export function ProductDetailsForm({ product, user }: Props) {
           )}
         </div>
 
-        <AlertDialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle className='text-center'>
+        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className='text-center'>
                 <CheckCheck
                   size={70}
                   className='bg-emerald-100 text-emerald-800 rounded-full p-3 mx-auto mb-4'
                 />
                 Proizvod je dodat u korpu
-              </AlertDialogTitle>
-              <AlertDialogDescription className='text-center'>
+              </DialogTitle>
+              <DialogDescription className='text-center'>
                 Odaberite sledeću akciju
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter className='flex sm:justify-between'>
-              <AlertDialogCancel>Nastavi kupovinu</AlertDialogCancel>
-              <AlertDialogAction>
-                <Link href='/korpa'>Idi u korpu</Link>
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter className='flex gap-4 sm:justify-between'>
+              <DialogClose className={buttonVariants({ variant: 'outline' })}>
+                Nastavi kupovinu
+              </DialogClose>
+              <Link
+                href='/korpa'
+                className={buttonVariants({ variant: 'default' })}
+              >
+                Idi u korpu
+              </Link>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </form>
     </Form>
   )
