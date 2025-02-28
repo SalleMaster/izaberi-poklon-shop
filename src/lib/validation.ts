@@ -25,9 +25,13 @@ export const pdfSchema = fileSchema.refine(
 )
 
 export const imageListSchemaRequired = z
-  .instanceof(globalThis.FileList, { message: 'Slika je neophodna' })
+  .union([
+    z.instanceof(globalThis.FileList, { message: 'Slika je neophodna' }),
+    z.null(),
+  ])
   .refine(
     (fileList) =>
+      fileList !== null &&
       fileList.length > 0 &&
       Array.from(fileList).every((file) => imageSchema.safeParse(file).success),
     { message: 'Slika je neophodna i mora biti validan fajl tip' }
@@ -35,6 +39,7 @@ export const imageListSchemaRequired = z
 
 export const imageListSchemaOptional = z.union([
   z.undefined(),
+  z.null(),
   z
     .instanceof(globalThis.FileList, { message: 'Slika je neophodna' })
     .refine(
@@ -42,12 +47,13 @@ export const imageListSchemaOptional = z.union([
         Array.from(fileList).every(
           (file) => imageSchema.safeParse(file).success
         ),
-      { message: 'Slika je neophodna i mora biti validan fajl tip' }
+      { message: 'Slika mora biti validan fajl tip' }
     ),
 ])
 
 export const pdfListSchemaOptional = z.union([
   z.undefined(),
+  z.null(),
   z
     .instanceof(globalThis.FileList, { message: 'PDF je neophodan' })
     .refine(
