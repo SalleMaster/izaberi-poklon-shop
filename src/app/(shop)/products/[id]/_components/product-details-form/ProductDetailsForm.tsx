@@ -171,6 +171,7 @@ export function ProductDetailsForm({ product, user }: Props) {
             name: field.name,
             images: null,
             min: field.min,
+            max: 5,
           },
           { shouldFocus: false }
         )
