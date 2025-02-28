@@ -36,7 +36,6 @@ import {
   quantityOptions as singlePriceQuantityOptions,
 } from '@/lib/consts'
 import { Combobox } from '@/components/custom/Combobox'
-import { createEmptyFileList } from '@/lib/formUtils'
 import { FileUpload } from '@/components/custom/FileUpload'
 import { uploadFile } from '@/lib/files'
 import { imageFileTypes } from '@/lib/validation'
@@ -170,7 +169,7 @@ export function ProductDetailsForm({ product, user }: Props) {
         imageAppend(
           {
             name: field.name,
-            images: createEmptyFileList(),
+            images: null,
             min: field.min,
           },
           { shouldFocus: false }
@@ -379,7 +378,7 @@ export function ProductDetailsForm({ product, user }: Props) {
                           multiple
                           formFiles={
                             form.getValues('imagePersonalizations')?.[index]
-                              ?.images
+                              ?.images || null
                           }
                           formSetValue={(values) => {
                             console.log(values)

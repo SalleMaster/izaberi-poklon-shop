@@ -36,7 +36,6 @@ import { Loader2, Save, Plus, Minus } from 'lucide-react'
 import { productSchema, ProductValues, editProductSchema } from './validation'
 import { uploadFile } from '@/lib/files'
 import { createMedia } from '@/lib/actions'
-import { createEmptyFileList } from '@/lib/formUtils'
 import { imageFileTypes } from '@/lib/validation'
 import { createProduct, deleteProduct, editProduct } from '../_actions/actions'
 import { MultiCombobox } from '@/components/custom/MultiCombobox'
@@ -139,8 +138,8 @@ export function ProductForm({
           ...field,
           originalId: field.id,
         })) || [],
-      coverImage: createEmptyFileList(),
-      images: createEmptyFileList(),
+      coverImage: null,
+      images: null,
     }),
     [product]
   )
@@ -151,6 +150,12 @@ export function ProductForm({
   })
 
   const { control, reset } = form
+
+  const deliveryFeeOptions =
+    deliveryFees?.map((deliveryFee) => ({
+      value: deliveryFee.id,
+      label: `${deliveryFee.name} (${priceFormatter(deliveryFee.fee)})`,
+    })) || []
 
   const {
     fields: textFields,
@@ -458,12 +463,7 @@ export function ProductForm({
                   <FormLabel>Poštarina</FormLabel>
                   <FormControl>
                     <Combobox
-                      options={
-                        deliveryFees?.map((deliveryFee) => ({
-                          value: deliveryFee.id,
-                          label: `${deliveryFee.name} (${priceFormatter(deliveryFee.fee)})`,
-                        })) || []
-                      }
+                      options={deliveryFeeOptions}
                       value={field.value}
                       setValue={(value) => field.onChange(value)}
                     />
