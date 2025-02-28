@@ -311,6 +311,8 @@ export async function deleteProduct(id: string) {
       imagesMediaKeys.forEach(async (key) => await deleteMediaFromS3(key))
     }
 
+    revalidatePath('/dashboard/products')
+
     return {
       status: 'success',
       message: 'Proizvod obrisan.',
@@ -324,8 +326,5 @@ export async function deleteProduct(id: string) {
     } else {
       throw error
     }
-  } finally {
-    revalidatePath('/dashboard/products')
-    redirect('/dashboard/products')
   }
 }
