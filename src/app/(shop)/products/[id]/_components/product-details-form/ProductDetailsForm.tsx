@@ -378,7 +378,7 @@ export function ProductDetailsForm({ product, user }: Props) {
                           multiple
                           formFiles={
                             form.getValues('imagePersonalizations')?.[index]
-                              ?.images || null
+                              ?.images
                           }
                           formSetValue={(values) => {
                             console.log(values)
