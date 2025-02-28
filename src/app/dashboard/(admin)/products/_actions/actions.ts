@@ -93,6 +93,7 @@ export async function createProduct(
           create: imagePersonalizationFields?.map((field) => ({
             name: field.name,
             min: field.min,
+            max: field.max,
           })),
         },
         textPersonalizationFields: {
@@ -225,8 +226,8 @@ export async function editProduct(
         imagePersonalizationFields: {
           upsert: imagePersonalizationFields?.map((field) => ({
             where: { id: field.id || '' },
-            create: { name: field.name, min: field.min },
-            update: { name: field.name, min: field.min },
+            create: { name: field.name, min: field.min, max: field.max },
+            update: { name: field.name, min: field.min, max: field.max },
           })),
         },
         textPersonalizationFields: {

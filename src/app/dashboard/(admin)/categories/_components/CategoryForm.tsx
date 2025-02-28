@@ -238,7 +238,9 @@ export function CategoryForm({
                 <FileUpload
                   type='file'
                   formFiles={form.getValues('image')}
-                  formSetValue={(values) => form.setValue('image', values)}
+                  formSetValue={(values) =>
+                    form.setValue('image', values, { shouldValidate: true })
+                  }
                   existingFiles={category?.image ? [category.image] : []}
                   removedExistingFiles={removedMedia}
                   setRemovedExistingFile={(media) =>

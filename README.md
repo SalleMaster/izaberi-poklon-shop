@@ -44,10 +44,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - `npx prisma studio` - Database preview in the browser
 - `npx prisma db seed` - Seed the database
 - `npx prisma migrate dev` - Similar to db push, but it creates a migrate file also
+- When updating the schema, make sure to restart the dev server to load new Prisma client
 
 ## Next.js 15 Upgrade notes
 
-- `"prisma": "^5.22.0",` - Moved Prisma as main dependency, try to move it back to devDeps after some time
-- `"installCommand": "npm install --force"` - Created vercel.json instalation script. Remove it once React 19 is stable
 - `adapter: PrismaAdapter(prisma) as Adapter,` - Remove type casting from auth.ts file
 - ESLint does not work when doing production build on Vercel
