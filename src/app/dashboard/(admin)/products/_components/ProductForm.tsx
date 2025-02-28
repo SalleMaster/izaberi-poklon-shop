@@ -41,6 +41,7 @@ import { createProduct, deleteProduct, editProduct } from '../_actions/actions'
 import { MultiCombobox } from '@/components/custom/MultiCombobox'
 import { Combobox } from '@/components/custom/Combobox'
 import { priceFormatter } from '@/lib/format'
+import { useRouter } from 'next/navigation'
 
 type ProductWithRelations = Product & {
   categories: Category[]
@@ -110,6 +111,7 @@ export function ProductForm({
   const [removedTextFields, setRemovedTextFields] = useState<string[]>([])
   const [removedImageFields, setRemovedImageFields] = useState<string[]>([])
   const { toast } = useToast()
+  const router = useRouter()
 
   const defaultValues = useMemo(
     () => ({
@@ -317,6 +319,7 @@ export function ProductForm({
 
         if (response.status === 'success') {
           toast({ description: response.message })
+          router.push('/dashboard/products')
         }
       }
     } catch (error) {
