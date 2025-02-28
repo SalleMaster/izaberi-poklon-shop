@@ -239,7 +239,9 @@ export function BannerForm({
                   type='file'
                   formFiles={form.getValues('desktopImage')}
                   formSetValue={(values) =>
-                    form.setValue('desktopImage', values)
+                    form.setValue('desktopImage', values, {
+                      shouldValidate: true,
+                    })
                   }
                   existingFiles={
                     banner?.desktopImage ? [banner.desktopImage] : []
@@ -270,7 +272,9 @@ export function BannerForm({
                   type='file'
                   formFiles={form.getValues('mobileImage')}
                   formSetValue={(values) =>
-                    form.setValue('mobileImage', values)
+                    form.setValue('mobileImage', values, {
+                      shouldValidate: true,
+                    })
                   }
                   existingFiles={
                     banner?.mobileImage ? [banner.mobileImage] : []

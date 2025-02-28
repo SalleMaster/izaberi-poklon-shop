@@ -9,12 +9,38 @@ export const textPersonalizationSchema = z.object({
   value: z.string().min(1, 'Polje je neophodno'),
 })
 
-const imagePersonalizationSchema = z.object({
-  id: z.string().optional(),
-  name: z.string().min(1, 'Polje je neophodno'),
-  images: imageListSchemaOptional,
-  min: z.number().min(0, 'Broj slika ne može biti manji od nule'),
-})
+const imagePersonalizationSchema = z
+  .object({
+    id: z.string().optional(),
+    name: z.string().min(1, 'Polje je neophodno'),
+    images: imageListSchemaOptional,
+    min: z.number().min(0, 'Broj slika ne može biti manji od nule'),
+    max: z
+      .number()
+      .min(1, 'Maksimalni broj slika ne može biti manji od 1')
+      .optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.min === 0 && !data.images) return true
+      return data.images && data.images.length >= data.min
+    },
+    {
+      message: 'Nedovoljan broj slika',
+      path: ['images'],
+    }
+  )
+  .superRefine((data, ctx) => {
+    if (!data.max || !data.images) return
+
+    if (data.images.length > data.max) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Premašen maksimalni broj slika: ${data.max}`,
+        path: ['images'],
+      })
+    }
+  })
 
 // Product details schema
 export const productDetailsSchema = z.object({

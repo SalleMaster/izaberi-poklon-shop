@@ -663,7 +663,11 @@ export function ProductForm({
                 <FileUpload
                   type='file'
                   formFiles={form.getValues('coverImage')}
-                  formSetValue={(values) => form.setValue('coverImage', values)}
+                  formSetValue={(values) =>
+                    form.setValue('coverImage', values, {
+                      shouldValidate: true,
+                    })
+                  }
                   existingFiles={
                     product?.coverImage ? [product.coverImage] : []
                   }
@@ -690,7 +694,9 @@ export function ProductForm({
                   type='file'
                   multiple
                   formFiles={form.getValues('images')}
-                  formSetValue={(values) => form.setValue('images', values)}
+                  formSetValue={(values) =>
+                    form.setValue('images', values, { shouldValidate: true })
+                  }
                   existingFiles={product?.images ? product.images : []}
                   removedExistingFiles={removedMedia}
                   setRemovedExistingFile={(media) =>
@@ -799,6 +805,22 @@ export function ProductForm({
                 </FormItem>
               )}
             />
+            <FormField
+              control={control}
+              name={`imagePersonalizationFields.${index}.max`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Slikovna personalizacija: Limit slika</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Unesite limit slika' {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Maksimalni broj slika za upload
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Button
               type='button'
               onClick={() => {
@@ -821,6 +843,7 @@ export function ProductForm({
               imageAppend({
                 name: '',
                 min: 0,
+                max: 1,
                 originalId: '',
               })
             }
