@@ -15,21 +15,39 @@ export const textPersonalizationFieldSchema = z.object({
   productId: z.union([z.string(), z.null()]).optional(),
 })
 
-const imagePersonalizationFieldSchema = z.object({
-  id: z.string().optional(),
-  originalId: z.string(),
-  name: z.string().min(1, 'Polje je neophodno'),
-  min: z.preprocess(
-    (val) => Number(val),
-    z
-      .number({ invalid_type_error: 'Polje mora biti broj' })
-      .int()
-      .min(0, 'Broj slika ne može biti manji od nule')
-  ),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
-  productId: z.union([z.string(), z.null()]).optional(),
-})
+const imagePersonalizationFieldSchema = z
+  .object({
+    id: z.string().optional(),
+    originalId: z.string(),
+    name: z.string().min(1, 'Polje je neophodno'),
+    min: z.preprocess(
+      (val) => Number(val),
+      z
+        .number({ invalid_type_error: 'Polje mora biti broj' })
+        .int()
+        .min(0, 'Minimalni broj slika ne može biti manji od nule')
+    ),
+    max: z.preprocess(
+      (val) => Number(val),
+      z
+        .number({ invalid_type_error: 'Polje mora biti broj' })
+        .int()
+        .min(1, 'Maksimalni broj slika ne može biti manji od 1')
+    ),
+    createdAt: z.date().optional(),
+    updatedAt: z.date().optional(),
+    productId: z.union([z.string(), z.null()]).optional(),
+  })
+  .superRefine((data, ctx) => {
+    // Check if max is smaller than min
+    if (data.max < data.min) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Maksimalni broj slika ne može biti manji od minimalnog broja',
+        path: ['max'],
+      })
+    }
+  })
 
 const priceTableSchema = z.array(
   z.object({

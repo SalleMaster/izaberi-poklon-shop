@@ -247,7 +247,9 @@ export function DeliveryServiceForm({
                 <FileUpload
                   type='file'
                   formFiles={form.getValues('pdf')}
-                  formSetValue={(values) => form.setValue('pdf', values)}
+                  formSetValue={(values) =>
+                    form.setValue('pdf', values, { shouldValidate: true })
+                  }
                   existingFiles={
                     deliveryService?.pdf ? [deliveryService.pdf] : []
                   }

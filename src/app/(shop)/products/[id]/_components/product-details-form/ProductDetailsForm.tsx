@@ -171,7 +171,7 @@ export function ProductDetailsForm({ product, user }: Props) {
             name: field.name,
             images: null,
             min: field.min,
-            max: 5,
+            max: field.max,
           },
           { shouldFocus: false }
         )
@@ -382,10 +382,10 @@ export function ProductDetailsForm({ product, user }: Props) {
                               ?.images
                           }
                           formSetValue={(values) => {
-                            console.log(values)
                             form.setValue(
                               `imagePersonalizations.${index}.images`,
-                              values
+                              values,
+                              { shouldValidate: true }
                             )
                           }}
                           existingFiles={[]}
@@ -398,7 +398,7 @@ export function ProductDetailsForm({ product, user }: Props) {
                         {form.getValues('imagePersonalizations')?.[index]
                           ?.min === 0
                           ? 'Slike za ovo polje su opcione'
-                          : `Poželjan broj slika: ${form.getValues('imagePersonalizations')?.[index]?.min}`}
+                          : `Minimilan broj slika za ovo polje: ${form.getValues('imagePersonalizations')?.[index]?.min}`}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
