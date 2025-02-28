@@ -29,7 +29,6 @@ import {
   deleteDeliveryService,
 } from '../_actions/actions'
 import { pdfFileTypes } from '@/lib/validation'
-import { createEmptyFileList } from '@/lib/formUtils'
 
 type DeliveryServiceWithPdf = DeliveryService & {
   pdf: Media | null
@@ -52,7 +51,7 @@ export function DeliveryServiceForm({
       predefinedPrices: deliveryService
         ? deliveryService.predefinedPrices
         : false,
-      pdf: createEmptyFileList(),
+      pdf: null,
     }),
     [deliveryService]
   )

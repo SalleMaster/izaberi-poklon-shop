@@ -33,7 +33,6 @@ import {
   editCategory,
 } from '../_actions/actions'
 import { imageFileTypes } from '@/lib/validation'
-import { createEmptyFileList } from '@/lib/formUtils'
 
 type CategoryWithImage = Category & {
   image: Media | null
@@ -53,7 +52,7 @@ export function CategoryForm({
       name: category?.name || '',
       active: category ? category?.active : false,
       special: category ? category?.special : false,
-      image: createEmptyFileList(),
+      image: null,
     }),
     [category]
   )

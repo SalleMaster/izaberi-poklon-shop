@@ -25,7 +25,6 @@ import { uploadFile } from '@/lib/files'
 import { createMedia } from '@/lib/actions'
 import { createBanner, editBanner, deleteBanner } from '../_actions/actions'
 import { imageFileTypes } from '@/lib/validation'
-import { createEmptyFileList } from '@/lib/formUtils'
 import { BannerWithImageType } from '@/data/services/banners'
 
 export function BannerForm({
@@ -42,8 +41,8 @@ export function BannerForm({
     () => ({
       name: banner?.name || '',
       link: banner?.link || '',
-      desktopImage: createEmptyFileList(),
-      mobileImage: createEmptyFileList(),
+      desktopImage: null,
+      mobileImage: null,
       active: banner ? banner?.active : false,
     }),
     [banner]

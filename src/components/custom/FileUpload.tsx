@@ -5,7 +5,7 @@ import { ImageUp, X } from 'lucide-react'
 import { Media } from '@prisma/client'
 
 export type FileUploadProps = InputHTMLAttributes<HTMLInputElement> & {
-  formFiles?: FileList
+  formFiles?: FileList | null
   existingFiles?: Media[]
   removedExistingFiles?: Media[]
   formSetValue: (files: FileList) => void
