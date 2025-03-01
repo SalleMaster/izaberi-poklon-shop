@@ -7,7 +7,13 @@ export const isValidSerbianPhoneNumber = (phone: string) => {
   return phoneNumber?.isValid() || false
 }
 
-export const imageFileTypes = ['image/jpeg', 'image/png']
+export const imageFileTypes = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+  'image/heic',
+]
 export const pdfFileTypes = ['application/pdf']
 
 // File schema
@@ -21,7 +27,7 @@ export const imageSchema = fileSchema.refine(
 // PDF schema
 export const pdfSchema = fileSchema.refine(
   (file) => file.size === 0 || file.type === 'application/pdf',
-  { message: 'File must be a PDF' }
+  { message: 'Fajl mora biti PDF' }
 )
 
 export const imageListSchemaRequired = z

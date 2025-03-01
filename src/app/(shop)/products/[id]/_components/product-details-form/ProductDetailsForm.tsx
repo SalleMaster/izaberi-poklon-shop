@@ -118,7 +118,17 @@ export function ProductDetailsForm({ product, user }: Props) {
         }
       }
 
-      const response = await addCartItem({ ...data }, imageMedias)
+      const response = await addCartItem(
+        {
+          personalization: data.personalization,
+          productId: data.productId,
+          quantity: data.quantity,
+          fontType: data.fontType,
+          textPersonalizations: data.textPersonalizations,
+          packageOptionSelected: data.packageOptionSelected,
+        },
+        imageMedias
+      )
       if (response) {
         if (response.status === 'fail') {
           return toast({
@@ -398,7 +408,7 @@ export function ProductDetailsForm({ product, user }: Props) {
                         {form.getValues('imagePersonalizations')?.[index]
                           ?.min === 0
                           ? 'Slike za ovo polje su opcione'
-                          : `Minimilan broj slika za ovo polje: ${form.getValues('imagePersonalizations')?.[index]?.min}`}
+                          : `Minimalan broj slika za ovo polje: ${form.getValues('imagePersonalizations')?.[index]?.min}`}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

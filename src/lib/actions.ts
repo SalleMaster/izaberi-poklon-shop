@@ -18,7 +18,7 @@ const s3 = new S3Client({
   },
 })
 
-const maxFileSize = 1 * 1024 * 1024 // 1 MB
+const maxFileSize = 5 * 1024 * 1024 // 5 MB
 
 export async function getSignedURL(
   name: string,
@@ -27,32 +27,51 @@ export async function getSignedURL(
   checksum: string,
   allowedFileTypes: string[]
 ) {
-  const { userId } = await loggedInActionGuard()
+  try {
+    const { userId } = await loggedInActionGuard()
 
-  if (type && !allowedFileTypes.includes(type)) {
-    throw Error('Invalid file type')
+    if (type && !allowedFileTypes.includes(type)) {
+      return {
+        success: false,
+        error: `Fajl tip nije podržan. Podržani tipovi: ${allowedFileTypes.join(', ')}`,
+        data: { signedURL: '', key: '' },
+      }
+    }
+
+    if (size > maxFileSize) {
+      return {
+        success: false,
+        error: `Fajl premašuje dozvoljenu veličinu. Maksimum ${Math.round(maxFileSize / 1024 / 1024)}MB`,
+        data: { signedURL: '', key: '' },
+      }
+    }
+
+    const key = `${crypto.randomUUID()}-${name}`
+
+    const putObjectCommand = new PutObjectCommand({
+      Bucket: process.env.AWS_S3_BUCKET_NAME!,
+      Key: key,
+      ContentType: type,
+      ContentLength: size,
+      ChecksumSHA256: checksum,
+      Metadata: { userId: userId },
+    })
+
+    const signedURL = await getSignedUrl(s3, putObjectCommand, {
+      expiresIn: 60, // 60 seconds
+    })
+
+    return {
+      success: true,
+      data: { signedURL, key },
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error: 'Greška prilikom generisanja URL-a za otpremanje fajla.',
+      data: { signedURL: '', key: '' },
+    }
   }
-
-  if (size > maxFileSize) {
-    throw Error('File size too large')
-  }
-
-  const key = `${crypto.randomUUID()}-${name}`
-
-  const putObjectCommand = new PutObjectCommand({
-    Bucket: process.env.AWS_S3_BUCKET_NAME!,
-    Key: key,
-    ContentType: type,
-    ContentLength: size,
-    ChecksumSHA256: checksum,
-    Metadata: { userId: userId },
-  })
-
-  const signedURL = await getSignedUrl(s3, putObjectCommand, {
-    expiresIn: 60, // 60 seconds
-  })
-
-  return { signedURL, key }
 }
 
 export async function createMedia(

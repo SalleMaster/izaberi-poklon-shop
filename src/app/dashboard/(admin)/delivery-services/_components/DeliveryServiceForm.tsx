@@ -82,7 +82,12 @@ export function DeliveryServiceForm({
       if (deliveryService) {
         // Edit delivery service case
         const response = await editDeliveryService(
-          data,
+          {
+            name: data.name,
+            link: data.link,
+            active: data.active,
+            predefinedPrices: data.predefinedPrices,
+          },
           deliveryService.id,
           removedMedia,
           mediaId
@@ -102,7 +107,15 @@ export function DeliveryServiceForm({
         }
       } else {
         // Create delivery service case
-        const response = await createDeliveryService(data, mediaId)
+        const response = await createDeliveryService(
+          {
+            name: data.name,
+            link: data.link,
+            active: data.active,
+            predefinedPrices: data.predefinedPrices,
+          },
+          mediaId
+        )
 
         if (response) {
           if (response.status === 'fail') {
