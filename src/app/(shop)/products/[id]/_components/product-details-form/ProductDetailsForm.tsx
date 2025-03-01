@@ -118,7 +118,17 @@ export function ProductDetailsForm({ product, user }: Props) {
         }
       }
 
-      const response = await addCartItem({ ...data }, imageMedias)
+      const response = await addCartItem(
+        {
+          personalization: data.personalization,
+          productId: data.productId,
+          quantity: data.quantity,
+          fontType: data.fontType,
+          textPersonalizations: data.textPersonalizations,
+          packageOptionSelected: data.packageOptionSelected,
+        },
+        imageMedias
+      )
       if (response) {
         if (response.status === 'fail') {
           return toast({

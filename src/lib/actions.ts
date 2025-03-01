@@ -18,7 +18,7 @@ const s3 = new S3Client({
   },
 })
 
-const maxFileSize = 1 * 1024 * 1024 // 1 MB
+const maxFileSize = 5 * 1024 * 1024 // 5 MB
 
 export async function getSignedURL(
   name: string,
@@ -30,11 +30,15 @@ export async function getSignedURL(
   const { userId } = await loggedInActionGuard()
 
   if (type && !allowedFileTypes.includes(type)) {
-    throw Error('Invalid file type')
+    throw Error(
+      `Fajl tip nije podržan. Podržani tipovi: ${allowedFileTypes.join(', ')}`
+    )
   }
 
   if (size > maxFileSize) {
-    throw Error('File size too large')
+    throw Error(
+      `Fajl premašuje dozvoljenu veličinu. Maksimum ${Math.round(maxFileSize / 1024 / 1024)}MB`
+    )
   }
 
   const key = `${crypto.randomUUID()}-${name}`
