@@ -21,13 +21,20 @@ export const uploadFile = async (
 ): Promise<UploadFileReturnTypes> => {
   const { name, type, size } = file
   const checksum = await computeSHA256(file)
-  const { signedURL, key } = await getSignedURL(
+
+  const result = await getSignedURL(
     name,
     type,
     size,
     checksum,
     allowedFileTypes
   )
+
+  if (!result.success) {
+    throw new Error(result.error)
+  }
+
+  const { signedURL, key } = result.data
 
   await fetch(signedURL, {
     method: 'PUT',
