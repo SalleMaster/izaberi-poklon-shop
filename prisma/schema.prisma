@@ -64,6 +64,12 @@ enum OrderStatusType {
   canceled
 }
 
+enum OrderPaymentStatusType {
+  paymentPending
+  paymentSuccess
+  paymentFailed
+}
+
 enum DeliveryAddressType {
   delivery
   billing
@@ -382,14 +388,17 @@ model DeliveryAddress {
 
 // Order
 model Order {
-  id             String            @id @default(cuid())
-  orderNumber    String
-  termsAccepted  Boolean           @default(false)
-  shippingNumber String            @default("")
-  deliveryType   OrderDeliveryType
-  paymentType    OrderPaymentType
-  status         OrderStatusType   @default(pending)
-  mediaRemoved   Boolean           @default(false)
+  id               String                 @id @default(cuid())
+  orderNumber      String
+  paymentStatus    OrderPaymentStatusType @default(paymentPending)
+  paymentReference String                 @default("")
+  paymentDetails   String                 @default("")
+  termsAccepted    Boolean                @default(false)
+  shippingNumber   String                 @default("")
+  deliveryType     OrderDeliveryType
+  paymentType      OrderPaymentType
+  status           OrderStatusType        @default(pending)
+  mediaRemoved     Boolean                @default(false)
 
   cart Json
 

@@ -8,9 +8,19 @@ import {
   CartOrderValues,
 } from '../../cart/_components/cart-order-form/validation'
 import { updateCartOverviewData } from '../cart/actions'
-import { OrderDeliveryType, OrderPaymentType } from '@prisma/client'
+import {
+  OrderDeliveryType,
+  OrderPaymentStatusType,
+  OrderPaymentType,
+  OrderStatusType,
+} from '@prisma/client'
 import { ZodError } from 'zod'
 import { generateOrderNumber } from '@/lib/orderUtils'
+import {
+  checkPaymentStatus,
+  isPaymentSuccessful,
+  preparePaymentForOrder,
+} from '@/lib/checkout'
 
 export async function cartCreateOrder(values: CartOrderValues) {
   try {
@@ -129,9 +139,16 @@ export async function cartCreateOrder(values: CartOrderValues) {
 
     const orderNumber = generateOrderNumber()
 
+    // Set initial order status based on payment type
+    const paymentStatus =
+      paymentType === OrderPaymentType.card
+        ? OrderPaymentStatusType.paymentPending
+        : OrderPaymentStatusType.paymentSuccess
+
     const order = await prisma.order.create({
       data: {
         orderNumber,
+        paymentStatus,
         termsAccepted,
         deliveryType,
         paymentType,
@@ -166,6 +183,37 @@ export async function cartCreateOrder(values: CartOrderValues) {
       },
     })
 
+    // Clear the cart
+    await prisma.cartItem.deleteMany({
+      where: {
+        cartId: cart.id,
+      },
+    })
+    await updateCartOverviewData({ userId })
+
+    // Handle payment if payment type is card
+    if (paymentType === OrderPaymentType.card) {
+      const returnUrl = `${process.env.APP_URL}/placanje-verifikacija/${order.id}`
+      const checkoutId = await preparePaymentForOrder(order, returnUrl)
+
+      if (!checkoutId) {
+        throw new Error('Failed to create payment. Please try again.')
+      }
+
+      // Store the checkout ID with the order
+      await prisma.order.update({
+        where: { id: order.id },
+        data: { paymentReference: checkoutId },
+      })
+
+      return {
+        status: 'redirect_to_payment',
+        message: 'Redirecting to payment...',
+        orderId: order.id,
+        checkoutId,
+      }
+    }
+
     // Send email
     await fetch(`${process.env.APP_URL}/api/order-created`, {
       method: 'POST',
@@ -178,14 +226,6 @@ export async function cartCreateOrder(values: CartOrderValues) {
           billingAddress?.email || deliveryAddress?.email || pickupEmail,
       }),
     })
-
-    // Clear the cart
-    await prisma.cartItem.deleteMany({
-      where: {
-        cartId: cart.id,
-      },
-    })
-    await updateCartOverviewData({ userId })
 
     return {
       status: 'success',
@@ -210,5 +250,71 @@ export async function cartCreateOrder(values: CartOrderValues) {
     }
   } finally {
     revalidatePath('/cart')
+  }
+}
+
+export async function verifyPayment(orderId: string) {
+  try {
+    const order = await prisma.order.findUnique({
+      where: { id: orderId },
+    })
+
+    if (!order || !order.paymentReference) {
+      throw new Error('Order not found or missing payment reference')
+    }
+
+    const paymentStatus = await checkPaymentStatus(order.paymentReference)
+    const isSuccessful = isPaymentSuccessful(paymentStatus)
+
+    if (isSuccessful) {
+      // Update order status to paid
+      await prisma.order.update({
+        where: { id: orderId },
+        data: {
+          paymentStatus: OrderPaymentStatusType.paymentSuccess,
+          paymentDetails: JSON.stringify(paymentStatus),
+        },
+      })
+
+      // Send order confirmation email
+      await fetch(`${process.env.APP_URL}/api/order-created`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          order,
+          orderEmail:
+            order.billingEmail || order.deliveryEmail || order.pickupEmail,
+        }),
+      })
+
+      return {
+        status: 'success',
+        message: 'Payment successful',
+      }
+    } else {
+      // Update order status to payment failed
+      await prisma.order.update({
+        where: { id: orderId },
+        data: {
+          paymentStatus: OrderPaymentStatusType.paymentFailed,
+          paymentDetails: JSON.stringify(paymentStatus),
+        },
+      })
+
+      return {
+        status: 'fail',
+        message: 'Payment failed',
+        details: paymentStatus,
+      }
+    }
+  } catch (error) {
+    console.error('Error verifying payment:', error)
+    return {
+      status: 'error',
+      message:
+        error instanceof Error ? error.message : 'Error verifying payment',
+    }
   }
 }

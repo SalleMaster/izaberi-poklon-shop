@@ -160,6 +160,14 @@ export default function CartPage({
           toast({ description: response.message })
           router.push(`/porudzbina-kreirana/${response.orderId}`)
         }
+
+        // Handle payment redirection
+        if (response.status === 'redirect_to_payment') {
+          toast({ description: 'Preusmeravamo vas na stranicu za plaćanje...' })
+          router.push(
+            `/placanje/${response.orderId}?checkoutId=${response.checkoutId}`
+          )
+        }
       }
     } catch (error) {
       toast({
