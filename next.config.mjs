@@ -124,6 +124,14 @@ const nextConfig = {
         source: '/povracaj-proizvoda',
         destination: '/product-return',
       },
+      {
+        source: '/placanje/:orderId',
+        destination: '/payment/:orderId',
+      },
+      {
+        source: '/placanje/:orderId/rezultat',
+        destination: '/payment/:orderId/result',
+      },
     ]
   },
 }

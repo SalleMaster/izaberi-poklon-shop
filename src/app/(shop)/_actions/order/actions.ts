@@ -8,9 +8,14 @@ import {
   CartOrderValues,
 } from '../../cart/_components/cart-order-form/validation'
 import { updateCartOverviewData } from '../cart/actions'
-import { OrderDeliveryType, OrderPaymentType } from '@prisma/client'
+import {
+  OrderDeliveryType,
+  OrderPaymentStatusType,
+  OrderPaymentType,
+} from '@prisma/client'
 import { ZodError } from 'zod'
 import { generateOrderNumber } from '@/lib/orderUtils'
+import { createPaymentCheckout } from '@/lib/checkout'
 
 export async function cartCreateOrder(values: CartOrderValues) {
   try {
@@ -167,17 +172,17 @@ export async function cartCreateOrder(values: CartOrderValues) {
     })
 
     // Send email
-    await fetch(`${process.env.APP_URL}/api/order-created`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        order,
-        orderEmail:
-          billingAddress?.email || deliveryAddress?.email || pickupEmail,
-      }),
-    })
+    // await fetch(`${process.env.APP_URL}/api/order-created`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     order,
+    //     orderEmail:
+    //       billingAddress?.email || deliveryAddress?.email || pickupEmail,
+    //   }),
+    // })
 
     // Clear the cart
     await prisma.cartItem.deleteMany({
@@ -187,16 +192,54 @@ export async function cartCreateOrder(values: CartOrderValues) {
     })
     await updateCartOverviewData({ userId })
 
-    return {
-      status: 'success',
-      message: 'Narudžbina kreirana.',
-      orderId: order.id,
+    // For card payments, create a payment checkout
+    if (paymentType === OrderPaymentType.card) {
+      const checkoutResult = await createPaymentCheckout({
+        orderId: order.id,
+        amount: orderTotalPrice.toString(),
+        currency: 'RSD',
+      })
+
+      if (checkoutResult.status === 'fail') {
+        throw new Error(
+          checkoutResult.message || 'Failed to create payment checkout'
+        )
+      }
+
+      // Update the order with the checkout ID and payment status
+      await prisma.order.update({
+        where: { id: order.id },
+        data: {
+          paymentStatus: OrderPaymentStatusType.pending,
+          checkoutId: checkoutResult.checkoutId,
+        },
+      })
+
+      // Return with checkout data for card payment
+      return {
+        status: 'success',
+        message: 'Narudžbina kreirana. Preusmeravanje na plaćanje...',
+        redirectUrl: `/placanje/${order.id}?checkoutId=${checkoutResult.checkoutId}`,
+      }
+    } else {
+      // For non-card payments, send email immediately
+      await sendOrderEmail(
+        order,
+        billingAddress?.email || deliveryAddress?.email || pickupEmail || ''
+      )
+
+      return {
+        status: 'success',
+        message: `Narudžbina kreirana.`,
+        redirectUrl: `/porudzbina-kreirana/${order.id}`,
+      }
     }
   } catch (error) {
     if (error instanceof ZodError) {
       return {
         status: 'fail',
         message: error.errors.map((e) => e.message).join(', '),
+        redirectUrl: '',
       }
     }
 
@@ -204,6 +247,7 @@ export async function cartCreateOrder(values: CartOrderValues) {
       return {
         status: 'fail',
         message: error.message,
+        redirectUrl: '',
       }
     } else {
       throw error
@@ -211,4 +255,18 @@ export async function cartCreateOrder(values: CartOrderValues) {
   } finally {
     revalidatePath('/cart')
   }
+}
+
+async function sendOrderEmail(order: any, email: string) {
+  // Send email
+  await fetch(`${process.env.APP_URL}/api/order-created`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      order,
+      orderEmail: email,
+    }),
+  })
 }
