@@ -33,12 +33,10 @@ export default async function Page(props: PageProps) {
   })
 
   return (
-    <div className='space-y-5 group'>
-      <h2 className='text-xl font-bold'>Plaćanje narudžbine</h2>
-
+    <>
       <Suspense fallback={<PaymentPageSkeleton />}>
         <PaymentPage orderPromise={orderPromise} />
       </Suspense>
-    </div>
+    </>
   )
 }
