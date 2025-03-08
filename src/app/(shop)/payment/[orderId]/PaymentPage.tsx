@@ -1,52 +1,63 @@
 'use client'
 
 import { use } from 'react'
-import { useRouter } from 'next/navigation'
 import { GetOrderReturnType } from '@/data/services/order'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
-import { Skeleton } from '@/components/ui/skeleton'
-import { OrderPaymentType } from '@prisma/client'
-import PaymentForm from './_components/PaymentForm'
+import PaymentForm, { PaymentFormSkeleton } from './_components/PaymentForm'
 import { priceFormatter } from '@/lib/format'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Info, Lock } from 'lucide-react'
 
 type Props = {
   orderPromise: GetOrderReturnType
+  allSecureApiUrl: string
 }
 
-export default function PaymentPage({ orderPromise }: Props) {
-  const router = useRouter()
+export default function PaymentPage({ orderPromise, allSecureApiUrl }: Props) {
   const order = use(orderPromise)
-
-  // If order doesn't have checkoutId or isn't a card payment, redirect
-  if (!order?.checkoutId || order?.paymentType !== OrderPaymentType.card) {
-    router.push(`/porudzbina-kreirana/${order?.id}`)
-  }
 
   const resultUrl = `/placanje/${order?.id}/rezultat`
   const formattedTotalPrice = order ? priceFormatter(order.orderTotalPrice) : ''
 
+  // Check if order payment type is card
+  // Check if order is already paid
+
   return (
     <>
       {order ? (
-        <div className='space-y-6'>
-          <div className='space-y-2'>
-            <h2 className='text-xl font-semibold'>Plaćanje</h2>
-            <p>Broj narudžbine: {order.orderNumber}</p>
-            <p>Iznos za plaćanje: {formattedTotalPrice}</p>
+        <div className='flex gap-6 flex-col'>
+          <div className='space-y-2 w-full sm:w-[482px] sm:mx-auto'>
+            <h2 className='text-xl font-bold'>Plaćanje</h2>
+            <p>
+              Broj porudžbine:
+              <span className='font-semibold'> {order.orderNumber}</span>
+            </p>
+            <p>
+              Iznos za plaćanje:
+              <span className='font-semibold'> {formattedTotalPrice}</span>
+            </p>
           </div>
 
           {order.checkoutId ? (
             <PaymentForm
               checkoutId={order.checkoutId}
               shopperResultUrl={resultUrl}
+              allSecureApiUrl={allSecureApiUrl}
             />
           ) : (
-            <p>Greška prilikom kreiranja forme za plaćanje.</p>
+            <Alert
+              variant='destructive'
+              className='sm:max-w-[482px] sm:mx-auto'
+            >
+              <Lock className='h-4 w-4' />
+              <AlertDescription>
+                Greška prilikom kreiranja forme za plaćanje. Molimo pokušajte
+                ponovo.
+              </AlertDescription>
+            </Alert>
           )}
 
-          <Alert variant='default'>
+          <Alert variant='default' className='sm:max-w-[482px] sm:mx-auto'>
             <Lock className='h-4 w-4' />
             <AlertDescription>
               Prilikom unošenja podataka o platnoj kartici, informacije se unose
@@ -55,7 +66,7 @@ export default function PaymentPage({ orderPromise }: Props) {
             </AlertDescription>
           </Alert>
 
-          <Alert variant='default'>
+          <Alert variant='default' className='sm:max-w-[482px] sm:mx-auto'>
             <Info className='h-4 w-4' />
             <AlertDescription>
               Ukoliko je Vaša kartica prijavljena na <b>3D-Secure servise</b>,
@@ -78,16 +89,22 @@ export default function PaymentPage({ orderPromise }: Props) {
 
 export function PaymentPageSkeleton() {
   return (
-    <div className='space-y-6'>
-      <div className='space-y-2'>
-        <h2 className='text-xl font-semibold'>Plaćanje</h2>
-        <p>Broj narudžbine:</p>
-        <p>Iznos za plaćanje:</p>
+    <div className='flex gap-6 flex-col'>
+      <div className='space-y-2 w-full sm:w-[482px] sm:mx-auto'>
+        <h2 className='text-xl font-bold'>Plaćanje</h2>
+        <p>
+          Broj porudžbine:
+          <span className='font-semibold'> </span>
+        </p>
+        <p>
+          Iznos za plaćanje:
+          <span className='font-semibold'> </span>
+        </p>
       </div>
 
-      <Skeleton className='w-[480px] h-[334px] mx-auto' />
+      <PaymentFormSkeleton />
 
-      <Alert variant='default'>
+      <Alert variant='default' className='sm:max-w-[482px] sm:mx-auto'>
         <Lock className='h-4 w-4' />
         <AlertDescription>
           Prilikom unošenja podataka o platnoj kartici, informacije se unose
@@ -96,7 +113,7 @@ export function PaymentPageSkeleton() {
         </AlertDescription>
       </Alert>
 
-      <Alert variant='default'>
+      <Alert variant='default' className='sm:max-w-[482px] sm:mx-auto'>
         <Info className='h-4 w-4' />
         <AlertDescription>
           Ukoliko je Vaša kartica prijavljena na <b>3D-Secure servise</b>, biće

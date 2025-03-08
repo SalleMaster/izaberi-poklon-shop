@@ -1,35 +1,29 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import Script from 'next/script'
 import { Button } from '@/components/ui/button'
-import { NotificationAlert } from '@/components/custom/NotificationAlert'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Info, Lock } from 'lucide-react'
+import { Card } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type PaymentFormProps = {
   checkoutId: string
   shopperResultUrl: string
+  allSecureApiUrl: string
 }
 
 export default function PaymentForm({
   checkoutId,
   shopperResultUrl,
+  allSecureApiUrl,
 }: PaymentFormProps) {
-  const [scriptLoaded, setScriptLoaded] = useState(false)
-  const formContainerRef = useRef<HTMLDivElement>(null)
-
-  // Configure wpwlOptions before loading the script
   useEffect(() => {
-    // Set global options for the payment form
     window.wpwlOptions = {
       locale: 'sr',
       style: 'plain',
       showCVVHint: true,
       brandDetection: true,
       showPlaceholders: true,
-
-      // Custom text labels
       labels: {
         cardHolder: 'Korisnik kartice',
         cvv: 'Zaštitni kod',
@@ -38,11 +32,8 @@ export default function PaymentForm({
         cardNumber: 'Broj kartice',
         cvvHint: 'Tri broja na poleđini vaše kartice.',
         cvvHintAmex: 'Četiri broja na poleđini vaše kartice.',
-        // Customize submit button text
         submit: 'Potvrdi plaćanje',
       },
-
-      // Custom error messages
       errorMessages: {
         cardHolderError: 'Ime korisnika kartice nije u odgovarajućem formatu',
         cardNumberError: 'Pogrešan broj kartice',
@@ -53,29 +44,15 @@ export default function PaymentForm({
     }
   }, [])
 
-  // Handle script load event
-  const handleScriptLoad = () => {
-    setScriptLoaded(true)
-  }
-
   return (
     <div className='space-y-6'>
-      {/* Add required font */}
-      {/* <link
-        href='https://fonts.googleapis.com/css?family=Roboto'
-        rel='stylesheet'
-      /> */}
-
-      {/* Custom CSS for the payment form */}
       <style jsx global>
         {`
           .wpwl-form-card {
-            padding: 1.5rem;
-            box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
-            background-color: hsl(0 0% 100%);
-            border-width: 1px;
-            border-radius: 0.75rem;
-            border-color: hsl(0 0% 89.8%);
+            margin-bottom: 0;
+          }
+
+          .wpwl-group-submit {
             margin-bottom: 0;
           }
 
@@ -104,6 +81,8 @@ export default function PaymentForm({
             background-color: hsl(0 0% 9%);
             border-color: hsl(0 0% 9%);
             border-radius: calc(0.5rem - 2px);
+            font-size: 0.875rem;
+            line-height: 1.25rem;
           }
 
           .wpwl-button-pay:hover,
@@ -127,52 +106,43 @@ export default function PaymentForm({
         `}
       </style>
 
-      {/* Payment widget script */}
       <Script
-        src={`https://eu-test.oppwa.com/v1/paymentWidgets.js?checkoutId=${checkoutId}`}
-        onLoad={handleScriptLoad}
+        src={`${allSecureApiUrl}/v1/paymentWidgets.js?checkoutId=${checkoutId}`}
         strategy='afterInteractive'
       />
 
-      <div ref={formContainerRef}>
-        {/* The form will be rendered here after script loads */}
-        <form
-          action={shopperResultUrl}
-          className='paymentWidgets'
-          data-brands='VISA MASTER'
-        ></form>
+      <div className='flex'>
+        <Card className='p-6 w-full min-h-[418px] sm:w-auto sm:mx-auto sm:min-h-[318px] sm:min-w-[482px]'>
+          <form
+            action={shopperResultUrl}
+            className='paymentWidgets'
+            data-brands='VISA MASTER'
+          ></form>
+        </Card>
       </div>
+    </div>
+  )
+}
 
-      {/* Security notices that don't require jQuery manipulation */}
-      {scriptLoaded && (
-        <>
-          {/* <Alert variant='default'>
-            <Lock className='h-4 w-4' />
-            <AlertDescription>
-              Prilikom unošenja podataka o platnoj kartici, informacije se unose
-              direktno u PCI sertifikovanu platformu. Ni jednog trenutka podaci
-              o platnoj kartici nisu dostupni trgovcu.
-            </AlertDescription>
-          </Alert>
-
-          <Alert variant='default'>
-            <Info className='h-4 w-4' />
-            <AlertDescription>
-              Ukoliko je Vaša kartica prijavljena na <b>3D-Secure servise</b>,
-              biće Vam zatraženo da se autentifikujete (najčešće lozinkom). U
-              slučaju da ne znate lozinku, predlažemo Vam da prvo kontaktirate
-              svoju banku.
-            </AlertDescription>
-          </Alert> */}
-        </>
-      )}
-
-      {!scriptLoaded && (
-        <div className='flex items-center justify-center p-6'>
-          <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mr-3'></div>
-          <p>Učitavanje forme za plaćanje...</p>
+export function PaymentFormSkeleton() {
+  return (
+    <div className='flex'>
+      <Card className='p-6 w-full min-h-[418px] sm:w-auto sm:mx-auto sm:min-h-[318px] sm:min-w-[482px]'>
+        <Skeleton className='w-full h-[34px] mb-3' />
+        <Skeleton className='w-full h-[20px] mb-1 sm:hidden' />
+        <Skeleton className='w-full h-[34px] mb-3' />
+        <Skeleton className='w-full h-[20px] mb-1 sm:hidden' />
+        <Skeleton className='w-full h-[34px] mb-3' />
+        <Skeleton className='w-full h-[20px] mb-1 sm:hidden' />
+        <Skeleton className='w-full h-[34px] mb-3' />
+        <Skeleton className='w-full h-[20px] mb-1 sm:hidden' />
+        <Skeleton className='w-full h-[34px] mb-3' />
+        <div className='flex'>
+          <Button className='ml-auto' disabled>
+            Potvrdi plaćanje
+          </Button>
         </div>
-      )}
+      </Card>
     </div>
   )
 }
@@ -193,52 +163,3 @@ declare global {
     }
   }
 }
-
-// 'use client'
-
-// import { useRef, useState } from 'react'
-// import Script from 'next/script'
-
-// type PaymentFormProps = {
-//   checkoutId: string
-//   shopperResultUrl: string
-// }
-
-// export default function PaymentForm({
-//   checkoutId,
-//   shopperResultUrl,
-// }: PaymentFormProps) {
-//   const [scriptLoaded, setScriptLoaded] = useState(false)
-//   const formContainerRef = useRef<HTMLDivElement>(null)
-
-//   // Handle script load event
-//   const handleScriptLoad = () => {
-//     setScriptLoaded(true)
-//   }
-
-//   return (
-//     <div className='payment-form-container'>
-//       {/* Use Next.js Script component which handles CSP better */}
-//       <Script
-//         src={`https://eu-test.oppwa.com/v1/paymentWidgets.js?checkoutId=${checkoutId}`}
-//         onLoad={handleScriptLoad}
-//         strategy='afterInteractive'
-//       />
-
-//       <div ref={formContainerRef}>
-//         {/* The form will be rendered here after script loads */}
-//         <form
-//           action={shopperResultUrl}
-//           className='paymentWidgets'
-//           data-brands='VISA MASTER'
-//         ></form>
-//       </div>
-
-//       {!scriptLoaded && (
-//         <div className='flex items-center justify-center p-6'>
-//           <p>Loading payment form...</p>
-//         </div>
-//       )}
-//     </div>
-//   )
-// }

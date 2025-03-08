@@ -5,8 +5,8 @@ import { getOrder } from '@/data/services/order'
 import PaymentPage, { PaymentPageSkeleton } from './PaymentPage'
 
 export const metadata: Metadata = {
-  title: 'Plaćanje narudžbine',
-  description: 'Plaćanje narudžbine',
+  title: 'Plaćanje porudžbine',
+  description: 'Plaćanje porudžbine',
 }
 
 type PageProps = {
@@ -32,10 +32,15 @@ export default async function Page(props: PageProps) {
     userRole,
   })
 
+  const allSecureApiUrl = process.env.ALL_SECURE_API_URL!
+
   return (
     <>
       <Suspense fallback={<PaymentPageSkeleton />}>
-        <PaymentPage orderPromise={orderPromise} />
+        <PaymentPage
+          orderPromise={orderPromise}
+          allSecureApiUrl={allSecureApiUrl}
+        />
       </Suspense>
     </>
   )
