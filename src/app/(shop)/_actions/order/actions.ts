@@ -177,12 +177,12 @@ export async function cartCreateOrder(values: CartOrderValues) {
     })
 
     // Clear the cart
-    // await prisma.cartItem.deleteMany({
-    //   where: {
-    //     cartId: cart.id,
-    //   },
-    // })
-    // await updateCartOverviewData({ userId })
+    await prisma.cartItem.deleteMany({
+      where: {
+        cartId: cart.id,
+      },
+    })
+    await updateCartOverviewData({ userId })
 
     // For card payments, create a payment checkout
     if (paymentType === OrderPaymentType.card) {
@@ -219,14 +219,6 @@ export async function cartCreateOrder(values: CartOrderValues) {
         order,
         billingAddress?.email || deliveryAddress?.email || pickupEmail || ''
       )
-
-      // Clear cart
-      await prisma.cartItem.deleteMany({
-        where: {
-          cartId: cart.id,
-        },
-      })
-      await updateCartOverviewData({ userId })
 
       return {
         status: 'success',

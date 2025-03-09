@@ -5,10 +5,8 @@ import prisma from '@/lib/db'
 import { OrderPaymentStatusType, OrderStatusType } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import { sendOrderEmail } from '@/app/(shop)/_actions/order/actions'
-import { updateCartOverviewData } from '@/app/(shop)/_actions/cart/actions'
 import { Separator } from '@/components/ui/separator'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
-import { revalidatePath } from 'next/cache'
 
 export const metadata: Metadata = {
   title: 'Rezultat plaćanja',
@@ -73,20 +71,6 @@ export default async function Page(props: PageProps) {
         order.billingEmail || order.deliveryEmail || order.pickupEmail || ''
       )
     }
-
-    // Clear cart
-    const cart = await prisma.cart.findFirst({
-      where: {
-        userId,
-      },
-    })
-    await prisma.cartItem.deleteMany({
-      where: {
-        cartId: cart?.id,
-      },
-    })
-    await updateCartOverviewData({ userId })
-    revalidatePath('/cart')
 
     redirect(`/porudzbina-kreirana/${orderId}`)
   } else {
