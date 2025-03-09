@@ -158,7 +158,7 @@ export default function CartPage({
         }
         if (response.status === 'success') {
           toast({ description: response.message })
-          router.push(`/porudzbina-kreirana/${response.orderId}`)
+          router.push(response.redirectUrl)
         }
       }
     } catch (error) {
