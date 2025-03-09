@@ -9,6 +9,7 @@ export const orderStatusSchema = z.object({
     OrderStatusType.shipped,
     OrderStatusType.delivered,
     OrderStatusType.canceled,
+    OrderStatusType.draft,
   ]),
   shippingNumber: z.string().optional(),
 })
