@@ -9,7 +9,7 @@ import {
   Text,
 } from '@react-email/components'
 import { OrderInformation } from './components/OrderInformation'
-import { Order } from '@prisma/client'
+import { Order, OrderPaymentStatusType } from '@prisma/client'
 import { shopInfo } from '@/lib/consts'
 import { EmailHeader } from './components/EmailHeader'
 import { EmailFooter } from './components/EmailFooter'
@@ -28,6 +28,10 @@ PurchaseReceiptEmail.PreviewProps = {
     paymentType: 'onDelivery',
     status: 'pending',
     mediaRemoved: false,
+    paymentId: '',
+    paymentStatus: OrderPaymentStatusType.pending,
+    paymentDetails: '',
+    checkoutId: '',
     cart: {
       id: 'cm5uvxsyb000144126x8rtapw',
       items: [
