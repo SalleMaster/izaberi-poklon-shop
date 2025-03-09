@@ -9,6 +9,7 @@ export const SortingValues = {
 } as const
 
 export const OrderStatusLabels = {
+  Draft: 'Nedovršene',
   Pending: 'Primljene',
   Processing: 'U obradi',
   Shipped: 'Poslate',

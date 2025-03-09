@@ -57,11 +57,18 @@ enum OrderPaymentType {
 }
 
 enum OrderStatusType {
+  draft
   pending
   processing
   shipped
   delivered
   canceled
+}
+
+enum OrderPaymentStatusType {
+  pending
+  success
+  failed
 }
 
 enum DeliveryAddressType {
@@ -390,6 +397,11 @@ model Order {
   paymentType    OrderPaymentType
   status         OrderStatusType   @default(pending)
   mediaRemoved   Boolean           @default(false)
+
+  paymentId      String?
+  paymentStatus  OrderPaymentStatusType?
+  paymentDetails Json?
+  checkoutId     String?
 
   cart Json
 
