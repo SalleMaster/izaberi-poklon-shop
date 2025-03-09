@@ -132,7 +132,7 @@ const paymentStatusSchema = z.object({
 })
 
 // TypeScript type derived from the schema
-type PaymentStatusResponse = z.infer<typeof paymentStatusSchema>
+export type PaymentStatusResponse = z.infer<typeof paymentStatusSchema>
 
 // Return type for getPaymentStatus function
 type GetPaymentStatusReturnType = {

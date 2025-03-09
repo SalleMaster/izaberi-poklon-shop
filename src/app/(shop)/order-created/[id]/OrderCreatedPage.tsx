@@ -26,7 +26,7 @@ export default function OrderCreatedPage({ orderPromise, isAdmin }: Props) {
     <div className={cn('space-y-5', isPending && 'animate-pulse')}>
       <div>
         <p>
-          Broj Vaše porudžbenice je:{' '}
+          Broj Vaše porudžbine je:{' '}
           <span className='font-semibold'>{order?.orderNumber}</span>
         </p>
         <p>
@@ -68,7 +68,7 @@ export function OrderCreatedPageSkeleton() {
     <div className='space-y-5'>
       <div>
         <div className='flex items-center space-x-2'>
-          <span>Broj Vaše porudžbenice je: </span>
+          <span>Broj Vaše porudžbine je: </span>
           <Skeleton className='w-1/4 h-4' />
         </div>
         <p>

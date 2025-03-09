@@ -12,6 +12,7 @@ import {
   OrderDeliveryType,
   OrderPaymentStatusType,
   OrderPaymentType,
+  OrderStatusType,
 } from '@prisma/client'
 import { ZodError } from 'zod'
 import { generateOrderNumber } from '@/lib/orderUtils'
@@ -130,13 +131,17 @@ export async function cartCreateOrder(values: CartOrderValues) {
       })
     }
 
-    // Create a payment request here
-
     const orderNumber = generateOrderNumber()
+
+    const initialStatus =
+      paymentType === OrderPaymentType.card
+        ? OrderStatusType.draft
+        : OrderStatusType.pending
 
     const order = await prisma.order.create({
       data: {
         orderNumber,
+        status: initialStatus,
         termsAccepted,
         deliveryType,
         paymentType,
@@ -171,26 +176,13 @@ export async function cartCreateOrder(values: CartOrderValues) {
       },
     })
 
-    // Send email
-    // await fetch(`${process.env.APP_URL}/api/order-created`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     order,
-    //     orderEmail:
-    //       billingAddress?.email || deliveryAddress?.email || pickupEmail,
-    //   }),
-    // })
-
     // Clear the cart
-    await prisma.cartItem.deleteMany({
-      where: {
-        cartId: cart.id,
-      },
-    })
-    await updateCartOverviewData({ userId })
+    // await prisma.cartItem.deleteMany({
+    //   where: {
+    //     cartId: cart.id,
+    //   },
+    // })
+    // await updateCartOverviewData({ userId })
 
     // For card payments, create a payment checkout
     if (paymentType === OrderPaymentType.card) {
@@ -218,7 +210,7 @@ export async function cartCreateOrder(values: CartOrderValues) {
       // Return with checkout data for card payment
       return {
         status: 'success',
-        message: 'Narudžbina kreirana. Preusmeravanje na plaćanje...',
+        message: 'Porudžbina kreirana. Preusmeravanje na plaćanje...',
         redirectUrl: `/placanje/${order.id}?checkoutId=${checkoutResult.checkoutId}`,
       }
     } else {
@@ -228,9 +220,17 @@ export async function cartCreateOrder(values: CartOrderValues) {
         billingAddress?.email || deliveryAddress?.email || pickupEmail || ''
       )
 
+      // Clear cart
+      await prisma.cartItem.deleteMany({
+        where: {
+          cartId: cart.id,
+        },
+      })
+      await updateCartOverviewData({ userId })
+
       return {
         status: 'success',
-        message: `Narudžbina kreirana.`,
+        message: `Porudžbina kreirana.`,
         redirectUrl: `/porudzbina-kreirana/${order.id}`,
       }
     }
@@ -257,7 +257,7 @@ export async function cartCreateOrder(values: CartOrderValues) {
   }
 }
 
-async function sendOrderEmail(order: any, email: string) {
+export async function sendOrderEmail(order: any, email: string) {
   // Send email
   await fetch(`${process.env.APP_URL}/api/order-created`, {
     method: 'POST',

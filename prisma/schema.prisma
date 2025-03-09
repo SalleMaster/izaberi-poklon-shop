@@ -57,6 +57,7 @@ enum OrderPaymentType {
 }
 
 enum OrderStatusType {
+  draft
   pending
   processing
   shipped

@@ -163,6 +163,16 @@ export default function OrdersHeader() {
       value: OrderStatusType.canceled,
     },
     {
+      label: OrderStatusLabels.Draft,
+      url: `/admin/porudzbine?${createQueryString({
+        addParams: [
+          { name: 'status', value: OrderStatusType.draft },
+          { name: 'stranica', value: '1' },
+        ],
+      })}`,
+      value: OrderStatusType.pending,
+    },
+    {
       label: OrderStatusLabels.All,
       url: `/admin/porudzbine?${createQueryString({
         addParams: [
@@ -222,6 +232,9 @@ export default function OrdersHeader() {
       break
     case OrderStatusType.canceled:
       statusLabel = OrderStatusLabels.Canceled
+      break
+    case OrderStatusType.draft:
+      statusLabel = OrderStatusLabels.Draft
       break
     default:
       statusLabel = OrderStatusLabels.All

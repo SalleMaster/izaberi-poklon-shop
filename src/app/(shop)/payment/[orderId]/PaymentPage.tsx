@@ -7,6 +7,7 @@ import PaymentForm, { PaymentFormSkeleton } from './_components/PaymentForm'
 import { priceFormatter } from '@/lib/format'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Info, Lock } from 'lucide-react'
+import { Separator } from '@/components/ui/separator'
 
 type Props = {
   orderPromise: GetOrderReturnType
@@ -26,16 +27,21 @@ export default function PaymentPage({ orderPromise, allSecureApiUrl }: Props) {
     <>
       {order ? (
         <div className='flex gap-6 flex-col'>
-          <div className='space-y-2 w-full sm:w-[482px] sm:mx-auto'>
-            <h2 className='text-xl font-bold'>Plaćanje</h2>
-            <p>
-              Broj porudžbine:
-              <span className='font-semibold'> {order.orderNumber}</span>
-            </p>
-            <p>
-              Iznos za plaćanje:
-              <span className='font-semibold'> {formattedTotalPrice}</span>
-            </p>
+          <div className='space-y-5'>
+            <h2 className='text-xl font-bold'>Plaćanje porudžbine</h2>
+
+            <Separator />
+
+            <div className='space-y-2 w-full sm:w-[482px] sm:mx-auto'>
+              <p>
+                Broj porudžbine:
+                <span className='font-semibold'> {order.orderNumber}</span>
+              </p>
+              <p>
+                Iznos za plaćanje:
+                <span className='font-semibold'> {formattedTotalPrice}</span>
+              </p>
+            </div>
           </div>
 
           {order.checkoutId ? (
@@ -90,16 +96,21 @@ export default function PaymentPage({ orderPromise, allSecureApiUrl }: Props) {
 export function PaymentPageSkeleton() {
   return (
     <div className='flex gap-6 flex-col'>
-      <div className='space-y-2 w-full sm:w-[482px] sm:mx-auto'>
-        <h2 className='text-xl font-bold'>Plaćanje</h2>
-        <p>
-          Broj porudžbine:
-          <span className='font-semibold'> </span>
-        </p>
-        <p>
-          Iznos za plaćanje:
-          <span className='font-semibold'> </span>
-        </p>
+      <div className='space-y-5'>
+        <h2 className='text-xl font-bold'>Plaćanje porudžbine</h2>
+
+        <Separator />
+
+        <div className='space-y-2 w-full sm:w-[482px] sm:mx-auto'>
+          <p>
+            Broj porudžbine:
+            <span className='font-semibold'> </span>
+          </p>
+          <p>
+            Iznos za plaćanje:
+            <span className='font-semibold'> </span>
+          </p>
+        </div>
       </div>
 
       <PaymentFormSkeleton />

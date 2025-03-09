@@ -2,8 +2,13 @@ import { Metadata } from 'next'
 import pageGuard from '@/lib/pageGuard'
 import { getPaymentStatus, RequestStatus } from '@/lib/checkout'
 import prisma from '@/lib/db'
-import { OrderPaymentStatusType } from '@prisma/client'
+import { OrderPaymentStatusType, OrderStatusType } from '@prisma/client'
 import { redirect } from 'next/navigation'
+import { sendOrderEmail } from '@/app/(shop)/_actions/order/actions'
+import { updateCartOverviewData } from '@/app/(shop)/_actions/cart/actions'
+import { Separator } from '@/components/ui/separator'
+import { NotificationAlert } from '@/components/custom/NotificationAlert'
+import { revalidatePath } from 'next/cache'
 
 export const metadata: Metadata = {
   title: 'Rezultat plaćanja',
@@ -22,16 +27,23 @@ export default async function Page(props: PageProps) {
   const { orderId } = params
   const resourcePathParam = searchParams.resourcePath
 
-  await pageGuard({
+  const { userId } = await pageGuard({
     callbackUrl: `/placanje/${orderId}/rezultat`,
     adminGuard: false,
   })
 
   if (!resourcePathParam) {
     return (
-      <div className='space-y-5 group'>
-        <h2 className='text-xl font-bold'>Greška u plaćanju</h2>
-        <p>Nedostaje putanja resursa za proveru statusa plaćanja.</p>
+      <div className='space-y-5'>
+        <h2 className='text-xl font-bold'>Rezultat plaćanja</h2>
+
+        <Separator />
+
+        <NotificationAlert
+          title='Došlo je do greške'
+          description='Nedostaje putanja resursa za proveru statusa plaćanja.'
+          variant='destructive'
+        />
       </div>
     )
   }
@@ -45,25 +57,61 @@ export default async function Page(props: PageProps) {
   console.log('Payment result client:', response)
 
   if (response.status === RequestStatus.success) {
-    await prisma.order.update({
+    const order = await prisma.order.update({
       where: { id: orderId },
       data: {
-        paymentId: response?.paymentResult?.id,
+        status: OrderStatusType.pending,
+        paymentId: response.paymentResult?.id,
         paymentStatus: OrderPaymentStatusType.success,
         paymentDetails: response.paymentResult,
       },
     })
 
+    if (order) {
+      await sendOrderEmail(
+        order,
+        order.billingEmail || order.deliveryEmail || order.pickupEmail || ''
+      )
+    }
+
+    // Clear cart
+    const cart = await prisma.cart.findFirst({
+      where: {
+        userId,
+      },
+    })
+    await prisma.cartItem.deleteMany({
+      where: {
+        cartId: cart?.id,
+      },
+    })
+    await updateCartOverviewData({ userId })
+    revalidatePath('/cart')
+
     redirect(`/porudzbina-kreirana/${orderId}`)
+  } else {
+    await prisma.order.update({
+      where: { id: orderId },
+      data: {
+        status: OrderStatusType.draft,
+        paymentId: response.paymentResult?.id,
+        paymentStatus: OrderPaymentStatusType.failed,
+        paymentDetails: response.paymentResult,
+      },
+    })
   }
 
   return (
-    <div className='space-y-5 group'>
+    <div className='space-y-5'>
       <h2 className='text-xl font-bold'>Rezultat plaćanja</h2>
 
-      {response.status === RequestStatus.fail ? (
-        <p>Nazalost placanje nije uspelo</p>
-      ) : null}
+      <Separator />
+
+      <NotificationAlert
+        title='Obaveštenje'
+        description='Nažalost plaćanje nije uspelo.'
+        variant='destructive'
+      />
     </div>
   )
 }

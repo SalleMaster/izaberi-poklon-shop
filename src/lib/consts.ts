@@ -52,6 +52,11 @@ type OrderStatusOptionsType = {
 }[]
 export const orderStatusOptions: OrderStatusOptionsType = [
   {
+    value: OrderStatusType.draft,
+    label: 'Nedovršena',
+    variant: 'outline',
+  },
+  {
     value: OrderStatusType.pending,
     label: 'Primljena',
     variant: 'info',
