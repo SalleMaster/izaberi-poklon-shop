@@ -40,3 +40,11 @@ export const RatingStatusLabels = {
 
 export type RatingStatusLabel =
   (typeof RatingStatusLabels)[keyof typeof RatingStatusLabels]
+
+export const RequestStatus = {
+  success: 'success',
+  fail: 'fail',
+} as const
+
+export type RequestStatusType =
+  (typeof RequestStatus)[keyof typeof RequestStatus]

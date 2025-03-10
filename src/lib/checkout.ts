@@ -1,6 +1,7 @@
 import 'server-only'
 
 import { z } from 'zod'
+import { RequestStatus, RequestStatusType } from './types'
 
 const checkoutResponseSchema = z.object({
   result: z.object({
@@ -15,15 +16,6 @@ const checkoutResponseSchema = z.object({
 })
 
 // type CheckoutResponse = z.infer<typeof checkoutResponseSchema>
-
-// Payment Status Constants
-export const RequestStatus = {
-  success: 'success',
-  fail: 'fail',
-} as const
-
-// Create a type from the const object
-type RequestStatusType = (typeof RequestStatus)[keyof typeof RequestStatus]
 
 type PaymentCheckoutParams = {
   orderId: string

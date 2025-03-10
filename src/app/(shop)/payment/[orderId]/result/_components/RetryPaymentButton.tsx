@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { recreatePaymentCheckout } from '../_actions/actions'
 import { Loader2, RefreshCw } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
+import { RequestStatus } from '@/lib/types'
 
 type Props = {
   orderId: string
@@ -23,7 +24,7 @@ export default function RetryPaymentButton({ orderId }: Props) {
           orderId,
         })
 
-        if (result.status === 'success') {
+        if (result.status === RequestStatus.success) {
           toast({ description: result.message })
           router.push(result.redirectUrl)
         } else {

@@ -1,12 +1,7 @@
 'use server'
 
-import { redirect } from 'next/navigation'
 import { sendOrderEmail } from '@/app/(shop)/_actions/order/actions'
-import {
-  createPaymentCheckout,
-  getPaymentStatus,
-  RequestStatus,
-} from '@/lib/checkout'
+import { createPaymentCheckout, getPaymentStatus } from '@/lib/checkout'
 import prisma from '@/lib/db'
 import {
   OrderPaymentStatusType,
@@ -14,6 +9,7 @@ import {
   OrderStatusType,
 } from '@prisma/client'
 import { loggedInActionGuard } from '@/lib/actionGuard'
+import { RequestStatus } from '@/lib/types'
 
 type RecreatePaymentCheckoutProps = {
   orderId: string
@@ -47,7 +43,7 @@ export async function recreatePaymentCheckout({
       currency: 'RSD',
     })
 
-    if (checkoutResult.status === 'fail') {
+    if (checkoutResult.status === RequestStatus.fail) {
       throw new Error('Neuspešno kreiranje plaćanja')
     }
 
@@ -62,14 +58,14 @@ export async function recreatePaymentCheckout({
 
     // Return with checkout data for card payment
     return {
-      status: 'success',
+      status: RequestStatus.success,
       message: 'Preusmeravanje na plaćanje...',
       redirectUrl: `/placanje/${order.id}?checkoutId=${checkoutResult.checkoutId}`,
     }
   } catch (error) {
     if (error instanceof Error) {
       return {
-        status: 'fail',
+        status: RequestStatus.fail,
         message: error.message,
         redirectUrl: '',
       }
@@ -112,7 +108,7 @@ export async function verifyPayment({
       }
 
       return {
-        status: 'success',
+        status: RequestStatus.success,
         message: `Plaćanje uspešno. Porudžbina kreirana.`,
         redirectUrl: `/porudzbina-kreirana/${orderId}`,
       }
@@ -128,14 +124,14 @@ export async function verifyPayment({
       })
 
       return {
-        status: 'fail',
+        status: RequestStatus.fail,
         message: `Nažalost plaćanje nije uspelo.`,
         redirectUrl: '',
       }
     }
   } catch (error) {
     return {
-      status: 'failed',
+      status: RequestStatus.fail,
       message:
         error instanceof Error
           ? error.message
