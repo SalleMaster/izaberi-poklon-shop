@@ -1,6 +1,7 @@
 import 'server-only'
 
 import { z } from 'zod'
+import { ResponseStatus, ResponseStatusType } from './types'
 
 const checkoutResponseSchema = z.object({
   result: z.object({
@@ -16,15 +17,6 @@ const checkoutResponseSchema = z.object({
 
 // type CheckoutResponse = z.infer<typeof checkoutResponseSchema>
 
-// Payment Status Constants
-export const RequestStatus = {
-  success: 'success',
-  fail: 'fail',
-} as const
-
-// Create a type from the const object
-type RequestStatusType = (typeof RequestStatus)[keyof typeof RequestStatus]
-
 type PaymentCheckoutParams = {
   orderId: string
   amount: string
@@ -32,7 +24,7 @@ type PaymentCheckoutParams = {
 }
 
 type CreatePaymentReturnType = {
-  status: RequestStatusType
+  status: ResponseStatusType
   checkoutId: string | null
   message: string
 }
@@ -74,7 +66,7 @@ export async function createPaymentCheckout({
     const validatedResponse = checkoutResponseSchema.parse(data)
 
     return {
-      status: RequestStatus.success,
+      status: ResponseStatus.success,
       checkoutId: validatedResponse.id,
       message: validatedResponse.result.description,
     }
@@ -82,13 +74,13 @@ export async function createPaymentCheckout({
     console.error('Payment checkout creation error:', error)
     if (error instanceof Error) {
       return {
-        status: RequestStatus.fail,
+        status: ResponseStatus.fail,
         checkoutId: null,
         message: error.message,
       }
     } else {
       return {
-        status: RequestStatus.fail,
+        status: ResponseStatus.fail,
         checkoutId: null,
         message: 'An unknown error occurred while creating payment checkout',
       }
@@ -136,7 +128,7 @@ export type PaymentStatusResponse = z.infer<typeof paymentStatusSchema>
 
 // Return type for getPaymentStatus function
 type GetPaymentStatusReturnType = {
-  status: RequestStatusType
+  status: ResponseStatusType
   paymentResult?: PaymentStatusResponse
   message: string
 }
@@ -168,26 +160,26 @@ export async function getPaymentStatus(
 
     if (isPaymentSuccessful(validatedResponse.result.code)) {
       return {
-        status: RequestStatus.success,
+        status: ResponseStatus.success,
         paymentResult: validatedResponse,
         message: validatedResponse.result.description,
       }
     }
 
     return {
-      status: RequestStatus.fail,
+      status: ResponseStatus.fail,
       paymentResult: validatedResponse,
       message: validatedResponse.result.description,
     }
   } catch (error) {
     if (error instanceof Error) {
       return {
-        status: RequestStatus.fail,
+        status: ResponseStatus.fail,
         message: error.message,
       }
     } else {
       return {
-        status: RequestStatus.fail,
+        status: ResponseStatus.fail,
         message: 'An unknown error occurred while checking payment status',
       }
     }
