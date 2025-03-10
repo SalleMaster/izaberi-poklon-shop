@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
 import RetryPaymentButton from './_components/RetryPaymentButton'
 import { verifyPayment } from './_actions/actions'
-import { RequestStatus } from '@/lib/types'
+import { ResponseStatus } from '@/lib/types'
 
 export const metadata: Metadata = {
   title: 'Rezultat plaćanja',
@@ -44,7 +44,7 @@ export default async function Page(props: PageProps) {
 
   const verificationResult = await verifyPayment({ resourcePath, orderId })
 
-  if (verificationResult.status === RequestStatus.success) {
+  if (verificationResult.status === ResponseStatus.success) {
     redirect(verificationResult.redirectUrl)
   }
 

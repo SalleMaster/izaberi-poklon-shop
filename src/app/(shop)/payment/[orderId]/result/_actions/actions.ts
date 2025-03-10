@@ -9,7 +9,7 @@ import {
   OrderStatusType,
 } from '@prisma/client'
 import { loggedInActionGuard } from '@/lib/actionGuard'
-import { RequestStatus } from '@/lib/types'
+import { ResponseStatus } from '@/lib/types'
 
 type RecreatePaymentCheckoutProps = {
   orderId: string
@@ -43,7 +43,7 @@ export async function recreatePaymentCheckout({
       currency: 'RSD',
     })
 
-    if (checkoutResult.status === RequestStatus.fail) {
+    if (checkoutResult.status === ResponseStatus.fail) {
       throw new Error('Neuspešno kreiranje plaćanja')
     }
 
@@ -58,14 +58,14 @@ export async function recreatePaymentCheckout({
 
     // Return with checkout data for card payment
     return {
-      status: RequestStatus.success,
+      status: ResponseStatus.success,
       message: 'Preusmeravanje na plaćanje...',
       redirectUrl: `/placanje/${order.id}?checkoutId=${checkoutResult.checkoutId}`,
     }
   } catch (error) {
     if (error instanceof Error) {
       return {
-        status: RequestStatus.fail,
+        status: ResponseStatus.fail,
         message: error.message,
         redirectUrl: '',
       }
@@ -89,7 +89,7 @@ export async function verifyPayment({
 
     const response = await getPaymentStatus(resourcePath)
 
-    if (response.status === RequestStatus.success) {
+    if (response.status === ResponseStatus.success) {
       const order = await prisma.order.update({
         where: { id: orderId },
         data: {
@@ -108,7 +108,7 @@ export async function verifyPayment({
       }
 
       return {
-        status: RequestStatus.success,
+        status: ResponseStatus.success,
         message: `Plaćanje uspešno. Porudžbina kreirana.`,
         redirectUrl: `/porudzbina-kreirana/${orderId}`,
       }
@@ -124,14 +124,14 @@ export async function verifyPayment({
       })
 
       return {
-        status: RequestStatus.fail,
+        status: ResponseStatus.fail,
         message: `Nažalost plaćanje nije uspelo.`,
         redirectUrl: '',
       }
     }
   } catch (error) {
     return {
-      status: RequestStatus.fail,
+      status: ResponseStatus.fail,
       message:
         error instanceof Error
           ? error.message
