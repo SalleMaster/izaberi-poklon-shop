@@ -1,3 +1,4 @@
+import { getTransactionStatusLabel } from '@/app/dashboard/(admin)/orders/_components/OrderTransactionDetails'
 import { OrderCartWithRelations } from '@/data/services/order'
 import { shopInfo } from '@/lib/consts'
 import { priceFormatter } from '@/lib/format'
@@ -74,6 +75,10 @@ export function OrderInformation({ order }: OrderInformationProps) {
     default:
       deliveryTypeText = 'Nepoznat način isporuke'
   }
+
+  const statusLabel = getTransactionStatusLabel({
+    paymentStatus: order.paymentStatus,
+  })
 
   const sameBillingAddress =
     order.deliveryType === OrderDeliveryType.delivery &&
@@ -288,6 +293,36 @@ export function OrderInformation({ order }: OrderInformationProps) {
           </>
         ) : null}
       </Section>
+
+      {order.paymentType === OrderPaymentType.card ? (
+        <Section className='rounded-xl border border-solid border-gray-300 p-4 mb-5'>
+          <Row>
+            <Column align='left'>
+              <Text>
+                <span className='font-semibold'>ID transakcije:</span> <br />
+                {order.paymentId}
+              </Text>
+            </Column>
+          </Row>
+          <Row>
+            <Column align='left'>
+              <Text>
+                <span className='font-semibold'>Checkout ID:</span> <br />
+                {order.checkoutId}
+              </Text>
+            </Column>
+          </Row>
+          <Row>
+            <Column align='left'>
+              <Text>
+                <span className='font-semibold'>Status transakcije:</span>{' '}
+                <br />
+                {statusLabel}
+              </Text>
+            </Column>
+          </Row>
+        </Section>
+      ) : null}
 
       <Section className='rounded-xl border border-solid border-gray-300 px-4 mb-5'>
         <Row>
