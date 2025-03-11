@@ -74,7 +74,7 @@ function FailedPaymentResult({ orderId, message }: FailedPaymentResultProps) {
         variant='destructive'
       />
 
-      <RetryPaymentButton orderId={orderId} />
+      <RetryPaymentButton orderId={orderId} label='Pokušaj ponovo' />
     </div>
   )
 }

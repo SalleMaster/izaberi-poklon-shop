@@ -10,9 +10,10 @@ import { ResponseStatus } from '@/lib/types'
 
 type Props = {
   orderId: string
+  label: string
 }
 
-export default function RetryPaymentButton({ orderId }: Props) {
+export default function RetryPaymentButton({ orderId, label }: Props) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
   const { toast } = useToast()
@@ -49,7 +50,7 @@ export default function RetryPaymentButton({ orderId }: Props) {
       ) : (
         <RefreshCw className='mr-2 h-4 w-4' />
       )}
-      Pokušaj ponovo
+      {label}
     </Button>
   )
 }
