@@ -1,5 +1,5 @@
 import { priceFormatter } from '@/lib/format'
-import { Order, OrderStatusType } from '@prisma/client'
+import { Order, OrderPaymentType, OrderStatusType } from '@prisma/client'
 import { Card } from '@/components/ui/card'
 import {
   Accordion,
@@ -19,6 +19,8 @@ import { OrderDeleteImagesForm } from './OrderDeleteImages'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import OrderDraftDetails from './OrderDraftDetails'
+import OrderTransactionDetails from './OrderTransactionDetails'
 
 type OrderCardProps = {
   order: Order
@@ -111,6 +113,17 @@ export function OrderCard({
               orderFormattedDiscount={orderFormattedDiscount}
               orderFormattedDeliveryFee={orderFormattedDeliveryFee}
             />
+
+            {order.paymentType === OrderPaymentType.card ? (
+              <OrderTransactionDetails
+                paymentId={order.paymentId}
+                paymentStatus={order.paymentStatus}
+                paymentDetails={order.paymentDetails}
+                checkoutId={order.checkoutId}
+                isAdmin={isAdmin}
+              />
+            ) : null}
+
             {isAdmin && showForm ? (
               <div className='border rounded-xl p-4'>
                 <OrderStatusForm
@@ -121,6 +134,7 @@ export function OrderCard({
                 />
               </div>
             ) : null}
+
             {showDeleteImagesForm ? (
               <div className='border rounded-xl p-4'>
                 <OrderDeleteImagesForm
@@ -129,6 +143,10 @@ export function OrderCard({
                   startTransition={startTransition}
                 />
               </div>
+            ) : null}
+
+            {!isAdmin && order.status === OrderStatusType.draft ? (
+              <OrderDraftDetails orderId={order.id} />
             ) : null}
           </AccordionContent>
         </AccordionItem>

@@ -9,7 +9,7 @@ import {
   Text,
 } from '@react-email/components'
 import { OrderInformation } from './components/OrderInformation'
-import { Order, OrderPaymentStatusType } from '@prisma/client'
+import { Order, OrderPaymentStatusType, OrderPaymentType } from '@prisma/client'
 import { shopInfo } from '@/lib/consts'
 import { EmailHeader } from './components/EmailHeader'
 import { EmailFooter } from './components/EmailFooter'
@@ -25,13 +25,13 @@ PurchaseReceiptEmail.PreviewProps = {
     termsAccepted: true,
     shippingNumber: '',
     deliveryType: 'pickup',
-    paymentType: 'onDelivery',
+    paymentType: OrderPaymentType.card,
     status: 'pending',
     mediaRemoved: false,
-    paymentId: '',
-    paymentStatus: OrderPaymentStatusType.pending,
+    paymentId: '8ac7a4a09583193e0195848e95b25e43',
+    paymentStatus: OrderPaymentStatusType.success,
     paymentDetails: '',
-    checkoutId: '',
+    checkoutId: 'D5AC0D88667C0C3F61A3E71D047E9864.uat01-vm-tx03',
     cart: {
       id: 'cm5uvxsyb000144126x8rtapw',
       items: [
@@ -144,7 +144,7 @@ export default function PurchaseReceiptEmail({
               </Text>
               <Text>
                 Porudžbina će automatski biti obrađena, u slučaju potrebe,
-                operater Call centra će Vas kontaktirati. Vaša porudžbenica je
+                operater Call centra će Vas kontaktirati. Vaša porudžbina je
                 evidentirana pod brojem{' '}
                 <span className='font-semibold'>{order.orderNumber}</span>.
               </Text>
