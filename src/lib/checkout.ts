@@ -2,6 +2,7 @@ import 'server-only'
 
 import { z } from 'zod'
 import { ResponseStatus, ResponseStatusType } from './types'
+import { paymentErrorMessages } from './paymentErrorMessages'
 
 const checkoutResponseSchema = z.object({
   result: z.object({
@@ -14,8 +15,6 @@ const checkoutResponseSchema = z.object({
   id: z.string(),
   integrity: z.string(),
 })
-
-// type CheckoutResponse = z.infer<typeof checkoutResponseSchema>
 
 type PaymentCheckoutParams = {
   orderId: string
@@ -58,20 +57,27 @@ export async function createPaymentCheckout({
 
     if (!response.ok) {
       throw new Error(
-        `Payment service error: ${response.status} ${response.statusText}`
+        `Greška servisa za plaćanje: ${response.status} ${response.statusText}`
       )
     }
 
     const data = await response.json()
     const validatedResponse = checkoutResponseSchema.parse(data)
 
+    if (isCreateCheckoutSuccessful(validatedResponse.result.code)) {
+      return {
+        status: ResponseStatus.success,
+        checkoutId: validatedResponse.id,
+        message: validatedResponse.result.description,
+      }
+    }
+
     return {
-      status: ResponseStatus.success,
+      status: ResponseStatus.fail,
       checkoutId: validatedResponse.id,
-      message: validatedResponse.result.description,
+      message: 'Došlo je do greške prilikom kreiranja linka za plaćanje.',
     }
   } catch (error) {
-    console.error('Payment checkout creation error:', error)
     if (error instanceof Error) {
       return {
         status: ResponseStatus.fail,
@@ -82,10 +88,16 @@ export async function createPaymentCheckout({
       return {
         status: ResponseStatus.fail,
         checkoutId: null,
-        message: 'An unknown error occurred while creating payment checkout',
+        message:
+          'Došlo je do neočekivane greške prilikom kreiranja linka za plaćanje.',
       }
     }
   }
+}
+
+function isCreateCheckoutSuccessful(resultCode: string): boolean {
+  const successPattern = /^(000\.200)/
+  return successPattern.test(resultCode)
 }
 
 const paymentStatusSchema = z.object({
@@ -149,7 +161,7 @@ export async function getPaymentStatus(
     if (!response.ok) {
       const errorText = await response.text()
       throw new Error(
-        `Payment status error: ${response.status} ${response.statusText} - ${errorText}`
+        `Greška servisa za proveru statusa plaćanja: ${response.status} ${response.statusText} - ${errorText}`
       )
     }
 
@@ -162,14 +174,18 @@ export async function getPaymentStatus(
       return {
         status: ResponseStatus.success,
         paymentResult: validatedResponse,
-        message: validatedResponse.result.description,
+        message: 'Transakcija uspešno izvršena.',
       }
     }
+
+    const userFriendlyMessage = getPaymentErrorMessage(
+      validatedResponse.result.code
+    )
 
     return {
       status: ResponseStatus.fail,
       paymentResult: validatedResponse,
-      message: validatedResponse.result.description,
+      message: userFriendlyMessage,
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -180,7 +196,8 @@ export async function getPaymentStatus(
     } else {
       return {
         status: ResponseStatus.fail,
-        message: 'An unknown error occurred while checking payment status',
+        message:
+          'Došlo je do greške prilikom provere statusa plaćanja. Molimo pokušajte ponovo ili kontaktirajte podršku.',
       }
     }
   }
@@ -189,4 +206,12 @@ export async function getPaymentStatus(
 function isPaymentSuccessful(resultCode: string): boolean {
   const successPattern = /^(000.000.|000.100.1|000.[36]|000.400.[1][12]0)/
   return successPattern.test(resultCode)
+}
+
+function getPaymentErrorMessage(resultCode: string): string {
+  if (paymentErrorMessages[resultCode]) {
+    return paymentErrorMessages[resultCode]
+  }
+
+  return 'Došlo je do greške prilikom provere statusa plaćanja. Molimo pokušajte ponovo ili kontaktirajte podršku.'
 }

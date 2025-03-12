@@ -44,7 +44,7 @@ export async function recreatePaymentCheckout({
     })
 
     if (checkoutResult.status === ResponseStatus.fail) {
-      throw new Error('Neuspešno kreiranje plaćanja')
+      throw new Error(checkoutResult.message)
     }
 
     // Update the order with the checkout ID and payment status
@@ -125,7 +125,7 @@ export async function verifyPayment({
 
       return {
         status: ResponseStatus.fail,
-        message: `Nažalost plaćanje nije uspelo.`,
+        message: response.message || 'Plaćanje nije uspelo.',
         redirectUrl: '',
       }
     }
