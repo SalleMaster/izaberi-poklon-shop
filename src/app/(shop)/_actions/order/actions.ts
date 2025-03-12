@@ -193,9 +193,7 @@ export async function cartCreateOrder(values: CartOrderValues) {
       })
 
       if (checkoutResult.status === 'fail') {
-        throw new Error(
-          checkoutResult.message || 'Failed to create payment checkout'
-        )
+        throw new Error(checkoutResult.message)
       }
 
       // Update the order with the checkout ID and payment status
