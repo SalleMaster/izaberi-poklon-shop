@@ -256,7 +256,12 @@ export function CartOrderForm({
                             <FormControl>
                               <RadioGroupItem value={OrderPaymentType.card} />
                             </FormControl>
-                            <FormLabel>Plaćanje platnom karticom</FormLabel>
+                            <FormLabel>
+                              Online plaćanje <br />
+                              <FormDescription className='mt-2'>
+                                Visa, MasterCard, Maestro
+                              </FormDescription>
+                            </FormLabel>
                           </FormItem>
                         </RadioGroup>
                       </FormControl>
