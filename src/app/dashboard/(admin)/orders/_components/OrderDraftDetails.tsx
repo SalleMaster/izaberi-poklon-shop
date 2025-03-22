@@ -10,7 +10,7 @@ export default function OrderDraftDetails({ orderId }: Props) {
     <div className='flex flex-col space-y-2.5'>
       <NotificationAlert
         title='Obaveštenje'
-        description='Porudžbina je kreirana ali transakcija nije izvršena. Porudžbinu možete završiti klikom na dugme ispod gde ćete biti preusmereni na stranicu za plaćanje i tako dovršiti kreiranje porudžbine. Ukoliko se transakcija ne izvrši u roku od 24h, porudžbina će biti automatski otkazana.'
+        description='Porudžbina je kreirana ali transakcija nije izvršena. Porudžbinu možete završiti klikom na dugme ispod gde ćete biti preusmereni na stranicu za plaćanje i tako dovršiti kreiranje porudžbine. Ukoliko se transakcija ne izvrši u roku od 48h, porudžbina će biti automatski otkazana.'
         variant='info'
       />
       <div className='ml-auto'>

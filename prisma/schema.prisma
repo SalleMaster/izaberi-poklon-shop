@@ -438,6 +438,7 @@ model Order {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([status, createdAt], name: "orders_status_created_at")
   @@map("orders")
 }
 

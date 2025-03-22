@@ -1,4 +1,5 @@
 import { OrderStatusType, PrismaClient } from '@prisma/client'
+import { subDays, format } from 'date-fns'
 
 // Create a dedicated Prisma instance for this script
 // Not using the shared instance since this runs independently
@@ -6,11 +7,12 @@ const prisma = new PrismaClient()
 
 async function cleanupDraftOrders(): Promise<void> {
   // Calculate date 2 days ago
-  const twoDaysAgo = new Date()
-  twoDaysAgo.setDate(twoDaysAgo.getDate() - 2)
+  const twoDaysAgo = subDays(new Date(), 2)
+  const formattedDate = format(twoDaysAgo, 'yyyy-MM-dd HH:mm:ss')
+  const currentDate = format(new Date(), 'yyyy-MM-dd HH:mm:ss')
 
   console.log(
-    `[${new Date().toISOString()}] Starting cleanup of draft orders older than ${twoDaysAgo.toISOString()}`
+    `[${currentDate}] Starting cleanup of draft orders older than ${formattedDate}`
   )
 
   try {
@@ -24,14 +26,17 @@ async function cleanupDraftOrders(): Promise<void> {
       },
     })
 
-    console.log(
-      `[${new Date().toISOString()}] Successfully cleaned up ${result.count} draft orders`
-    )
+    if (result.count === 0) {
+      console.log(
+        `[${currentDate}] No draft orders older than ${formattedDate} to clean up`
+      )
+    } else {
+      console.log(
+        `[${currentDate}] Successfully cleaned up ${result.count} draft orders`
+      )
+    }
   } catch (error) {
-    console.error(
-      `[${new Date().toISOString()}] Error cleaning up draft orders:`,
-      error
-    )
+    console.error(`[${currentDate}] Error cleaning up draft orders:`, error)
     // Re-throw to ensure non-zero exit code
     throw error
   } finally {
