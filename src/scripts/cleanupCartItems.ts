@@ -1,10 +1,108 @@
-import { updateCartOverviewData } from '@/app/(shop)/_actions/cart/actions'
-import { deleteMediaFromS3 } from '@/lib/actions'
-import { PrismaClient } from '@prisma/client'
+// import { deleteMediaFromS3 } from '@/lib/actions'
+import { freeShippingThreshold } from '@/lib/consts'
+import { DiscountType, PrismaClient } from '@prisma/client'
 import { subDays, format } from 'date-fns'
+import { S3Client, DeleteObjectCommand } from '@aws-sdk/client-s3'
 
 // Create a dedicated Prisma instance for this script
 const prisma = new PrismaClient()
+
+const s3 = new S3Client({
+  region: process.env.AWS_S3_BUCKET_REGION!,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+  },
+})
+
+async function updateCartOverviewData({ userId }: { userId: string }) {
+  const cart = await prisma.cart.findUnique({
+    where: { userId },
+    include: { items: true, coupon: true },
+  })
+
+  if (cart) {
+    const allItemsPrice = cart.items.reduce((acc, item) => acc + item.price, 0)
+    const deliveryFee =
+      cart.items.sort((a, b) => b.deliveryFee - a.deliveryFee)[0]
+        ?.deliveryFee || 0
+    const onlinePrice = allItemsPrice
+    let totalPrice = allItemsPrice
+    let totalPriceWithDeliveryFee =
+      allItemsPrice > freeShippingThreshold
+        ? allItemsPrice
+        : allItemsPrice + deliveryFee
+    let discount = 0
+
+    if (cart.coupon) {
+      const isCouponExpired = cart.coupon.expiresAt < new Date()
+      const isCouponActive = cart.coupon.active
+      const isCouponAvailable = cart.coupon.used < cart.coupon.available
+      const isMinCartValue = allItemsPrice >= cart.coupon.cartValue
+
+      const couponConditions =
+        !isCouponExpired &&
+        isCouponActive &&
+        isCouponAvailable &&
+        isMinCartValue
+
+      if (!couponConditions) {
+        await prisma.cart.update({
+          where: { userId },
+          data: {
+            coupon: {
+              disconnect: true,
+            },
+          },
+        })
+      }
+
+      if (couponConditions && cart.coupon.discountType === DiscountType.fixed) {
+        totalPrice = allItemsPrice - cart.coupon.discount
+        totalPriceWithDeliveryFee =
+          totalPrice > freeShippingThreshold
+            ? totalPrice
+            : totalPrice + deliveryFee
+        discount = cart.coupon.discount
+      } else if (
+        couponConditions &&
+        cart.coupon.discountType === DiscountType.percentage
+      ) {
+        totalPrice =
+          allItemsPrice - (allItemsPrice * cart.coupon.discount) / 100
+        totalPriceWithDeliveryFee =
+          totalPrice > freeShippingThreshold
+            ? totalPrice
+            : totalPrice + deliveryFee
+        discount = (allItemsPrice * cart.coupon.discount) / 100
+      }
+    }
+
+    await prisma.cart.update({
+      where: { userId },
+      data: {
+        onlinePrice,
+        totalPrice,
+        discount,
+        deliveryFee: totalPrice > freeShippingThreshold ? 0 : deliveryFee,
+        totalPriceWithDeliveryFee,
+      },
+    })
+  }
+}
+
+async function deleteMediasFromS3(keys: string[]) {
+  await Promise.all(
+    keys.map(async (key) => {
+      const deleteParams = {
+        Bucket: process.env.AWS_S3_BUCKET_NAME!,
+        Key: key,
+      }
+
+      await s3.send(new DeleteObjectCommand(deleteParams))
+    })
+  )
+}
 
 async function cleanupCartItems(): Promise<void> {
   const currentDate = format(new Date(), 'yyyy-MM-dd HH:mm:ss')
@@ -75,11 +173,7 @@ async function cleanupCartItems(): Promise<void> {
         `[${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}] Would need to delete ${imageKeys.length} image files`
       )
 
-      await Promise.all(
-        imageKeys.map(async (key) => {
-          await deleteMediaFromS3(key)
-        })
-      )
+      await deleteMediasFromS3(imageKeys)
     }
 
     // Update cart totals for affected users
