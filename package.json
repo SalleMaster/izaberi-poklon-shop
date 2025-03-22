@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build && npm run build:cleanup-script",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate && prisma migrate deploy",
-    "email": "cp .env ./node_modules/react-email && email dev --dir src/email --port 3001"
+    "email": "cp .env ./node_modules/react-email && email dev --dir src/email --port 3001",
+    "build:cleanup-script": "tsc -p tsconfig.scripts.json",
+    "cleanup:draft-orders": "node dist/scripts/cleanupDraftOrders.js"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
