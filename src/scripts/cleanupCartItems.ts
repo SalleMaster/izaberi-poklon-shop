@@ -1,7 +1,7 @@
 import { DiscountType, PrismaClient } from '@prisma/client'
 import { S3Client, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { subDays, format } from 'date-fns'
-import { freeShippingThreshold } from '@/lib/consts'
+import { freeShippingThreshold } from '../lib/consts'
 
 // Create a dedicated Prisma instance for this script
 const prisma = new PrismaClient()
