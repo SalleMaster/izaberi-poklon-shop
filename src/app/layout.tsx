@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { SessionProvider } from 'next-auth/react'
 import localFont from 'next/font/local'
 import './globals.css'
@@ -29,6 +30,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
+      <head>
+        <Script
+          src='https://umami.radovanovic.net/script.js'
+          data-website-id={process.env.UMAMI_DATA_WEBSITE_ID}
+          strategy='afterInteractive'
+          defer
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen group`}
       >
