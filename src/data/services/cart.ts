@@ -86,28 +86,6 @@ export const getCart = cache(async (): GetCartReturnType => {
     })
   }
 
-  // Remove cart items that are older than 2 days
-  if (cart.items.length > 0) {
-    const twoDaysAgo = subDays(new Date(), 2)
-
-    const itemsToDelete = cart.items.filter(
-      (item) => item.updatedAt < twoDaysAgo
-    )
-    if (itemsToDelete.length > 0) {
-      await prisma.cartItem.deleteMany({
-        where: {
-          id: {
-            in: itemsToDelete.map((item) => item.id),
-          },
-        },
-      })
-
-      await updateCartOverviewData({ userId })
-
-      cart = await getCart()
-    }
-  }
-
   return cart
 })
 

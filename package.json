@@ -10,7 +10,8 @@
     "postinstall": "prisma generate && prisma migrate deploy",
     "email": "cp .env ./node_modules/react-email && email dev --dir src/email --port 3001",
     "build:cleanup-script": "tsc -p tsconfig.scripts.json",
-    "cleanup:draft-orders": "node dist/scripts/cleanupDraftOrders.js"
+    "cleanup:draft-orders": "node dist/scripts/cleanupDraftOrders.js",
+    "cleanup:cart-items": "node dist/scripts/cleanupCartItems.js"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
