@@ -21,6 +21,7 @@ type Props = {
   disabled: boolean
   isSubmitting: boolean
   withDeliveryFee?: boolean
+  buttonLabel: string
   next: () => void
 }
 
@@ -33,6 +34,7 @@ export default function CartOverview({
   disabled = true,
   withDeliveryFee = false,
   isSubmitting,
+  buttonLabel,
   next,
 }: Props) {
   const formattedOnlinePrice = priceFormatter(onlinePrice)
@@ -92,7 +94,7 @@ export default function CartOverview({
           className='w-full'
           onClick={next}
         >
-          Nastavi
+          {buttonLabel}
           {isSubmitting ? (
             <Loader2 className='ml-2 h-4 w-4 animate-spin' />
           ) : (
