@@ -177,6 +177,10 @@ export function CartOrderForm({
                               <Input
                                 placeholder='Unesite ime i prezime'
                                 {...field}
+                                onChange={(e) => {
+                                  field.onChange(e)
+                                  form.trigger('pickupName')
+                                }}
                               />
                             </FormControl>
                             <FormMessage />
@@ -194,6 +198,10 @@ export function CartOrderForm({
                               <Input
                                 placeholder='Unesite broj telefona'
                                 {...field}
+                                onChange={(e) => {
+                                  field.onChange(e)
+                                  form.trigger('pickupPhone')
+                                }}
                               />
                             </FormControl>
                             <FormMessage />
@@ -208,7 +216,14 @@ export function CartOrderForm({
                           <FormItem>
                             <FormLabel>Email *</FormLabel>
                             <FormControl>
-                              <Input placeholder='Unesite email' {...field} />
+                              <Input
+                                placeholder='Unesite email'
+                                {...field}
+                                onChange={(e) => {
+                                  field.onChange(e)
+                                  form.trigger('pickupEmail')
+                                }}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
