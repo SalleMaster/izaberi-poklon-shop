@@ -31,72 +31,82 @@ type ComboboxProps = ButtonProps & {
   withChevron?: boolean
 }
 
-export function Combobox({
-  options,
-  value,
-  setValue,
-  variant = 'outline',
-  withChevron = true,
-}: ComboboxProps) {
-  const [open, setOpen] = React.useState(false)
+export const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
+  (
+    {
+      options,
+      value,
+      setValue,
+      variant = 'outline',
+      withChevron = true,
+      ...props
+    },
+    ref
+  ) => {
+    const [open, setOpen] = React.useState(false)
 
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant={variant}
-          role='combobox'
-          aria-expanded={open}
-          className='flex w-full justify-between'
-        >
-          <span className='truncate'>
-            {value
-              ? options.find((option) => option.value === value)?.label
-              : 'Selektuj opciju...'}
-          </span>
+    return (
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant={variant}
+            role='combobox'
+            aria-expanded={open}
+            className='flex w-full justify-between'
+            ref={ref}
+            {...props}
+          >
+            <span className='truncate'>
+              {value
+                ? options.find((option) => option.value === value)?.label
+                : 'Selektuj opciju...'}
+            </span>
 
-          {withChevron ? (
-            <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
-          ) : null}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className='w-[200px] p-0'>
-        <Command
-          filter={(value, search) => {
-            const item = options.find((item) => item.value === value)
-            if (!item) return 0
-            if (item.label.toLowerCase().includes(search.toLowerCase()))
-              return 1
+            {withChevron ? (
+              <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+            ) : null}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className='w-[200px] p-0'>
+          <Command
+            filter={(value, search) => {
+              const item = options.find((item) => item.value === value)
+              if (!item) return 0
+              if (item.label.toLowerCase().includes(search.toLowerCase()))
+                return 1
 
-            return 0
-          }}
-        >
-          <CommandInput placeholder='Pronađi opciju...' />
-          <CommandList>
-            <CommandEmpty>Opcija nije pronađena.</CommandEmpty>
-            <CommandGroup>
-              {options.map((option) => (
-                <CommandItem
-                  key={option.value}
-                  value={option.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? '' : currentValue)
-                    setOpen(false)
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      'mr-2 h-4 w-4',
-                      value === option.value ? 'opacity-100' : 'opacity-0'
-                    )}
-                  />
-                  {option.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  )
-}
+              return 0
+            }}
+          >
+            <CommandInput placeholder='Pronađi opciju...' />
+            <CommandList>
+              <CommandEmpty>Opcija nije pronađena.</CommandEmpty>
+              <CommandGroup>
+                {options.map((option) => (
+                  <CommandItem
+                    key={option.value}
+                    value={option.value}
+                    onSelect={(currentValue) => {
+                      setValue(currentValue === value ? '' : currentValue)
+                      setOpen(false)
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        'mr-2 h-4 w-4',
+                        value === option.value ? 'opacity-100' : 'opacity-0'
+                      )}
+                    />
+                    {option.label}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    )
+  }
+)
+
+Combobox.displayName = 'Combobox'

@@ -21,6 +21,7 @@ type Props = {
   disabled: boolean
   isSubmitting: boolean
   withDeliveryFee?: boolean
+  buttonLabel: string
   next: () => void
 }
 
@@ -33,6 +34,7 @@ export default function CartOverview({
   disabled = true,
   withDeliveryFee = false,
   isSubmitting,
+  buttonLabel,
   next,
 }: Props) {
   const formattedOnlinePrice = priceFormatter(onlinePrice)
@@ -85,14 +87,16 @@ export default function CartOverview({
           </>
         )}
       </CardContent>
-      <CardFooter>
+
+      {/* Desktop */}
+      <CardFooter className='hidden md:block'>
         <Button
           type='button'
           disabled={disabled || isSubmitting}
           className='w-full'
           onClick={next}
         >
-          Nastavi
+          {buttonLabel}
           {isSubmitting ? (
             <Loader2 className='ml-2 h-4 w-4 animate-spin' />
           ) : (
@@ -100,6 +104,23 @@ export default function CartOverview({
           )}
         </Button>
       </CardFooter>
+
+      {/* Mobile */}
+      <div className='fixed bottom-0 left-0 w-full p-4 bg-background border-t border-border md:hidden z-10'>
+        <Button
+          type='button'
+          disabled={disabled || isSubmitting}
+          className='w-full'
+          onClick={next}
+        >
+          {buttonLabel}
+          {isSubmitting ? (
+            <Loader2 className='ml-2 h-4 w-4 animate-spin' />
+          ) : (
+            <CircleArrowRight className='ml-2 w-4 h-4' />
+          )}
+        </Button>
+      </div>
     </Card>
   )
 }
@@ -123,7 +144,7 @@ export function CartOverviewSkeleton() {
           <Skeleton className='h-7 md:h-9 w-[60%]' />
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className='hidden md:block'>
         <Button className='ml-auto' disabled>
           <div className='flex'>
             Dalje <CircleArrowRight className='w-4 h-4 ml-2 my-auto' />
