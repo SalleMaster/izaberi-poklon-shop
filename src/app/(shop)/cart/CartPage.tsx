@@ -346,7 +346,9 @@ export default function CartPage({
           }
           isSubmitting={form.formState.isSubmitting}
           buttonLabel={
-            currentStep === orderSteps.length - 1 ? 'Završi kupovinu' : 'Dalje'
+            currentStep === orderSteps.length - 1
+              ? 'Završi kupovinu'
+              : 'Nastavi'
           }
           next={next}
         />
