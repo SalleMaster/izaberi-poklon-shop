@@ -129,12 +129,9 @@ export function CartOrderForm({
                     <FormField
                       control={form.control}
                       name='selectedDeliveryAddressId'
-                      render={() => (
+                      render={({ field }) => (
                         <FormItem>
-                          <FormLabel>
-                            Izaberite adresu isporuke iz Vaše liste sačuvanih
-                            adresa:
-                          </FormLabel>
+                          <FormLabel>Izaberite adresu isporuke:</FormLabel>
                           <FormControl>
                             <Combobox
                               options={
@@ -150,11 +147,13 @@ export function CartOrderForm({
                                   value
                                 )
                               }}
+                              ref={field.ref}
                             />
                           </FormControl>
                           <FormDescription>
-                            Adresa za isporuku će biti automatski popunjena
-                            sapodacima izabrane adrese.
+                            {userAddresses.length
+                              ? 'Adresa za isporuku će biti automatski popunjena sa podacima izabrane adrese.'
+                              : 'Nemate sačuvane adrese. Kreirajte adresu u formularu ispod.'}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -309,15 +308,13 @@ export function CartOrderForm({
                 <>
                   <p className='font-semibold'>Adresa računa</p>
                   <Separator />
+
                   <FormField
                     control={form.control}
                     name='selectedBillingAddressId'
-                    render={() => (
+                    render={({ field }) => (
                       <FormItem>
-                        <FormLabel>
-                          Izaberite adresu računa iz Vaše liste sačuvanih
-                          adresa:
-                        </FormLabel>
+                        <FormLabel>Izaberite adresu računa:</FormLabel>
                         <FormControl>
                           <Combobox
                             options={
@@ -330,11 +327,13 @@ export function CartOrderForm({
                             setValue={(value) =>
                               form.setValue('selectedBillingAddressId', value)
                             }
+                            ref={field.ref}
                           />
                         </FormControl>
                         <FormDescription>
-                          Adresa za račun će biti automatski popunjena sa
-                          podacima izabrane adrese.
+                          {userAddresses.length
+                            ? 'Adresa za račun će biti automatski popunjena sa podacima izabrane adrese.'
+                            : 'Nemate sačuvane adrese. Kreirajte adresu u formularu ispod.'}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
