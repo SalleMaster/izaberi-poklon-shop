@@ -345,6 +345,11 @@ export default function CartPage({
             selectedDeliveryService?.predefinedPrices
           }
           isSubmitting={form.formState.isSubmitting}
+          buttonLabel={
+            currentStep === orderSteps.length - 1
+              ? 'Završi kupovinu'
+              : 'Nastavi'
+          }
           next={next}
         />
         <CartCouponForm

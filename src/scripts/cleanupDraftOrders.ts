@@ -30,11 +30,12 @@ async function cleanupDraftOrders(): Promise<void> {
       console.log(
         `[${currentDate}] No draft orders older than ${formattedDate} to clean up`
       )
-    } else {
-      console.log(
-        `[${currentDate}] Successfully cleaned up ${result.count} draft orders`
-      )
+      return
     }
+
+    console.log(
+      `[${currentDate}] Successfully cleaned up ${result.count} draft orders`
+    )
   } catch (error) {
     console.error(`[${currentDate}] Error cleaning up draft orders:`, error)
     // Re-throw to ensure non-zero exit code
