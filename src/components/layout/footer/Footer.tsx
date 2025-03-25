@@ -69,45 +69,61 @@ export default function Footer() {
 
         <div className='flex flex-wrap justify-center items-center gap-4'>
           <Separator className='w-full h-px bg-muted-foreground' />
-          <Image
-            src='/img/payment/unicredit-bank.svg'
-            alt='Logo'
-            width='191'
-            height='25'
-          />
-          <Image
-            src='/img/payment/allsecure.svg'
-            alt='Logo'
-            width='123'
-            height='50'
-          />
+          <a
+            href='https://www.unicreditbank.rs/'
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label='Unicredit Bank website (opens in a new tab)'
+          >
+            <Image
+              src='/img/payment/unicredit-bank.svg'
+              alt='Unicredit bank'
+              width='191'
+              height='25'
+            />
+          </a>
+
+          <a
+            href='https://www.allsecure.rs/'
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label='AllSecure website (opens in a new tab)'
+          >
+            <Image
+              src='/img/payment/allsecure.svg'
+              alt='AllSecure'
+              width='123'
+              height='50'
+            />
+          </a>
+
           <Image
             src='/img/payment/visa-secure.svg'
-            alt='Logo'
+            alt='Visa Secure'
             width='50'
             height='50'
           />
           <Image
             src='/img/payment/mastercard-id-check.svg'
-            alt='Logo'
+            alt='Mastercard ID Check'
             width='50'
             height='50'
           />
           <Image
             src='/img/payment/visa.svg'
-            alt='Logo'
+            alt='Visa'
             width='88'
             height='50'
           />
           <Image
             src='/img/payment/master.svg'
-            alt='Logo'
+            alt='Master'
             width='88'
             height='50'
           />
           <Image
             src='/img/payment/maestro.svg'
-            alt='Logo'
+            alt='Maestro'
             width='88'
             height='50'
           />
