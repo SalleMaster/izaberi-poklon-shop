@@ -116,7 +116,7 @@ export default function PaymentForm({
           <form
             action={shopperResultUrl}
             className='paymentWidgets'
-            data-brands='VISA MASTER'
+            data-brands='VISA MASTER MAESTRO'
           ></form>
         </Card>
       </div>

@@ -69,27 +69,64 @@ export default function Footer() {
 
         <div className='flex flex-wrap justify-center items-center gap-4'>
           <Separator className='w-full h-px bg-muted-foreground' />
-          <div className='relative w-[70px] h-[50px]'>
+          <a
+            href='https://www.unicreditbank.rs/'
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label='Unicredit Bank website (opens in a new tab)'
+          >
             <Image
-              src='/img/payment-cards/logo-payments-visa.svg'
-              alt='Logo'
-              fill={true}
+              src='/img/payment/unicredit-bank.svg'
+              alt='Unicredit bank'
+              width='191'
+              height='25'
             />
-          </div>
-          <div className='relative w-[70px] h-[50px]'>
+          </a>
+
+          <a
+            href='https://www.allsecure.rs/'
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label='AllSecure website (opens in a new tab)'
+          >
             <Image
-              src='/img/payment-cards/logo-payments-maestro-1.svg'
-              alt='Logo'
-              fill={true}
+              src='/img/payment/allsecure.svg'
+              alt='AllSecure'
+              width='123'
+              height='50'
             />
-          </div>
-          <div className='relative w-[70px] h-[50px]'>
-            <Image
-              src='/img/payment-cards/logo-payments-master-1.svg'
-              alt='Logo'
-              fill={true}
-            />
-          </div>
+          </a>
+
+          <Image
+            src='/img/payment/visa-secure.svg'
+            alt='Visa Secure'
+            width='50'
+            height='50'
+          />
+          <Image
+            src='/img/payment/mastercard-id-check.svg'
+            alt='Mastercard ID Check'
+            width='50'
+            height='50'
+          />
+          <Image
+            src='/img/payment/visa.svg'
+            alt='Visa'
+            width='88'
+            height='50'
+          />
+          <Image
+            src='/img/payment/master.svg'
+            alt='Master'
+            width='88'
+            height='50'
+          />
+          <Image
+            src='/img/payment/maestro.svg'
+            alt='Maestro'
+            width='88'
+            height='50'
+          />
           <Separator className='w-full h-px bg-muted-foreground' />
         </div>
 
