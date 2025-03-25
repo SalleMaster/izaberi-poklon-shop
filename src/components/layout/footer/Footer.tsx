@@ -69,27 +69,48 @@ export default function Footer() {
 
         <div className='flex flex-wrap justify-center items-center gap-4'>
           <Separator className='w-full h-px bg-muted-foreground' />
-          <div className='relative w-[70px] h-[50px]'>
-            <Image
-              src='/img/payment-cards/logo-payments-visa.svg'
-              alt='Logo'
-              fill={true}
-            />
-          </div>
-          <div className='relative w-[70px] h-[50px]'>
-            <Image
-              src='/img/payment-cards/logo-payments-maestro-1.svg'
-              alt='Logo'
-              fill={true}
-            />
-          </div>
-          <div className='relative w-[70px] h-[50px]'>
-            <Image
-              src='/img/payment-cards/logo-payments-master-1.svg'
-              alt='Logo'
-              fill={true}
-            />
-          </div>
+          <Image
+            src='/img/payment/unicredit-bank.svg'
+            alt='Logo'
+            width='191'
+            height='25'
+          />
+          <Image
+            src='/img/payment/allsecure.svg'
+            alt='Logo'
+            width='123'
+            height='50'
+          />
+          <Image
+            src='/img/payment/visa-secure.svg'
+            alt='Logo'
+            width='50'
+            height='50'
+          />
+          <Image
+            src='/img/payment/mastercard-id-check.svg'
+            alt='Logo'
+            width='50'
+            height='50'
+          />
+          <Image
+            src='/img/payment/visa.svg'
+            alt='Logo'
+            width='88'
+            height='50'
+          />
+          <Image
+            src='/img/payment/master.svg'
+            alt='Logo'
+            width='88'
+            height='50'
+          />
+          <Image
+            src='/img/payment/maestro.svg'
+            alt='Logo'
+            width='88'
+            height='50'
+          />
           <Separator className='w-full h-px bg-muted-foreground' />
         </div>
 
