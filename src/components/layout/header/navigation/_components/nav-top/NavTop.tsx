@@ -24,7 +24,7 @@ export default function NavTop({
   return (
     <div className='container px-4 mx-auto flex items-center justify-between py-2'>
       <Link href='/' className='font-bold'>
-        <Image src='/img/red-dot-logo.png' alt='Logo' width={60} height={60} />
+        <Image src='/img/red-dot-logo.svg' alt='Logo' width={80} height={80} />
       </Link>
 
       <div className='flex gap-3 align-middle'>
@@ -37,9 +37,9 @@ export default function NavTop({
 
 export function NavTopSkeleton() {
   return (
-    <div className='container mx-auto flex items-center justify-between py-2'>
+    <div className='container px-4 mx-auto flex items-center justify-between py-2'>
       <Link href='/' className='font-bold'>
-        <Image src='/img/red-dot-logo.png' alt='Logo' width={60} height={60} />
+        <Image src='/img/red-dot-logo.svg' alt='Logo' width={80} height={80} />
       </Link>
     </div>
   )

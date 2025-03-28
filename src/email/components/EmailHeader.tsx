@@ -8,7 +8,7 @@ export function EmailHeader() {
           <Column align='left'>
             <Img
               alt='React Email logo'
-              height='50'
+              height='80'
               src={`${process.env.AWS_BUCKET_URL}/red-dot-logo.png`}
             />
           </Column>
@@ -21,7 +21,7 @@ export function EmailHeader() {
           <Column align='right'>
             <Img
               alt='React Email logo'
-              height='50'
+              height='80'
               src={`${process.env.AWS_BUCKET_URL}/red-dot-logo.png`}
             />
           </Column>
