@@ -13,7 +13,7 @@ export default function ProductsGrid({ productsPromise }: Props) {
   const products = use(productsPromise)
 
   return (
-    <div className='group-has-[[data-pending-products]]:animate-pulse group-has-[[data-pending-pagination]]:animate-pulse'>
+    <div className='group-has-data-pending-products:animate-pulse group-has-data-pending-pagination:animate-pulse'>
       {products.length > 0 ? (
         <div className='grid gap-2 grid-cols-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5'>
           {products.map((product) => (

@@ -37,7 +37,7 @@ export default function CategoriesList({ categoriesPromise, pageUrl }: Props) {
           <li key={category.id}>
             <Link
               className={cn(
-                'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+                'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50',
                 optimisticCategory?.includes(category.slug) &&
                   'bg-accent text-accent-foreground'
               )}
@@ -70,7 +70,7 @@ export default function CategoriesList({ categoriesPromise, pageUrl }: Props) {
       <Link
         href={`${pageUrl}?${createQueryString({ removeParams: ['kategorija', 'stranica'] })}`}
         className={cn(
-          'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+          'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50',
           optimisticCategory.length === 0 && 'bg-accent text-accent-foreground'
         )}
         onClick={() => {
