@@ -1,6 +1,8 @@
+import Link from 'next/link'
+
 type FooterLinkGroupProps = {
   title: string
-  links: { href: string; target?: string; label: string }[]
+  links: { href: string; label: string; external?: boolean }[]
 }
 
 export default function FooterLinks({ title, links }: FooterLinkGroupProps) {
@@ -10,9 +12,25 @@ export default function FooterLinks({ title, links }: FooterLinkGroupProps) {
       <ul className='space-y-2.5'>
         {links.map((link) => (
           <li key={link.href}>
-            <a href={link.href} target={link.target ?? ''} className='text-sm'>
-              {link.label}
-            </a>
+            {link.external ? (
+              <a
+                href={link.href}
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label={link.label}
+                className='text-sm'
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                href={link.href}
+                aria-label={link.label}
+                className='text-sm'
+              >
+                {link.label}
+              </Link>
+            )}
           </li>
         ))}
       </ul>

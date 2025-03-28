@@ -20,7 +20,7 @@ const usefulLinks = [
   { href: '/kako-naruciti', label: 'Kako naručiti' },
   { href: '/nacin-isporuke', label: 'Način isporuke' },
   { href: '/politika-privatnosti', label: 'Politika privatnosti' },
-  { href: orderQuitForm.url, target: '_blank', label: 'Odustanak obrazac' },
+  { href: orderQuitForm.url, label: 'Odustanak obrazac', external: true },
   { href: '/reklamacije', label: 'Reklamacije' },
   {
     href: '/uslovi-koriscenja',
@@ -28,8 +28,8 @@ const usefulLinks = [
   },
   {
     href: onlinePurchaseContract.url,
-    target: '_blank',
     label: 'Ugovor o kupovini na daljinu',
+    external: true,
   },
   {
     href: '/povracaj-proizvoda',
@@ -38,9 +38,9 @@ const usefulLinks = [
 ]
 
 const socialLinks = [
-  { href: shopInfo.facebook, label: 'Facebook' },
-  { href: shopInfo.instagram, label: 'Instagram' },
-  { href: shopInfo.tikTok, label: 'TikTok' },
+  { href: shopInfo.facebook, label: 'Facebook', external: true },
+  { href: shopInfo.instagram, label: 'Instagram', external: true },
+  { href: shopInfo.tikTok, label: 'TikTok', external: true },
 ]
 
 const profileLinks = [
