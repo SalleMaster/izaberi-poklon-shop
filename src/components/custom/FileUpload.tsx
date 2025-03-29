@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes } from 'react'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { ImageUp, X } from 'lucide-react'
@@ -12,19 +12,17 @@ export type FileUploadProps = InputHTMLAttributes<HTMLInputElement> & {
   setRemovedExistingFile: (media: Media) => void
 }
 
-const FileUpload = (
-  {
-    ref,
-    formFiles,
-    existingFiles,
-    removedExistingFiles,
-    formSetValue,
-    setRemovedExistingFile,
-    ...props
-  }: FileUploadProps & {
-    ref: React.RefObject<HTMLInputElement>;
-  }
-) => {
+const FileUpload = ({
+  ref,
+  formFiles,
+  existingFiles,
+  removedExistingFiles,
+  formSetValue,
+  setRemovedExistingFile,
+  ...props
+}: FileUploadProps & {
+  ref: React.RefObject<HTMLInputElement>
+}) => {
   const formFilesArray = formFiles ? Array.from(formFiles) : []
 
   const handleRemoveFile = (fileToRemove: File) => {
@@ -50,10 +48,7 @@ const FileUpload = (
       </div>
       {formFilesArray.length > 0 &&
         formFilesArray.map((file) => (
-          <Badge
-            key={file.name}
-            className='max-w-full rounded-full mt-2 mr-2'
-          >
+          <Badge key={file.name} className='max-w-full rounded-full mt-2 mr-2'>
             <span className='truncate'>{file.name}</span>
             <X
               className='ml-2 h-4 w-4'
@@ -64,10 +59,7 @@ const FileUpload = (
       {existingFiles?.map((file) => {
         if (!removedExistingFiles?.includes(file)) {
           return (
-            <Badge
-              key={file.id}
-              className='max-w-full rounded-full mt-2 mr-2'
-            >
+            <Badge key={file.id} className='max-w-full rounded-full mt-2 mr-2'>
               <span className='truncate'>{file.name}</span>
               <X
                 className='ml-2 h-4 w-4'
