@@ -28,7 +28,7 @@ export function RatingCard({ rating, startTransition }: RatingCardProps) {
   })
 
   return (
-    <Card>
+    <Card className='py-0'>
       <Accordion type='single' collapsible className='px-4'>
         <AccordionItem value={rating.id} className='border-b-0'>
           <AccordionTrigger>
