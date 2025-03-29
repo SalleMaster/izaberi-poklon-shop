@@ -62,8 +62,8 @@ export function BannersSkeleton() {
     <Carousel>
       <CarouselContent>
         <CarouselItem>
-          <Skeleton className='hidden md:block w-full rounded-none aspect-[10/3]' />
-          <Skeleton className='md:hidden w-full rounded-none aspect-[3/5]' />
+          <Skeleton className='hidden md:block w-full rounded-none aspect-10/3' />
+          <Skeleton className='md:hidden w-full rounded-none aspect-3/5' />
         </CarouselItem>
       </CarouselContent>
       <CarouselControls />

@@ -78,7 +78,7 @@ function ProductRatingFormCard({
   startTransition: TransitionStartFunction
 }) {
   return (
-    <Card>
+    <Card className='py-0'>
       <Accordion type='single' collapsible className='px-4'>
         <AccordionItem
           value={productId || 'create-product-rating'}
