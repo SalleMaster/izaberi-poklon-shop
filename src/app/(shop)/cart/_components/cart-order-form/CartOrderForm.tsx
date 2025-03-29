@@ -270,9 +270,9 @@ export function CartOrderForm({
                             <FormControl>
                               <RadioGroupItem value={OrderPaymentType.card} />
                             </FormControl>
-                            <FormLabel>
-                              Online plaćanje <br />
-                              <FormDescription className='mt-2'>
+                            <FormLabel className='flex-col items-start gap-1'>
+                              Online plaćanje
+                              <FormDescription>
                                 Visa, MasterCard, Maestro
                               </FormDescription>
                             </FormLabel>
