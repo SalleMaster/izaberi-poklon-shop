@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { ImageUp, X } from 'lucide-react'
 import { Media } from '@prisma/client'
+import { RefCallBack } from 'react-hook-form'
 
 export type FileUploadProps = InputHTMLAttributes<HTMLInputElement> & {
   formFiles?: FileList | null
@@ -21,7 +22,7 @@ const FileUpload = ({
   setRemovedExistingFile,
   ...props
 }: FileUploadProps & {
-  ref: React.RefObject<HTMLInputElement>
+  ref: React.RefObject<HTMLInputElement> | RefCallBack
 }) => {
   const formFilesArray = formFiles ? Array.from(formFiles) : []
 
