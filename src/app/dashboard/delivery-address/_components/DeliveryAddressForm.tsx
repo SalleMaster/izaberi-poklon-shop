@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState, useEffect, TransitionStartFunction } from 'react'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { DeliveryAddress, DeliveryAddressType } from '@prisma/client'
@@ -38,7 +38,6 @@ export function DeliveryAddressForm({
   startTransition,
 }: DeliveryAddressFormProps) {
   const [isDeleting, setIsDeleting] = useState(false)
-  const { toast } = useToast()
 
   const defaultValues = useMemo(
     () => ({
@@ -71,14 +70,11 @@ export function DeliveryAddressForm({
         startTransition(() => {})
         if (response) {
           if (response.status === 'fail') {
-            return toast({
-              variant: 'destructive',
-              description: response.message,
-            })
+            return toast.warning(response.message)
           }
 
           if (response.status === 'success') {
-            toast({ description: response.message })
+            toast.success(response.message)
           }
         }
       } else {
@@ -86,27 +82,22 @@ export function DeliveryAddressForm({
         startTransition(() => {})
         if (response) {
           if (response.status === 'fail') {
-            return toast({
-              variant: 'destructive',
-              description: response.message,
-            })
+            return toast.warning(response.message)
           }
 
           if (response.status === 'success') {
-            toast({ description: response.message })
+            toast.success(response.message)
             // Reset form after submission
             form.reset(defaultValues)
           }
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+      )
     }
   }
 
@@ -117,24 +108,19 @@ export function DeliveryAddressForm({
       startTransition(() => {})
       if (response) {
         if (response.status === 'fail') {
-          return toast({
-            variant: 'destructive',
-            description: response.message,
-          })
+          return toast.warning(response.message)
         }
 
         if (response.status === 'success') {
-          toast({ description: response.message })
+          toast.success(response.message)
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške prilikom brisanja adrese. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške prilikom brisanja adrese. Molimo pokušajte ponovo.'
+      )
     } finally {
       setIsDeleting(false)
     }

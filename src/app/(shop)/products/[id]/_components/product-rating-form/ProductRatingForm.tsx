@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useEffect, TransitionStartFunction } from 'react'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
@@ -31,8 +31,6 @@ export function ProductRatingForm({
   productId,
   startTransition,
 }: ProductRatingFormProps) {
-  const { toast } = useToast()
-
   const defaultValues = useMemo(
     () => ({
       name,
@@ -55,26 +53,21 @@ export function ProductRatingForm({
       startTransition(() => {})
       if (response) {
         if (response.status === 'fail') {
-          return toast({
-            variant: 'destructive',
-            description: response.message,
-          })
+          return toast.warning(response.message)
         }
 
         if (response.status === 'success') {
-          toast({ description: response.message })
+          toast.success(response.message)
           // Reset form after submission
           form.reset(defaultValues)
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+      )
     }
   }
 

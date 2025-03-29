@@ -74,7 +74,7 @@ export async function editCategory(
   try {
     await adminActionGuard()
 
-    const { name, active } = categorySchemaWithoutImage.parse(values)
+    const { name, active, special } = categorySchemaWithoutImage.parse(values)
     const slug = name.replace(/\s+/g, '-').toLowerCase()
 
     await prisma.category.update({
@@ -83,6 +83,7 @@ export async function editCategory(
         name,
         slug,
         active,
+        special,
         ...(mediaId && {
           image: {
             connect: {
