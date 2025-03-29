@@ -31,19 +31,14 @@ type ComboboxProps = ButtonProps & {
   withChevron?: boolean
 }
 
-export const Combobox = (
-  {
-    ref,
-    options,
-    value,
-    setValue,
-    variant = 'outline',
-    withChevron = true,
-    ...props
-  }: ComboboxProps & {
-    ref: React.RefObject<HTMLButtonElement>;
-  }
-) => {
+export function Combobox({
+  options,
+  value,
+  setValue,
+  variant = 'outline',
+  withChevron = true,
+  ...props
+}: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
 
   return (
@@ -54,7 +49,6 @@ export const Combobox = (
           role='combobox'
           aria-expanded={open}
           className='flex w-full justify-between'
-          ref={ref}
           {...props}
         >
           <span className='truncate'>
