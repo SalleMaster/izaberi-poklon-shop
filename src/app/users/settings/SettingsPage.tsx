@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { UpdateProfileValues, updateProfileSchema } from '@/lib/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from 'next-auth'
@@ -24,8 +24,6 @@ interface SettingsPageProps {
 }
 
 export default function SettingsPage({ user }: SettingsPageProps) {
-  const { toast } = useToast()
-
   const session = useSession()
 
   const form = useForm<UpdateProfileValues>({
@@ -36,14 +34,11 @@ export default function SettingsPage({ user }: SettingsPageProps) {
   async function onSubmit(data: UpdateProfileValues) {
     try {
       await updateProfile(data)
-      toast({ description: 'Profile updated.' })
+      toast.success('Profile updated.')
       session.update()
     } catch (error) {
       console.log(error)
-      toast({
-        variant: 'destructive',
-        description: 'An error occurred. Please try again.',
-      })
+      toast.warning('An error occurred. Please try again.')
     }
   }
 

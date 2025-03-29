@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFieldArray, useForm } from 'react-hook-form'
 import {
@@ -110,7 +110,7 @@ export function ProductForm({
   const [removedMedia, setRemovedMedia] = useState<Media[]>([])
   const [removedTextFields, setRemovedTextFields] = useState<string[]>([])
   const [removedImageFields, setRemovedImageFields] = useState<string[]>([])
-  const { toast } = useToast()
+
   const router = useRouter()
 
   const defaultValues = useMemo(
@@ -244,14 +244,11 @@ export function ProductForm({
         )
         if (response) {
           if (response.status === 'fail') {
-            return toast({
-              variant: 'destructive',
-              description: response.message,
-            })
+            return toast.warning(response.message)
           }
 
           if (response.status === 'success') {
-            toast({ description: response.message })
+            toast.success(response.message)
           }
         }
       } else {
@@ -280,14 +277,11 @@ export function ProductForm({
 
         if (response) {
           if (response.status === 'fail') {
-            return toast({
-              variant: 'destructive',
-              description: response.message,
-            })
+            return toast.warning(response.message)
           }
 
           if (response.status === 'success') {
-            toast({ description: response.message })
+            toast.success(response.message)
             // Reset form after submission
             form.reset(defaultValues)
             setIsSinglePrice(true)
@@ -295,13 +289,11 @@ export function ProductForm({
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+      )
     }
   }
 
@@ -311,25 +303,20 @@ export function ProductForm({
       const response = await deleteProduct(id)
       if (response) {
         if (response.status === 'fail') {
-          return toast({
-            variant: 'destructive',
-            description: response.message,
-          })
+          return toast.warning(response.message)
         }
 
         if (response.status === 'success') {
-          toast({ description: response.message })
+          toast.success(response.message)
           router.push('/dashboard/products')
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške prilikom brisanja proizvoda. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške prilikom brisanja proizvoda. Molimo pokušajte ponovo.'
+      )
     } finally {
       setIsDeleting(false)
     }

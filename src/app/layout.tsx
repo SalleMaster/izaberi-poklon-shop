@@ -3,7 +3,7 @@ import Script from 'next/script'
 import { SessionProvider } from 'next-auth/react'
 import localFont from 'next/font/local'
 import './globals.css'
-import { Toaster } from '@/components/ui/toaster'
+import { Toaster } from '@/components/ui/sonner'
 import Header from '@/components/layout/header/navigation/Header'
 import Footer from '@/components/layout/footer/Footer'
 

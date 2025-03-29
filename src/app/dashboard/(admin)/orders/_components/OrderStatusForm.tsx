@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useEffect, TransitionStartFunction } from 'react'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { OrderStatusType } from '@prisma/client'
@@ -35,8 +35,6 @@ export function OrderStatusForm({
   id,
   startTransition,
 }: Props) {
-  const { toast } = useToast()
-
   const defaultValues = useMemo(
     () => ({
       status,
@@ -58,24 +56,19 @@ export function OrderStatusForm({
       startTransition(() => {})
       if (response) {
         if (response.status === 'fail') {
-          return toast({
-            variant: 'destructive',
-            description: response.message,
-          })
+          return toast.warning(response.message)
         }
 
         if (response.status === 'success') {
-          toast({ description: response.message })
+          toast.success(response.message)
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+      )
     }
   }
 

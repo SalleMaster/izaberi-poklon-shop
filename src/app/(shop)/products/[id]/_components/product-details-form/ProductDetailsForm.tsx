@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useEffect, useState } from 'react'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { signIn } from 'next-auth/react'
@@ -51,7 +51,6 @@ type Props = {
 }
 
 export function ProductDetailsForm({ product, user }: Props) {
-  const { toast } = useToast()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const { defaultValues, quantityOptions } = useMemo(() => {
@@ -131,10 +130,7 @@ export function ProductDetailsForm({ product, user }: Props) {
       )
       if (response) {
         if (response.status === 'fail') {
-          return toast({
-            variant: 'destructive',
-            description: response.message,
-          })
+          return toast.warning(response.message)
         }
 
         if (response.status === 'success') {
@@ -144,13 +140,11 @@ export function ProductDetailsForm({ product, user }: Props) {
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+      )
     }
   }
 

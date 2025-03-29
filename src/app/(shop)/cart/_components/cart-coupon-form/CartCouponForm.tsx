@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cartApplyCoupon } from '@/app/(shop)/_actions/cart/actions'
-import { toast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 
 type Props = {
   disabled: boolean
@@ -59,24 +59,19 @@ export function CartCouponForm({
       const response = await cartApplyCoupon(data)
       if (response) {
         if (response.status === 'fail') {
-          return toast({
-            variant: 'destructive',
-            description: response.message,
-          })
+          return toast.warning(response.message)
         }
         if (response.status === 'success') {
           startTransition(() => setCurrentStep(0))
-          toast({ description: response.message })
+          toast.success(response.message)
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+      )
     }
   }
 
