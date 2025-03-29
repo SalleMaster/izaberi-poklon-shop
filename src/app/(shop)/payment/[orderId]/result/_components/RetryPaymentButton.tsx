@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { recreatePaymentCheckout } from '../_actions/actions'
 import { Loader2, RefreshCw } from 'lucide-react'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { ResponseStatus } from '@/lib/types'
 
 type Props = {
@@ -16,7 +16,6 @@ type Props = {
 export default function RetryPaymentButton({ orderId, label }: Props) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
-  const { toast } = useToast()
 
   const handleRetry = () => {
     startTransition(async () => {
@@ -26,20 +25,13 @@ export default function RetryPaymentButton({ orderId, label }: Props) {
         })
 
         if (result.status === ResponseStatus.success) {
-          toast({ description: result.message })
+          toast.success(result.message)
           router.push(result.redirectUrl)
         } else {
-          toast({
-            variant: 'destructive',
-            description: result.message,
-          })
+          toast.warning(result.message)
         }
       } catch (err) {
-        toast({
-          variant: 'destructive',
-          description:
-            'Došlo je do greške prilikom pokušaja ponovnog plaćanja.',
-        })
+        toast.warning('Došlo je do greške prilikom pokušaja ponovnog plaćanja.')
       }
     })
   }

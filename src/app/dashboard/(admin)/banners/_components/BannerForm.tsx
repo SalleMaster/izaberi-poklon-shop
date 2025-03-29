@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState, useEffect } from 'react'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Media } from '@prisma/client'
@@ -35,7 +35,6 @@ export function BannerForm({
   const [isDeleting, setIsDeleting] = useState(false)
   const [removedDesktopMedia, setRemovedDesktopMedia] = useState<Media[]>([])
   const [removedMobileMedia, setRemovedMobileMedia] = useState<Media[]>([])
-  const { toast } = useToast()
 
   const defaultValues = useMemo(
     () => ({
@@ -99,14 +98,11 @@ export function BannerForm({
         )
         if (response) {
           if (response.status === 'fail') {
-            return toast({
-              variant: 'destructive',
-              description: response.message,
-            })
+            return toast.warning(response.message)
           }
 
           if (response.status === 'success') {
-            toast({ description: response.message })
+            toast.success(response.message)
           }
         }
       } else {
@@ -122,27 +118,22 @@ export function BannerForm({
         )
         if (response) {
           if (response.status === 'fail') {
-            return toast({
-              variant: 'destructive',
-              description: response.message,
-            })
+            return toast.warning(response.message)
           }
 
           if (response.status === 'success') {
-            toast({ description: response.message })
+            toast.success(response.message)
             // Reset form after submission
             form.reset(defaultValues)
           }
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+      )
     }
   }
 
@@ -152,24 +143,19 @@ export function BannerForm({
       const response = await deleteBanner(id)
       if (response) {
         if (response.status === 'fail') {
-          return toast({
-            variant: 'destructive',
-            description: response.message,
-          })
+          return toast.warning(response.message)
         }
 
         if (response.status === 'success') {
-          toast({ description: response.message })
+          toast.success(response.message)
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške prilikom brisanja kategorije. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške prilikom brisanja kategorije. Molimo pokušajte ponovo.'
+      )
     } finally {
       setIsDeleting(false)
     }

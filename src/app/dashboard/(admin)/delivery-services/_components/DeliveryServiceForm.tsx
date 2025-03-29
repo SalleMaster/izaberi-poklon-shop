@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo, useEffect } from 'react'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { DeliveryService, Media } from '@prisma/client'
@@ -41,7 +41,6 @@ export function DeliveryServiceForm({
 }) {
   const [isDeleting, setIsDeleting] = useState(false)
   const [removedMedia, setRemovedMedia] = useState<Media[]>([])
-  const { toast } = useToast()
 
   const defaultValues = useMemo(
     () => ({
@@ -95,14 +94,11 @@ export function DeliveryServiceForm({
 
         if (response) {
           if (response.status === 'fail') {
-            return toast({
-              variant: 'destructive',
-              description: response.message,
-            })
+            return toast.warning(response.message)
           }
 
           if (response.status === 'success') {
-            toast({ description: response.message })
+            toast.success(response.message)
           }
         }
       } else {
@@ -119,27 +115,22 @@ export function DeliveryServiceForm({
 
         if (response) {
           if (response.status === 'fail') {
-            return toast({
-              variant: 'destructive',
-              description: response.message,
-            })
+            return toast.warning(response.message)
           }
 
           if (response.status === 'success') {
-            toast({ description: response.message })
+            toast.success(response.message)
             // Reset form after submission
             form.reset(defaultValues)
           }
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+      )
     }
   }
 
@@ -149,24 +140,19 @@ export function DeliveryServiceForm({
       const response = await deleteDeliveryService(id)
       if (response) {
         if (response.status === 'fail') {
-          return toast({
-            variant: 'destructive',
-            description: response.message,
-          })
+          return toast.warning(response.message)
         }
 
         if (response.status === 'success') {
-          toast({ description: response.message })
+          toast.success(response.message)
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške prilikom brisanja kurirske službe. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške prilikom brisanja kurirske službe. Molimo pokušajte ponovo.'
+      )
     } finally {
       setIsDeleting(false)
     }

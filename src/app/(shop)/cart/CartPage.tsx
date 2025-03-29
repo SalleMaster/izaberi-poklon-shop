@@ -22,7 +22,7 @@ import CartTable, {
 import CartOverview, {
   CartOverviewSkeleton,
 } from './_components/cart-overview/CartOverview'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import {
   CartCouponForm,
@@ -72,7 +72,6 @@ export default function CartPage({
   const deliveryServices = use(deliveryServicesPromise)
   const [isPending, startTransition] = useTransition()
   const [optimisticCart, setOptimisticCart] = useOptimistic(cart)
-  const { toast } = useToast()
   const [currentStep, setCurrentStep] = useState(0)
   const router = useRouter()
 
@@ -151,24 +150,19 @@ export default function CartPage({
       startTransition(() => {})
       if (response) {
         if (response.status === 'fail') {
-          return toast({
-            variant: 'destructive',
-            description: response.message,
-          })
+          return toast.warning(response.message)
         }
         if (response.status === 'success') {
-          toast({ description: response.message })
+          toast.success(response.message)
           router.push(response.redirectUrl)
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+      )
     } finally {
       setCurrentStep(0)
     }
@@ -199,24 +193,19 @@ export default function CartPage({
 
       if (response) {
         if (response.status === 'fail') {
-          return toast({
-            variant: 'destructive',
-            description: response.message,
-          })
+          return toast.warning(response.message)
         }
 
         if (response.status === 'success') {
-          toast({ description: response.message })
+          toast.success(response.message)
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+      )
     }
   }
 
@@ -234,24 +223,19 @@ export default function CartPage({
       const response = await removeCartItem({ id })
       if (response) {
         if (response.status === 'fail') {
-          return toast({
-            variant: 'destructive',
-            description: response.message,
-          })
+          return toast.warning(response.message)
         }
 
         if (response.status === 'success') {
-          toast({ description: response.message })
+          toast.success(response.message)
         }
       }
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'Došlo je do greške. Molimo pokušajte ponovo.',
-      })
+      toast.warning(
+        error instanceof Error
+          ? error.message
+          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+      )
     }
   }
 
