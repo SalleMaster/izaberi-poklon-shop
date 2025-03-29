@@ -23,8 +23,8 @@ export default function RatingsPage({ ratingsPromise }: Props) {
       className={cn(
         'space-y-10',
         isPending && 'animate-pulse',
-        'group-has-[[data-pending-ratings]]:animate-pulse',
-        'group-has-[[data-pending-pagination]]:animate-pulse'
+        'group-has-data-pending-ratings:animate-pulse',
+        'group-has-data-pending-pagination:animate-pulse'
       )}
     >
       <div className='space-y-3'>

@@ -78,7 +78,7 @@ export function CartItemRow({
           />
         </Link>
 
-        <div className='flex flex-col gap-2.5 sm:flex-row sm:gap-4 sm:items-center flex-grow'>
+        <div className='flex flex-col gap-2.5 sm:flex-row sm:gap-4 sm:items-center grow'>
           <Link
             href={`pokloni/${cartItem.product.id}`}
             className='flex gap-4 items-center'
@@ -90,7 +90,7 @@ export function CartItemRow({
             control={form.control}
             name='quantity'
             render={() => (
-              <FormItem className='flex space-y-0 border rounded-md shadow-sm mr-auto sm:mx-auto'>
+              <FormItem className='flex space-y-0 border rounded-md shadow-xs mr-auto sm:mx-auto'>
                 <FormControl>
                   <Button
                     type='button'

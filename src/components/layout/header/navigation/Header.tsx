@@ -13,7 +13,7 @@ export default function Header() {
   const activeCategoriesPromise = getActiveCategories()
 
   return (
-    <header className='sticky top-0 bg-background shadow-sm z-10'>
+    <header className='sticky top-0 bg-background shadow-xs z-10'>
       <nav>
         <Suspense fallback={<NavTopSkeleton />}>
           <NavTop

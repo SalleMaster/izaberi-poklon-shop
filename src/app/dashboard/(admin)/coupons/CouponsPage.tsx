@@ -69,7 +69,7 @@ export default async function CouponsPage() {
 
 function CouponCard({ coupon }: { coupon?: Coupon | null }) {
   return (
-    <Card>
+    <Card className='py-0'>
       <Accordion type='single' collapsible className='px-4'>
         <AccordionItem
           value={coupon?.id || 'create-coupon'}

@@ -65,7 +65,7 @@ export default async function DiscountsPage() {
 
 function DiscountCard({ discount }: { discount?: Discount | null }) {
   return (
-    <Card>
+    <Card className='py-0'>
       <Accordion type='single' collapsible className='px-4'>
         <AccordionItem
           value={discount?.id || 'create-discount'}

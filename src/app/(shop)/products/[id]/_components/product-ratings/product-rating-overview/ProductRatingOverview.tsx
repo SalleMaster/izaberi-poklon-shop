@@ -50,7 +50,7 @@ export default function ProductRatingOverview({ ratings }: Props) {
   }
 
   return (
-    <Card className='flex items-center space-x-4 p-6'>
+    <Card className='flex-row items-center space-x-4 p-6'>
       <div className='flex flex-col items-center'>
         <div className='flex items-center space-x-2'>
           <span className='text-5xl font-semibold'>{averageRating}</span>
@@ -130,7 +130,7 @@ function ReviewScoreSkeleton({ numberOfStars }: { numberOfStars: number }) {
 
 export function ProductRatingOverviewSkeleton() {
   return (
-    <Card className='flex items-center space-x-4 p-6 animate-pulse'>
+    <Card className='flex-row items-center space-x-4 p-6 animate-pulse'>
       <div className='flex flex-col items-center'>
         <div className='flex items-center space-x-2'>
           <span className='text-5xl font-semibold'>0</span>

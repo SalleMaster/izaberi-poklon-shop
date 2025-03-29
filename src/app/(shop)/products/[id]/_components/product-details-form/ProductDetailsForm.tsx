@@ -201,7 +201,7 @@ export function ProductDetailsForm({ product, user }: Props) {
             control={form.control}
             name='quantity'
             render={() => (
-              <FormItem className='flex space-y-0 border rounded-md shadow-sm mr-auto'>
+              <FormItem className='flex space-y-0 border rounded-md shadow-xs mr-auto'>
                 <FormControl>
                   <Button
                     type='button'

@@ -64,7 +64,7 @@ export function OrderCard({
       order.status === OrderStatusType.delivered)
 
   return (
-    <Card>
+    <Card className='py-0'>
       <Accordion
         type='single'
         collapsible
