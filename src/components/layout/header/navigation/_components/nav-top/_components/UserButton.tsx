@@ -26,6 +26,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { UserRoleType } from '@prisma/client'
 
 type UserButtonProps = {
@@ -79,16 +80,19 @@ export default function UserButton({ user }: UserButtonProps) {
       <DropdownMenuContent className='w-56'>
         <DropdownMenuLabel>{user.name || 'User'}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          {menuOptions.map((link) => (
-            <DropdownMenuItem key={link.href} asChild>
-              <Link href={link.href}>
-                <link.icon className='mr-2 h-4 w-4' />
-                <span>{link.text}</span>
-              </Link>
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuGroup>
+        <ScrollArea className='h-[40vh] md:h-full'>
+          <DropdownMenuGroup>
+            {menuOptions.map((link) => (
+              <DropdownMenuItem key={link.href} asChild>
+                <Link href={link.href}>
+                  <link.icon className='mr-2 h-4 w-4' />
+                  <span>{link.text}</span>
+                </Link>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuGroup>
+        </ScrollArea>
+
         {isAdmin ? (
           <>
             <DropdownMenuSeparator />

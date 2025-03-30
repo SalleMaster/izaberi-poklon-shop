@@ -58,6 +58,13 @@ export function OrdersPageSkeleton() {
         <OrderCardSkeleton />
         <OrderCardSkeleton />
         <OrderCardSkeleton />
+        <OrderCardSkeleton />
+        <OrderCardSkeleton />
+        <OrderCardSkeleton />
+        <OrderCardSkeleton />
+        <OrderCardSkeleton />
+        <OrderCardSkeleton />
+        <OrderCardSkeleton />
       </div>
     </div>
   )

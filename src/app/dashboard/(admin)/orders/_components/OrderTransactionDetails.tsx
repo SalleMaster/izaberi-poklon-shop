@@ -29,11 +29,11 @@ export default function OrderTransactionDetails({
       <div className='grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4'>
         <div>
           <p className='font-semibold'>ID transakcije</p>
-          <p className='text-muted-foreground break-words'>{paymentId}</p>
+          <p className='text-muted-foreground break-all'>{paymentId}</p>
         </div>
         <div>
           <p className='font-semibold'>Checkout ID</p>
-          <p className='text-muted-foreground break-words'>{checkoutId}</p>
+          <p className='text-muted-foreground break-all'>{checkoutId}</p>
         </div>
         <div>
           <p className='font-semibold'>Status transakcije</p>

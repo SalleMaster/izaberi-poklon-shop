@@ -3,12 +3,14 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import React, { use, useOptimistic, useTransition } from 'react'
 import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import Link from 'next/link'
 import { shopInfo } from '@/lib/consts'
 import { CategoryWithImage } from '@/data/services/category'
@@ -17,6 +19,7 @@ import useCreateQueryString from '@/hooks/use-create-query-string'
 import CategoriesList, {
   CategoriesListSkeleton,
 } from './_components/CategoriesList'
+import { cn } from '@/lib/utils'
 
 type Props = {
   categoriesPromise: Promise<CategoryWithImage[]>
@@ -48,18 +51,52 @@ export default function NavbarMenu({ categoriesPromise }: Props) {
               Pokloni
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className='max-h-[75vh] w-[90vw] overflow-y-auto md:px-4 md:w-72'>
+          <DropdownMenuContent className='w-[90vw] md:px-4 md:w-72'>
             <DropdownMenuLabel>Kategorije</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <CategoriesList
-              categories={categories}
-              pathname={pathname}
-              optimisticCategory={optimisticCategory}
-              pageUrl={pageUrl}
-              setOptimisticCategories={setOptimisticCategories}
-              startTransition={startTransition}
-              createQueryString={createQueryString}
-            />
+            <ScrollArea className='h-[40vh]'>
+              <CategoriesList
+                categories={categories}
+                optimisticCategory={optimisticCategory}
+                pageUrl={pageUrl}
+                setOptimisticCategories={setOptimisticCategories}
+                startTransition={startTransition}
+                createQueryString={createQueryString}
+              />
+            </ScrollArea>
+            <DropdownMenuSeparator className='my-4' />
+            <DropdownMenuItem className='text-end' asChild>
+              <Link
+                href={`${pageUrl}?${createQueryString({ removeParams: ['kategorija', 'stranica'] })}`}
+                className={cn(
+                  pathname === pageUrl &&
+                    optimisticCategory.length === 0 &&
+                    'bg-accent text-accent-foreground'
+                )}
+                onClick={() => {
+                  startTransition(() => {
+                    setOptimisticCategories([])
+                  })
+                }}
+              >
+                Svi pokloni
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild className='text-end'>
+              <Link
+                href={'/o-nama'}
+                className={cn(
+                  pathname === '/o-nama' && 'bg-accent text-accent-foreground'
+                )}
+              >
+                O nama
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <a href={`tel:${shopInfo.phone}`}>
+                Call centar: {shopInfo.phone}
+              </a>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
         <Button className='rounded-none'>

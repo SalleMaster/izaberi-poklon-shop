@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
 import useCreateQueryString from '@/hooks/use-create-query-string'
 import { Skeleton } from '@/components/ui/skeleton'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 type CategoryWithImage = Category & {
   image: Media | null
@@ -32,38 +33,40 @@ export default function CategoriesList({ categoriesPromise, pageUrl }: Props) {
 
   return (
     <>
-      <ul data-pending-products={isPending ? '' : undefined}>
-        {categories.map((category) => (
-          <li key={category.id}>
-            <Link
-              className={cn(
-                'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50',
-                optimisticCategory?.includes(category.slug) &&
-                  'bg-accent text-accent-foreground'
-              )}
-              href={`${pageUrl}?${createQueryString({
-                addParams: [{ name: 'kategorija', value: category.slug }],
-                removeParams: ['stranica'],
-              })}`}
-              onClick={() => {
-                startTransition(() => {
-                  setOptimisticCategories([category.slug])
-                })
-              }}
-            >
-              <div className='w-6 mr-2'>
-                <Image
-                  src={category?.image?.url || fallbackImageURL}
-                  alt={category?.image?.name || 'No image'}
-                  width={24}
-                  height={24}
-                />
-              </div>
-              {category.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <ScrollArea className='h-[45vh]'>
+        <ul data-pending-products={isPending ? '' : undefined}>
+          {categories.map((category) => (
+            <li key={category.id}>
+              <Link
+                className={cn(
+                  'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50',
+                  optimisticCategory?.includes(category.slug) &&
+                    'bg-accent text-accent-foreground'
+                )}
+                href={`${pageUrl}?${createQueryString({
+                  addParams: [{ name: 'kategorija', value: category.slug }],
+                  removeParams: ['stranica'],
+                })}`}
+                onClick={() => {
+                  startTransition(() => {
+                    setOptimisticCategories([category.slug])
+                  })
+                }}
+              >
+                <div className='w-6 mr-2'>
+                  <Image
+                    src={category?.image?.url || fallbackImageURL}
+                    alt={category?.image?.name || 'No image'}
+                    width={24}
+                    height={24}
+                  />
+                </div>
+                {category.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </ScrollArea>
 
       <Separator className='my-4' />
 
@@ -87,10 +90,38 @@ export default function CategoriesList({ categoriesPromise, pageUrl }: Props) {
 
 export function CategoriesListSkeleton() {
   return (
-    <div className='space-y-1'>
-      <Skeleton className='h-[36px] w-[100%]' />
-      <Skeleton className='h-[36px] w-[100%]' />
-      <Skeleton className='h-[36px] w-[100%]' />
+    <div>
+      <ScrollArea className='h-[45vh]'>
+        <div className='space-y-1'>
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+          <Skeleton className='h-[36px] w-[100%]' />
+        </div>
+      </ScrollArea>
+
+      <Separator className='my-4' />
+
+      <Link
+        href={`/pokloni`}
+        className={cn(
+          'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50'
+        )}
+      >
+        Svi pokloni
+      </Link>
     </div>
   )
 }
