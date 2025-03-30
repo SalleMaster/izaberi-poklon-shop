@@ -55,6 +55,13 @@ export function RatingsPageSkeleton() {
         <RatingCardSkeleton />
         <RatingCardSkeleton />
         <RatingCardSkeleton />
+        <RatingCardSkeleton />
+        <RatingCardSkeleton />
+        <RatingCardSkeleton />
+        <RatingCardSkeleton />
+        <RatingCardSkeleton />
+        <RatingCardSkeleton />
+        <RatingCardSkeleton />
       </div>
     </div>
   )

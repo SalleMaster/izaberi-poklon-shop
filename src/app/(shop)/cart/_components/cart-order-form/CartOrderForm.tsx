@@ -373,7 +373,7 @@ export function CartOrderForm({
                       />
                     </FormControl>
                     <div className='space-y-2 leading-none'>
-                      <FormLabel>
+                      <FormLabel className='block'>
                         Slažem se sa{' '}
                         <Link
                           href='/uslovi-koriscenja'
