@@ -228,7 +228,7 @@ export default function ProductsHeader({ pageUrl }: Props) {
 
       <div className='hidden md:block'>{filters}</div>
 
-      <Card className='md:hidden'>
+      <Card className='md:hidden py-0'>
         <Accordion type='single' collapsible className='px-4'>
           <AccordionItem value='item-1' className='border-b-0'>
             <AccordionTrigger>

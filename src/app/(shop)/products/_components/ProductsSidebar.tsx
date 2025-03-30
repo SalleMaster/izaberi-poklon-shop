@@ -16,7 +16,7 @@ export default async function ProductsSidebar({ pageUrl }: Props) {
   const activeCategories = getActiveCategories()
 
   return (
-    <Card className='hidden min-h-[75vh] md:block mb-auto sticky top-[120px]'>
+    <Card className='hidden md:block mb-auto sticky top-[120px]'>
       <CardHeader>
         <CardDescription>Kategorije</CardDescription>
       </CardHeader>
