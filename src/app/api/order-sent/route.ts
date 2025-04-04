@@ -1,29 +1,66 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { shopInfo } from '@/lib/consts'
-import { Resend } from 'resend'
+import { createElement } from 'react'
 import OrderSentEmail from '@/email/OrderSentEmail'
-
-const resend = new Resend(process.env.AUTH_RESEND_KEY)
+import { render } from '@react-email/render'
+import { onlinePurchaseContract, orderQuitForm } from '@/lib/consts'
 
 export async function POST(req: NextRequest) {
   try {
     const { order, orderEmail } = await req.json()
 
-    const { data, error } = await resend.emails.send({
-      from: `${shopInfo.name} <${process.env.SENDER_EMAIL}>`,
-      to: [
-        `${process.env.NODE_ENV === 'production' ? orderEmail : process.env.RECIPIENT_EMAIL}`,
-      ],
+    const emailComponent = createElement(OrderSentEmail, { order })
+    const renderedEmail = await render(emailComponent)
+
+    const body = JSON.stringify({
+      // to: recipientEmail,
+      to: orderEmail,
       subject: 'Porudžbina poslata',
-      react: OrderSentEmail({ order }),
+      body: renderedEmail,
+      // subscribed: true,
+      // name: '<string>',
+      // from: '<string>',
+      // reply: '<string>',
+      // headers: {},
+      attachments: [
+        {
+          path: orderQuitForm.url,
+          filename: orderQuitForm.fileName,
+        },
+        {
+          path: onlinePurchaseContract.url,
+          filename: onlinePurchaseContract.fileName,
+        },
+      ],
     })
 
-    if (error) {
-      return NextResponse.json({ error }, { status: 500 })
+    const plunkUrl = process.env.PLUNK_URL!
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.PLUNK_API_KEY}`,
+      },
+      body,
     }
 
-    return NextResponse.json(data)
+    const response = await fetch(plunkUrl, options)
+    const result = await response.json()
+
+    return NextResponse.json(
+      {
+        success: result.success,
+      },
+      { status: response.status }
+    )
   } catch (error) {
-    return NextResponse.json({ error }, { status: 500 })
+    return NextResponse.json(
+      {
+        success: false,
+      },
+      {
+        status: 500,
+      }
+    )
   }
 }

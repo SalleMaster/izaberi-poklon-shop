@@ -23,9 +23,11 @@ export async function updateOrderStatus(values: OrderStatusValues, id: string) {
       data,
     })
 
+    let successMessage = `Status porudžbine sačuvan.`
+
     if (data.status === OrderStatusType.shipped && data.shippingNumber) {
       // Send email
-      await fetch(`${process.env.APP_URL}/api/order-sent`, {
+      const response = await fetch(`${process.env.APP_URL}/api/order-sent`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,11 +38,17 @@ export async function updateOrderStatus(values: OrderStatusValues, id: string) {
             order.billingEmail || order.deliveryEmail || order.pickupEmail,
         }),
       })
+
+      const result = await response.json()
+
+      console.log('Response from email API:', result)
+
+      successMessage = `Status porudžbine sačuvan. ${result.success ? 'Email poslat.' : 'Greška prilikom slanja email-a.'}`
     }
 
     return {
       status: 'success',
-      message: 'Status porudžbine sačuvan.',
+      message: successMessage,
     }
   } catch (error) {
     if (error instanceof Error) {
