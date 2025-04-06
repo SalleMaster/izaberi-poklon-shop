@@ -1,9 +1,9 @@
 import 'server-only'
 
-import { unstable_noStore } from 'next/cache'
+import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
-import { slow } from '@/lib/slow'
+
 import { loggedInActionGuard, loggedInUser } from '@/lib/actionGuard'
 import {
   Cart,
@@ -59,8 +59,7 @@ export const getOrders = cache(
   }: GetOrdersProps): GetOrdersReturnType => {
     console.log('getOrders')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     await loggedInActionGuard()
 
@@ -103,8 +102,7 @@ export const getOrdersCount = cache(
   }: GetOrdersCountProps): GetOrdersCountReturnType => {
     console.log('getOrdersCount')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     await loggedInActionGuard()
 
@@ -138,8 +136,7 @@ export const getOrder = cache(
   async ({ id, userId, userRole }: GetOrderProps): GetOrderReturnType => {
     console.log('getOrder')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     await loggedInActionGuard()
 
@@ -167,8 +164,7 @@ export const getOrderedProductIds = cache(
   async (): GetOrderedProductIdsReturnType => {
     console.log('getOrderedProductIds')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     const { userId } = await loggedInUser()
 
