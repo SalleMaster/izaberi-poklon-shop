@@ -1,9 +1,9 @@
 import 'server-only'
 
-import { unstable_noStore } from 'next/cache'
+import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
-import { slow } from '@/lib/slow'
+
 import { Media, Product, Rating, RatingStatusType, User } from '@prisma/client'
 import { adminActionGuard, loggedInUser } from '@/lib/actionGuard'
 
@@ -21,8 +21,7 @@ export const getProductRatings = cache(
   }: GetProductRatingsProps): GetProductRatingsReturnType => {
     console.log('getProductRatings')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     return await prisma.rating.findMany({
       where: {
@@ -45,8 +44,7 @@ export const getProductAlreadyRated = cache(
   }: GetProductAlreadyRatedProps): GetProductAlreadyRatedReturnType => {
     console.log('getProductAlreadyRated')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     const { userId } = await loggedInUser()
 
@@ -91,8 +89,7 @@ export const getRatings = cache(
   }: GetRatingsProps): GetRatingsReturnType => {
     console.log('getRatings')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     await adminActionGuard()
 
@@ -132,8 +129,7 @@ export const getRatingsCount = cache(
   async ({ status }: GetRatingsCountProps): GetRatingsCountReturnType => {
     console.log('getRatingsCount')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     await adminActionGuard()
 
