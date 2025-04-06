@@ -5,7 +5,6 @@ import { cache } from 'react'
 import prisma from '@/lib/db'
 
 import { loggedInActionGuard, loggedInUser } from '@/lib/actionGuard'
-import { subDays } from 'date-fns'
 import {
   CartItem,
   Media,
@@ -14,7 +13,6 @@ import {
   Cart,
   Coupon,
 } from '@prisma/client'
-import { updateCartOverviewData } from '@/app/(shop)/_actions/cart/actions'
 
 export type CartItemWithRelations = CartItem & {
   product: Product & {
