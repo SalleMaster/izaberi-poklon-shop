@@ -1,9 +1,9 @@
 import 'server-only'
 
-import { unstable_noStore } from 'next/cache'
+import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
-import { slow } from '@/lib/slow'
+
 import { loggedInActionGuard } from '@/lib/actionGuard'
 import { DeliveryAddress, UserRoleType } from '@prisma/client'
 
@@ -12,8 +12,7 @@ export type GetUserAddressesReturnType = Promise<DeliveryAddress[]>
 export const getUserAddresses = cache(async (): GetUserAddressesReturnType => {
   console.log('getUserAddresses')
 
-  unstable_noStore()
-  await slow(1000)
+  await connection()
 
   const { userId } = await loggedInActionGuard()
 
@@ -42,8 +41,7 @@ export const getUserProfile = cache(
   async ({ id }: GetUserProfileProps): GetUserProfileReturnType => {
     console.log('getUserProfile')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     const { userId, userRole } = await loggedInActionGuard()
     const isAdmin = userRole === UserRoleType.admin

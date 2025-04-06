@@ -1,9 +1,9 @@
 import 'server-only'
 
-import { unstable_noStore } from 'next/cache'
+import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
-import { slow } from '@/lib/slow'
+
 import { loggedInActionGuard, loggedInUser } from '@/lib/actionGuard'
 import { subDays } from 'date-fns'
 import {
@@ -33,8 +33,7 @@ export type GetCartReturnType = Promise<CartWithRelations | null>
 export const getCart = cache(async (): GetCartReturnType => {
   console.log('getCart')
 
-  unstable_noStore()
-  await slow(1000)
+  await connection()
 
   const { userId } = await loggedInActionGuard()
 
@@ -95,8 +94,7 @@ export const getCartItemsNumber = cache(
   async (): GetCartItemsNumberReturnType => {
     console.log('getCartItemsNumber')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     const { userId } = await loggedInUser()
 

@@ -1,9 +1,9 @@
 import 'server-only'
 
-import { unstable_noStore } from 'next/cache'
+import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
-import { slow } from '@/lib/slow'
+
 import { loggedInActionGuard } from '@/lib/actionGuard'
 import { DeliveryAddress } from '@prisma/client'
 
@@ -13,8 +13,7 @@ export const getAllDeliveryAddresses = cache(
   async (): GetDeliveryAddressesReturnType => {
     console.log('getAllDeliveryAddresses')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     const { userId } = await loggedInActionGuard()
 

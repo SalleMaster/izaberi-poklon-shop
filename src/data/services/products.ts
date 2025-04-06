@@ -1,9 +1,9 @@
 import 'server-only'
 
-import { unstable_noStore } from 'next/cache'
+import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
-import { slow } from '@/lib/slow'
+
 import {
   Category,
   Discount,
@@ -52,8 +52,7 @@ export const getProducts = cache(
   }: GetProductsProps): GetProductsReturnType => {
     console.log('getProducts')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     const products = await prisma.product.findMany({
       where: {
@@ -156,8 +155,7 @@ export const getProductsCount = cache(
   }): GetProductsCountReturnType => {
     console.log('getProductsCount')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     return await prisma.product.count({
       where: {
@@ -204,8 +202,7 @@ export const getProduct = cache(
   async ({ id }: { id: string }): GetProductReturnType => {
     console.log('getProduct')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     const product = await prisma.product.findUnique({
       where: { id },
@@ -255,8 +252,7 @@ export const getDiscountedProducts = cache(
   async ({ take }: GetDiscountedProductsProps): GetProductsReturnType => {
     console.log('getDiscountedProducts')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     const products = await prisma.product.findMany({
       where: {
@@ -311,8 +307,7 @@ export const getTrendingProducts = cache(
   async ({ take }: GetTrendingProductsProps): GetProductsReturnType => {
     console.log('getTrendingProducts')
 
-    unstable_noStore()
-    await slow(1000)
+    await connection()
 
     const products = await prisma.product.findMany({
       where: {
