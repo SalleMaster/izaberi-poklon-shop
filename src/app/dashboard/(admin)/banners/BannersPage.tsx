@@ -1,33 +1,31 @@
-import prisma from '@/lib/db'
-import Image from 'next/image'
-import { Card } from '@/components/ui/card'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
+'use client'
+
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
-import { BannerForm } from './_components/BannerForm'
-import { fallbackImageURL } from '@/lib/consts'
-import { BannerWithImageType } from '@/data/services/banners'
+import {
+  GetActiveBannersReturnType,
+  GetInactiveBannersReturnType,
+} from '@/data/services/banners'
+import { use, useEffect } from 'react'
+import BannerCard, { BannerCardSkeleton } from './_components/BannerCard'
 
-export default async function BannersPage() {
-  const activeBanners = await prisma.banner.findMany({
-    where: { active: true },
-    orderBy: { createdAt: 'desc' },
-    include: { desktopImage: true, mobileImage: true },
-  })
+type Props = {
+  activeBannersPromise: GetActiveBannersReturnType
+  inactiveBannersPromise: GetInactiveBannersReturnType
+}
 
-  const inactiveBanners = await prisma.banner.findMany({
-    where: { active: false },
-    orderBy: { createdAt: 'desc' },
-    include: { desktopImage: true, mobileImage: true },
-  })
+export default function BannersPage({
+  activeBannersPromise,
+  inactiveBannersPromise,
+}: Props) {
+  const activeBanners = use(activeBannersPromise)
+  const inactiveBanners = use(inactiveBannersPromise)
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [activeBanners, inactiveBanners])
+
   return (
     <div className='space-y-10'>
-      <h2 className='text-xl font-bold'>Baneri</h2>
-
       <div className='space-y-3'>
         <h2 className='text-lg font-medium'>Novi</h2>
         <BannerCard />
@@ -66,34 +64,27 @@ export default async function BannersPage() {
   )
 }
 
-function BannerCard({ banner }: { banner?: BannerWithImageType }) {
+export function BannersPageSkeleton() {
   return (
-    <Card className='py-0'>
-      <Accordion type='single' collapsible className='px-4'>
-        <AccordionItem
-          value={banner?.id || 'create-banner'}
-          className='border-b-0'
-        >
-          <AccordionTrigger>
-            <div className='flex items-center gap-4'>
-              <div className='w-6'>
-                <Image
-                  src={banner?.desktopImage?.url || fallbackImageURL}
-                  alt={banner?.desktopImage?.name || 'No image'}
-                  width={24}
-                  height={24}
-                />
-              </div>
-              <span className='font-semibold'>
-                {banner?.name || 'Kreiraj baner'}
-              </span>
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            <BannerForm banner={banner} />
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    </Card>
+    <div className='space-y-10'>
+      <div className='space-y-3'>
+        <h2 className='text-lg font-medium'>Novi</h2>
+        <BannerCardSkeleton />
+      </div>
+
+      <div className='space-y-3'>
+        <h2 className='text-lg font-medium'>Aktivni</h2>
+        <BannerCardSkeleton />
+        <BannerCardSkeleton />
+        <BannerCardSkeleton />
+      </div>
+
+      <div className='space-y-3'>
+        <h2 className='text-lg font-medium'>Neaktivni</h2>
+        <BannerCardSkeleton />
+        <BannerCardSkeleton />
+        <BannerCardSkeleton />
+      </div>
+    </div>
   )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useState, useEffect, TransitionStartFunction } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -27,11 +27,11 @@ import { createBanner, editBanner, deleteBanner } from '../_actions/actions'
 import { imageFileTypes } from '@/lib/validation'
 import { BannerWithImageType } from '@/data/services/banners'
 
-export function BannerForm({
-  banner,
-}: {
+type Props = {
   banner?: BannerWithImageType | null
-}) {
+}
+
+export function BannerForm({ banner }: Props) {
   const [isDeleting, setIsDeleting] = useState(false)
   const [removedDesktopMedia, setRemovedDesktopMedia] = useState<Media[]>([])
   const [removedMobileMedia, setRemovedMobileMedia] = useState<Media[]>([])
