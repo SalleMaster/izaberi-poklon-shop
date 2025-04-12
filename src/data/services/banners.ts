@@ -5,6 +5,7 @@ import { cache } from 'react'
 import prisma from '@/lib/db'
 
 import { Banner, Media } from '@prisma/client'
+import { slow } from '@/lib/slow'
 
 export type BannerWithImageType = Banner & {
   desktopImage: Media | null
@@ -22,9 +23,31 @@ export const getActiveBanners = cache(async (): GetActiveBannersReturnType => {
     where: {
       active: true,
     },
+    orderBy: { createdAt: 'desc' },
     include: {
       desktopImage: true,
       mobileImage: true,
     },
   })
 })
+
+export type GetInactiveBannersReturnType = Promise<BannerWithImageType[]>
+
+export const getInactiveBanners = cache(
+  async (): GetInactiveBannersReturnType => {
+    console.log('getInactiveBanners')
+
+    await connection()
+
+    return prisma.banner.findMany({
+      where: {
+        active: false,
+      },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        desktopImage: true,
+        mobileImage: true,
+      },
+    })
+  }
+)
