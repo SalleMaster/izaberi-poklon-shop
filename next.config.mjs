@@ -45,6 +45,14 @@ const nextConfig = {
         destination: '/dashboard/banners',
       },
       {
+        source: '/admin/korisnici',
+        destination: '/dashboard/users',
+      },
+      {
+        source: '/admin/korisnici/:id',
+        destination: '/dashboard/users/:id',
+      },
+      {
         source: '/admin/kuponi',
         destination: '/dashboard/coupons',
       },

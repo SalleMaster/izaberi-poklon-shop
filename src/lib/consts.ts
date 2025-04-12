@@ -1,4 +1,4 @@
-import { OrderStatusType, RatingStatusType } from '@prisma/client'
+import { OrderStatusType, RatingStatusType, UserRoleType } from '@prisma/client'
 import { generateQuantityOptions } from './product-utils'
 import { BadgeVariant } from '@/components/ui/badge'
 
@@ -137,3 +137,21 @@ export const onlinePurchaseContract = {
 } as const
 
 export const freeShippingThreshold = 10000 as const
+
+type UserRoleOptionsType = {
+  value: UserRoleType
+  label: string
+  variant: BadgeVariant
+}[]
+export const userRoleOptions: UserRoleOptionsType = [
+  {
+    value: UserRoleType.admin,
+    label: 'Admin',
+    variant: 'info',
+  },
+  {
+    value: UserRoleType.user,
+    label: 'Korisnik',
+    variant: 'default',
+  },
+]

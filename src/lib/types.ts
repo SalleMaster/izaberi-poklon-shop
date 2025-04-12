@@ -48,3 +48,11 @@ export const ResponseStatus = {
 
 export type ResponseStatusType =
   (typeof ResponseStatus)[keyof typeof ResponseStatus]
+
+export const UserRoleLabels = {
+  Admin: 'Admin',
+  Korisnik: 'Korisnik',
+  All: 'Sve',
+} as const
+
+export type UserRoleLabel = (typeof UserRoleLabels)[keyof typeof UserRoleLabels]
