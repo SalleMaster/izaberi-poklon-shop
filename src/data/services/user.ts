@@ -4,8 +4,8 @@ import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 
-import { loggedInActionGuard } from '@/lib/actionGuard'
-import { DeliveryAddress, UserRoleType } from '@prisma/client'
+import { adminActionGuard, loggedInActionGuard } from '@/lib/actionGuard'
+import { DeliveryAddress, User, UserRoleType } from '@prisma/client'
 
 export type GetUserAddressesReturnType = Promise<DeliveryAddress[]>
 
@@ -63,5 +63,96 @@ export const getUserProfile = cache(
     }
 
     return null
+  }
+)
+
+export type GetUsersReturnType = Promise<User[]>
+
+export type GetUsersProps = {
+  orderBy?: { createdAt: 'asc' | 'desc' }
+  role?: string | string[]
+  skip?: number
+  take?: number
+}
+
+export const getUsers = cache(
+  async ({
+    orderBy = { createdAt: 'desc' },
+    role,
+    skip,
+    take,
+  }: GetUsersProps): GetUsersReturnType => {
+    console.log('getUsers')
+
+    await connection()
+
+    await adminActionGuard()
+
+    const filterByRole = !Array.isArray(role) && role && role in UserRoleType
+
+    const users = await prisma.user.findMany({
+      where: {
+        ...(filterByRole
+          ? {
+              role: role as UserRoleType,
+            }
+          : {}),
+      },
+      skip: skip && skip > 0 ? skip : undefined,
+      take: take && take > 0 ? take : undefined,
+      orderBy,
+    })
+
+    return users
+  }
+)
+
+export type GetUsersCountReturnType = Promise<number>
+
+export type GetUsersCountProps = {
+  role?: string | string[]
+}
+
+export const getUsersCount = cache(
+  async ({ role }: GetUsersCountProps): GetUsersCountReturnType => {
+    console.log('getUsersCount')
+
+    await connection()
+
+    await adminActionGuard()
+
+    const filterByRole = !Array.isArray(role) && role && role in UserRoleType
+
+    return await prisma.user.count({
+      where: {
+        ...(filterByRole
+          ? {
+              role: role as UserRoleType,
+            }
+          : {}),
+      },
+    })
+  }
+)
+
+export type GetUserProps = {
+  id: string
+}
+
+export type GetUserReturnType = Promise<User | null>
+
+export const getUser = cache(
+  async ({ id }: GetUserProps): GetUserReturnType => {
+    console.log('getUser')
+
+    await connection()
+
+    await adminActionGuard()
+
+    return await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    })
   }
 )

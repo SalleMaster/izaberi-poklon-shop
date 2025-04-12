@@ -12,6 +12,7 @@ import {
   ReceiptEuro,
   User as UserIcon,
   Star,
+  User2,
 } from 'lucide-react'
 import { User } from 'next-auth'
 import { signOut } from 'next-auth/react'
@@ -53,6 +54,7 @@ const adminMenuOptions = [
   { href: '/admin/proizvodi/novi', text: 'Novi Proizvod', icon: Gift },
   { href: '/admin/porudzbine', text: 'Porudžbine', icon: ReceiptEuro },
   { href: '/admin/recenzije', text: 'Recenzije', icon: Star },
+  { href: '/admin/korisnici', text: 'Korisnici', icon: User2 },
 ]
 
 const userMenuOptions = [
