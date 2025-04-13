@@ -5,7 +5,6 @@ import { cache } from 'react'
 import prisma from '@/lib/db'
 
 import { Banner, Media } from '@prisma/client'
-import { slow } from '@/lib/slow'
 
 export type BannerWithImageType = Banner & {
   desktopImage: Media | null
