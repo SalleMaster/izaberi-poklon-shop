@@ -39,6 +39,24 @@ export const getActiveCategories = cache(
   }
 )
 
+export type GetInactiveCategoriesReturnType = Promise<CategoryWithImage[]>
+
+export const getInactiveCategories = cache(
+  async (): GetInactiveCategoriesReturnType => {
+    console.log('getInactiveCategories')
+
+    await connection()
+
+    const categories = await prisma.category.findMany({
+      where: { active: false },
+      orderBy: { createdAt: 'desc' },
+      include: { image: true },
+    })
+
+    return categories
+  }
+)
+
 export const getSpecialCategories = cache(async () => {
   console.log('getSpecialCategories')
 
