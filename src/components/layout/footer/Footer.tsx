@@ -1,4 +1,4 @@
-import { getSpecialCategories } from '@/data/services/category'
+import { getCategories } from '@/data/services/category'
 import { Suspense } from 'react'
 import FooterLinks from './_components/FooterLinks'
 import SpecialCategories, {
@@ -50,7 +50,10 @@ const profileLinks = [
 ]
 
 export default function Footer() {
-  const specialCategoriesPromise = getSpecialCategories()
+  const specialCategoriesPromise = getCategories({
+    special: true,
+    active: true,
+  })
 
   const year = new Date().getFullYear()
 

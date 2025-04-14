@@ -1,10 +1,10 @@
 import { Suspense } from 'react'
-import { getActiveBanners } from '@/data/services/banners'
+import { getBanners } from '@/data/services/banners'
 import {
   getDiscountedProducts,
   getTrendingProducts,
 } from '@/data/services/products'
-import { getActiveCategories } from '@/data/services/category'
+import { getCategories } from '@/data/services/category'
 import { BannersSkeleton } from '@/components/layout/banners/BannersCarousel'
 import Banners from '@/components/layout/banners/Banners'
 import Benefits from '@/components/layout/benefits/Benefits'
@@ -16,10 +16,10 @@ import Categories, {
 } from '@/components/layout/categories/Categories'
 
 export default function Landing() {
-  const bannersPromise = getActiveBanners()
+  const bannersPromise = getBanners({ active: true })
   const discountedProductsPromise = getDiscountedProducts({ take: 10 })
   const trendingProductsPromise = getTrendingProducts({ take: 10 })
-  const categoriesPromise = getActiveCategories()
+  const categoriesPromise = getCategories({ active: true })
 
   return (
     <div className='flex flex-col gap-20'>

@@ -21,7 +21,6 @@ export default async function NewProductPage() {
 
   return (
     <div className='space-y-10'>
-      <h2 className='text-xl font-bold'>Novi Proizvod</h2>
       <Card>
         <CardHeader>
           <CardTitle>Kreiraj proizvod</CardTitle>

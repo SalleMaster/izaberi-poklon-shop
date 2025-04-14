@@ -5,23 +5,30 @@ import { cache } from 'react'
 import prisma from '@/lib/db'
 
 import { loggedInActionGuard } from '@/lib/actionGuard'
-import { DeliveryService } from '@prisma/client'
+import { DeliveryService, Media } from '@prisma/client'
 
-export type GetDeliveryServicesReturnType = Promise<DeliveryService[]>
+export type DeliveryServiceWithPdf = DeliveryService & {
+  pdf: Media | null
+}
 
-export const getAllDeliveryServices = cache(
-  async (): GetDeliveryServicesReturnType => {
-    console.log('getAllDeliveryServices')
+export type GetDeliveryServicesReturnType = Promise<DeliveryServiceWithPdf[]>
+
+type Props = {
+  active: boolean
+}
+
+export const getDeliveryServices = cache(
+  async ({ active }: Props): GetDeliveryServicesReturnType => {
+    console.log('getDeliveryServices')
 
     await connection()
 
     await loggedInActionGuard()
 
-    const deliveryServices = await prisma.deliveryService.findMany({
-      where: { active: true },
+    return await prisma.deliveryService.findMany({
+      where: { active },
+      include: { pdf: true },
       orderBy: { updatedAt: 'desc' },
     })
-
-    return deliveryServices
   }
 )

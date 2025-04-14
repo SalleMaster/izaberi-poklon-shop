@@ -1,24 +1,20 @@
 import prisma from '@/lib/db'
-import { Card } from '@/components/ui/card'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
-import { PackagePlus } from 'lucide-react'
-import { PackageOptionForm } from './_components/PackageOptionForm'
-import { PackageOption } from '@prisma/client'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
+import PackageOptionCard, {
+  PackageOptionCardSkeleton,
+} from './_components/PackageOptionCard'
+import { GetPackageOptionsReturnType } from '@/data/services/packageOptions'
+import { use } from 'react'
 
-export default async function PackageOptionsPage() {
-  const packageOptions = await prisma.packageOption.findMany({
-    orderBy: { updatedAt: 'desc' },
-  })
+type Props = {
+  packageOptionsPromise: GetPackageOptionsReturnType
+}
+
+export default function PackageOptionsPage({ packageOptionsPromise }: Props) {
+  const packageOptions = use(packageOptionsPromise)
+
   return (
     <div className='space-y-10'>
-      <h2 className='text-xl font-bold'>Poklon pakovanja</h2>
-
       <div className='space-y-3'>
         <h2 className='text-lg font-medium'>Novo</h2>
         <PackageOptionCard />
@@ -45,31 +41,20 @@ export default async function PackageOptionsPage() {
   )
 }
 
-function PackageOptionCard({
-  packageOption,
-}: {
-  packageOption?: PackageOption | null
-}) {
+export function PackageOptionsPageSkeleton() {
   return (
-    <Card className='py-0'>
-      <Accordion type='single' collapsible className='px-4'>
-        <AccordionItem
-          value={packageOption?.id || 'create-package-option'}
-          className='border-b-0'
-        >
-          <AccordionTrigger>
-            <div className='flex items-center gap-4'>
-              <PackagePlus />
-              <span className='font-semibold'>
-                {packageOption?.name || 'Kreiraj poklon pakovanje'}
-              </span>
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            <PackageOptionForm packageOption={packageOption} />
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    </Card>
+    <div className='space-y-10'>
+      <div className='space-y-3'>
+        <h2 className='text-lg font-medium'>Novo</h2>
+        <PackageOptionCardSkeleton />
+      </div>
+
+      <div className='space-y-3'>
+        <h2 className='text-lg font-medium'>Kreirana</h2>
+        <PackageOptionCardSkeleton />
+        <PackageOptionCardSkeleton />
+        <PackageOptionCardSkeleton />
+      </div>
+    </div>
   )
 }

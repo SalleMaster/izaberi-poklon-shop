@@ -1,34 +1,22 @@
-import prisma from '@/lib/db'
-import { Card } from '@/components/ui/card'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
-import { Gem } from 'lucide-react'
-import { CouponForm } from './_components/CouponForm'
-import { Coupon } from '@prisma/client'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
+import { GetCouponsReturnType } from '@/data/services/coupons'
+import { use } from 'react'
+import CouponCard, { CouponCardSkeleton } from './_components/CouponCard'
 
-export default async function CouponsPage() {
-  const activeCoupons = await prisma.coupon.findMany({
-    where: {
-      active: true,
-    },
-    orderBy: { createdAt: 'desc' },
-  })
+type Props = {
+  activeCouponsPromise: GetCouponsReturnType
+  inactiveCouponsPromise: GetCouponsReturnType
+}
 
-  const inactiveCoupons = await prisma.coupon.findMany({
-    where: {
-      active: false,
-    },
-    orderBy: { createdAt: 'desc' },
-  })
+export default function CouponsPage({
+  activeCouponsPromise,
+  inactiveCouponsPromise,
+}: Props) {
+  const activeCoupons = use(activeCouponsPromise)
+  const inactiveCoupons = use(inactiveCouponsPromise)
+
   return (
     <div className='space-y-10'>
-      <h2 className='text-xl font-bold'>Kuponi</h2>
-
       <div className='space-y-3'>
         <h2 className='text-lg font-medium'>Novi</h2>
         <CouponCard />
@@ -67,27 +55,27 @@ export default async function CouponsPage() {
   )
 }
 
-function CouponCard({ coupon }: { coupon?: Coupon | null }) {
+export function CouponsPageSkeleton() {
   return (
-    <Card className='py-0'>
-      <Accordion type='single' collapsible className='px-4'>
-        <AccordionItem
-          value={coupon?.id || 'create-coupon'}
-          className='border-b-0'
-        >
-          <AccordionTrigger>
-            <div className='flex items-center gap-4'>
-              <Gem />
-              <span className='font-semibold'>
-                {coupon?.name || 'Kreiraj kupon'}
-              </span>
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            <CouponForm coupon={coupon} />
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    </Card>
+    <div className='space-y-10'>
+      <div className='space-y-3'>
+        <h2 className='text-lg font-medium'>Novi</h2>
+        <CouponCardSkeleton />
+      </div>
+
+      <div className='space-y-3'>
+        <h2 className='text-lg font-medium'>Aktivni</h2>
+        <CouponCardSkeleton />
+        <CouponCardSkeleton />
+        <CouponCardSkeleton />
+      </div>
+
+      <div className='space-y-3'>
+        <h2 className='text-lg font-medium'>Neaktivni</h2>
+        <CouponCardSkeleton />
+        <CouponCardSkeleton />
+        <CouponCardSkeleton />
+      </div>
+    </div>
   )
 }

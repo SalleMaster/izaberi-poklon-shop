@@ -5,13 +5,10 @@ import { use } from 'react'
 import { useSearchParams } from 'next/navigation'
 import FooterLinks from './FooterLinks'
 import useCreateQueryString from '@/hooks/use-create-query-string'
-
-type CategoryWithImage = Category & {
-  image: Media | null
-}
+import { GetCategoriesReturnType } from '@/data/services/category'
 
 type Props = {
-  categoriesPromise: Promise<CategoryWithImage[]>
+  categoriesPromise: GetCategoriesReturnType
 }
 
 export default function SpecialCategories({ categoriesPromise }: Props) {

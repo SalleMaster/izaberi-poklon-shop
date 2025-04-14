@@ -1,9 +1,9 @@
 import { use } from 'react'
-import { BannerWithImageType } from '@/data/services/banners'
+import { GetBannersReturnType } from '@/data/services/banners'
 import BannersCarousel from './BannersCarousel'
 
 type Props = {
-  bannersPromise: Promise<BannerWithImageType[]>
+  bannersPromise: GetBannersReturnType
 }
 
 export default function Banners({ bannersPromise }: Props) {

@@ -1,36 +1,24 @@
-import prisma from '@/lib/db'
-import { Card } from '@/components/ui/card'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
-import { Truck } from 'lucide-react'
-import { DeliveryServiceForm } from './_components/DeliveryServiceForm'
-import { DeliveryService, Media } from '@prisma/client'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
+import { GetDeliveryServicesReturnType } from '@/data/services/delivery-services'
+import { use } from 'react'
+import DeliveryServiceCard, {
+  DeliveryServiceCardSkeleton,
+} from './_components/DeliveryServiceCard'
 
-type DeliveryServiceWithPdf = DeliveryService & {
-  pdf: Media | null
+type Props = {
+  activeDeliveryServicesPromise: GetDeliveryServicesReturnType
+  inactiveDeliveryServicesPromise: GetDeliveryServicesReturnType
 }
 
-export default async function DeliveryServicesPage() {
-  const activeDeliveryServices = await prisma.deliveryService.findMany({
-    where: { active: true },
-    orderBy: { createdAt: 'desc' },
-    include: { pdf: true },
-  })
+export default function DeliveryServicesPage({
+  activeDeliveryServicesPromise,
+  inactiveDeliveryServicesPromise,
+}: Props) {
+  const activeDeliveryServices = use(activeDeliveryServicesPromise)
+  const inactiveDeliveryServices = use(inactiveDeliveryServicesPromise)
 
-  const inactiveDeliveryServices = await prisma.deliveryService.findMany({
-    where: { active: false },
-    orderBy: { createdAt: 'desc' },
-    include: { pdf: true },
-  })
   return (
     <div className='space-y-10'>
-      <h2 className='text-xl font-bold'>Kurirske Službe</h2>
-
       <div className='space-y-3'>
         <h2 className='text-lg font-medium'>Nova</h2>
         <DeliveryServiceCard />
@@ -75,31 +63,26 @@ export default async function DeliveryServicesPage() {
   )
 }
 
-function DeliveryServiceCard({
-  deliveryService,
-}: {
-  deliveryService?: DeliveryServiceWithPdf
-}) {
+export function DeliveryServicesPageSkeleton() {
   return (
-    <Card className='py-0'>
-      <Accordion type='single' collapsible className='px-4'>
-        <AccordionItem
-          value={deliveryService?.id || 'create-delivery-service'}
-          className='border-b-0'
-        >
-          <AccordionTrigger>
-            <div className='flex items-center gap-4'>
-              <Truck />
-              <span className='font-semibold'>
-                {deliveryService?.name || 'Kreiraj kurirsku službu'}
-              </span>
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            <DeliveryServiceForm deliveryService={deliveryService} />
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    </Card>
+    <div className='space-y-10'>
+      <div className='space-y-3'>
+        <h2 className='text-lg font-medium'>Nova</h2>
+        <DeliveryServiceCardSkeleton />
+      </div>
+
+      <div className='space-y-3'>
+        <h2 className='text-lg font-medium'>Aktivne</h2>
+        <DeliveryServiceCardSkeleton />
+        <DeliveryServiceCardSkeleton />
+        <DeliveryServiceCardSkeleton />
+      </div>
+
+      <div className='space-y-3'>
+        <h2 className='text-lg font-medium'>Neaktivne</h2>
+        <DeliveryServiceCardSkeleton />
+        <DeliveryServiceCardSkeleton />
+      </div>
+    </div>
   )
 }

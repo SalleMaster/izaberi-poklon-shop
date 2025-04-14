@@ -5,41 +5,41 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Card } from '@/components/ui/card'
-import Image from 'next/image'
-import { BannerForm } from './BannerForm'
 import { fallbackImageURL } from '@/lib/consts'
-import { BannerWithImageType } from '@/data/services/banners'
+import Image from 'next/image'
+import { CategoryForm } from './CategoryForm'
+import { CategoryWithImage } from '@/data/services/category'
 import { Skeleton } from '@/components/ui/skeleton'
 
 type Props = {
-  banner?: BannerWithImageType
+  category?: CategoryWithImage
 }
 
-export default function BannerCard({ banner }: Props) {
+export default function CategoryCard({ category }: Props) {
   return (
     <Card className='py-0'>
       <Accordion type='single' collapsible className='px-4'>
         <AccordionItem
-          value={banner?.id || 'create-banner'}
+          value={category?.id || 'create-category'}
           className='border-b-0'
         >
           <AccordionTrigger>
             <div className='flex items-center gap-4'>
-              <div className='flex items-center w-6 h-6'>
+              <div className='w-6'>
                 <Image
-                  src={banner?.desktopImage?.url || fallbackImageURL}
-                  alt={banner?.desktopImage?.name || 'No image'}
+                  src={category?.image?.url || fallbackImageURL}
+                  alt={category?.image?.name || 'No image'}
                   width={24}
                   height={24}
                 />
               </div>
               <span className='font-semibold'>
-                {banner?.name || 'Kreiraj baner'}
+                {category?.name || 'Kreiraj kategoriju'}
               </span>
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <BannerForm banner={banner} />
+            <CategoryForm category={category} />
           </AccordionContent>
         </AccordionItem>
       </Accordion>
@@ -47,10 +47,10 @@ export default function BannerCard({ banner }: Props) {
   )
 }
 
-export function BannerCardSkeleton() {
+export function CategoryCardSkeleton() {
   return (
     <Card className='p-4'>
-      <div className='w-full flex items-center gap-4 pr-4'>
+      <div className='w-full flex items-center gap-3 pr-4'>
         <div className='w-6'>
           <Image
             src={fallbackImageURL}

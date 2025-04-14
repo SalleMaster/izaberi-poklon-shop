@@ -1,6 +1,9 @@
 import { Metadata } from 'next'
-import CategoriesPage from './CategoriesPage'
+import CategoriesPage, { CategoriesPageSkeleton } from './CategoriesPage'
 import pageGuard from '@/lib/pageGuard'
+import { getCategories } from '@/data/services/category'
+import { Separator } from '@/components/ui/separator'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'Kategorije | Admin',
@@ -9,5 +12,21 @@ export const metadata: Metadata = {
 export default async function Page() {
   await pageGuard({ callbackUrl: '/admin/kategorije', adminGuard: true })
 
-  return <CategoriesPage />
+  const activeCategoriesPromise = getCategories({ active: true })
+  const inactiveCategoriesPromise = getCategories({ active: false })
+
+  return (
+    <div className='space-y-5'>
+      <h2 className='text-xl font-bold'>Kategorije</h2>
+
+      <Separator />
+
+      <Suspense fallback={<CategoriesPageSkeleton />}>
+        <CategoriesPage
+          activeCategoriesPromise={activeCategoriesPromise}
+          inactiveCategoriesPromise={inactiveCategoriesPromise}
+        />
+      </Suspense>
+    </div>
+  )
 }

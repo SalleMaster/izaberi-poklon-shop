@@ -223,7 +223,7 @@ export function BannerForm({ banner }: Props) {
               <FormControl>
                 <FileUpload
                   type='file'
-                  formFiles={form.getValues('desktopImage')}
+                  formFiles={form.watch('desktopImage')}
                   formSetValue={(values) =>
                     form.setValue('desktopImage', values, {
                       shouldValidate: true,
@@ -256,7 +256,7 @@ export function BannerForm({ banner }: Props) {
               <FormControl>
                 <FileUpload
                   type='file'
-                  formFiles={form.getValues('mobileImage')}
+                  formFiles={form.watch('mobileImage')}
                   formSetValue={(values) =>
                     form.setValue('mobileImage', values, {
                       shouldValidate: true,
