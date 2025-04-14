@@ -242,7 +242,7 @@ export function DeliveryServiceForm({
               <FormControl>
                 <FileUpload
                   type='file'
-                  formFiles={form.getValues('pdf')}
+                  formFiles={form.watch('pdf')}
                   formSetValue={(values) =>
                     form.setValue('pdf', values, { shouldValidate: true })
                   }

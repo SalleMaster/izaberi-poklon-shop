@@ -376,7 +376,7 @@ export function ProductForm({
                       label: category.name,
                     })) || []
                   }
-                  value={form.getValues('categories')}
+                  value={form.watch('categories')}
                   setValue={(value) => form.setValue('categories', value)}
                 />
               </FormControl>
@@ -480,7 +480,7 @@ export function ProductForm({
                       label: discount.name,
                     })) || []
                   }
-                  value={form.getValues('discount')}
+                  value={form.watch('discount')}
                   setValue={(value) => form.setValue('discount', value)}
                 />
               </FormControl>
@@ -633,7 +633,7 @@ export function ProductForm({
                       label: packageOption.name,
                     })) || []
                   }
-                  value={form.getValues('packageOption')}
+                  value={form.watch('packageOption')}
                   setValue={(value) => form.setValue('packageOption', value)}
                 />
               </FormControl>
@@ -652,7 +652,7 @@ export function ProductForm({
               <FormControl>
                 <FileUpload
                   type='file'
-                  formFiles={form.getValues('coverImage')}
+                  formFiles={form.watch('coverImage')}
                   formSetValue={(values) =>
                     form.setValue('coverImage', values, {
                       shouldValidate: true,
@@ -683,7 +683,7 @@ export function ProductForm({
                 <FileUpload
                   type='file'
                   multiple
-                  formFiles={form.getValues('images')}
+                  formFiles={form.watch('images')}
                   formSetValue={(values) =>
                     form.setValue('images', values, { shouldValidate: true })
                   }

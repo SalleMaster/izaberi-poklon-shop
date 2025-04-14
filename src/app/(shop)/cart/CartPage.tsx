@@ -48,12 +48,12 @@ import CartOrderSteps, {
   CartOrderStepsSkeleton,
 } from './_components/cart-order-steps/CartOrderSteps'
 import { orderSteps } from '@/lib/consts'
-import { GetActiveDeliveryServicesReturnType } from '@/data/services/delivery-services'
+import { GetDeliveryServicesReturnType } from '@/data/services/delivery-services'
 
 type Props = {
   cartPromise: GetCartReturnType
   userAddressesPromise: GetUserAddressesReturnType
-  deliveryServicesPromise: GetActiveDeliveryServicesReturnType
+  deliveryServicesPromise: GetDeliveryServicesReturnType
   userName: string
   userEmail: string
   userPhone: string
