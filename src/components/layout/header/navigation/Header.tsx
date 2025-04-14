@@ -4,13 +4,13 @@ import NavBottom, {
 } from './_components/nav-bottom/NavBottom'
 import NavTop, { NavTopSkeleton } from './_components/nav-top/NavTop'
 import getSession from '@/lib/getSession'
-import { getActiveCategories } from '@/data/services/category'
+import { getCategories } from '@/data/services/category'
 import { getCartItemsNumber } from '@/data/services/cart'
 
 export default function Header() {
   const sessionPromise = getSession()
   const cartItemsNumberPromise = getCartItemsNumber()
-  const activeCategoriesPromise = getActiveCategories()
+  const activeCategoriesPromise = getCategories({ active: true })
 
   return (
     <header className='sticky top-0 bg-background shadow-xs z-10'>

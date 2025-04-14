@@ -4,33 +4,35 @@ import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 
-import { Category, Media } from '@prisma/client'
-
-export const getAllCategories = cache(async () => {
-  console.log('getAllCategories')
-
-  await connection()
-
-  const categories = await prisma.category.findMany({
-    orderBy: { createdAt: 'desc' },
-    include: { image: true },
-  })
-
-  return categories
-})
+import { Category, Media, Prisma } from '@prisma/client'
 
 export type CategoryWithImage = Category & { image: Media | null }
 
-export type GetActiveCategoriesReturnType = Promise<CategoryWithImage[]>
+export type GetCategoriesReturnType = Promise<CategoryWithImage[]>
 
-export const getActiveCategories = cache(
-  async (): GetActiveCategoriesReturnType => {
-    console.log('getActiveCategories')
+type Props = {
+  active?: boolean
+  special?: boolean
+}
+
+export const getCategories = cache(
+  async ({ active, special }: Props): GetCategoriesReturnType => {
+    console.log('getCategories')
 
     await connection()
 
+    const where: Prisma.CategoryWhereInput = {}
+
+    if (active !== undefined) {
+      where.active = active
+    }
+
+    if (special !== undefined) {
+      where.special = special
+    }
+
     const categories = await prisma.category.findMany({
-      where: { active: true },
+      where,
       orderBy: { createdAt: 'desc' },
       include: { image: true },
     })
@@ -38,35 +40,3 @@ export const getActiveCategories = cache(
     return categories
   }
 )
-
-export type GetInactiveCategoriesReturnType = Promise<CategoryWithImage[]>
-
-export const getInactiveCategories = cache(
-  async (): GetInactiveCategoriesReturnType => {
-    console.log('getInactiveCategories')
-
-    await connection()
-
-    const categories = await prisma.category.findMany({
-      where: { active: false },
-      orderBy: { createdAt: 'desc' },
-      include: { image: true },
-    })
-
-    return categories
-  }
-)
-
-export const getSpecialCategories = cache(async () => {
-  console.log('getSpecialCategories')
-
-  await connection()
-
-  const categories = await prisma.category.findMany({
-    where: { active: true, special: true },
-    orderBy: { createdAt: 'desc' },
-    include: { image: true },
-  })
-
-  return categories
-})

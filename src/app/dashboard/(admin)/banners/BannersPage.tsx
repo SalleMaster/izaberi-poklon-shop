@@ -1,16 +1,13 @@
 'use client'
 
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
-import {
-  GetActiveBannersReturnType,
-  GetInactiveBannersReturnType,
-} from '@/data/services/banners'
+import { GetBannersReturnType } from '@/data/services/banners'
 import { use, useEffect } from 'react'
 import BannerCard, { BannerCardSkeleton } from './_components/BannerCard'
 
 type Props = {
-  activeBannersPromise: GetActiveBannersReturnType
-  inactiveBannersPromise: GetInactiveBannersReturnType
+  activeBannersPromise: GetBannersReturnType
+  inactiveBannersPromise: GetBannersReturnType
 }
 
 export default function BannersPage({

@@ -11,36 +11,21 @@ export type BannerWithImageType = Banner & {
   mobileImage: Media | null
 }
 
-export type GetActiveBannersReturnType = Promise<BannerWithImageType[]>
+export type GetBannersReturnType = Promise<BannerWithImageType[]>
 
-export const getActiveBanners = cache(async (): GetActiveBannersReturnType => {
-  console.log('getActiveBanners')
+type Props = {
+  active: boolean
+}
 
-  await connection()
-
-  return prisma.banner.findMany({
-    where: {
-      active: true,
-    },
-    orderBy: { createdAt: 'desc' },
-    include: {
-      desktopImage: true,
-      mobileImage: true,
-    },
-  })
-})
-
-export type GetInactiveBannersReturnType = Promise<BannerWithImageType[]>
-
-export const getInactiveBanners = cache(
-  async (): GetInactiveBannersReturnType => {
-    console.log('getInactiveBanners')
+export const getBanners = cache(
+  async ({ active }: Props): GetBannersReturnType => {
+    console.log('getBanners')
 
     await connection()
 
     return prisma.banner.findMany({
       where: {
-        active: false,
+        active,
       },
       orderBy: { createdAt: 'desc' },
       include: {

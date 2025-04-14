@@ -29,15 +29,12 @@ import {
   deleteDeliveryService,
 } from '../_actions/actions'
 import { pdfFileTypes } from '@/lib/validation'
-
-type DeliveryServiceWithPdf = DeliveryService & {
-  pdf: Media | null
-}
+import { DeliveryServiceWithPdf } from '@/data/services/delivery-services'
 
 export function DeliveryServiceForm({
   deliveryService,
 }: {
-  deliveryService?: DeliveryServiceWithPdf | null
+  deliveryService?: DeliveryServiceWithPdf
 }) {
   const [isDeleting, setIsDeleting] = useState(false)
   const [removedMedia, setRemovedMedia] = useState<Media[]>([])

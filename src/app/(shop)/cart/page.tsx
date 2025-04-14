@@ -3,7 +3,7 @@ import { getCart } from '@/data/services/cart'
 import CartPage, { CartPageSkeleton } from './CartPage'
 import pageGuard from '@/lib/pageGuard'
 import { getUserAddresses } from '@/data/services/user'
-import { getAllDeliveryServices } from '@/data/services/delivery-services'
+import { getActiveDeliveryServices } from '@/data/services/delivery-services'
 
 export default async function Page() {
   const { userName, userEmail, userPhone } = await pageGuard({
@@ -11,7 +11,7 @@ export default async function Page() {
   })
   const cartPromise = getCart()
   const userAddressesPromise = getUserAddresses()
-  const deliveryServicesPromise = getAllDeliveryServices()
+  const deliveryServicesPromise = getActiveDeliveryServices()
 
   return (
     <Suspense fallback={<CartPageSkeleton />}>

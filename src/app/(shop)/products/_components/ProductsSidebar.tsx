@@ -5,7 +5,7 @@ import {
   CardHeader,
 } from '@/components/ui/card'
 import { Suspense } from 'react'
-import { getActiveCategories } from '@/data/services/category'
+import { getCategories } from '@/data/services/category'
 import CategoriesList, { CategoriesListSkeleton } from './CategoriesList'
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 }
 
 export default async function ProductsSidebar({ pageUrl }: Props) {
-  const activeCategories = getActiveCategories()
+  const activeCategories = getCategories({ active: true })
 
   return (
     <Card className='hidden md:block mb-auto sticky top-[120px]'>

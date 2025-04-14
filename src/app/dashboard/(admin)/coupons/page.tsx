@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import CouponsPage, { CouponsPageSkeleton } from './CouponsPage'
 import pageGuard from '@/lib/pageGuard'
-import { getActiveCoupons, getInactiveCoupons } from '@/data/services/coupons'
+import { getCoupons } from '@/data/services/coupons'
 import { Separator } from '@/components/ui/separator'
 import { Suspense } from 'react'
 
@@ -15,8 +15,8 @@ export default async function Page() {
     adminGuard: true,
   })
 
-  const activeCouponsPromise = getActiveCoupons()
-  const inactiveCouponsPromise = getInactiveCoupons()
+  const activeCouponsPromise = getCoupons({ active: true })
+  const inactiveCouponsPromise = getCoupons({ active: false })
 
   return (
     <div className='space-y-5'>

@@ -1,14 +1,11 @@
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
-import {
-  GetActiveCategoriesReturnType,
-  GetInactiveCategoriesReturnType,
-} from '@/data/services/category'
+import { GetCategoriesReturnType } from '@/data/services/category'
 import { use } from 'react'
 import CategoryCard, { CategoryCardSkeleton } from './_components/CategoryCard'
 
 type Props = {
-  activeCategoriesPromise: GetActiveCategoriesReturnType
-  inactiveCategoriesPromise: GetInactiveCategoriesReturnType
+  activeCategoriesPromise: GetCategoriesReturnType
+  inactiveCategoriesPromise: GetCategoriesReturnType
 }
 
 export default function CategoriesPage({

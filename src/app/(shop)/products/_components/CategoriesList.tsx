@@ -1,7 +1,6 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import type { Category, Media } from '@prisma/client'
 import React, { use, useOptimistic, useTransition } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -11,13 +10,10 @@ import { Separator } from '@/components/ui/separator'
 import useCreateQueryString from '@/hooks/use-create-query-string'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ScrollArea } from '@/components/ui/scroll-area'
-
-type CategoryWithImage = Category & {
-  image: Media | null
-}
+import { GetCategoriesReturnType } from '@/data/services/category'
 
 type Props = {
-  categoriesPromise: Promise<CategoryWithImage[]>
+  categoriesPromise: GetCategoriesReturnType
   pageUrl: string
 }
 

@@ -1,7 +1,7 @@
 import { use } from 'react'
 import {
   CategoryWithImage,
-  GetActiveCategoriesReturnType,
+  GetCategoriesReturnType,
 } from '@/data/services/category'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -9,7 +9,7 @@ import { fallbackImageLightURL } from '@/lib/consts'
 import { Skeleton } from '@/components/ui/skeleton'
 
 type Props = {
-  categoriesPromise: GetActiveCategoriesReturnType
+  categoriesPromise: GetCategoriesReturnType
 }
 
 export default function Categories({ categoriesPromise }: Props) {

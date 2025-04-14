@@ -6,32 +6,21 @@ import prisma from '@/lib/db'
 
 import { Coupon } from '@prisma/client'
 
-export type GetActiveCouponsReturnType = Promise<Coupon[]>
+export type GetCouponsReturnType = Promise<Coupon[]>
 
-export const getActiveCoupons = cache(async (): GetActiveCouponsReturnType => {
-  console.log('getActiveCoupons')
+type Props = {
+  active: boolean
+}
 
-  await connection()
-
-  return await prisma.coupon.findMany({
-    where: {
-      active: true,
-    },
-    orderBy: { createdAt: 'desc' },
-  })
-})
-
-export type GetInactiveCouponsReturnType = Promise<Coupon[]>
-
-export const getInactiveCoupons = cache(
-  async (): GetInactiveCouponsReturnType => {
-    console.log('getInactiveCoupons')
+export const getCoupons = cache(
+  async ({ active }: Props): GetCouponsReturnType => {
+    console.log('getCoupons')
 
     await connection()
 
     return await prisma.coupon.findMany({
       where: {
-        active: false,
+        active,
       },
       orderBy: { createdAt: 'desc' },
     })

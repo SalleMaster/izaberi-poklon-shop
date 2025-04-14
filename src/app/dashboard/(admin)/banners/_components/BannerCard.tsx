@@ -50,7 +50,7 @@ export default function BannerCard({ banner }: Props) {
 export function BannerCardSkeleton() {
   return (
     <Card className='p-4'>
-      <div className='w-full flex items-center gap-3 pr-4'>
+      <div className='w-full flex items-center gap-4 pr-4'>
         <div className='w-6'>
           <Image
             src={fallbackImageURL}

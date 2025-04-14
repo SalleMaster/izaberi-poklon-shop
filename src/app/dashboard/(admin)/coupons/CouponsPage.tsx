@@ -1,14 +1,11 @@
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
-import {
-  GetActiveCouponsReturnType,
-  GetInactiveCouponsReturnType,
-} from '@/data/services/coupons'
+import { GetCouponsReturnType } from '@/data/services/coupons'
 import { use } from 'react'
 import CouponCard, { CouponCardSkeleton } from './_components/CouponCard'
 
 type Props = {
-  activeCouponsPromise: GetActiveCouponsReturnType
-  inactiveCouponsPromise: GetInactiveCouponsReturnType
+  activeCouponsPromise: GetCouponsReturnType
+  inactiveCouponsPromise: GetCouponsReturnType
 }
 
 export default function CouponsPage({
