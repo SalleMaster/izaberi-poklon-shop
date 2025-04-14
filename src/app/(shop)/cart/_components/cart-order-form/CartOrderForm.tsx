@@ -14,7 +14,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CartOrderValues } from './validation'
 import {
   DeliveryAddress,
-  DeliveryService,
   OrderDeliveryType,
   OrderPaymentType,
 } from '@prisma/client'
@@ -26,11 +25,12 @@ import { priceFormatter } from '@/lib/format'
 import Link from 'next/link'
 import { Checkbox } from '@/components/ui/checkbox'
 import { freeShippingThreshold } from '@/lib/consts'
+import { DeliveryServiceWithPdf } from '@/data/services/delivery-services'
 
 type Props = {
   userAddresses: DeliveryAddress[]
-  deliveryServices: DeliveryService[]
-  selectedDeliveryService?: DeliveryService
+  deliveryServices: DeliveryServiceWithPdf[]
+  selectedDeliveryService?: DeliveryServiceWithPdf
   deliveryFee?: number
   form: UseFormReturn<CartOrderValues>
   currentStep: number

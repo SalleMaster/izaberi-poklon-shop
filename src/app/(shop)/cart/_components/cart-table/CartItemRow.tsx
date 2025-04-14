@@ -98,13 +98,13 @@ export function CartItemRow({
                     onClick={() => {
                       form.setValue(
                         'quantity',
-                        Number(form.getValues('quantity')) - 1
+                        Number(form.watch('quantity')) - 1
                       )
                       form.handleSubmit(onSubmit)()
                     }}
                     disabled={
                       disabled ||
-                      form.getValues('quantity').toString() ===
+                      form.watch('quantity').toString() ===
                         quantityOptions[0].value
                     }
                     size={'icon'}
@@ -116,7 +116,7 @@ export function CartItemRow({
                   <div>
                     <Combobox
                       options={quantityOptions}
-                      value={form.getValues('quantity').toString()}
+                      value={form.watch('quantity').toString()}
                       setValue={(value) => {
                         form.setValue('quantity', Number(value))
                         form.handleSubmit(onSubmit)()
@@ -134,13 +134,13 @@ export function CartItemRow({
                     onClick={() => {
                       form.setValue(
                         'quantity',
-                        Number(form.getValues('quantity')) + 1
+                        Number(form.watch('quantity')) + 1
                       )
                       form.handleSubmit(onSubmit)()
                     }}
                     disabled={
                       disabled ||
-                      form.getValues('quantity').toString() ===
+                      form.watch('quantity').toString() ===
                         quantityOptions[quantityOptions.length - 1].value
                     }
                     size={'icon'}

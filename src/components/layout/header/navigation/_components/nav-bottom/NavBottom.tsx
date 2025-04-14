@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Link from 'next/link'
 import { shopInfo } from '@/lib/consts'
-import { CategoryWithImage } from '@/data/services/category'
+import { GetCategoriesReturnType } from '@/data/services/category'
 import { usePathname, useSearchParams } from 'next/navigation'
 import useCreateQueryString from '@/hooks/use-create-query-string'
 import CategoriesList, {
@@ -22,7 +22,7 @@ import CategoriesList, {
 import { cn } from '@/lib/utils'
 
 type Props = {
-  categoriesPromise: Promise<CategoryWithImage[]>
+  categoriesPromise: GetCategoriesReturnType
 }
 
 export default function NavbarMenu({ categoriesPromise }: Props) {

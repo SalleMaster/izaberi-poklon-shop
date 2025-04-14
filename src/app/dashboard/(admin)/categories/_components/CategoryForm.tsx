@@ -223,7 +223,7 @@ export function CategoryForm({
               <FormControl>
                 <FileUpload
                   type='file'
-                  formFiles={form.getValues('image')}
+                  formFiles={form.watch('image')}
                   formSetValue={(values) =>
                     form.setValue('image', values, { shouldValidate: true })
                   }

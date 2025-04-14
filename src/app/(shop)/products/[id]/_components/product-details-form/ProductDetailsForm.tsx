@@ -153,7 +153,7 @@ export function ProductDetailsForm({ product, user }: Props) {
     reset(defaultValues)
   }, [defaultValues, reset])
 
-  const personalization = form.getValues('personalization')
+  const personalization = form.watch('personalization')
 
   // Use useEffect to generate personalization fields
   useEffect(() => {
@@ -203,11 +203,11 @@ export function ProductDetailsForm({ product, user }: Props) {
                     onClick={() => {
                       form.setValue(
                         'quantity',
-                        Number(form.getValues('quantity')) - 1
+                        Number(form.watch('quantity')) - 1
                       )
                     }}
                     disabled={
-                      form.getValues('quantity').toString() ===
+                      form.watch('quantity').toString() ===
                       quantityOptions[0].value
                     }
                     size={'icon'}
@@ -219,7 +219,7 @@ export function ProductDetailsForm({ product, user }: Props) {
                   <div>
                     <Combobox
                       options={quantityOptions}
-                      value={form.getValues('quantity').toString()}
+                      value={form.watch('quantity').toString()}
                       setValue={(value) => {
                         form.setValue('quantity', Number(value))
                       }}
@@ -235,11 +235,11 @@ export function ProductDetailsForm({ product, user }: Props) {
                     onClick={() => {
                       form.setValue(
                         'quantity',
-                        Number(form.getValues('quantity')) + 1
+                        Number(form.watch('quantity')) + 1
                       )
                     }}
                     disabled={
-                      form.getValues('quantity').toString() ===
+                      form.watch('quantity').toString() ===
                       quantityOptions[quantityOptions.length - 1].value
                     }
                     size={'icon'}
@@ -346,12 +346,12 @@ export function ProductDetailsForm({ product, user }: Props) {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        {form.getValues('textPersonalizations')?.[index]?.name}:
+                        {form.watch('textPersonalizations')?.[index]?.name}:
                       </FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder={
-                            form.getValues('textPersonalizations')?.[index]
+                            form.watch('textPersonalizations')?.[index]
                               ?.placeholder
                           }
                           {...field}
@@ -374,16 +374,14 @@ export function ProductDetailsForm({ product, user }: Props) {
                   render={() => (
                     <FormItem>
                       <FormLabel>
-                        {form.getValues('imagePersonalizations')?.[index]?.name}
-                        :
+                        {form.watch('imagePersonalizations')?.[index]?.name}:
                       </FormLabel>
                       <FormControl>
                         <FileUpload
                           type='file'
                           multiple
                           formFiles={
-                            form.getValues('imagePersonalizations')?.[index]
-                              ?.images
+                            form.watch('imagePersonalizations')?.[index]?.images
                           }
                           formSetValue={(values) => {
                             form.setValue(
@@ -399,10 +397,9 @@ export function ProductDetailsForm({ product, user }: Props) {
                         />
                       </FormControl>
                       <FormDescription>
-                        {form.getValues('imagePersonalizations')?.[index]
-                          ?.min === 0
+                        {form.watch('imagePersonalizations')?.[index]?.min === 0
                           ? 'Slike za ovo polje su opcione'
-                          : `Minimalan broj slika za ovo polje: ${form.getValues('imagePersonalizations')?.[index]?.min}`}
+                          : `Minimalan broj slika za ovo polje: ${form.watch('imagePersonalizations')?.[index]?.min}`}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

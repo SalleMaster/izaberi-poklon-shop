@@ -193,9 +193,9 @@ export function CouponForm({ coupon }: { coupon?: Coupon | null }) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                {form.getValues('discountType') === DiscountType.percentage
-                  ? 'Procenat'
-                  : 'Iznos'}
+                {form.watch('discountType') === DiscountType.percentage
+                  ? 'Procenat (%)'
+                  : 'Iznos (RSD)'}
               </FormLabel>
               <FormControl>
                 <Input placeholder='Unesite vrednost kupona' {...field} />
