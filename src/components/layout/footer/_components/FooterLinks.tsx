@@ -11,7 +11,7 @@ export default function FooterLinks({ title, links }: FooterLinkGroupProps) {
       <h2 className='font-semibold mb-2.5'>{title}</h2>
       <ul className='space-y-2.5'>
         {links.map((link) => (
-          <li key={link.href}>
+          <li key={link.label}>
             {link.external ? (
               <a
                 href={link.href}
