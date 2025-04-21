@@ -9,15 +9,15 @@ import { Separator } from '@radix-ui/react-dropdown-menu'
 import Image from 'next/image'
 
 const mainLinks = [
-  { href: '/ko-smo-mi', label: 'Ko smo mi' },
-  { href: '/kako-smo-nastali', label: 'Kako smo nastali' },
-  { href: '/veleprodaja', label: 'Veleprodaja' },
-  { href: '/cesta-pitanja', label: 'Česta pitanja' },
+  { href: '/', label: 'Ko smo mi' },
+  { href: '/', label: 'Kako smo nastali' },
+  { href: '/', label: 'Veleprodaja' },
+  { href: '/', label: 'Česta pitanja' },
   { href: '/kontakt', label: 'Kontakt' },
 ]
 
 const usefulLinks = [
-  { href: '/kako-naruciti', label: 'Kako naručiti' },
+  { href: '/', label: 'Kako naručiti' },
   { href: '/nacin-isporuke', label: 'Način isporuke' },
   { href: '/politika-privatnosti', label: 'Politika privatnosti' },
   { href: orderQuitForm.url, label: 'Odustanak obrazac', external: true },

@@ -109,7 +109,7 @@ export default function NavbarMenu({ categoriesPromise }: Props) {
           Korporativni pokloni
         </Link>
         <Link
-          href={'/o-nama'}
+          href={'/'}
           className={cn(buttonVariants(), 'hidden md:block rounded-none')}
         >
           O nama
@@ -154,7 +154,7 @@ export function NavbarMenuSkeleton() {
           Korporativni pokloni
         </Link>
         <Link
-          href={'/o-nama'}
+          href={'/'}
           className={cn(buttonVariants(), 'hidden md:block rounded-none')}
         >
           O nama
