@@ -38,6 +38,7 @@ export default function BannersCarousel({ banners }: BannersCarouselProps) {
                 width={1000}
                 height={300}
                 style={{ width: '100%' }}
+                priority
                 className='hidden md:block'
               />
               <Image
@@ -46,6 +47,7 @@ export default function BannersCarousel({ banners }: BannersCarouselProps) {
                 width={300}
                 height={500}
                 style={{ width: '100%' }}
+                priority
                 className='md:hidden'
               />
             </Link>

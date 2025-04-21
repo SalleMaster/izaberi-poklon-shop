@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import React, { use, useOptimistic, useTransition } from 'react'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Link from 'next/link'
 import { shopInfo } from '@/lib/consts'
@@ -99,20 +99,30 @@ export default function NavbarMenu({ categoriesPromise }: Props) {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button className='rounded-none'>
-          <Link href={`${pageUrl}?aktuelno=da`}>Aktuelno</Link>
-        </Button>
-        <Button className='rounded-none' asChild>
-          <Link href={`${pageUrl}?kategorija=korporativni-pokloni`}>
-            Korporativni pokloni
-          </Link>
-        </Button>
-        <Button className='hidden md:block rounded-none' asChild>
-          <Link href={'/o-nama'}>O nama</Link>
-        </Button>
-        <Button className='hidden md:block rounded-none ml-auto' asChild>
-          <a href={`tel:${shopInfo.phone}`}>Call centar: {shopInfo.phone}</a>
-        </Button>
+        <Link href={`${pageUrl}?aktuelno=da`} className={buttonVariants()}>
+          Aktuelno
+        </Link>
+        <Link
+          href={`${pageUrl}?kategorija=korporativni-pokloni`}
+          className={buttonVariants()}
+        >
+          Korporativni pokloni
+        </Link>
+        <Link
+          href={'/'}
+          className={cn(buttonVariants(), 'hidden md:block rounded-none')}
+        >
+          O nama
+        </Link>
+        <a
+          href={`tel:${shopInfo.phone}`}
+          className={cn(
+            buttonVariants(),
+            'hidden md:block rounded-none ml-auto'
+          )}
+        >
+          Call centar: {shopInfo.phone}
+        </a>
       </div>
     </div>
   )
@@ -134,20 +144,30 @@ export function NavbarMenuSkeleton() {
             <CategoriesListSkeleton />
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button className='rounded-none'>
-          <Link href={`/pokloni?aktuelno=da`}>Aktuelno</Link>
-        </Button>
-        <Button className='rounded-none' asChild>
-          <Link href={`/pokloni?kategorija=korporativni-pokloni`}>
-            Korporativni pokloni
-          </Link>
-        </Button>
-        <Button className='hidden md:block rounded-none' asChild>
-          <Link href={'/o-nama'}>O nama</Link>
-        </Button>
-        <Button className='hidden md:block rounded-none ml-auto' asChild>
-          <a href={`tel:${shopInfo.phone}`}>Call centar: {shopInfo.phone}</a>
-        </Button>
+        <Link href={`/pokloni?aktuelno=da`} className={buttonVariants()}>
+          Aktuelno
+        </Link>
+        <Link
+          href={`/pokloni?kategorija=korporativni-pokloni`}
+          className={buttonVariants()}
+        >
+          Korporativni pokloni
+        </Link>
+        <Link
+          href={'/'}
+          className={cn(buttonVariants(), 'hidden md:block rounded-none')}
+        >
+          O nama
+        </Link>
+        <a
+          href={`tel:${shopInfo.phone}`}
+          className={cn(
+            buttonVariants(),
+            'hidden md:block rounded-none ml-auto'
+          )}
+        >
+          Call centar: {shopInfo.phone}
+        </a>
       </div>
     </div>
   )

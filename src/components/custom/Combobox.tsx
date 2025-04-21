@@ -49,6 +49,7 @@ export function Combobox({
           role='combobox'
           aria-expanded={open}
           className='flex w-full justify-between'
+          aria-label='Combobox'
           {...props}
         >
           <span className='truncate'>
