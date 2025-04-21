@@ -211,6 +211,7 @@ export function ProductDetailsForm({ product, user }: Props) {
                       quantityOptions[0].value
                     }
                     size={'icon'}
+                    aria-label='Decrease quantity'
                   >
                     <Minus className='h-4 w-4' />
                   </Button>
@@ -243,6 +244,7 @@ export function ProductDetailsForm({ product, user }: Props) {
                       quantityOptions[quantityOptions.length - 1].value
                     }
                     size={'icon'}
+                    aria-label='Increase quantity'
                   >
                     <Plus className='h-4 w-4' />
                   </Button>

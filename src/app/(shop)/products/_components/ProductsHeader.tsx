@@ -164,7 +164,11 @@ export default function ProductsHeader({ pageUrl }: Props) {
     <div className='space-y-4 md:space-y-0 md:flex md:space-x-4 items-center'>
       <div className='flex items-center'>
         <span className='mr-2'>Samo aktuelno:</span>
-        <Switch checked={trending} onCheckedChange={handleTrendingChange} />
+        <Switch
+          checked={trending}
+          onCheckedChange={handleTrendingChange}
+          aria-label='trending-switch'
+        />
       </div>
       <Separator className='md:hidden' />
       <div>
@@ -231,7 +235,7 @@ export default function ProductsHeader({ pageUrl }: Props) {
       <Card className='md:hidden py-0'>
         <Accordion type='single' collapsible className='px-4'>
           <AccordionItem value='item-1' className='border-b-0'>
-            <AccordionTrigger>
+            <AccordionTrigger aria-label='Filters'>
               <SlidersHorizontal />
             </AccordionTrigger>
             <AccordionContent className='space-y-4'>{filters}</AccordionContent>

@@ -1,6 +1,5 @@
 'use client'
 
-import type { Category, Media } from '@prisma/client'
 import { use } from 'react'
 import { useSearchParams } from 'next/navigation'
 import FooterLinks from './FooterLinks'
