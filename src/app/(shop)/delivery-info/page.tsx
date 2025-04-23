@@ -1,11 +1,14 @@
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import { orderQuitForm, shopInfo } from '@/lib/consts'
 import Link from 'next/link'
 
 export default function Page() {
   return (
     <div className='space-y-5'>
-      <h2 className='text-2xl'>Način isporuke</h2>
+      <h2 className='text-2xl font-semibold'>Način isporuke</h2>
+
+      <Separator />
 
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>Prijem porudžbine</p>
