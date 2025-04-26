@@ -40,8 +40,8 @@ export default function Page() {
           zaključenog na daljinu u roku od 15 dana od trenutka kada Vam je
           proizvod predat u državinu, odnosno u državinu lica kog ste kao kupac
           odredili, a nije prevoznik. Prilikom odustanka možete, ali nemate
-          obavezu da navedete razlog zbog kojeg odustajete. Kupaci i potrošači
-          su u ovom slučaju fizička lica koja proizvode kupuju radi namirenja
+          obavezu da navedete razlog zbog kojeg odustajete. Kupci i potrošači su
+          u ovom slučaju fizička lica koja proizvode kupuju radi namirenja
           svojih <span className='font-semibold'>individualnih potreba</span>, a
           ne radi obavljanja{' '}
           <span className='font-semibold'>profesionalne delatnosti</span>.
@@ -59,15 +59,24 @@ export default function Page() {
           zaključenog na daljinu i naručenih proizvoda. Kao trgovci, a u skladu
           sa navedenim zakonom, u obavezi smo da Vama, našem kupcu, bez
           odlaganja vratimo iznos koji ste platili po osnovu ugovora, a
-          najkasnije u roku od 14 dana od dana prijema proizvoda i izjave o
-          odustanku od ugovora zaključenog na daljinu. Molimo Vas kao našeg
-          kupca i korisnika interent prodavnice www.izaberipoklon.com, u slučaju
-          odustajanja od ugovora, vratite naručene proizvode bez odlaganja, a
-          najkasnije u roku od 15 dana, od dana kada ste poslali obrazac za
-          odustanak od ugovora sklopljenog na daljinu. Ukoliko po isteku roka od
-          15 dana od dana kada ste poslali izjavu o odustanku ne budete u
-          prilici da pošaljete proizvod, izgubićete mogućnost povraćaja novca i
-          proizvoda i nećemo biti u prilici da Vam zamenimo proizvod.
+          najkasnije u roku od 14 dana od dana prijema proizvoda i{' '}
+          <Link
+            href={orderQuitForm.url}
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label={orderQuitForm.label}
+            className='underline'
+          >
+            izjave o odustanku od ugovora zaključenog na daljinu
+          </Link>
+          . Molimo Vas kao našeg kupca i korisnika interent prodavnice
+          www.izaberipoklon.com, u slučaju odustajanja od ugovora, vratite
+          naručene proizvode bez odlaganja, a najkasnije u roku od 15 dana, od
+          dana kada ste poslali obrazac za odustanak od ugovora sklopljenog na
+          daljinu. Ukoliko po isteku roka od 15 dana od dana kada ste poslali
+          izjavu o odustanku ne budete u prilici da pošaljete proizvod,
+          izgubićete mogućnost povraćaja novca i proizvoda i nećemo biti u
+          prilici da Vam zamenimo proizvod.
         </p>
 
         <ul className='list-disc pl-4 space-y-3'>
@@ -76,7 +85,7 @@ export default function Page() {
               Molimo Vas da prilikom povraćaja, obavezno proizvode vratite
               nekorišćene u ispravnom stanju sa neoštećenom originalnom
               ambalažom, zajedno sa originalnim fiskalnim isečakom i pratećom
-              dokumentacijom. Po prijema proizvoda, naš korisnički servis će
+              dokumentacijom. Po prijemu proizvoda, naš korisnički servis će
               proveriti ispravnost i neoštećenost proizvoda, kako bismo Vam u
               što kraćem roku izvršili povraćaj sredstava.
             </p>
@@ -157,7 +166,7 @@ export default function Page() {
           aria-label={orderQuitForm.label}
           className='text-sm underline'
         >
-          Ugovor o odustanku možete preuzeti OVDE
+          Obrazac za odustanak od ugovora možete preuzeti OVDE
         </Link>
       </p>
 
