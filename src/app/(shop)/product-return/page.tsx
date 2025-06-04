@@ -1,11 +1,14 @@
 import { Button } from '@/components/ui/button'
-import { shopInfo } from '@/lib/consts'
+import { Separator } from '@/components/ui/separator'
+import { orderQuitForm, shopInfo } from '@/lib/consts'
 import Link from 'next/link'
 
 export default function Page() {
   return (
     <div className='space-y-5'>
-      <h2 className='text-2xl'>Povraćaj proizvoda</h2>
+      <h2 className='text-2xl font-semibold'>Povraćaj proizvoda</h2>
+
+      <Separator />
 
       <div className='space-y-3'>
         <p>
@@ -14,13 +17,13 @@ export default function Page() {
           novca nazad.
         </p>
         <p>
-          Mi u www.izaberipoklon.com internet prodavnici i preduzeću Red Dot PR
-          Milanović Zoran ulažemo dosta truda, kako bismo opisali i prikazali
-          svaki proizvod što je verodostojnije moguće. Međutim, razumemo da se
-          događa da proizvode koje primite nisu baš kao što ste očekivali. Stoga
-          smo ponosni što smo u prilici da Vam ponudimo vreme od 15 dana da se
-          predomislite za bilo koju od Vaših kupovina na našoj internet
-          prodavnici.
+          Mi u www.izaberipoklon.com internet prodavnici i preduzeću{' '}
+          {shopInfo.shortDescription} ulažemo dosta truda, kako bismo opisali i
+          prikazali svaki proizvod što je verodostojnije moguće. Međutim,
+          razumemo da se događa da proizvode koje primite nisu baš kao što ste
+          očekivali. Stoga smo ponosni što smo u prilici da Vam ponudimo vreme
+          od 15 dana da se predomislite za bilo koju od Vaših kupovina na našoj
+          internet prodavnici.
         </p>
       </div>
 
@@ -30,15 +33,15 @@ export default function Page() {
           Dragi korisnici internet prodavnice www.izaberipoklon.com, želimo da
           Vas obavestimo da se prema Zakonu o zaštiti potrošača Republike Srbije
           (Službeni glasnik RS, br. 62/2014) kupovina putem naše internet
-          prodavnice www.izaberipoklon.com{' '}
-          <span className='font-semibold'>smatra prodajom na daljinu</span>. Vi
-          kao korisnici internet prodavnice www.izaberipoklon.com, imate za
-          slučaj prodaje na daljinu pravo po Zakonu, da odustanete od ugovora
+          prodavnice www.izaberipoklon.com smatra{' '}
+          <span className='font-semibold'>prodajom na daljinu</span>. Vi kao
+          korisnici internet prodavnice www.izaberipoklon.com, imate za slučaj
+          prodaje na daljinu pravo po Zakonu, da odustanete od ugovora
           zaključenog na daljinu u roku od 15 dana od trenutka kada Vam je
           proizvod predat u državinu, odnosno u državinu lica kog ste kao kupac
           odredili, a nije prevoznik. Prilikom odustanka možete, ali nemate
-          obavezu da navedete razlog zbog kojeg odustajete. Kupaci i potrošači
-          su u ovom slučaju fizička lica koja proizvode kupuju radi namirenja
+          obavezu da navedete razlog zbog kojeg odustajete. Kupci i potrošači su
+          u ovom slučaju fizička lica koja proizvode kupuju radi namirenja
           svojih <span className='font-semibold'>individualnih potreba</span>, a
           ne radi obavljanja{' '}
           <span className='font-semibold'>profesionalne delatnosti</span>.
@@ -56,15 +59,24 @@ export default function Page() {
           zaključenog na daljinu i naručenih proizvoda. Kao trgovci, a u skladu
           sa navedenim zakonom, u obavezi smo da Vama, našem kupcu, bez
           odlaganja vratimo iznos koji ste platili po osnovu ugovora, a
-          najkasnije u roku od 14 dana od dana prijema proizvoda i izjave o
-          odustanku od ugovora zaključenog na daljinu. Molimo Vas kao našeg
-          kupca i korisnika interent prodavnice www.izaberipoklon.com, u slučaju
-          odustajanja od ugovora, vratite naručene proizvode bez odlaganja, a
-          najkasnije u roku od 15 dana, od dana kada ste poslali obrazac za
-          odustanak od ugovora sklopljenog na daljinu. Ukoliko po isteku roka od
-          15 dana od dana kada ste poslali izjavu o odustanku ne budete u
-          prilici da pošaljete proizvod, izgubićete mogućnost povraćaja novca i
-          proizvoda i nećemo biti u prilici da Vam zamenimo proizvod.
+          najkasnije u roku od 14 dana od dana prijema proizvoda i{' '}
+          <Link
+            href={orderQuitForm.url}
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label={orderQuitForm.label}
+            className='underline'
+          >
+            izjave o odustanku od ugovora zaključenog na daljinu
+          </Link>
+          . Molimo Vas kao našeg kupca i korisnika interent prodavnice
+          www.izaberipoklon.com, u slučaju odustajanja od ugovora, vratite
+          naručene proizvode bez odlaganja, a najkasnije u roku od 15 dana, od
+          dana kada ste poslali obrazac za odustanak od ugovora sklopljenog na
+          daljinu. Ukoliko po isteku roka od 15 dana od dana kada ste poslali
+          izjavu o odustanku ne budete u prilici da pošaljete proizvod,
+          izgubićete mogućnost povraćaja novca i proizvoda i nećemo biti u
+          prilici da Vam zamenimo proizvod.
         </p>
 
         <ul className='list-disc pl-4 space-y-3'>
@@ -73,7 +85,7 @@ export default function Page() {
               Molimo Vas da prilikom povraćaja, obavezno proizvode vratite
               nekorišćene u ispravnom stanju sa neoštećenom originalnom
               ambalažom, zajedno sa originalnim fiskalnim isečakom i pratećom
-              dokumentacijom. Po prijema proizvoda, naš korisnički servis će
+              dokumentacijom. Po prijemu proizvoda, naš korisnički servis će
               proveriti ispravnost i neoštećenost proizvoda, kako bismo Vam u
               što kraćem roku izvršili povraćaj sredstava.
             </p>
@@ -147,23 +159,26 @@ export default function Page() {
       </div>
 
       <p className='text-xl font-semibold'>
-        Izjava o odustanku od ugovora zaključenog na daljinu možete preuzeti
-        OVDE
-      </p>
-
-      <p className='text-xl font-semibold'>
-        Ugovor o odustanku možete preuzeti OVDE
+        <Link
+          href={orderQuitForm.url}
+          target='_blank'
+          rel='noopener noreferrer'
+          aria-label={orderQuitForm.label}
+          className='text-sm underline'
+        >
+          Obrazac za odustanak od ugovora možete preuzeti OVDE
+        </Link>
       </p>
 
       <div className='space-y-2'>
         <p className='text-xl font-semibold'>NAPOMENA:</p>
-        <p className='text-xl font-semibold'>
+        <p>
           Zakon o zaštiti potrošača isključuje pravo kupca da vrati proizvod u
           određenim situacijama. Imajući u vidu asortiman proizvoda u našoj
           ponudi, od navedenih slučajeva u Zakonu, jedan slučaj je relevantan:
           Isporuka proizvoda proizvedenih prema posebnim zahtevima potrošača ili
-          jasno personalizovanih. Ovo stavka zakona se odnosi na mogućnost
-          Usluge graviranja ili štampe proizvoda.
+          jasno personalizovanih. Ova stavka zakona se odnosi na mogućnost
+          usluge graviranja ili štampe porućenog proizvoda po zahtevu kupca.
         </p>
       </div>
 

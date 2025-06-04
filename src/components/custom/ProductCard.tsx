@@ -16,7 +16,7 @@ export default async function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div className='relative flex flex-col bg-white p-4 rounded-md shadow-md text-center h-full'>
-      <Link href={`/pokloni/${product.id}`}>
+      <Link href={`/pokloni/${product.id}`} prefetch>
         {product.discount?.active && (
           <Badge className='absolute top-4 right-4 bg-secondary text-secondary-foreground'>
             -{product.discount.percentage}%

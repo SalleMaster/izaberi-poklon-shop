@@ -20,11 +20,15 @@ const usefulLinks = [
   { href: '/', label: 'Kako naručiti' },
   { href: '/nacin-isporuke', label: 'Način isporuke' },
   { href: '/politika-privatnosti', label: 'Politika privatnosti' },
-  { href: orderQuitForm.url, label: 'Odustanak obrazac', external: true },
+  { href: orderQuitForm.url, label: orderQuitForm.label, external: true },
   { href: '/reklamacije', label: 'Reklamacije' },
   {
     href: '/uslovi-koriscenja',
     label: 'Uslovi korišćenja',
+  },
+  {
+    href: '/uslovi-placanja',
+    label: 'Uslovi plaćanja',
   },
   {
     href: onlinePurchaseContract.url,
