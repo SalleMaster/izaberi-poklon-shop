@@ -133,6 +133,10 @@ const nextConfig = {
         destination: '/product-return',
       },
       {
+        source: '/uslovi-placanja',
+        destination: '/payment-policy',
+      },
+      {
         source: '/placanje/:orderId',
         destination: '/payment/:orderId',
       },

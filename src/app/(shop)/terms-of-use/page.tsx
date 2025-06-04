@@ -1,11 +1,14 @@
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import { shopInfo } from '@/lib/consts'
 import Link from 'next/link'
 
 export default function Page() {
   return (
     <div className='space-y-5'>
-      <h2 className='text-2xl'>Uslovi korišćenja</h2>
+      <h2 className='text-2xl font-semibold'>Uslovi korišćenja</h2>
+
+      <Separator />
 
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>Opšti uslovi</p>
@@ -13,16 +16,15 @@ export default function Page() {
           {`Opšti uslovi poslovanja Internet prodavnice "IZABERI POKLON"
           sastavljeni su u skladu sa Zakonom o zaštiti potrošača, našom
           najboljom namerom da ostvarimo saradnju na obostrano zadovoljstvo kao
-          i međunarodnom praksom u e-poslovanju. Podaci o firmi Trgovcu: ${shopInfo.shortDescription}, ${shopInfo.address}; Matični Broj:
-          ${shopInfo.idNumber}; PIB: ${shopInfo.pib} (u daljem tekstu: “Izaberi Poklon”) Prilikom
-          registracije, posetilac Internet prodavnice "Izaberi Poklon"
-          ostavlja svoje identifikacione podatke, a zatim se prijavljuje sa
-          svojim korisničkim imenom i lozinkom. Nakon registracije korisnik
+          i međunarodnom praksom u e-poslovanju. Podaci o firmi Trgovcu: ${shopInfo.shortDescription}, ${shopInfo.address};
+          Matični Broj: ${shopInfo.idNumber}; PIB: ${shopInfo.pib} (u daljem tekstu: “Izaberi
+          Poklon”) Prilikom registracije, posetilac Internet prodavnice "Izaberi
+          Poklon" ostavlja svoje identifikacione podatke, a zatim se prijavljuje
+          sa svojim korisničkim imenom i lozinkom. Nakon registracije korisnik
           stiče pravo na kupovinu. Opšti uslovi poslovanja podrazumevaju
-          delovanje internet prodavnice "Izaberi Poklon", prava
-          korisnika i poslovni odnos između trgovca i potrošača a sve u cilju
-          obostranog zadovoljstva. Opšti uslovi su detaljnije objašnjeni po
-          oblastima.`}
+          delovanje internet prodavnice "Izaberi Poklon", prava korisnika i
+          poslovni odnos između trgovca i potrošača a sve u cilju obostranog
+          zadovoljstva. Opšti uslovi su detaljnije objašnjeni po oblastima.`}
         </p>
       </div>
 
@@ -61,7 +63,7 @@ export default function Page() {
           mogu se koristiti bez naše prethodne saglasnosti, uključujući
           stranice, dizajnerske elemente, tekstove, fotografije, logotipe, audio
           zapise i softver. Svaka neovlašćena upotreba može predstavljati
-          kršenje Zakona o autorskom i srodnim pravima, Zakona o žigovima ili
+          kršenje Zakona o autorskom i srodnim pravima, zakona o žigovima ili
           drugih zakona iz oblasti intelektualne svojine. Celokupan sadržaj
           možete pregledati, kopirati, štampati ili preuzimati isključivo za
           ličnu, nekomercijalnu upotrebu i u informativne svrhe, pod uslovom da
@@ -157,10 +159,10 @@ export default function Page() {
         <p className='text-xl font-semibold'>Radno vreme</p>
         <p>
           Internet prodavnica Izaberi Poklon radi od 00-24h, 7 dana u nedelji,
-          365 dana u godini, što znači da ćete proizvode moći da naručite u bilo
-          koje doba. U slučaju tehničkih problema ili tokom zahvata redovnog
-          održavanja internet prodavnice može biti kraći vremenski period
-          nedostupan o čemu ćete biti obavešteni.
+          365/6 dana u godini, što znači da ćete proizvode moći da naručite u
+          bilo koje doba. U slučaju tehničkih problema ili tokom zahvata
+          redovnog održavanja internet prodavnice može biti kraći vremenski
+          period nedostupan o čemu ćete biti obavešteni.
         </p>
       </div>
 
@@ -190,28 +192,37 @@ export default function Page() {
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>Kako poručiti?</p>
         <p>
-          Poručiti možete na tri načina, putem internet prodavnice, pozivom u
-          naš korisnički servis ili porukom slanjem na adresu
-          reddot.ar@gmail.com
+          Poručiti možete na tri načina, putem internet prodavnice, pozivom
+          našeg korisničkog servisa na broj{' '}
+          <a href={`tel:${shopInfo.phone}`} className='underline'>
+            {shopInfo.phone}
+          </a>{' '}
+          ili slanjem poruke na adresu{' '}
+          <a href={`mailto:${shopInfo.email}`} className='underline'>
+            {shopInfo.email}
+          </a>
         </p>
 
         <p>
           Poručivanje putem internet prodavniceje je vrlo jednostavno.
           Registrujete se na internet prodavnici, pronađete artikal koji želite
-          kupiti, zatim kliknete na &quot;dodaj u korpu&quot;. Zatim pratite
-          korake. Ukoliko ne želite ništa više da kupite, kliknete
-          &quot;plaćanje&quot;, unesete Vaše podatke i izaberete način plaćanja.
-          Očekivano vreme dostave artikala je od 3 do 5 radna dana osim ako nije
-          drugačije naznačeno za konkretan proizvod. Ukoliko postoje tehnički
-          problemi ili problemi druge vrste operater će Vas putem E:mail-a ili
-          telefonskim pozivom obavestiti o promeni roka isporuke gde Vi u tom
-          trenutku imate pravo odustanka od kupovine ili prihvatanje promena.
+          kupiti, zatim kliknete na "dodaj u korpu". Pratite korake i ukoliko ne
+          želite ništa više da kupite, kliknete "Završi kupovinu". Očekivano
+          vreme dostave artikala je od 3 do 5 radna dana osim ako nije drugačije
+          naznačeno za konkretan proizvod. Ukoliko postoje tehnički problemi ili
+          problemi druge vrste operater će Vas putem E:mail-a ili telefonskim
+          pozivom obavestiti o promeni roka isporuke gde Vi u tom trenutku imate
+          pravo odustanka od kupovine ili prihvatanje promena.
         </p>
 
         <p>
-          Ako Vam je lakše poručiti telefonom, pozovite naš korisnički servis i
-          dajte sve potrebne podatke našem operateru. Uz proizvod dobijate račun
-          i garanciju i uputstvo, ukolik je potrebno.
+          Ako Vam je lakše poručiti telefonom, pozovite naš korisnički servis na
+          broj{' '}
+          <a href={`tel:${shopInfo.phone}`} className='underline'>
+            {shopInfo.phone}
+          </a>{' '}
+          i dajte sve potrebne podatke našem operateru. Uz proizvod dobijate
+          račun i garanciju i uputstvo, ukoliko je potrebno.
         </p>
       </div>
 
@@ -219,20 +230,16 @@ export default function Page() {
         <p className='text-xl font-semibold'>UPUTSTVO ZA KUPOVINU</p>
         <p>
           Prilikom pregleda proizvoda primetićete da pored svakog posebno
-          postoji dugme &quot;dodaj u korpu&quot;. Kada kliknte to dugme bićete
-          obavešteni da se proizvod nalazi u Vašoj korpi. Moguće je više puta
-          dodati isti proizvod u korpu. U svakom trenutku omogućen Vam je
-          pregled svih proizvoda koje želite da kupite. Jednostavnim klikom na
-          ikonicu korpe u gornjem desnom uglu internet prodavnice otvarate
-          stranicu na kojoj su prikazani svi proizvodi spremni za kupovinu.
-          Veoma lako možete obrisati proizvode iz korpe ili povećati/smanjiti
-          broj željenih proizvoda. Kada ste spremni da izvršite kupovinu
-          potrebno je samo da na stranici korpa kliknete dugme
-          &quot;plaćanje&quot;. Nakon toga je neophodno da se registrujete.
-          Proces registracije je veoma jednostavan i od Vas zahteva samo osnovne
-          lične podatke. Obavezujemo se na privatnost Vaših ličnih podataka koji
-          će biti korišćeni isključivo u svrhe kupovine na našoj internet
-          prodavnici. Ukoliko ste se predomislili u vezi kupovine i želite nešto
+          postoji dugme "dodaj u korpu". Kada kliknte to dugme bićete obavešteni
+          da se proizvod nalazi u Vašoj korpi. Moguće je više puta dodati isti
+          proizvod u korpu. U svakom trenutku omogućen Vam je pregled svih
+          proizvoda koje želite da kupite. Jednostavnim klikom na ikonicu korpe
+          u gornjem desnom uglu internet prodavnice otvarate stranicu na kojoj
+          su prikazani svi proizvodi spremni za kupovinu. Veoma lako možete
+          obrisati proizvode iz korpe ili povećati/smanjiti broj željenih
+          proizvoda. Kada ste završili sve korake i spremni ste da izvršite
+          kupovinu potrebno je samo da na stranici korpa kliknete dugme "Završi
+          kupovinu". Ukoliko ste se predomislili u vezi kupovine i želite nešto
           da promenite, jednostavno se možete vratiti na stranicu korpa. Posle
           odabira proizvoda i registracije, birate način dostave, plaćanja,
           poveravate da li ste ispravno uneli svoje podatke i potvrđujete
@@ -245,7 +252,7 @@ export default function Page() {
           <li>
             <p>
               Prilikom svake prve narudžbine, naš tim će vas kontaktirati kako
-              bi potvrdio narudžbinu sa vama
+              bi potvrdio narudžbinu sa Vama
             </p>
           </li>
           <li>
@@ -290,7 +297,7 @@ export default function Page() {
         <p>
           Izaberi Poklon garantuje za kvalitet svojih proizvoda. Svi proizvodi
           su naše proizvodnje u celosti ili delimično, Proizvodi poput lampi ili
-          slicnih tehničkih uređaja imaju garanti rok od 2 godine. U garantnom
+          slicnih tehničkih uređajima imaju garanti rok od 2godine. u garantnom
           roku, o svom trošku obezbeđuje otklanjanje kvarova i nedostataka
           proizvoda koji proizilaze iz nepodudarnosti stvarnih sa propisanim
           odnosno deklarisanim karakteristikama kvaliiteta proizvoda. U slučaju
@@ -343,15 +350,27 @@ export default function Page() {
         <ul className='list-disc pl-4 space-y-3'>
           <li>
             <p>
-              Vašu internet narudžbinu možete platiti putem internet prodavnice
-              koristeći Vašu platnu karticu VISA, Maestro ili MasterCard koja
-              podržava internet plaćanje. Prilikom kupovine proizvoda na našoj
-              internet prodavnici izaberete način plaćanja Visa, Master ili
-              Maestro, nakon čega ćete biti usmereni na 3D Secure stranicu
-              UniCredit Banke, na stranici ćete imati mogućnst unosa podatke
-              kako bi svoju internet kupovinu obavili bezbedno. Nakon unosa
-              molimo Vas da pratite dalja uputstva na stranici. Napomena:
-              Plaćanje nije moguće u stranoj valuti.
+              Plaćanje proizvoda na našoj internet prodavnici je moguće izvršiti
+              na jedan od sledećih načina: platnim karticama - VISA, Maestro ili
+              MasterCard koje podržavaju plaćanje preko Interneta. Plaćanje
+              karticama je realizovano u saradnji sa AllSecure doo i UniCredit
+              bankom i obavlja se na bezbedan i sertifikovan način preko
+              AllSecure Paymet Gateway-a, jednostavnim unosom podataka sa platne
+              kartice. Nakon što se unesu podaci o kartici i potvrdi plaćanje,
+              banka autorizuje transakciju i time je porudžbina odobrena i ulazi
+              u dalji proces pripreme za isporuku. Iznos će biti rezervisan na
+              vašoj kartici (računu) i neće Vam biti raspoloživ za drugu namenu.
+              Transkacija će biti kompletirana i iznos skinut sa vašeg računa
+              tek kada su proizvodi pripremljeni za transport i predati
+              kurirskoj službi. U slučaju da se plaćanje ne kompletira, odnosno
+              iznos se ne skine sa računa do isteka 14 dana od prihvatanja Vaše
+              porudžbine, ta porudžbenica će biti otkazana i izbrisana. Nakon
+              isteka roka od 14 dana, novac rezervisan na Vašem računu se
+              oslobadja i biće Vam ponovo na raspolaganju. Nakon toga možete
+              ponoviti istu ili novu porudžbinu, i izvršiti plaćanje vezano za
+              njih. Proverite kod banke koja je karticu izdala da li Vaša
+              kartica podržava plaćanje preko Interneta. Napomena: Plaćanje nije
+              moguće u stranoj valuti.
             </p>
           </li>
           <li>
@@ -380,13 +399,13 @@ export default function Page() {
               putem interneta
             </p>
             <p>
-              a)Iz sigurnostnih razloga, podaci o Vašoj platnoj kartici su
+              a) Iz sigurnostnih razloga, podaci o Vašoj platnoj kartici su
               vidljivi samo banci kao procesoru kartica, pa se celokupan proces
               naplate obavlja na internet stranicama banke. Niti jednog trenutka
               podaci o platnoj kartici nisu dostupni našem sistemu.
             </p>
             <p>
-              b)Opis načina zaštite poverljivih podataka o transakciji pri
+              b) Opis načina zaštite poverljivih podataka o transakciji pri
               plaćanju platnim karticama Tajnost podataka Kupca zaštićena je i
               osigurana upotrebom SSL enkripcije. Stranice za naplatu putem
               interneta osigurane su korištenjem Secure Socket Layer (SSL)
@@ -405,23 +424,7 @@ export default function Page() {
               formi, upotrebom SSL protokola i PKI sistema, kao trenutno
               najsavremenije kriptografske tehnologije.
             </p>
-          </li>
-          <li className='space-y-2'>
-            <p className='font-semibold'>
-              Internet plaćanje na rate bez kamate i bez učešća!
-            </p>
-            <p>
-              Svim korisnicima koji poseduju MasterCard Gold, Visa Classic i
-              American Express kreditne kartice Banke Intesa, imaju mogućnost
-              kupovine svih dostupnih proizvode na minimum DVE, a maksimum ŠEST
-              jednakih mesečnih rata bez kamate. Nakon što se sa Poklon Dućan
-              internet stranice za plaćanje preusmerite na stranicu za plaćanje
-              Banke Intesa, imaćete mogućnost da sami odlučite o broju rata.
-              Raspoloživi limit na Vašoj kreditnoj kartici će se istog trenutka
-              umanjiti za obavljenu transakciju, a rate će vam dospevati na
-              plaćanje svakog 10. u mesecu (a svakog 15. u mesecu za American
-              Express kartice).
-            </p>
+
             <p className='font-semibold'>
               **Proverite kod banke koja je karticu izdala da li Vaša kartica
               podržava plaćanje preko Interneta.
@@ -485,8 +488,6 @@ export default function Page() {
           pogodnosti, obezbedimo ekskluzivne personalizovane korporativne
           poklone za Vaše poslovne partnere ili zaposlene. Dozvolite nam da
           budemo deo Vaših važnih trenutaka i uspeha, a mi ćemo Vam uzvratiti.
-          Izaberi Poklon kuća finih poklona, plaketa, zahvalnica, figura,
-          nagrada, I sl.
         </p>
       </div>
 

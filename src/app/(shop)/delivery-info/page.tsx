@@ -1,11 +1,17 @@
 import { Button } from '@/components/ui/button'
-import { orderQuitForm, shopInfo } from '@/lib/consts'
+import { Separator } from '@/components/ui/separator'
+import { orderQuitForm, shopInfo, freeShippingThreshold } from '@/lib/consts'
+import { priceFormatter } from '@/lib/format'
 import Link from 'next/link'
 
 export default function Page() {
+  const formattedFreeShippingThreshold = priceFormatter(freeShippingThreshold)
+
   return (
     <div className='space-y-5'>
-      <h2 className='text-2xl'>Način isporuke</h2>
+      <h2 className='text-2xl font-semibold'>Način isporuke</h2>
+
+      <Separator />
 
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>Prijem porudžbine</p>
@@ -13,7 +19,7 @@ export default function Page() {
           Prilikom naručivanja proizvoda na Izaberi Poklon internet prodavnici,
           poslaćemo Vam automatsko obaveštenje o prijemu porudžbine na Vašu
           e-adresu. Molimo Vas da nas obavestite u roku od jednog sata od
-          trenutka poručivanja, ukoliko primetite da detalji narudžbine nisu
+          trenutk poručivanja, ukoliko primetite da detalji narudžbine nisu
           ispravni ili želite da izmenite nešto na originalnoj porudžbini.
         </p>
       </div>
@@ -22,7 +28,7 @@ export default function Page() {
         <p className='text-xl font-semibold'>Potvrda narudžbine</p>
         <p>
           Nakon što obradimo Vašu porudžbinu, naše kolege iz korisničke podrške
-          će Vas pozvati telefonom radi POTVRDE porudžbine i provere ispravnosti
+          će Vas pozvati telefonom radi potvrde porudžbine i provere ispravnosti
           unetih informacija, kako bi Vaša porudžbina stigla u pravo vreme na
           pravo mesto.
         </p>
@@ -54,7 +60,7 @@ export default function Page() {
               </a>{' '}
               sa navedenim razlogom zbog kojeg ste odbili preuzimanje paketa, a
               ukoliko ste u prilici i fotografijom oštećenja i Vašim podacima
-              (ime, prezime, broj telefona)
+              (ime, prezime, broj telefona).
             </p>
           </li>
 
@@ -63,7 +69,7 @@ export default function Page() {
               Ukoliko ste primili pošiljku i nakon otvaranja kutije ustanovili
               da isporučena roba ne odgovara naručenoj ili podaci na računu nisu
               odgovarajući, molimo Vas da nas, najkasnije u roku od 24h od
-              trenutka prijema pošiljke, pozovite telefonom na broj{' '}
+              trenutka prijema pošiljke, pozovete telefonom na broj{' '}
               <a href={`tel:${shopInfo.phone}`} className='underline'>
                 {shopInfo.phone}
               </a>
@@ -128,11 +134,15 @@ export default function Page() {
           Dostava na teritoriji cele Srbije
         </p>
         <p>
-          Narudžbine vrednosti veće od 10.000 RSD će biti isporučene BESPLATNO
-          NA TERITORIJI CELE SRBIJE. Ukoliko narudžbina ima vrednost manju od
-          10.000 RSD dostava se naplaćuje 250 RSD ili vise shodno cenovniku
-          kurirskih službi. Isporuka robe se vrši isključivo na teritoriji
-          Republike Srbije.
+          Narudžbine vrednosti veće od {formattedFreeShippingThreshold} će biti
+          isporučene{' '}
+          <span className='font-semibold'>
+            BESPLATNO NA TERITORIJI CELE SRBIJE
+          </span>
+          . Ukoliko narudžbina ima vrednost manju od{' '}
+          {formattedFreeShippingThreshold} dostava se naplaćuje 250 RSD ili vise
+          shodno cenovniku kurirskih službi. Isporuka robe se vrši isključivo na
+          teritoriji Republike Srbije.
         </p>
       </div>
 
@@ -145,6 +155,11 @@ export default function Page() {
           će se pobrinuti da Vaša porudžbina dođe kada god vi to želite. Vaše je
           samo da u napomenu porudžbine navedite željeni datum isporuke, a mi
           ćemo se pobrinuti za ostalo.
+        </p>
+        <p>
+          *Napomena - ukoliko propust isporuke bude do kurirske službe mi ne
+          snosimo odgovornost budući da kada paket napusti naše prostorije više
+          nemamo ingerencija nad njim već je sve u rukama kurirskih službi.
         </p>
       </div>
 
