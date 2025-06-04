@@ -31,13 +31,13 @@ export default function Page() {
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>Saglasnost i promene uslova</p>
         <p>
-          Dragi kupci, posetom,registracijom ili kupovinom na Internet
+          Dragi kupci, posetom, registracijom ili kupovinom na Internet
           prodavnici Izaberi Poklon prihvatate Uslove korišćenja koji su
           navedeni u daljem tekstu. Molimo Vas da pažljivo pročitate pravilila i
           procedure koje primenjujemo. Ukoliko ne prihvatate ove uslove, molimo
           Vas nemojte koristiti ovu internet prodavnicu. Izaberi Poklon zadržava
           pravo da vrši izmene i dopune ovih Uslova korišćenja u bilo kom
-          trenutku izmenama u ovom tekstu. Hvala na poverenju
+          trenutku izmenama u ovom tekstu. Hvala na poverenju.
         </p>
       </div>
 
@@ -59,28 +59,29 @@ export default function Page() {
         <p className='text-xl font-semibold'>Intelektualna svojina</p>
         <p>
           Sadržaj prikazan na ovoj interent prodavnici je zaštićen autorskim
-          pravima, vlasništvo su Izaberi Poklon -a ili njegovih dobavljača, ne
-          mogu se koristiti bez naše prethodne saglasnosti,uključujući stranice,
-          dizajnerske elemente, tekstove, fotografije, logotipe, audio zapise i
-          softver. Svaka neovlašćena upotreba može predstavljati kršenje Zakona
-          o autorskom i srodnim pravima, Zakona o žigovima ili drugih zakona iz
-          oblasti intelektualne svojine. Celokupan sadržaj možete pregledati,
-          kopirati, štampati ili preuzimati isključivo za ličnu, nekomercijalnu
-          upotrebu i u informativne svrhe, pod uslovom da sve naznake o
-          autorskim pravima ili drugim vlasničkim informacijama koji su sadržani
-          u originalnom dokumentu zadržite u svim kopijama, osim ukoliko je
-          drugačije naznačeno na drugom mestu na ovoj internet prodavnici. Ne
-          smete menjati sadržaj ove interent prodavnice ni na koji način, niti
-          ga reprodukovati ili javno prikazivati, izvoditi, distribuirati ili na
-          drugi način koristiti u javne ili komercijalne svrhe. Ukoliko
-          prekršite bilo koji od ovih Uslova, Vaša dozvola za upotrebu interent
-          prodavnice će biti povučena i bićete obavezni da odmah uništite sve
-          sadržaje koje ste preuzeli ili odštampali. Ukoliko za sadržaj koji se
-          nalazi na Izaberi Poklon internet prodavnici smatrate da je Vaš i da
-          je zloupotrebljen, molimo Vas da nas kontaktirate u cilju utvrđivanja
-          intelektualne svojine. Sve informacije dostupne na internet stranama
-          isključivo su informativnog karaktera, ne smeju se koristiti u
-          komercijalne svrhe niti distribuirati trećim licima.
+          pravima, vlasništvo su Izaberi Poklon-a ili njegovih dobavljača, ne
+          mogu se koristiti bez naše prethodne saglasnosti, uključujući
+          stranice, dizajnerske elemente, tekstove, fotografije, logotipe, audio
+          zapise i softver. Svaka neovlašćena upotreba može predstavljati
+          kršenje Zakona o autorskom i srodnim pravima, zakona o žigovima ili
+          drugih zakona iz oblasti intelektualne svojine. Celokupan sadržaj
+          možete pregledati, kopirati, štampati ili preuzimati isključivo za
+          ličnu, nekomercijalnu upotrebu i u informativne svrhe, pod uslovom da
+          sve naznake o autorskim pravima ili drugim vlasničkim informacijama
+          koji su sadržani u originalnom dokumentu zadržite u svim kopijama,
+          osim ukoliko je drugačije naznačeno na drugom mestu na ovoj internet
+          prodavnici. Ne smete menjati sadržaj ove interent prodavnice ni na
+          koji način, niti ga reprodukovati ili javno prikazivati, izvoditi,
+          distribuirati ili na drugi način koristiti u javne ili komercijalne
+          svrhe. Ukoliko prekršite bilo koji od ovih Uslova, Vaša dozvola za
+          upotrebu interent prodavnice će biti povučena i bićete obavezni da
+          odmah uništite sve sadržaje koje ste preuzeli ili odštampali. Ukoliko
+          za sadržaj koji se nalazi na Izaberi Poklon internet prodavnici
+          smatrate da je Vaš i da je zloupotrebljen, molimo Vas da nas
+          kontaktirate u cilju utvrđivanja intelektualne svojine. Sve
+          informacije dostupne na internet stranama isključivo su informativnog
+          karaktera, ne smeju se koristiti u komercijalne svrhe niti
+          distribuirati trećim licima.
         </p>
       </div>
 
@@ -94,7 +95,7 @@ export default function Page() {
           su zlonamerni, sadrže nepristojne izjave, šire mržnju i diskriminaciju
           i na bilo koji način ugrožavaju prava drugih. Takvi komentari će biti
           uklonjeni bez prethodnog obaveštenja. Lažno predstavljanje i
-          registracija sa tuđom e-adresom nije dozvoljeno . Protiv takvih
+          registracija sa tuđom e-adresom nije dozvoljeno. Protiv takvih
           aktivnosti Izaberi Poklon može pokrenuti odgovarajući zakonski
           postupak. Izaberi Poklon ne garantuje potpunost, istinitost, tačnost i
           pouzdanost sadržaja koji su postavljeni od strane korisnika. Svi
@@ -191,28 +192,37 @@ export default function Page() {
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>Kako poručiti?</p>
         <p>
-          Poručiti možete na tri načina, putem internet prodavnice, pozivom u
-          naš korisnički servis ili porukom slanjem na adresu
-          reddot.ar@gmail.com
+          Poručiti možete na tri načina, putem internet prodavnice, pozivom
+          našeg korisničkog servisa na broj{' '}
+          <a href={`tel:${shopInfo.phone}`} className='underline'>
+            {shopInfo.phone}
+          </a>{' '}
+          ili slanjem poruke na adresu{' '}
+          <a href={`mailto:${shopInfo.email}`} className='underline'>
+            {shopInfo.email}
+          </a>
         </p>
 
         <p>
           Poručivanje putem internet prodavniceje je vrlo jednostavno.
           Registrujete se na internet prodavnici, pronađete artikal koji želite
-          kupiti, zatim kliknete na "dodaj u korpu". Zatim pratite korake.
-          Ukoliko ne želite ništa više da kupite, kliknete "plaćanje", unesete
-          Vaše podatke i izaberete način plaćanja. Očekivano vreme dostave
-          artikala je od 3 do 5 radna dana osim ako nije drugačije naznačeno za
-          konkretan proizvod. Ukoliko postoje tehnički problemi ili problemi
-          druge vrste operater će Vas putem E:mail-a ili telefonskim pozivom
-          obavestiti o promeni roka isporuke gde Vi u tom trenutku imate pravo
-          odustanka od kupovine ili prihvatanje promena.
+          kupiti, zatim kliknete na "dodaj u korpu". Pratite korake i ukoliko ne
+          želite ništa više da kupite, kliknete "Završi kupovinu". Očekivano
+          vreme dostave artikala je od 3 do 5 radna dana osim ako nije drugačije
+          naznačeno za konkretan proizvod. Ukoliko postoje tehnički problemi ili
+          problemi druge vrste operater će Vas putem E:mail-a ili telefonskim
+          pozivom obavestiti o promeni roka isporuke gde Vi u tom trenutku imate
+          pravo odustanka od kupovine ili prihvatanje promena.
         </p>
 
         <p>
-          Ako Vam je lakše poručiti telefonom, pozovite naš korisnički servis i
-          dajte sve potrebne podatke našem operateru. Uz proizvod dobijate račun
-          i garanciju i uputstvo, ukoliko je potrebno.
+          Ako Vam je lakše poručiti telefonom, pozovite naš korisnički servis na
+          broj{' '}
+          <a href={`tel:${shopInfo.phone}`} className='underline'>
+            {shopInfo.phone}
+          </a>{' '}
+          i dajte sve potrebne podatke našem operateru. Uz proizvod dobijate
+          račun i garanciju i uputstvo, ukoliko je potrebno.
         </p>
       </div>
 
@@ -227,18 +237,15 @@ export default function Page() {
           u gornjem desnom uglu internet prodavnice otvarate stranicu na kojoj
           su prikazani svi proizvodi spremni za kupovinu. Veoma lako možete
           obrisati proizvode iz korpe ili povećati/smanjiti broj željenih
-          proizvoda. Kada ste spremni da izvršite kupovinu potrebno je samo da
-          na stranici korpa kliknete dugme "plaćanje". Nakon toga je neophodno
-          da se registrujete. Proces registracije je veoma jednostavan i od Vas
-          zahteva samo osnovne lične podatke. Obavezujemo se na privatnost Vaših
-          ličnih podataka koji će biti korišćeni isključivo u svrhe kupovine na
-          našoj internet prodavnici. Ukoliko ste se predomislili u vezi kupovine
-          i želite nešto da promenite, jednostavno se možete vratiti na stranicu
-          korpa. Posle odabira proizvoda i registracije, birate način dostave,
-          plaćanja, poveravate da li ste ispravno uneli svoje podatke i
-          potvrđujete kupovinu. Na taj način je Vaša porudžbina kompletirana i
-          možete da očekujete e-mail sa potvrdom a u da Vas u roku od 24 sata
-          kontaktira naš operater zadužen za internet prodaju.
+          proizvoda. Kada ste završili sve korake i spremni ste da izvršite
+          kupovinu potrebno je samo da na stranici korpa kliknete dugme "Završi
+          kupovinu". Ukoliko ste se predomislili u vezi kupovine i želite nešto
+          da promenite, jednostavno se možete vratiti na stranicu korpa. Posle
+          odabira proizvoda i registracije, birate način dostave, plaćanja,
+          poveravate da li ste ispravno uneli svoje podatke i potvrđujete
+          kupovinu. Na taj način je Vaša porudžbina kompletirana i možete da
+          očekujete e-mail sa potvrdom a u da Vas u roku od 24 sata kontaktira
+          naš operater zadužen za internet prodaju.
         </p>
 
         <ul className='list-disc pl-4 space-y-3'>
@@ -358,12 +365,12 @@ export default function Page() {
               kurirskoj službi. U slučaju da se plaćanje ne kompletira, odnosno
               iznos se ne skine sa računa do isteka 14 dana od prihvatanja Vaše
               porudžbine, ta porudžbenica će biti otkazana i izbrisana. Nakon
-              isteka roka od 14 dana , novac rezervisane na Vašem računu se
-              oslobadjaju i biće Vam ponovo na raspolaganju. Nakon toga možete
+              isteka roka od 14 dana, novac rezervisan na Vašem računu se
+              oslobadja i biće Vam ponovo na raspolaganju. Nakon toga možete
               ponoviti istu ili novu porudžbinu, i izvršiti plaćanje vezano za
-              njih.Proverite kod banke koja je karticu izdala da li Vaša kartica
-              podržava plaćanje preko Interneta.Napomena: Plaćanje nije moguće u
-              stranoj valuti.
+              njih. Proverite kod banke koja je karticu izdala da li Vaša
+              kartica podržava plaćanje preko Interneta. Napomena: Plaćanje nije
+              moguće u stranoj valuti.
             </p>
           </li>
           <li>

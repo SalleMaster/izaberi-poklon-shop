@@ -14,10 +14,10 @@ export default function Page() {
           dinarski iznos transakcije će biti konvertovan u settlement valutu
           Banke (EUR) prema kursu Narodne Banke Srbije. Pri zaduživanju Vaše
           platne kartice, već konvertovan iznos će se konvertovati u Vašu
-          lokalnu valutu, prema kursu koji primenjuju operatori platnih
-          kartica.", a koji nama u trenutku transakcije ne može biti poznat. Kao
-          rezultat ove konverzije postoji mogućnost neznatne razlike od
-          originalne cene navedene na našem sajtu.
+          lokalnu valutu, prema kursu koji primenjuju operatori platnih kartica,
+          a koji nama u trenutku transakcije ne može biti poznat. Kao rezultat
+          ove konverzije postoji mogućnost neznatne razlike od originalne cene
+          navedene na našem sajtu.
         </p>
         <p>
           "Please note that all payments will be effected in the Serbian
@@ -38,7 +38,7 @@ export default function Page() {
           Ukoliko kupovinu obavljate na način posredništvom kurirske službe,
           plaćanje vršite kuriru a po pravilima koje primenjuje kurirska služba
           koju ste odabrali (gotovinsko plaćanje u dinarima ili stranoj valuti,
-          kartično pladanje i drugo).
+          kartično plaćanje i drugo).
         </p>
       </div>
 
@@ -59,14 +59,14 @@ export default function Page() {
           U slučaju povraćaja sredstava kupcu koji je predhodno platio nekom od
           platnih kartica, delimično ili u celosti, a bez obzira na razlog
           vraćanja, taj povraćaj se vrši isključivo preko iste VISA, Maestro ili
-          MasterCard kartice koja je korištena za plaćanje. Ovo znači da će naša
+          MasterCard kartice koja je korišćena za plaćanje. Ovo znači da će naša
           banka na naš zahtev obaviti povraćaj sredstava na račun korisnika
           kartice.
         </p>
         <p>
           Ukoliko je plaćanje izvršeno pouzećem, povraćaj sredstava je moguć tek
           nakon povrata poručene robe i adekvatnog razloga za isti a putem
-          kreiranja zahteva za Povraćaj sredstava, ista de biti uplaćena na
+          kreiranja zahteva za Povraćaj sredstava, ista će biti uplaćena na
           račun kupca u roku od 15 dana od dana povrata proizvoda.
         </p>
         <p>

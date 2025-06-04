@@ -1,9 +1,12 @@
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { orderQuitForm, shopInfo } from '@/lib/consts'
+import { orderQuitForm, shopInfo, freeShippingThreshold } from '@/lib/consts'
+import { priceFormatter } from '@/lib/format'
 import Link from 'next/link'
 
 export default function Page() {
+  const formattedFreeShippingThreshold = priceFormatter(freeShippingThreshold)
+
   return (
     <div className='space-y-5'>
       <h2 className='text-2xl font-semibold'>Način isporuke</h2>
@@ -14,7 +17,7 @@ export default function Page() {
         <p className='text-xl font-semibold'>Prijem porudžbine</p>
         <p>
           Prilikom naručivanja proizvoda na Izaberi Poklon internet prodavnici,
-          poslaćemo Vam automatsko obaveštenje o prijemu porudžbine na vašu
+          poslaćemo Vam automatsko obaveštenje o prijemu porudžbine na Vašu
           e-adresu. Molimo Vas da nas obavestite u roku od jednog sata od
           trenutk poručivanja, ukoliko primetite da detalji narudžbine nisu
           ispravni ili želite da izmenite nešto na originalnoj porudžbini.
@@ -25,7 +28,7 @@ export default function Page() {
         <p className='text-xl font-semibold'>Potvrda narudžbine</p>
         <p>
           Nakon što obradimo Vašu porudžbinu, naše kolege iz korisničke podrške
-          će Vas pozvati telefonom radi POTVRDE porudžbine i provere ispravnosti
+          će Vas pozvati telefonom radi potvrde porudžbine i provere ispravnosti
           unetih informacija, kako bi Vaša porudžbina stigla u pravo vreme na
           pravo mesto.
         </p>
@@ -57,7 +60,7 @@ export default function Page() {
               </a>{' '}
               sa navedenim razlogom zbog kojeg ste odbili preuzimanje paketa, a
               ukoliko ste u prilici i fotografijom oštećenja i Vašim podacima
-              (ime, prezime, broj telefona)
+              (ime, prezime, broj telefona).
             </p>
           </li>
 
@@ -131,13 +134,15 @@ export default function Page() {
           Dostava na teritoriji cele Srbije
         </p>
         <p>
-          Narudžbine vrednosti veće od 10.000 RSD će biti isporučene{' '}
+          Narudžbine vrednosti veće od {formattedFreeShippingThreshold} će biti
+          isporučene{' '}
           <span className='font-semibold'>
             BESPLATNO NA TERITORIJI CELE SRBIJE
           </span>
-          . Ukoliko narudžbina ima vrednost manju od 10.000 RSD dostava se
-          naplaćuje 250 RSD ili vise shodno cenovniku kurirskih službi. Isporuka
-          robe se vrši isključivo na teritoriji Republike Srbije.
+          . Ukoliko narudžbina ima vrednost manju od{' '}
+          {formattedFreeShippingThreshold} dostava se naplaćuje 250 RSD ili vise
+          shodno cenovniku kurirskih službi. Isporuka robe se vrši isključivo na
+          teritoriji Republike Srbije.
         </p>
       </div>
 

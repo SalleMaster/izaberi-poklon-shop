@@ -9,20 +9,20 @@ export default function Page() {
       <div className='space-y-3'>
         <p>
           Ovim putem Vas obaveštavamo o informacijama koje prikupljamo od Vas
-          kada nam pošaljete upit putem našeg websajta Prikupljaju i ove
+          kada nam pošaljete upit putem našeg websajta. Prikupljajući ove
           informacije mi delujemo kao rukovodilac obrade ličnih podataka u
           skladu sa Zakonom o zaštiti podataka o ličnosti Republike Srbije (Sl
           glasnik RS br 87/2018) i Opštom uredbom o zaštiti podataka o ličnosti
           EU (GDPR). Ova Politika privatnosti reguliše praksu prikupljanja
-          informacija od korisnika prilikom koriš enja internet stranice
-          http//www.izaberipoklon.com ,kao i njihovo skladištenje u bazama
-          podataka našeg preduze a Red Dot PR Milanovi Zoran.
+          informacija od korisnika prilikom korišćenja internet stranice
+          www.izaberipoklon.com, kao i njihovo skladištenje u bazama podataka
+          našeg preduzeća Red Dot PR Milanović Zoran.
         </p>
         <p>
-          Naša politika privatnosti obuhvata razloge kako i zašto sakupljamo
-          koristimo i štitimo Vaše lične podatke U nastavku možete prona i više
+          Naša politika privatnosti obuhvata razloge kako i zašto sakupljamo,
+          koristimo i štitimo Vaše lične podatke. U nastavku možete pronaći više
           informacija o nama zašto i kako koristimo Vaše podatke i koja su Vaša
-          prava kada je reč o zaštiti ličnih podataka
+          prava kada je reč o zaštiti ličnih podataka.
         </p>
       </div>
 
@@ -55,7 +55,7 @@ export default function Page() {
               informisanje korisnika u skladu sa dobrim poslovnim običajima u
               cilju pružanja vrhunske i kvalitetne usluge. Vaše podatke ćemo
               koristiti isključivo u svrhu tehničke administracije internet
-              prodavnice, kako bi vam obezbedili pristup posebnim informacijama,
+              prodavnice, kako bi Vam obezbedili pristup posebnim informacijama,
               ponudama i materilaima ili za direktnu komunikaciju sa Vama.
               Nikada i ni na koji način nećmo zloupotrebiti Vaše privatne
               informacije. Registracijom ili prijavom na naš servis
@@ -76,7 +76,7 @@ export default function Page() {
           <li>
             <p>
               Prilikom unošenja podataka o platnoj kartici poverljive
-              informacija se prenose putem javne mreže u zašti enoj
+              informacija se prenose putem javne mreže u zaštićenoj
               (kriptovanoj) formi upotrebom SSL protokola i PKI sistema kao
               trenutno najsavremenije kriptografske tehnologije. Sigurnost
               podataka prilikom kupovine, garantuje procesor platnih kartica,
@@ -115,7 +115,7 @@ export default function Page() {
               koje naši posetioci traže i kupuju, kao i o stranicama koje
               posećuju. Te podatke koristimo da bismo poboljšali ponudu i izgled
               naših stranica, i omogućili našim korisnicima jednostavnije
-              korišćenje, sigurniju i udobniju kupovinu.
+              korišćenje, sigurniju i udobniju kupovinu. Ovi podaci su anonimni.
             </p>
           </li>
 
@@ -125,25 +125,24 @@ export default function Page() {
               i zaštitu svojih korisničkih informacija i lozinke, tačnost i
               istinitost svih informacija upisanih ili poslatih na servis
               internet prodavnice Izaberi Poklon i preduzeća Red Dot PR
-              Milanović Zoran
+              Milanović Zoran.
             </p>
           </li>
 
-          {/* <li>
+          <li>
             <p>
               <span className='font-semibold'>
                 Internet prodavnica koristi kolačiće
               </span>{' '}
-              (cookies) kako bi Vam pomogli u prilagođavanju korišćenja
-              interneta Vašim potrebama. Kolačić je tekstualni dokument koji je
-              smešten na Vašem hard disku od strane web servera. Kolačići ne
-              mogu biti korišćeni da pokrenu program ili da isporuče virus Vašem
-              računaru. Kolačići su jedinstveno dodeljeni Vama, i jedino mogu
-              biti pročitani od strane web servera u domenu koji Vam ih je
-              poslao. Jedna od osnovnih svrha kolačića je da obezbedi pogodnosti
-              koje će Vam uštedeti vreme.
+              (cookies) isključivo u svrhu autentifikacije korisnika i
+              održavanja statusa prijave. Ovi kolačići su neophodni za
+              funkcionisanje korisničkih naloga i bezbedno korišćenje naše
+              internet prodavnice. Ne koristimo kolačiće za praćenje ponašanja
+              korisnika ili u marketinške svrhe. Kolačići za autentifikaciju se
+              skladište na Vašem uređaju i automatski brišu nakon isteka sesije
+              ili odjave sa našeg sistema.
             </p>
-          </li> */}
+          </li>
 
           <li>
             <p>
@@ -177,7 +176,7 @@ export default function Page() {
               objavljivanja na interent prodavnici www.izaberipoklon.com. Vi kao
               korisnik se obavezujete da povremeno pročitate ovu politiku
               privatnosti kako biste bili upoznati sa eventualnim izmenama iste.
-              Ukoliko nastavite sa korišćenjem internet prodavnice i sevisa
+              Ukoliko nastavite sa korišćenjem internet prodavnice i servisa
               IZABERI POKLON nakon nove verzije politike privatnosti,
               podrazumeva se da ste istu prihvatili kao važeću.
             </p>
@@ -186,7 +185,7 @@ export default function Page() {
           <li>
             <p>
               Sav materijal na ovom internet sajtu (u daljem tekstu “Sajt”) je
-              zašti en autorskim pravima i svaka neovlaš ena upotreba može
+              zaštićen autorskim pravima i svaka neovlašćena upotreba može
               predstavljati kršenje Zakona o autorskom i srodnim pravima, Zakona
               o žigovima ili drugih zakona iz oblasti intelektualne svojine Osim
               ukoliko je drugačije naznačeno na drugom mestu na ovom sajtu sav
@@ -194,20 +193,20 @@ export default function Page() {
               isključivo za ličnu nekomercijalnu upotrebu i u informativne
               svrhe, pod uslovom da sve naznake o autorskim pravima ili drugim
               vlasničkim informacijama koji su sadržani u originalnom dokumentu
-              zadržite u svim kopijama Ne možete menjati sadržaj ovog sajta ni
-              na koji način niti ga reprodukovati ili javno prikazivati izvoditi
-              distribuirati ili na drugi način koristiti u javne ili
-              komercijalne svrhe Ne uzimaju i u obzir prethodno navedeno bilo
-              koji softver ili drugi materijal dostupan za preuzimanje ili koriš
-              enje preko ovog sajta koji poseduje sopstvene uslove koriš enja
-              ili licenciranja nalazi se pod zaštitom tih uslova Ukoliko
-              prekršite bilo koji od ovih Uslova vaša dozvola za upotrebu sajta
-              e biti povučena i bi ete obavezni da odmah uništite sve sadržaje
-              koje ste preuzeli ili odštampali Osim ako je eksplicitno drugačije
-              naznačeno ovde ili na nekoj drugoj stranici ovog sajta ništa ovde
-              sadržano bilo izričito pre utno odricanjem ili na drugi način vam
-              ne daje pravo da koristite bilo koji deo intelektualne svojine
-              koju ste pronašli na Sajtu.
+              zadržite u svim kopijama. Ne možete menjati sadržaj ovog sajta ni
+              na koji način niti ga reprodukovati ili javno prikazivati,
+              izvoditi, distribuirati ili na drugi način koristiti u javne ili
+              komercijalne svrhe. Ne uzimaju i u obzir prethodno navedeno bilo
+              koji softver ili drugi materijal dostupan za preuzimanje ili
+              korišćenje preko ovog sajta koji poseduje sopstvene uslove
+              korišćenja ili licenciranja nalazi se pod zaštitom tih uslova.
+              Ukoliko prekršite bilo koji od ovih Uslova Vaša dozvola za
+              upotrebu sajta će biti povučena i bićete obavezni da odmah
+              uništite sve sadržaje koje ste preuzeli ili odštampali. Osim ako
+              je eksplicitno drugačije naznačeno ovde ili na nekoj drugoj
+              stranici ovog sajta, ništa ovde sadržano bilo izričito prećutno
+              odricanjem ili na drugi način vam ne daje pravo da koristite bilo
+              koji deo intelektualne svojine koju ste pronašli na Sajtu.
             </p>
           </li>
         </ul>
@@ -216,14 +215,14 @@ export default function Page() {
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>Izjava o konverzijama</p>
         <p>
-          Sva pla anja e biti obavljenima u dinarima (RSD) Ukoliko se pla a
+          Sva plaćanja će biti obavljenima u dinarima (RSD) Ukoliko se plaća
           platnim karticama inostranih Banaka izdavalaca dinarski iznos
           transakcije e biti konvertovan u settlement valutu Banke (EUR) prema
           kursu Narodne Banke Srbije.
         </p>
         <p>
-          Pri zaduživanju Vase platne kartice ve konvertovan iznos e se
-          konvertovati u Vasu lokalnu valutu, prema kursu koji primenjuju
+          Pri zaduživanju Vase platne kartice ve konvertovan iznos će se
+          konvertovati u Vašu lokalnu valutu, prema kursu koji primenjuju
           operatori platnih kartica.
         </p>
         <p>

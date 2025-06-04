@@ -13,7 +13,7 @@ export default function Page() {
         </p>
         <p>
           Veoma je važno da sva oštećenja u transportu, vidjliva na pakovanju
-          proizvoda odmah prijavite kuriru koji vam isporuči robu. Svako
+          proizvoda odmah prijavite kuriru koji Vam isporuči robu. Svako
           oštećenje pri transportu kupac je dužan da prijavi u roku od 24h od
           prijema robe.
         </p>
