@@ -27,6 +27,10 @@ const usefulLinks = [
     label: 'Uslovi korišćenja',
   },
   {
+    href: '/uslovi-placanja',
+    label: 'Uslovi plaćanja',
+  },
+  {
     href: onlinePurchaseContract.url,
     label: 'Ugovor o kupovini na daljinu',
     external: true,
