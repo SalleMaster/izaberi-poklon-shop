@@ -1,10 +1,13 @@
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
 
 export default function Page() {
   return (
     <div className='space-y-5'>
-      <h2 className='text-2xl'>Uslovi plaćanja</h2>
+      <h2 className='text-2xl font-semibold'>Uslovi plaćanja</h2>
+
+      <Separator />
 
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>Izjava o konverzijama</p>

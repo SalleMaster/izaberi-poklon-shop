@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import { shopInfo } from '@/lib/consts'
 import { Mail, Phone } from 'lucide-react'
 import Image from 'next/image'
@@ -7,7 +8,9 @@ import Link from 'next/link'
 export default function Page() {
   return (
     <div className='space-y-5'>
-      <h2 className='text-2xl'>Kontakt</h2>
+      <h2 className='text-2xl font-semibold'>Kontakt</h2>
+
+      <Separator />
 
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>
