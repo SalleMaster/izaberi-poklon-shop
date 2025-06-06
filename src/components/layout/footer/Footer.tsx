@@ -74,27 +74,29 @@ export default function Footer() {
           </Suspense>
         </div>
 
-        <div className='flex flex-wrap justify-center items-center gap-4'>
+        <div className='space-y-6 lg:space-y-8'>
           <Separator className='w-full h-px bg-muted-foreground' />
 
-          <Image
-            src='/img/payment/visa.svg'
-            alt='Visa'
-            width='88'
-            height='50'
-          />
-          <Image
-            src='/img/payment/master.svg'
-            alt='Master'
-            width='88'
-            height='50'
-          />
-          <Image
-            src='/img/payment/maestro.svg'
-            alt='Maestro'
-            width='88'
-            height='50'
-          />
+          <div className='flex flex-wrap justify-center items-center gap-4'>
+            <Image
+              src='/img/payment/visa.svg'
+              alt='Visa'
+              width='88'
+              height='50'
+            />
+            <Image
+              src='/img/payment/master.svg'
+              alt='Master'
+              width='88'
+              height='50'
+            />
+            <Image
+              src='/img/payment/maestro.svg'
+              alt='Maestro'
+              width='88'
+              height='50'
+            />
+          </div>
 
           <div className='flex flex-wrap justify-center items-center gap-4'>
             <a
@@ -106,8 +108,8 @@ export default function Footer() {
               <Image
                 src='/img/payment/unicredit-bank.svg'
                 alt='Unicredit bank'
-                width='191'
-                height='25'
+                width='306'
+                height='40'
               />
             </a>
 
@@ -120,8 +122,8 @@ export default function Footer() {
               <Image
                 src='/img/payment/allsecure.svg'
                 alt='AllSecure'
-                width='123'
-                height='50'
+                width='172'
+                height='70'
               />
             </a>
           </div>
