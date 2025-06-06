@@ -215,37 +215,6 @@ export default function Page() {
         </ul>
       </div>
 
-      <div className='space-y-3'>
-        <p className='text-xl font-semibold'>Izjava o konverzijama</p>
-        <p>
-          Sva plaćanja će biti obavljenima u dinarima (RSD) Ukoliko se plaća
-          platnim karticama inostranih Banaka izdavalaca dinarski iznos
-          transakcije e biti konvertovan u settlement valutu Banke (EUR) prema
-          kursu Narodne Banke Srbije.
-        </p>
-        <p>
-          Pri zaduživanju Vase platne kartice ve konvertovan iznos će se
-          konvertovati u Vašu lokalnu valutu, prema kursu koji primenjuju
-          operatori platnih kartica.
-        </p>
-        <p>
-          "Please note that all payments will be effected in the Serbian
-          currency - dinar (RSD). If the payment is done using foreign issuers
-          payment cards, total amount of transaction will be converted into bank
-          settlement currency, according to the current exchange rate of the
-          Serbian National Bank. Once when transaction is settled the already
-          converted amount will be converted into your local currency according
-          to the exchange rate of credit card associations. As a result of this
-          conversion there is a possibility of a slight difference from the
-          original price stated in our web site."
-        </p>
-      </div>
-
-      <div className='space-y-3'>
-        <p className='text-xl font-semibold'>Izjava o PDV-u</p>
-        <p>Red Dot nije u sistemu PDV-a, nema skrivenih troškova.</p>
-      </div>
-
       <Button>
         <Link href={'/'}>Početna strana</Link>
       </Button>
