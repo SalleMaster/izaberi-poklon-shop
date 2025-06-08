@@ -100,6 +100,9 @@ export async function verifyPayment({
           paymentAuthorizationCode:
             response.paymentResult?.resultDetails?.ConnectorTxID3,
           paymentTimestamp: response.paymentResult?.timestamp,
+          paymentAmount: response.paymentResult?.amount,
+          paymentCurrency: response.paymentResult?.currency,
+          paymentBrand: response.paymentResult?.paymentBrand,
           paymentDetails: response.paymentResult,
         },
       })
@@ -127,6 +130,9 @@ export async function verifyPayment({
           paymentAuthorizationCode:
             response.paymentResult?.resultDetails?.ConnectorTxID3,
           paymentTimestamp: response.paymentResult?.timestamp,
+          paymentAmount: response.paymentResult?.amount,
+          paymentCurrency: response.paymentResult?.currency,
+          paymentBrand: response.paymentResult?.paymentBrand,
           paymentDetails: response.paymentResult,
         },
       })

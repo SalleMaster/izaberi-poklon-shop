@@ -304,28 +304,51 @@ export function OrderInformation({ order }: OrderInformationProps) {
           <Row>
             <Column align='left'>
               <Text>
-                <span className='font-semibold'>Autorizacioni kod:</span> <br />
-                {order.paymentAuthorizationCode ?? 'Nije dostupan'}
-              </Text>
-            </Column>
-          </Row>
-          <Row>
-            <Column align='left'>
-              <Text>
-                <span className='font-semibold'>ID transakcije:</span> <br />
-                {order.paymentId}
-              </Text>
-            </Column>
-          </Row>
-          <Row>
-            <Column align='left'>
-              <Text>
                 <span className='font-semibold'>Status transakcije:</span>{' '}
                 <br />
                 {statusLabel}
               </Text>
             </Column>
           </Row>
+
+          <Row>
+            <Column align='left'>
+              <Text>
+                <span className='font-semibold'>Broj porudžbine:</span> <br />
+                {order.orderNumber}
+              </Text>
+            </Column>
+          </Row>
+
+          <Row>
+            <Column align='left'>
+              <Text>
+                <span className='font-semibold'>Iznos i valuta:</span> <br />
+                {order.paymentAmount && order.paymentCurrency
+                  ? `${order.paymentAmount} ${order.paymentCurrency}`
+                  : 'Nije dostupno'}
+              </Text>
+            </Column>
+          </Row>
+
+          <Row>
+            <Column align='left'>
+              <Text>
+                <span className='font-semibold'>Tip kartice:</span> <br />
+                {order.paymentBrand ?? 'Nije dostupno'}
+              </Text>
+            </Column>
+          </Row>
+
+          <Row>
+            <Column align='left'>
+              <Text>
+                <span className='font-semibold'>Autorizacioni kod:</span> <br />
+                {order.paymentAuthorizationCode ?? 'Nije dostupan'}
+              </Text>
+            </Column>
+          </Row>
+
           <Row>
             <Column align='left'>
               <Text>
@@ -335,11 +358,21 @@ export function OrderInformation({ order }: OrderInformationProps) {
               </Text>
             </Column>
           </Row>
+
           <Row>
             <Column align='left'>
               <Text>
                 <span className='font-semibold'>Datum transakcije:</span> <br />
                 {orderFormattedTimestamp ?? 'Nije dostupan'}
+              </Text>
+            </Column>
+          </Row>
+
+          <Row>
+            <Column align='left'>
+              <Text>
+                <span className='font-semibold'>ID transakcije:</span> <br />
+                {order.paymentId}
               </Text>
             </Column>
           </Row>
