@@ -10,21 +10,29 @@ import {
 } from '@/components/ui/accordion'
 
 type OrderTransactionDetailsProps = {
+  orderNumber: string
   paymentId: string | null
   paymentStatus: OrderPaymentStatusType | null
   paymentAuthorizationCode: string | null
   paymentStatusCode: string | null
   paymentTimestamp: string | null
+  paymentAmount?: string | null
+  paymentCurrency?: string | null
+  paymentBrand?: string | null
   paymentDetails: JsonValue
   isAdmin: boolean
 }
 
 export default function OrderTransactionDetails({
+  orderNumber,
   paymentId,
   paymentStatus,
   paymentStatusCode,
   paymentDetails,
   paymentTimestamp,
+  paymentAmount,
+  paymentCurrency,
+  paymentBrand,
   paymentAuthorizationCode,
   isAdmin,
 }: OrderTransactionDetailsProps) {
@@ -39,18 +47,32 @@ export default function OrderTransactionDetails({
     <div className='border rounded-xl p-4'>
       <div className='grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4'>
         <div>
+          <p className='font-semibold'>Status transakcije</p>
+          <p className='text-muted-foreground'>{statusLabel}</p>
+        </div>
+        <div>
+          <p className='font-semibold'>Broj porudžbine</p>
+          <p className='text-muted-foreground break-all'>{orderNumber}</p>
+        </div>
+        <div>
+          <p className='font-semibold'>Iznos i valuta</p>
+          <p className='text-muted-foreground break-all'>
+            {paymentAmount && paymentCurrency
+              ? `${paymentAmount} ${paymentCurrency}`
+              : 'Nije dostupno'}
+          </p>
+        </div>
+        <div>
+          <p className='font-semibold'>Tip kartice</p>
+          <p className='text-muted-foreground break-all'>
+            {paymentBrand ?? 'Nije dostupan'}
+          </p>
+        </div>
+        <div>
           <p className='font-semibold'>Autorizacioni kod</p>
           <p className='text-muted-foreground break-all'>
             {paymentAuthorizationCode ?? 'Nije dostupan'}
           </p>
-        </div>
-        <div>
-          <p className='font-semibold'>ID transakcije</p>
-          <p className='text-muted-foreground break-all'>{paymentId}</p>
-        </div>
-        <div>
-          <p className='font-semibold'>Status transakcije</p>
-          <p className='text-muted-foreground'>{statusLabel}</p>
         </div>
         <div>
           <p className='font-semibold'>Kod statusa transakcije</p>
@@ -63,6 +85,10 @@ export default function OrderTransactionDetails({
           <p className='text-muted-foreground'>
             {orderFormattedTimestamp ?? 'Nije dostupan'}
           </p>
+        </div>
+        <div>
+          <p className='font-semibold'>ID transakcije</p>
+          <p className='text-muted-foreground break-all'>{paymentId}</p>
         </div>
       </div>
 

@@ -116,12 +116,16 @@ export function OrderCard({
 
             {order.paymentType === OrderPaymentType.card ? (
               <OrderTransactionDetails
+                orderNumber={order.orderNumber}
                 paymentId={order.paymentId}
                 paymentStatus={order.paymentStatus}
                 paymentDetails={order.paymentDetails}
                 paymentAuthorizationCode={order.paymentAuthorizationCode}
                 paymentStatusCode={order.paymentStatusCode}
                 paymentTimestamp={order.paymentTimestamp}
+                paymentAmount={order.paymentAmount}
+                paymentCurrency={order.paymentCurrency}
+                paymentBrand={order.paymentBrand}
                 isAdmin={isAdmin}
               />
             ) : null}
