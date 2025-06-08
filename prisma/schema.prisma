@@ -398,10 +398,13 @@ model Order {
   status         OrderStatusType   @default(pending)
   mediaRemoved   Boolean           @default(false)
 
-  paymentId      String?
-  paymentStatus  OrderPaymentStatusType?
-  paymentDetails Json?
-  checkoutId     String?
+  paymentId                String?
+  paymentStatus            OrderPaymentStatusType?
+  paymentAuthorizationCode String?
+  paymentStatusCode        String?
+  paymentTimestamp         String?
+  paymentDetails           Json?
+  checkoutId               String?
 
   cart Json
 

@@ -18,6 +18,11 @@ export function OrderInformation({ order }: OrderInformationProps) {
   const orderFormattedTotalPrice = priceFormatter(order.orderTotalPrice)
   const orderFormattedDeliveryFee = priceFormatter(order.orderDeliveryFee)
   const orderFormattedDiscount = priceFormatter(order.orderDiscount)
+  const orderFormattedTimestamp = order.paymentTimestamp
+    ? format(order.paymentTimestamp, 'PPpp', {
+        locale: srLatn,
+      })
+    : null
 
   let userInformation = {
     name: '',
@@ -299,16 +304,16 @@ export function OrderInformation({ order }: OrderInformationProps) {
           <Row>
             <Column align='left'>
               <Text>
-                <span className='font-semibold'>ID transakcije:</span> <br />
-                {order.paymentId}
+                <span className='font-semibold'>Autorizacioni kod:</span> <br />
+                {order.paymentAuthorizationCode ?? 'Nije dostupan'}
               </Text>
             </Column>
           </Row>
           <Row>
             <Column align='left'>
               <Text>
-                <span className='font-semibold'>Checkout ID:</span> <br />
-                {order.checkoutId}
+                <span className='font-semibold'>ID transakcije:</span> <br />
+                {order.paymentId}
               </Text>
             </Column>
           </Row>
@@ -318,6 +323,23 @@ export function OrderInformation({ order }: OrderInformationProps) {
                 <span className='font-semibold'>Status transakcije:</span>{' '}
                 <br />
                 {statusLabel}
+              </Text>
+            </Column>
+          </Row>
+          <Row>
+            <Column align='left'>
+              <Text>
+                <span className='font-semibold'>Kod statusa transakcije:</span>{' '}
+                <br />
+                {order.paymentStatusCode ?? 'Nije dostupan'}
+              </Text>
+            </Column>
+          </Row>
+          <Row>
+            <Column align='left'>
+              <Text>
+                <span className='font-semibold'>Datum transakcije:</span> <br />
+                {orderFormattedTimestamp ?? 'Nije dostupan'}
               </Text>
             </Column>
           </Row>

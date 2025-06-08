@@ -96,6 +96,10 @@ export async function verifyPayment({
           status: OrderStatusType.pending,
           paymentId: response.paymentResult?.id,
           paymentStatus: OrderPaymentStatusType.success,
+          paymentStatusCode: response.paymentResult?.result.code,
+          paymentAuthorizationCode:
+            response.paymentResult?.resultDetails?.ConnectorTxID3,
+          paymentTimestamp: response.paymentResult?.timestamp,
           paymentDetails: response.paymentResult,
         },
       })
@@ -119,6 +123,10 @@ export async function verifyPayment({
           status: OrderStatusType.draft,
           paymentId: response.paymentResult?.id,
           paymentStatus: OrderPaymentStatusType.failed,
+          paymentStatusCode: response.paymentResult?.result.code,
+          paymentAuthorizationCode:
+            response.paymentResult?.resultDetails?.ConnectorTxID3,
+          paymentTimestamp: response.paymentResult?.timestamp,
           paymentDetails: response.paymentResult,
         },
       })

@@ -101,41 +101,75 @@ function isCreateCheckoutSuccessful(resultCode: string): boolean {
 }
 
 const paymentStatusSchema = z.object({
+  // Base schema fields (required)
   id: z.string(),
-  paymentType: z.string(),
-  paymentBrand: z.string(),
-  amount: z.string(),
-  currency: z.string(),
-  descriptor: z.string(),
-  merchantTransactionId: z.string(),
   result: z.object({
     code: z.string(),
-    description: z.string(),
+    // Optional fields from dev/prod
+    description: z.string().optional(),
+    cvvResponse: z.string().optional(),
   }),
-  card: z.object({
-    bin: z.string(),
-    binCountry: z.string(),
-    last4Digits: z.string(),
-    holder: z.string(),
-    expiryMonth: z.string(),
-    expiryYear: z.string(),
-  }),
-  customer: z.object({
-    ip: z.string(),
-  }),
-  threeDSecure: z.object({
-    eci: z.string(),
-  }),
-  customParameters: z.record(z.string()),
-  risk: z.object({
-    score: z.string(),
-  }),
-  buildNumber: z.string(),
-  timestamp: z.string(),
-  ndc: z.string(),
+
+  // Dev schema fields (all optional)
+  paymentType: z.string().optional(),
+  paymentBrand: z.string().optional(),
+  amount: z.string().optional(),
+  currency: z.string().optional(),
+  descriptor: z.string().optional(),
+  merchantTransactionId: z.string().optional(),
+
+  // Optional card object
+  card: z
+    .object({
+      bin: z.string().optional(),
+      binCountry: z.string().optional(),
+      last4Digits: z.string().optional(),
+      holder: z.string().optional(),
+      expiryMonth: z.string().optional(),
+      expiryYear: z.string().optional(),
+    })
+    .optional(),
+
+  // Optional customer object
+  customer: z
+    .object({
+      ip: z.string().optional(),
+      givenName: z.string().optional(),
+      surname: z.string().optional(),
+    })
+    .optional(),
+
+  // Optional threeDSecure object
+  threeDSecure: z
+    .object({
+      eci: z.string().optional(),
+      verificationId: z.string().optional(),
+      xid: z.string().optional(),
+    })
+    .optional(),
+
+  // Fields exclusive to prod (all optional)
+  resultDetails: z
+    .object({
+      ConnectorTxID1: z.string().optional(),
+      ConnectorTxID2: z.string().optional(),
+      ConnectorTxID3: z.string().optional(),
+    })
+    .optional(),
+
+  // Other optional fields
+  customParameters: z.record(z.string()).optional(),
+  risk: z
+    .object({
+      score: z.string().optional(),
+    })
+    .optional(),
+  buildNumber: z.string().optional(),
+  timestamp: z.string().optional(),
+  ndc: z.string().optional(),
 })
 
-// TypeScript type derived from the schema
+// Single type derived from the combined schema
 export type PaymentStatusResponse = z.infer<typeof paymentStatusSchema>
 
 // Return type for getPaymentStatus function
@@ -166,6 +200,8 @@ export async function getPaymentStatus(
     }
 
     const data = await response.json()
+
+    console.log('Payment status response:', data)
 
     // Validate the response data
     const validatedResponse = paymentStatusSchema.parse(data)

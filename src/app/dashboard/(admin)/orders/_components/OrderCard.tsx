@@ -119,7 +119,9 @@ export function OrderCard({
                 paymentId={order.paymentId}
                 paymentStatus={order.paymentStatus}
                 paymentDetails={order.paymentDetails}
-                checkoutId={order.checkoutId}
+                paymentAuthorizationCode={order.paymentAuthorizationCode}
+                paymentStatusCode={order.paymentStatusCode}
+                paymentTimestamp={order.paymentTimestamp}
                 isAdmin={isAdmin}
               />
             ) : null}
