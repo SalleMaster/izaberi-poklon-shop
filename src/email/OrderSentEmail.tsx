@@ -31,6 +31,9 @@ OrderSentEmail.PreviewProps = {
     paymentId: '',
     paymentStatus: OrderPaymentStatusType.pending,
     paymentDetails: '',
+    paymentAuthorizationCode: '123456789',
+    paymentStatusCode: '00',
+    paymentTimestamp: '2025-01-13T10:12:59.028Z',
     checkoutId: '',
     cart: {
       id: 'cm5uvxsyb000144126x8rtapw',

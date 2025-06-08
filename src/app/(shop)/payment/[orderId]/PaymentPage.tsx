@@ -75,10 +75,12 @@ export default function PaymentPage({ orderPromise, allSecureApiUrl }: Props) {
           <Alert variant='default' className='sm:max-w-[482px] sm:mx-auto'>
             <Info className='h-4 w-4' />
             <AlertDescription>
-              Ukoliko je Vaša kartica prijavljena na <b>3D-Secure servise</b>,
-              biće Vam zatraženo da se autentifikujete (najčešće lozinkom). U
-              slučaju da ne znate lozinku, predlažemo Vam da prvo kontaktirate
-              svoju banku.
+              <p>
+                Ukoliko je Vaša kartica prijavljena na <b>3D-Secure servise</b>,
+                biće Vam zatraženo da se autentifikujete (najčešće lozinkom). U
+                slučaju da ne znate lozinku, predlažemo Vam da prvo kontaktirate
+                svoju banku.
+              </p>
             </AlertDescription>
           </Alert>
         </div>
@@ -127,9 +129,12 @@ export function PaymentPageSkeleton() {
       <Alert variant='default' className='sm:max-w-[482px] sm:mx-auto'>
         <Info className='h-4 w-4' />
         <AlertDescription>
-          Ukoliko je Vaša kartica prijavljena na <b>3D-Secure servise</b>, biće
-          Vam zatraženo da se autentifikujete (najčešće lozinkom). U slučaju da
-          ne znate lozinku, predlažemo Vam da prvo kontaktirate svoju banku.
+          <p>
+            Ukoliko je Vaša kartica prijavljena na <b>3D-Secure servise</b>,
+            biće Vam zatraženo da se autentifikujete (najčešće lozinkom). U
+            slučaju da ne znate lozinku, predlažemo Vam da prvo kontaktirate
+            svoju banku.
+          </p>
         </AlertDescription>
       </Alert>
     </div>
