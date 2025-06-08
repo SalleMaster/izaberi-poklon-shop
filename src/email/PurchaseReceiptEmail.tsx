@@ -34,6 +34,9 @@ PurchaseReceiptEmail.PreviewProps = {
     paymentAuthorizationCode: '123456789',
     paymentStatusCode: '00',
     paymentTimestamp: '2025-01-13T10:12:59.028Z',
+    paymentAmount: '700',
+    paymentCurrency: 'RSD',
+    paymentBrand: 'Visa',
     checkoutId: 'D5AC0D88667C0C3F61A3E71D047E9864.uat01-vm-tx03',
     cart: {
       id: 'cm5uvxsyb000144126x8rtapw',
