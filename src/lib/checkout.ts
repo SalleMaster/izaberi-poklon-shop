@@ -169,10 +169,8 @@ const paymentStatusSchema = z.object({
   ndc: z.string().optional(),
 })
 
-// Single type derived from the combined schema
 export type PaymentStatusResponse = z.infer<typeof paymentStatusSchema>
 
-// Return type for getPaymentStatus function
 type GetPaymentStatusReturnType = {
   status: ResponseStatusType
   paymentResult?: PaymentStatusResponse
@@ -200,8 +198,6 @@ export async function getPaymentStatus(
     }
 
     const data = await response.json()
-
-    console.log('Payment status response:', data)
 
     // Validate the response data
     const validatedResponse = paymentStatusSchema.parse(data)
