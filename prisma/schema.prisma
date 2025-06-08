@@ -403,6 +403,9 @@ model Order {
   paymentAuthorizationCode String?
   paymentStatusCode        String?
   paymentTimestamp         String?
+  paymentAmount            String?
+  paymentCurrency          String?
+  paymentBrand             String?
   paymentDetails           Json?
   checkoutId               String?
 
