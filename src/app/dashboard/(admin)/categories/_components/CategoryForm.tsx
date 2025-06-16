@@ -58,6 +58,8 @@ export function CategoryForm({
 
   const form = useForm<CategoryValues>({
     resolver: zodResolver(category ? editCategorySchema : categorySchema),
+    // resolver: zodResolver(categorySchema),
+    // resolver: zodResolver(editCategorySchema),
     defaultValues,
   })
 

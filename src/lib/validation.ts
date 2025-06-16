@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod/v4'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 
 // Custom validation function for Serbian phone numbers
@@ -17,18 +17,40 @@ export const imageFileTypes = [
 export const pdfFileTypes = ['application/pdf']
 
 // File schema
-export const fileSchema = z.instanceof(File, { message: 'Polje je neophodno' })
+// export const fileSchema = z.instanceof(File, { message: 'Polje je neophodno' })
 
 // Image schema
-export const imageSchema = fileSchema.refine(
-  (file) => file.size === 0 || file.type.startsWith('image/')
-)
+// export const imageSchema = fileSchema.refine(
+//   (file) => file.size === 0 || file.type.startsWith('image/')
+// )
 
 // PDF schema
-export const pdfSchema = fileSchema.refine(
-  (file) => file.size === 0 || file.type === 'application/pdf',
-  { message: 'Fajl mora biti PDF' }
-)
+export const pdfSchema = z
+  .file({
+    message: 'Fajl nije validan',
+  })
+  .mime(pdfFileTypes, {
+    message: 'Fajl mora biti u formatu: PDF',
+  })
+  .max(10_000_000, {
+    message: 'Maksimalna veličina fajla je 10MB',
+  })
+// export const pdfSchema = fileSchema.refine(
+//   (file) => file.size === 0 || file.type === 'application/pdf',
+//   { message: 'Fajl mora biti PDF' }
+// )
+
+// Define common image validation
+const imageFileSchema = z
+  .file({
+    message: 'Fajl nije validan',
+  })
+  .mime(imageFileTypes, {
+    message: 'Fajl mora biti u formatu: JPG, PNG, WEBP ili HEIC',
+  })
+  .max(10_000_000, {
+    message: 'Maksimalna veličina fajla je 10MB',
+  })
 
 export const imageListSchemaRequired = z
   .union([
@@ -39,7 +61,9 @@ export const imageListSchemaRequired = z
     (fileList) =>
       fileList !== null &&
       fileList.length > 0 &&
-      Array.from(fileList).every((file) => imageSchema.safeParse(file).success),
+      Array.from(fileList).every(
+        (file) => imageFileSchema.safeParse(file).success
+      ),
     { message: 'Slika je neophodna i mora biti validan fajl tip' }
   )
 
@@ -51,11 +75,38 @@ export const imageListSchemaOptional = z.union([
     .refine(
       (fileList) =>
         Array.from(fileList).every(
-          (file) => imageSchema.safeParse(file).success
+          (file) => imageFileSchema.safeParse(file).success
         ),
       { message: 'Slika mora biti validan fajl tip' }
     ),
 ])
+
+// export const imageListSchemaRequired = z
+//   .union([
+//     z.instanceof(globalThis.FileList, { message: 'Slika je neophodna' }),
+//     z.null(),
+//   ])
+//   .refine(
+//     (fileList) =>
+//       fileList !== null &&
+//       fileList.length > 0 &&
+//       Array.from(fileList).every((file) => imageSchema.safeParse(file).success),
+//     { message: 'Slika je neophodna i mora biti validan fajl tip' }
+//   )
+
+// export const imageListSchemaOptional = z.union([
+//   z.undefined(),
+//   z.null(),
+//   z
+//     .instanceof(globalThis.FileList, { message: 'Slika je neophodna' })
+//     .refine(
+//       (fileList) =>
+//         Array.from(fileList).every(
+//           (file) => imageSchema.safeParse(file).success
+//         ),
+//       { message: 'Slika mora biti validan fajl tip' }
+//     ),
+// ])
 
 export const pdfListSchemaOptional = z.union([
   z.undefined(),

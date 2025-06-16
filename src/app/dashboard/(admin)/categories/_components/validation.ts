@@ -2,7 +2,8 @@ import {
   imageListSchemaOptional,
   imageListSchemaRequired,
 } from '@/lib/validation'
-import { z } from 'zod'
+// import { z } from 'zod'
+import { z } from 'zod/v4'
 
 // Category schema
 export const categorySchema = z.object({
@@ -16,4 +17,4 @@ export const editCategorySchema = categorySchema.extend({
   image: imageListSchemaOptional,
 })
 
-export type CategoryValues = z.infer<typeof categorySchema>
+export type CategoryValues = z.infer<typeof editCategorySchema>
