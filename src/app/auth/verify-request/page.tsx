@@ -31,7 +31,6 @@ export default async function VerifyPage() {
         </CardContent>
       </Card>
       <NotificationAlert
-        title='Obaveštenje'
         description='Ukoliko ne vidite email u Vašem glavnom inbox-u, proverite
           "Promotions" i "Spam" folder, ili pokušajte ponovo da se prijavite.'
         variant='info'
