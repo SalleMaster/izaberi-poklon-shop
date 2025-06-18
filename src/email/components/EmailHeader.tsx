@@ -18,7 +18,7 @@ export function EmailHeader() {
               <br /> <span className='text-xs'>www.izaberipoklon.com</span>
             </Text>
           </Column>
-          <Column align='right'>
+          <Column align='right' className='hidden md:block'>
             <Img
               alt='React Email logo'
               height='80'

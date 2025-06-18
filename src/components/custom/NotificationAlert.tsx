@@ -3,7 +3,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Info } from 'lucide-react'
 
 type NotificationAlertProps = React.HTMLAttributes<HTMLDivElement> & {
-  title: string
+  title?: string
   description: string
   variant?:
     | 'default'
@@ -24,7 +24,7 @@ export function NotificationAlert({
   return (
     <Alert variant={variant} className={className}>
       <Info className='h-4 w-4' />
-      <AlertTitle>{title}</AlertTitle>
+      {title ? <AlertTitle>{title}</AlertTitle> : null}
       <AlertDescription>{description}</AlertDescription>
     </Alert>
   )
