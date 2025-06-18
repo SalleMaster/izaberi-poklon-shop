@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { NotificationAlert } from '@/components/custom/NotificationAlert'
 
 export default async function VerifyPage() {
   const session = await getSession()
@@ -16,7 +17,7 @@ export default async function VerifyPage() {
     redirect('/')
   }
   return (
-    <div className='flex'>
+    <div className='flex flex-col gap-6'>
       <Card className='w-full md:max-w-96 mx-auto'>
         <CardHeader>
           <CardTitle>Email verifikacija</CardTitle>
@@ -29,6 +30,12 @@ export default async function VerifyPage() {
           Vaš nalog.
         </CardContent>
       </Card>
+      <NotificationAlert
+        description='Ukoliko ne vidite email u Vašem glavnom inbox-u, proverite
+          "Promotions" i "Spam" folder, ili pokušajte ponovo da se prijavite.'
+        variant='info'
+        className='w-full md:max-w-96 mx-auto'
+      />
     </div>
   )
 }
