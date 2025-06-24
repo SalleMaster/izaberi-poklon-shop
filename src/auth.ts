@@ -8,7 +8,7 @@ import prisma from './lib/db'
 import { sendVerification } from './lib/sendVerification'
 
 const providers: Provider[] = [
-  Google,
+  Google(),
   Resend({
     sendVerificationRequest({ identifier: email, url }) {
       sendVerification({ to: email, url })
