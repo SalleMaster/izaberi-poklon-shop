@@ -16,6 +16,7 @@ import { Separator } from '@/components/ui/separator'
 import { Mail } from 'lucide-react'
 import Image from 'next/image'
 import { Label } from '@/components/ui/label'
+import { NotificationAlert } from '@/components/custom/NotificationAlert'
 
 const SIGNIN_ERROR_URL = '/auth/error'
 
@@ -26,6 +27,7 @@ export default async function SignInPage(props: {
 }) {
   const searchParams = await props.searchParams
   let callbackUrl = searchParams?.callbackUrl
+  const error = searchParams?.error
   if (Array.isArray(callbackUrl)) {
     callbackUrl = callbackUrl[0]
   }
@@ -38,7 +40,7 @@ export default async function SignInPage(props: {
   }
 
   return (
-    <div className='flex'>
+    <div className='flex flex-col gap-5'>
       <Card className='w-full md:max-w-96 mx-auto'>
         <CardHeader>
           <CardTitle>Vaš nalog</CardTitle>
@@ -117,6 +119,15 @@ export default async function SignInPage(props: {
           </p>
         </CardFooter>
       </Card>
+
+      {error && (
+        <NotificationAlert
+          title='Greška prilikom prijave'
+          description='Došlo je do greške prilikom prijave. Molimo pokušajte ponovo ili koristite drugu opciju prijave.'
+          variant='destructive'
+          className='w-full md:max-w-96 mx-auto'
+        />
+      )}
     </div>
   )
 }
