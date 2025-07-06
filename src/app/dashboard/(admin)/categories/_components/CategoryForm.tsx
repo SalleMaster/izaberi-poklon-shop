@@ -53,7 +53,8 @@ export function CategoryForm({
       name: category?.name || '',
       active: category ? category?.active : false,
       special: category ? category?.special : false,
-      position: category ? category?.position : 0,
+      // position: category ? category?.position : 0,
+      position: 0,
       image: null,
     }),
     [category]
@@ -222,66 +223,72 @@ export function CategoryForm({
             </FormItem>
           )}
         />
-        <FormLabel className='mr-4'>Pozicija</FormLabel>
         <FormField
           control={form.control}
           name='position'
           render={() => (
-            <FormItem className='flex space-y-0 border rounded-md shadow-xs mr-auto'>
-              <FormControl>
-                <Button
-                  type='button'
-                  variant='ghost'
-                  onClick={() => {
-                    form.setValue(
-                      'position',
-                      Number(form.watch('position')) - 1
-                    )
-                  }}
-                  disabled={
-                    form.watch('position').toString() ===
-                    quantityOptions[0].value
-                  }
-                  size={'icon'}
-                  aria-label='Decrease quantity'
-                >
-                  <Minus className='h-4 w-4' />
-                </Button>
-              </FormControl>
-              <FormControl>
-                <div>
-                  <Combobox
-                    options={quantityOptions}
-                    value={form.watch('position').toString()}
-                    setValue={(value) => {
-                      form.setValue('position', Number(value))
-                    }}
+            <>
+              <FormLabel className='mr-4'>Pozicija</FormLabel>
+              <FormItem className='flex space-y-0 border rounded-md shadow-xs mr-auto'>
+                <FormControl>
+                  <Button
+                    type='button'
                     variant='ghost'
-                    withChevron={false}
-                  />
-                </div>
-              </FormControl>
-              <FormControl>
-                <Button
-                  type='button'
-                  variant='ghost'
-                  onClick={() => {
-                    form.setValue(
-                      'position',
-                      Number(form.watch('position')) + 1
-                    )
-                  }}
-                  disabled={
-                    form.watch('position').toString() ===
-                    quantityOptions[quantityOptions.length - 1].value
-                  }
-                  size={'icon'}
-                  aria-label='Increase quantity'
-                >
-                  <Plus className='h-4 w-4' />
-                </Button>
-              </FormControl>
-            </FormItem>
+                    onClick={() => {
+                      form.setValue(
+                        'position',
+                        Number(form.watch('position')) - 1
+                      )
+                      form.trigger('position')
+                    }}
+                    disabled={
+                      form.watch('position').toString() ===
+                      quantityOptions[0].value
+                    }
+                    size={'icon'}
+                    aria-label='Decrease quantity'
+                  >
+                    <Minus className='h-4 w-4' />
+                  </Button>
+                </FormControl>
+                <FormControl>
+                  <div>
+                    <Combobox
+                      options={quantityOptions}
+                      value={form.watch('position').toString()}
+                      setValue={(value) => {
+                        form.setValue('position', Number(value))
+                        form.trigger('position')
+                      }}
+                      variant='ghost'
+                      withChevron={false}
+                    />
+                  </div>
+                </FormControl>
+                <FormControl>
+                  <Button
+                    type='button'
+                    variant='ghost'
+                    onClick={() => {
+                      form.setValue(
+                        'position',
+                        Number(form.watch('position')) + 1
+                      )
+                      form.trigger('position')
+                    }}
+                    disabled={
+                      form.watch('position').toString() ===
+                      quantityOptions[quantityOptions.length - 1].value
+                    }
+                    size={'icon'}
+                    aria-label='Increase quantity'
+                  >
+                    <Plus className='h-4 w-4' />
+                  </Button>
+                </FormControl>
+              </FormItem>
+              <FormMessage />
+            </>
           )}
         />
         <FormField
