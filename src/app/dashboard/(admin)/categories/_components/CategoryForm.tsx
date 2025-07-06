@@ -19,7 +19,7 @@ import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { FileUpload } from '@/components/custom/FileUpload'
 import { ConfirmationDialog } from '@/components/custom/ConfirmationDialog'
-import { Loader2, Save } from 'lucide-react'
+import { Loader2, Minus, Plus, Save } from 'lucide-react'
 import {
   categorySchema,
   CategoryValues,
@@ -33,6 +33,8 @@ import {
   editCategory,
 } from '../_actions/actions'
 import { imageFileTypes } from '@/lib/validation'
+import { Combobox } from '@/components/custom/Combobox'
+import { quantityOptions } from '@/lib/consts'
 
 type CategoryWithImage = Category & {
   image: Media | null
@@ -51,6 +53,7 @@ export function CategoryForm({
       name: category?.name || '',
       active: category ? category?.active : false,
       special: category ? category?.special : false,
+      position: category ? category?.position : 0,
       image: null,
     }),
     [category]
@@ -86,6 +89,7 @@ export function CategoryForm({
             name: data.name,
             active: data.active,
             special: data.special,
+            position: data.position,
           },
           category.id,
           removedMedia,
@@ -107,6 +111,7 @@ export function CategoryForm({
             name: data.name,
             active: data.active,
             special: data.special,
+            position: data.position,
           },
           mediaId
         )
@@ -162,7 +167,10 @@ export function CategoryForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2.5'>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className='flex flex-col gap-2.5'
+      >
         <FormField
           control={form.control}
           name='name'
@@ -211,6 +219,68 @@ export function CategoryForm({
                 aplikaciji
               </FormDescription>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormLabel className='mr-4'>Pozicija</FormLabel>
+        <FormField
+          control={form.control}
+          name='position'
+          render={() => (
+            <FormItem className='flex space-y-0 border rounded-md shadow-xs mr-auto'>
+              <FormControl>
+                <Button
+                  type='button'
+                  variant='ghost'
+                  onClick={() => {
+                    form.setValue(
+                      'position',
+                      Number(form.watch('position')) - 1
+                    )
+                  }}
+                  disabled={
+                    form.watch('position').toString() ===
+                    quantityOptions[0].value
+                  }
+                  size={'icon'}
+                  aria-label='Decrease quantity'
+                >
+                  <Minus className='h-4 w-4' />
+                </Button>
+              </FormControl>
+              <FormControl>
+                <div>
+                  <Combobox
+                    options={quantityOptions}
+                    value={form.watch('position').toString()}
+                    setValue={(value) => {
+                      form.setValue('position', Number(value))
+                    }}
+                    variant='ghost'
+                    withChevron={false}
+                  />
+                </div>
+              </FormControl>
+              <FormControl>
+                <Button
+                  type='button'
+                  variant='ghost'
+                  onClick={() => {
+                    form.setValue(
+                      'position',
+                      Number(form.watch('position')) + 1
+                    )
+                  }}
+                  disabled={
+                    form.watch('position').toString() ===
+                    quantityOptions[quantityOptions.length - 1].value
+                  }
+                  size={'icon'}
+                  aria-label='Increase quantity'
+                >
+                  <Plus className='h-4 w-4' />
+                </Button>
+              </FormControl>
             </FormItem>
           )}
         />
