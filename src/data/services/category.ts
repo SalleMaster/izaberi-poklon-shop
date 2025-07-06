@@ -33,7 +33,7 @@ export const getCategories = cache(
 
     const categories = await prisma.category.findMany({
       where,
-      orderBy: { createdAt: 'desc' },
+      orderBy: { position: 'asc' },
       include: { image: true },
     })
 

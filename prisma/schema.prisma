@@ -89,6 +89,7 @@ model Category {
   slug      String    @unique
   active    Boolean   @default(false)
   special   Boolean   @default(false)
+  position  Int       @default(1)
   image     Media?
   products  Product[]
   createdAt DateTime  @default(now())

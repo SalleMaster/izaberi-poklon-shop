@@ -40,6 +40,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Prisma commands
 
+- `npx prisma dev` - Start local prisma dev server
 - `npx prisma db push` - Update database when we change schema
 - `npx prisma studio` - Database preview in the browser
 - `npx prisma db seed` - Seed the database
