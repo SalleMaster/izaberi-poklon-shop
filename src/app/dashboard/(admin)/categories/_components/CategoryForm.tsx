@@ -53,8 +53,7 @@ export function CategoryForm({
       name: category?.name || '',
       active: category ? category?.active : false,
       special: category ? category?.special : false,
-      // position: category ? category?.position : 0,
-      position: 0,
+      position: category ? category?.position : 0,
       image: null,
     }),
     [category]
