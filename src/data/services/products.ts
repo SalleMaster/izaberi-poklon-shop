@@ -256,7 +256,12 @@ export const getDiscountedProducts = cache(
 
     const products = await prisma.product.findMany({
       where: {
-        discount: { isNot: null },
+        discountId: {
+          not: null,
+        },
+        discount: {
+          active: true,
+        },
         inStock: true,
         categories: { some: { active: true } },
       },
