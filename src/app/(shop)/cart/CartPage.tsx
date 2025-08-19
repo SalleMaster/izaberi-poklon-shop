@@ -168,11 +168,6 @@ export default function CartPage({
     }
   }
 
-  // Use useEffect to reset the form when the product prop changes
-  useEffect(() => {
-    reset(defaultValues)
-  }, [defaultValues, reset])
-
   const updateCartItemHandler = async ({
     id,
     quantity,
@@ -238,6 +233,17 @@ export default function CartPage({
       )
     }
   }
+
+  const withDeliveryFee =
+    (currentStep === 2 || currentStep === 3) &&
+    form.watch('deliveryType') === OrderDeliveryType.delivery &&
+    form.watch('paymentType') === OrderPaymentType.card &&
+    selectedDeliveryService?.predefinedPrices
+
+  // Use useEffect to reset the form when the product prop changes
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
 
   return (
     <div
@@ -323,11 +329,7 @@ export default function CartPage({
           totalPriceWithDeliveryFee={optimisticCart?.totalPriceWithDeliveryFee}
           discount={optimisticCart?.discount}
           disabled={isPending || optimisticCart?.items.length === 0}
-          withDeliveryFee={
-            form.watch('deliveryType') === OrderDeliveryType.delivery &&
-            form.watch('paymentType') === OrderPaymentType.card &&
-            selectedDeliveryService?.predefinedPrices
-          }
+          withDeliveryFee={withDeliveryFee}
           isSubmitting={form.formState.isSubmitting}
           buttonLabel={
             currentStep === orderSteps.length - 1
