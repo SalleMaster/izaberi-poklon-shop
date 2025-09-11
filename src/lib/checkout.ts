@@ -5,10 +5,7 @@ import { ResponseStatus, ResponseStatusType } from './types'
 import { paymentErrorMessages } from './paymentErrorMessages'
 
 const checkoutResponseSchema = z.object({
-  result: z.object({
-    code: z.string(),
-    description: z.string(),
-  }),
+  result: z.object({ code: z.string(), description: z.string() }),
   buildNumber: z.string(),
   timestamp: z.string(),
   ndc: z.string(),
@@ -158,12 +155,8 @@ const paymentStatusSchema = z.object({
     .optional(),
 
   // Other optional fields
-  customParameters: z.record(z.string()).optional(),
-  risk: z
-    .object({
-      score: z.string().optional(),
-    })
-    .optional(),
+  customParameters: z.record(z.string(), z.string()).optional(),
+  risk: z.object({ score: z.string().optional() }).optional(),
   buildNumber: z.string().optional(),
   timestamp: z.string().optional(),
   ndc: z.string().optional(),
@@ -221,10 +214,7 @@ export async function getPaymentStatus(
     }
   } catch (error) {
     if (error instanceof Error) {
-      return {
-        status: ResponseStatus.fail,
-        message: error.message,
-      }
+      return { status: ResponseStatus.fail, message: error.message }
     } else {
       return {
         status: ResponseStatus.fail,

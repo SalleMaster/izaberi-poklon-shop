@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth'
-import { Adapter } from 'next-auth/adapters'
+// import { Adapter } from 'next-auth/adapters'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import type { Provider } from 'next-auth/providers'
 import Google from 'next-auth/providers/google'
@@ -28,9 +28,9 @@ export const providerMap = providers
   .filter((provider) => provider.id !== 'credentials')
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(prisma) as Adapter,
+  // adapter: PrismaAdapter(prisma) as Adapter,
   // trustHost: true, Enable this if you're having problems in production
-  // adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma),
   callbacks: {
     session({ session, user }) {
       session.user.role = user.role

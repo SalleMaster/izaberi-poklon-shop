@@ -50,4 +50,3 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## Next.js 15 Upgrade notes
 
 - `adapter: PrismaAdapter(prisma) as Adapter,` - Remove type casting from auth.ts file
-- ESLint does not work when doing production build on Vercel
