@@ -46,9 +46,7 @@ export async function cartCreateOrder(values: CartOrderValues) {
 
     if (deliveryType === OrderDeliveryType.delivery) {
       const selectedDeliveryAddress = await prisma.deliveryAddress.findUnique({
-        where: {
-          id: selectedDeliveryAddressId,
-        },
+        where: { id: selectedDeliveryAddressId },
       })
       if (!selectedDeliveryAddress) {
         throw new Error('Adresa dostave nije pronađena.')
@@ -56,9 +54,7 @@ export async function cartCreateOrder(values: CartOrderValues) {
       deliveryAddress = selectedDeliveryAddress
 
       const selectedBillingAddress = await prisma.deliveryAddress.findUnique({
-        where: {
-          id: selectedBillingAddressId,
-        },
+        where: { id: selectedBillingAddressId },
       })
       if (!selectedBillingAddress) {
         throw new Error('Adresa računa nije pronađena.')
@@ -66,9 +62,7 @@ export async function cartCreateOrder(values: CartOrderValues) {
       billingAddress = selectedBillingAddress
 
       const selectedDeliveryService = await prisma.deliveryService.findUnique({
-        where: {
-          id: selectedDeliveryServiceId,
-        },
+        where: { id: selectedDeliveryServiceId },
       })
       if (!selectedDeliveryService) {
         throw new Error('Kurirska služba nije pronađena.')
@@ -77,24 +71,14 @@ export async function cartCreateOrder(values: CartOrderValues) {
     }
 
     const cart = await prisma.cart.findFirst({
-      where: {
-        userId,
-      },
+      where: { userId },
       include: {
         coupon: true,
         items: {
           include: {
-            product: {
-              include: {
-                coverImage: true,
-              },
-            },
+            product: { include: { coverImage: true } },
             textPersonalizations: true,
-            imagePersonalizations: {
-              include: {
-                images: true,
-              },
-            },
+            imagePersonalizations: { include: { images: true } },
           },
         },
       },
@@ -120,14 +104,8 @@ export async function cartCreateOrder(values: CartOrderValues) {
 
     if (cart.coupon) {
       await prisma.coupon.update({
-        where: {
-          id: cart.coupon.id,
-        },
-        data: {
-          used: {
-            increment: 1,
-          },
-        },
+        where: { id: cart.coupon.id },
+        data: { used: { increment: 1 } },
       })
     }
 
@@ -168,20 +146,12 @@ export async function cartCreateOrder(values: CartOrderValues) {
         orderDeliveryFee,
         orderTotalPrice,
         cart,
-        user: {
-          connect: {
-            id: userId,
-          },
-        },
+        user: { connect: { id: userId } },
       },
     })
 
     // Clear the cart
-    await prisma.cartItem.deleteMany({
-      where: {
-        cartId: cart.id,
-      },
-    })
+    await prisma.cartItem.deleteMany({ where: { cartId: cart.id } })
     await updateCartOverviewData({ userId })
 
     // For card payments, create a payment checkout
@@ -228,17 +198,13 @@ export async function cartCreateOrder(values: CartOrderValues) {
     if (error instanceof ZodError) {
       return {
         status: 'fail',
-        message: error.errors.map((e) => e.message).join(', '),
+        message: error.issues.map((e) => e.message).join(', '),
         redirectUrl: '',
       }
     }
 
     if (error instanceof Error) {
-      return {
-        status: 'fail',
-        message: error.message,
-        redirectUrl: '',
-      }
+      return { status: 'fail', message: error.message, redirectUrl: '' }
     } else {
       throw error
     }
@@ -251,12 +217,7 @@ export async function sendOrderEmail(order: any, email: string) {
   // Send email
   await fetch(`${process.env.APP_URL}/api/order-created`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      order,
-      orderEmail: email,
-    }),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ order, orderEmail: email }),
   })
 }

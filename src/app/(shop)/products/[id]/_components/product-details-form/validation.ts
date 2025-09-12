@@ -25,10 +25,7 @@ const imagePersonalizationSchema = z
       if (data.min === 0 && !data.images) return true
       return data.images && data.images.length >= data.min
     },
-    {
-      message: 'Nedovoljan broj slika',
-      path: ['images'],
-    }
+    { message: 'Nedovoljan broj slika', path: ['images'] }
   )
   .superRefine((data, ctx) => {
     if (!data.max || !data.images) return
@@ -45,15 +42,12 @@ const imagePersonalizationSchema = z
 // Product details schema
 export const productDetailsSchema = z.object({
   productId: z.string().min(1, 'Polje je neophodno'),
-  quantity: z.preprocess(
-    (val) => (typeof val === 'string' ? parseFloat(val) : val),
-    z
-      .number()
-      .min(0, 'Polje je neophodno')
-      .refine((val) => Number.isInteger(val), {
-        message: 'Polje mora biti ceo broj',
-      })
-  ),
+  quantity: z
+    .number()
+    .min(0, 'Polje je neophodno')
+    .refine((val) => Number.isInteger(val), {
+      message: 'Polje mora biti ceo broj',
+    }),
   fontType: z.enum([FontType.latin, FontType.cyrillic]),
   personalization: z.boolean(),
   packageOptionSelected: z.boolean(),

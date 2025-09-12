@@ -34,10 +34,7 @@ export function CartItemRow({
   disabled,
 }: Props) {
   const defaultValues = useMemo(
-    () => ({
-      id: cartItem.id,
-      quantity: cartItem.quantity,
-    }),
+    () => ({ id: cartItem.id, quantity: cartItem.quantity }),
     [cartItem]
   )
 
@@ -49,10 +46,7 @@ export function CartItemRow({
   const { reset } = form
 
   function onSubmit(data: CartItemValues) {
-    updateCartItemHandler({
-      id: data.id,
-      quantity: data.quantity,
-    })
+    updateCartItemHandler({ id: data.id, quantity: data.quantity })
   }
 
   // Use useEffect to reset the form when the product prop changes
