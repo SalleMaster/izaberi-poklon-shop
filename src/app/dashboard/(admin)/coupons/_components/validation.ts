@@ -7,42 +7,30 @@ export const couponSchema = z
     name: z.string().trim().min(1, 'Polje je neophodno'),
     code: z.string().trim().min(1, 'Polje je neophodno'),
     discountType: z.enum([DiscountType.percentage, DiscountType.fixed]),
-    discount: z.preprocess(
-      (val) => (typeof val === 'string' ? parseFloat(val) : val),
-      z
-        .number()
-        .min(0, 'Polje je neophodno')
-        .refine((val) => Number.isInteger(val), {
-          message: 'Polje mora biti ceo broj',
-        })
-    ),
-    cartValue: z.preprocess(
-      (val) => (typeof val === 'string' ? parseFloat(val) : val),
-      z
-        .number()
-        .min(0, 'Polje je neophodno')
-        .refine((val) => Number.isInteger(val), {
-          message: 'Polje mora biti ceo broj',
-        })
-    ),
-    available: z.preprocess(
-      (val) => (typeof val === 'string' ? parseFloat(val) : val),
-      z
-        .number()
-        .min(0, 'Polje je neophodno')
-        .refine((val) => Number.isInteger(val), {
-          message: 'Polje mora biti ceo broj',
-        })
-    ),
-    used: z.preprocess(
-      (val) => (typeof val === 'string' ? parseFloat(val) : val),
-      z
-        .number()
-        .min(0, 'Polje je neophodno')
-        .refine((val) => Number.isInteger(val), {
-          message: 'Polje mora biti ceo broj',
-        })
-    ),
+    discount: z
+      .number()
+      .min(0, 'Polje je neophodno')
+      .refine((val) => Number.isInteger(val), {
+        message: 'Polje mora biti ceo broj',
+      }),
+    cartValue: z
+      .number()
+      .min(0, 'Polje je neophodno')
+      .refine((val) => Number.isInteger(val), {
+        message: 'Polje mora biti ceo broj',
+      }),
+    available: z
+      .number()
+      .min(0, 'Polje je neophodno')
+      .refine((val) => Number.isInteger(val), {
+        message: 'Polje mora biti ceo broj',
+      }),
+    used: z
+      .number()
+      .min(0, 'Polje je neophodno')
+      .refine((val) => Number.isInteger(val), {
+        message: 'Polje mora biti ceo broj',
+      }),
     active: z.boolean(),
     expiresAt: z.date(),
   })
@@ -53,10 +41,7 @@ export const couponSchema = z
       }
       return true
     },
-    {
-      message: 'Polje mora biti manje ili jednako 100',
-      path: ['discount'],
-    }
+    { message: 'Polje mora biti manje ili jednako 100', path: ['discount'] }
   )
 
 export type CouponValues = z.infer<typeof couponSchema>

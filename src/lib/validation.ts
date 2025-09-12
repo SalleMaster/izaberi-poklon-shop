@@ -44,7 +44,7 @@ export const imageListSchemaRequired = z
   )
 
 export const imageListSchemaOptional = z.union([
-  z.undefined(),
+  // z.undefined(),
   z.null(),
   z
     .instanceof(globalThis.FileList, { message: 'Slika je neophodna' })
