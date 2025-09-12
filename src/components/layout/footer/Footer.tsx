@@ -22,23 +22,14 @@ const usefulLinks = [
   { href: '/politika-privatnosti', label: 'Politika privatnosti' },
   { href: orderQuitForm.url, label: orderQuitForm.label, external: true },
   { href: '/reklamacije', label: 'Reklamacije' },
-  {
-    href: '/uslovi-koriscenja',
-    label: 'Uslovi korišćenja',
-  },
-  {
-    href: '/uslovi-placanja',
-    label: 'Uslovi plaćanja',
-  },
+  { href: '/uslovi-koriscenja', label: 'Uslovi korišćenja' },
+  { href: '/uslovi-placanja', label: 'Uslovi plaćanja' },
   {
     href: onlinePurchaseContract.url,
     label: 'Ugovor o kupovini na daljinu',
     external: true,
   },
-  {
-    href: '/povracaj-proizvoda',
-    label: 'Povraćaj proizvoda',
-  },
+  { href: '/povracaj-proizvoda', label: 'Povraćaj proizvoda' },
 ]
 
 const socialLinks = [
@@ -78,24 +69,15 @@ export default function Footer() {
           <Separator className='w-full h-px bg-muted-foreground' />
 
           <div className='flex flex-wrap justify-center items-center gap-4'>
-            <Image
-              src='/img/payment/visa.svg'
-              alt='Visa'
-              width='88'
-              height='50'
-            />
-            <Image
-              src='/img/payment/master.svg'
-              alt='Master'
-              width='88'
-              height='50'
-            />
-            <Image
-              src='/img/payment/maestro.svg'
-              alt='Maestro'
-              width='88'
-              height='50'
-            />
+            <div className='relative w-[88px] h-[50px]'>
+              <Image src='/img/payment/visa.svg' alt='Visa' fill />
+            </div>
+            <div className='relative w-[88px] h-[50px]'>
+              <Image src='/img/payment/master.svg' alt='Master' fill />
+            </div>
+            <div className='relative w-[88px] h-[50px]'>
+              <Image src='/img/payment/maestro.svg' alt='Maestro' fill />
+            </div>
           </div>
 
           <div className='flex flex-wrap justify-center items-center gap-4'>

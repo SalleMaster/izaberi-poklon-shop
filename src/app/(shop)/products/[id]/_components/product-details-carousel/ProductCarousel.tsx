@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
   Carousel,
@@ -10,30 +9,21 @@ import {
 } from '@/components/ui/carousel'
 import { ProductWithRelations } from '@/data/services/products'
 import Autoplay from 'embla-carousel-autoplay'
+import DynamicImage from '@/components/custom/DynamicImage'
 
-type Props = {
-  product: ProductWithRelations
-}
+type Props = { product: ProductWithRelations }
 
 export default function ProductCarousel({ product }: Props) {
   return (
     <Carousel
-      opts={{
-        align: 'start',
-        loop: true,
-      }}
-      plugins={[
-        Autoplay({
-          delay: 5000,
-          stopOnInteraction: true,
-        }),
-      ]}
+      opts={{ align: 'start', loop: true }}
+      plugins={[Autoplay({ delay: 5000, stopOnInteraction: true })]}
       className='mb-auto sm:sticky sm:top-[135px]'
     >
       <CarouselContent>
         {product.coverImage && (
           <CarouselItem>
-            <Image
+            <DynamicImage
               src={product.coverImage.url}
               alt={product.coverImage.name}
               width={800}
@@ -46,7 +36,7 @@ export default function ProductCarousel({ product }: Props) {
 
         {product.images.map((image) => (
           <CarouselItem key={image.id}>
-            <Image
+            <DynamicImage
               src={image.url}
               alt={image.name}
               width={800}

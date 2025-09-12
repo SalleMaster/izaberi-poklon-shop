@@ -2,7 +2,6 @@
 
 import { useSearchParams } from 'next/navigation'
 import React, { use, useOptimistic, useTransition } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { fallbackImageURL } from '@/lib/consts'
 import { cn } from '@/lib/utils'
@@ -11,11 +10,9 @@ import useCreateQueryString from '@/hooks/use-create-query-string'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { GetCategoriesReturnType } from '@/data/services/category'
+import DynamicImage from '@/components/custom/DynamicImage'
 
-type Props = {
-  categoriesPromise: GetCategoriesReturnType
-  pageUrl: string
-}
+type Props = { categoriesPromise: GetCategoriesReturnType; pageUrl: string }
 
 export default function CategoriesList({ categoriesPromise, pageUrl }: Props) {
   const categories = use(categoriesPromise)
@@ -50,7 +47,7 @@ export default function CategoriesList({ categoriesPromise, pageUrl }: Props) {
                 }}
               >
                 <div className='w-6 mr-2'>
-                  <Image
+                  <DynamicImage
                     src={category?.image?.url || fallbackImageURL}
                     alt={category?.image?.name || 'No image'}
                     width={24}

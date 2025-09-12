@@ -1,11 +1,11 @@
 import React, { TransitionStartFunction } from 'react'
-import Image from 'next/image'
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import Link from 'next/link'
 import { fallbackImageURL } from '@/lib/consts'
 import { cn } from '@/lib/utils'
 import { Skeleton } from '@/components/ui/skeleton'
 import { CategoryWithImage } from '@/data/services/category'
+import DynamicImage from '@/components/custom/DynamicImage'
 
 type Props = {
   categories: CategoryWithImage[]
@@ -17,10 +17,7 @@ type Props = {
     addParams,
     removeParams,
   }: {
-    addParams?: {
-      name: string
-      value: string
-    }[]
+    addParams?: { name: string; value: string }[]
     removeParams?: string[]
   }) => string
 }
@@ -53,7 +50,7 @@ export default function CategoriesList({
             }}
           >
             <div className='w-6 mr-2'>
-              <Image
+              <DynamicImage
                 src={category?.image?.url || fallbackImageURL}
                 alt={category?.image?.name || 'No image'}
                 width={24}
