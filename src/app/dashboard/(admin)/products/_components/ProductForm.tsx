@@ -54,40 +54,13 @@ type ProductWithRelations = Product & {
   packageOption: PackageOption | null
 }
 
-const initialPrice = [
-  {
-    from: 1,
-    to: 5000,
-    price: 0,
-    deliveryFeeId: '',
-  },
-]
+const initialPrice = [{ from: 1, to: 5000, price: 0, deliveryFeeId: '' }]
 
 const initialPriceTable = [
-  {
-    from: 10,
-    to: 50,
-    price: 0,
-    deliveryFeeId: '',
-  },
-  {
-    from: 51,
-    to: 100,
-    price: 0,
-    deliveryFeeId: '',
-  },
-  {
-    from: 101,
-    to: 300,
-    price: 0,
-    deliveryFeeId: '',
-  },
-  {
-    from: 301,
-    to: 5000,
-    price: 0,
-    deliveryFeeId: '',
-  },
+  { from: 10, to: 50, price: 0, deliveryFeeId: '' },
+  { from: 51, to: 100, price: 0, deliveryFeeId: '' },
+  { from: 101, to: 300, price: 0, deliveryFeeId: '' },
+  { from: 301, to: 5000, price: 0, deliveryFeeId: '' },
 ]
 
 export function ProductForm({
@@ -163,19 +136,13 @@ export function ProductForm({
     fields: textFields,
     append: textAppend,
     remove: textRemove,
-  } = useFieldArray({
-    control,
-    name: 'textPersonalizationFields',
-  })
+  } = useFieldArray({ control, name: 'textPersonalizationFields' })
 
   const {
     fields: imageFields,
     append: imageAppend,
     remove: imageRemove,
-  } = useFieldArray({
-    control,
-    name: 'imagePersonalizationFields',
-  })
+  } = useFieldArray({ control, name: 'imagePersonalizationFields' })
 
   const { fields: priceRangeFields } = useFieldArray({
     control,
@@ -438,7 +405,12 @@ export function ProductForm({
                         : `Od ${priceRangeFields[index].from} do ${priceRangeFields[index].to}`}
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder='Unesite cenu' {...field} />
+                    <Input
+                      placeholder='Unesite cenu'
+                      type='number'
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
                   </FormControl>
                   <FormDescription>Cena po komadu.</FormDescription>
                   <FormMessage />
@@ -749,11 +721,7 @@ export function ProductForm({
           <Button
             type='button'
             onClick={() =>
-              textAppend({
-                name: '',
-                placeholder: '',
-                originalId: '',
-              })
+              textAppend({ name: '', placeholder: '', originalId: '' })
             }
             variant={'secondary'}
           >
@@ -786,7 +754,12 @@ export function ProductForm({
                     Slikovna personalizacija: Količina slika
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder='Unesite količinu slika' {...field} />
+                    <Input
+                      placeholder='Unesite količinu slika'
+                      type='number'
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
                   </FormControl>
                   <FormDescription>
                     Minimalni broj slika za upload
@@ -802,7 +775,12 @@ export function ProductForm({
                 <FormItem>
                   <FormLabel>Slikovna personalizacija: Limit slika</FormLabel>
                   <FormControl>
-                    <Input placeholder='Unesite limit slika' {...field} />
+                    <Input
+                      placeholder='Unesite limit slika'
+                      type='number'
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
                   </FormControl>
                   <FormDescription>
                     Maksimalni broj slika za upload
@@ -830,12 +808,7 @@ export function ProductForm({
           <Button
             type='button'
             onClick={() =>
-              imageAppend({
-                name: '',
-                min: 0,
-                max: 1,
-                originalId: '',
-              })
+              imageAppend({ name: '', min: 0, max: 1, originalId: '' })
             }
             variant={'secondary'}
           >

@@ -27,9 +27,7 @@ import { createBanner, editBanner, deleteBanner } from '../_actions/actions'
 import { imageFileTypes } from '@/lib/validation'
 import { BannerWithImageType } from '@/data/services/banners'
 
-type Props = {
-  banner?: BannerWithImageType | null
-}
+type Props = { banner?: BannerWithImageType | null }
 
 export function BannerForm({ banner }: Props) {
   const [isDeleting, setIsDeleting] = useState(false)
@@ -85,11 +83,7 @@ export function BannerForm({ banner }: Props) {
       if (banner) {
         // Edit banner case
         const response = await editBanner(
-          {
-            name: data.name,
-            link: data.link,
-            active: data.active,
-          },
+          { name: data.name, link: data.link, active: data.active },
           banner.id,
           removedDesktopMedia,
           removedMobileMedia,
@@ -108,11 +102,7 @@ export function BannerForm({ banner }: Props) {
       } else {
         // Create banner case
         const response = await createBanner(
-          {
-            name: data.name,
-            link: data.link,
-            active: data.active,
-          },
+          { name: data.name, link: data.link, active: data.active },
           desktopMediaId,
           mobileMediaId
         )

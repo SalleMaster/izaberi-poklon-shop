@@ -53,12 +53,7 @@ export function CouponForm({ coupon }: { coupon?: Coupon | null }) {
     try {
       if (coupon) {
         // Edit coupon case
-        const response = await editCoupon(
-          {
-            ...data,
-          },
-          coupon.id
-        )
+        const response = await editCoupon({ ...data }, coupon.id)
         if (response) {
           if (response.status === 'fail') {
             return toast.warning(response.message)
@@ -70,9 +65,7 @@ export function CouponForm({ coupon }: { coupon?: Coupon | null }) {
         }
       } else {
         // Create coupon case
-        const response = await createCoupon({
-          ...data,
-        })
+        const response = await createCoupon({ ...data })
         if (response) {
           if (response.status === 'fail') {
             return toast.warning(response.message)
@@ -198,7 +191,12 @@ export function CouponForm({ coupon }: { coupon?: Coupon | null }) {
                   : 'Iznos (RSD)'}
               </FormLabel>
               <FormControl>
-                <Input placeholder='Unesite vrednost kupona' {...field} />
+                <Input
+                  placeholder='Unesite vrednost kupona'
+                  type='number'
+                  {...field}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                />
               </FormControl>
               <FormDescription>Vrednost kupona</FormDescription>
               <FormMessage />
@@ -213,7 +211,12 @@ export function CouponForm({ coupon }: { coupon?: Coupon | null }) {
             <FormItem>
               <FormLabel>Vrednost korpe</FormLabel>
               <FormControl>
-                <Input placeholder='Unesite vrednost korpe' {...field} />
+                <Input
+                  placeholder='Unesite vrednost korpe'
+                  type='number'
+                  {...field}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                />
               </FormControl>
               <FormDescription>Minimalna vrednost korpe</FormDescription>
               <FormMessage />
@@ -228,7 +231,12 @@ export function CouponForm({ coupon }: { coupon?: Coupon | null }) {
             <FormItem>
               <FormLabel>Dostupno</FormLabel>
               <FormControl>
-                <Input placeholder='Unesite količinu kupona' {...field} />
+                <Input
+                  placeholder='Unesite količinu kupona'
+                  type='number'
+                  {...field}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                />
               </FormControl>
               <FormDescription>Količina dostupnih kupona</FormDescription>
               <FormMessage />
@@ -243,7 +251,12 @@ export function CouponForm({ coupon }: { coupon?: Coupon | null }) {
             <FormItem>
               <FormLabel>Iskorišćeno</FormLabel>
               <FormControl>
-                <Input disabled={true} {...field} />
+                <Input
+                  disabled={true}
+                  type='number'
+                  {...field}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                />
               </FormControl>
               <FormDescription>Količina iskorišćenih kupona</FormDescription>
               <FormMessage />

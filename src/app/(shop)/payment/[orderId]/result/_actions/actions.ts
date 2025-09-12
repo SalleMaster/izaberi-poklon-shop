@@ -11,9 +11,7 @@ import {
 import { loggedInActionGuard } from '@/lib/actionGuard'
 import { ResponseStatus } from '@/lib/types'
 
-type RecreatePaymentCheckoutProps = {
-  orderId: string
-}
+type RecreatePaymentCheckoutProps = { orderId: string }
 
 export async function recreatePaymentCheckout({
   orderId,
@@ -21,9 +19,7 @@ export async function recreatePaymentCheckout({
   try {
     await loggedInActionGuard()
 
-    const order = await prisma.order.findUnique({
-      where: { id: orderId },
-    })
+    const order = await prisma.order.findUnique({ where: { id: orderId } })
 
     if (!order) {
       throw new Error('Porudžbina nije pronađena.')
@@ -75,10 +71,7 @@ export async function recreatePaymentCheckout({
   }
 }
 
-type VerifyPaymentProps = {
-  resourcePath: string
-  orderId: string
-}
+type VerifyPaymentProps = { resourcePath: string; orderId: string }
 
 export async function verifyPayment({
   resourcePath,

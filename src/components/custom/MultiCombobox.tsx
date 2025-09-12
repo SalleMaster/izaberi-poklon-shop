@@ -22,8 +22,8 @@ import { SelectOptionType } from './Combobox'
 
 type MultiComboboxProps = {
   options: SelectOptionType[]
-  value: [string, ...string[]]
-  setValue: (value: [string, ...string[]]) => void
+  value: string[]
+  setValue: (value: string[]) => void
 }
 
 export function MultiCombobox({
@@ -68,11 +68,8 @@ export function MultiCombobox({
                   onSelect={(currentValue) => {
                     setValue(
                       value.includes(currentValue)
-                        ? (value.filter((item) => item !== currentValue) as [
-                            string,
-                            ...string[],
-                          ])
-                        : ([...value, currentValue] as [string, ...string[]])
+                        ? value.filter((item) => item !== currentValue)
+                        : [...value, currentValue]
                     )
                     setOpen(false)
                   }}

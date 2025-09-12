@@ -20,20 +20,14 @@ const imagePersonalizationFieldSchema = z
     id: z.string().optional(),
     originalId: z.string(),
     name: z.string().min(1, 'Polje je neophodno'),
-    min: z.preprocess(
-      (val) => Number(val),
-      z
-        .number({ invalid_type_error: 'Polje mora biti broj' })
-        .int()
-        .min(0, 'Minimalni broj slika ne može biti manji od nule')
-    ),
-    max: z.preprocess(
-      (val) => Number(val),
-      z
-        .number({ invalid_type_error: 'Polje mora biti broj' })
-        .int()
-        .min(1, 'Maksimalni broj slika ne može biti manji od 1')
-    ),
+    min: z
+      .number()
+      .int()
+      .min(0, 'Minimalni broj slika ne može biti manji od nule'),
+    max: z
+      .number()
+      .int()
+      .min(1, 'Maksimalni broj slika ne može biti manji od 1'),
     createdAt: z.date().optional(),
     updatedAt: z.date().optional(),
     productId: z.union([z.string(), z.null()]).optional(),
@@ -51,27 +45,18 @@ const imagePersonalizationFieldSchema = z
 
 const priceTableSchema = z.array(
   z.object({
-    from: z.preprocess(
-      (val) => (typeof val === 'string' ? parseFloat(val) : val),
-      z
-        .number({ invalid_type_error: 'Polje mora biti broj' })
-        .int('Polje mora biti ceo broj')
-        .min(1, 'Polje mora biti veće od nule')
-    ),
-    to: z.preprocess(
-      (val) => (typeof val === 'string' ? parseFloat(val) : val),
-      z
-        .number({ invalid_type_error: 'Polje mora biti broj' })
-        .int('Polje mora biti ceo broj')
-        .min(1, 'Polje mora biti veće od nule')
-    ),
-    price: z.preprocess(
-      (val) => (typeof val === 'string' ? parseFloat(val) : val),
-      z
-        .number({ invalid_type_error: 'Cena mora biti broj' })
-        .int('Cena mora biti ceo broj')
-        .min(1, 'Cena mora biti veće od nule')
-    ),
+    from: z
+      .number()
+      .int('Polje mora biti ceo broj')
+      .min(1, 'Polje mora biti veće od nule'),
+    to: z
+      .number()
+      .int('Polje mora biti ceo broj')
+      .min(1, 'Polje mora biti veće od nule'),
+    price: z
+      .number()
+      .int('Cena mora biti ceo broj')
+      .min(1, 'Cena mora biti veće od nule'),
     deliveryFeeId: z.string().min(1, 'Polje je neophodno'),
   })
 )
