@@ -1,15 +1,13 @@
 import { UserRoleType } from '@prisma/client'
 import Link from 'next/link'
-import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import getUserRole from '@/lib/userRole'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ProductCardType } from '@/data/services/products'
+import DynamicImage from '@/components/custom/DynamicImage'
 
-type ProductCardProps = {
-  product: ProductCardType
-}
+type ProductCardProps = { product: ProductCardType }
 
 export default async function ProductCard({ product }: ProductCardProps) {
   const userRole = await getUserRole()
@@ -23,7 +21,7 @@ export default async function ProductCard({ product }: ProductCardProps) {
           </Badge>
         )}
         {product.coverImage && (
-          <Image
+          <DynamicImage
             src={product.coverImage.url}
             alt={product.coverImage.name}
             width={300}
