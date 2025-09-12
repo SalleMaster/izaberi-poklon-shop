@@ -6,33 +6,22 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel'
 import { fallbackImageURL } from '@/lib/consts'
-import Image from 'next/image'
 import Link from 'next/link'
 import { Skeleton } from '@/components/ui/skeleton'
 import Autoplay from 'embla-carousel-autoplay'
 import { BannerWithImageType } from '@/data/services/banners'
+import DynamicImage from '@/components/custom/DynamicImage'
 
-type BannersCarouselProps = {
-  banners: BannerWithImageType[]
-}
+type BannersCarouselProps = { banners: BannerWithImageType[] }
 
 export default function BannersCarousel({ banners }: BannersCarouselProps) {
   return (
-    <Carousel
-      opts={{
-        loop: true,
-      }}
-      plugins={[
-        Autoplay({
-          delay: 5000,
-        }),
-      ]}
-    >
+    <Carousel opts={{ loop: true }} plugins={[Autoplay({ delay: 5000 })]}>
       <CarouselContent>
         {banners.map((banner) => (
           <CarouselItem key={banner.id}>
             <Link href={banner.link}>
-              <Image
+              <DynamicImage
                 src={banner.desktopImage?.url || fallbackImageURL}
                 alt={banner.desktopImage?.name || banner.name}
                 width={1000}
@@ -41,7 +30,7 @@ export default function BannersCarousel({ banners }: BannersCarouselProps) {
                 priority
                 className='hidden md:block'
               />
-              <Image
+              <DynamicImage
                 src={banner.mobileImage?.url || fallbackImageURL}
                 alt={banner.mobileImage?.name || banner.name}
                 width={300}
