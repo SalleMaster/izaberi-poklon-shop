@@ -75,7 +75,7 @@
     "typescript": "^5"
   },
   "engines": {
-    "node": "^25"
+    "node": "^24"
   },
   "overrides": {
     "@types/react": "19.2.2",
