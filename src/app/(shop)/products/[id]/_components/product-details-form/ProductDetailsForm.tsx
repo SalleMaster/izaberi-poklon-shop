@@ -5,7 +5,8 @@ import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { signIn } from 'next-auth/react'
-import { User as UserType } from 'next-auth'
+// import { User as UserType } from 'better-auth'
+import { User as UserType } from 'better-auth'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Form,

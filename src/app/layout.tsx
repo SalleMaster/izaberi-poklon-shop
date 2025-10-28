@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
-import { SessionProvider } from 'next-auth/react'
+// import { SessionProvider } from 'next-auth/react'
 import localFont from 'next/font/local'
 import './globals.css'
 import { Toaster } from '@/components/ui/sonner'
@@ -41,12 +41,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen group`}
       >
-        <SessionProvider>
-          <Header />
-          <div className='container px-4 my-6 mx-auto'>{children}</div>
-          <Footer />
-          <Toaster />
-        </SessionProvider>
+        {/* <SessionProvider> */}
+        <Header />
+        <div className='container px-4 my-6 mx-auto'>{children}</div>
+        <Footer />
+        <Toaster />
+        {/* </SessionProvider> */}
       </body>
     </html>
   )

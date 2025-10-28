@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import UserButton from './UserButton'
 import { signIn } from 'next-auth/react'
-import { User as UserType } from 'next-auth'
+import { User as UserType } from 'better-auth'
 
 type Props = {
   user?: UserType

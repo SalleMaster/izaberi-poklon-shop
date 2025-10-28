@@ -2,7 +2,7 @@
 
 import { TransitionStartFunction, useTransition } from 'react'
 import { signIn } from 'next-auth/react'
-import { User } from 'next-auth'
+import { User } from 'better-auth'
 import { Card } from '@/components/ui/card'
 import {
   Accordion,

@@ -70,6 +70,7 @@ enum RatingStatusType {
 }
 
 // Category
+
 model Category {
   id        String    @id @default(cuid())
   name      String    @unique
@@ -86,6 +87,7 @@ model Category {
 }
 
 // Package
+
 model PackageOption {
   id          String    @id @default(cuid())
   name        String    @unique
@@ -99,6 +101,7 @@ model PackageOption {
 }
 
 // DeliveryService
+
 model DeliveryService {
   id               String   @id @default(cuid())
   name             String   @unique
@@ -113,6 +116,7 @@ model DeliveryService {
 }
 
 // Banner
+
 model Banner {
   id           String   @id @default(cuid())
   name         String
@@ -127,6 +131,7 @@ model Banner {
 }
 
 // Coupon
+
 model Coupon {
   id           String       @id @default(cuid())
   name         String
@@ -146,6 +151,7 @@ model Coupon {
 }
 
 // DeliveryFee
+
 model DeliveryFee {
   id         String       @id @default(cuid())
   name       String
@@ -158,6 +164,7 @@ model DeliveryFee {
 }
 
 // PriceRange
+
 model PriceRange {
   id            String      @id @default(cuid())
   from          Int
@@ -174,6 +181,7 @@ model PriceRange {
 }
 
 // Discount
+
 model Discount {
   id         String    @id @default(cuid())
   name       String    @unique
@@ -187,6 +195,7 @@ model Discount {
 }
 
 // Text personalization field
+
 model TextPersonalizationField {
   id          String   @id @default(cuid())
   name        String
@@ -200,6 +209,7 @@ model TextPersonalizationField {
 }
 
 // Image personalization field
+
 model ImagePersonalizationField {
   id        String   @id @default(cuid())
   name      String
@@ -214,6 +224,7 @@ model ImagePersonalizationField {
 }
 
 // Product
+
 model Product {
   id                         String                      @id @default(cuid())
   name                       String
@@ -263,6 +274,7 @@ model Rating {
 }
 
 // Media
+
 model Media {
   id                     String                @id @default(cuid())
   name                   String
@@ -331,6 +343,7 @@ model CartItem {
 }
 
 // Text personalization
+
 model TextPersonalization {
   id         String    @id @default(cuid())
   name       String
@@ -344,6 +357,7 @@ model TextPersonalization {
 }
 
 // Image personalization
+
 model ImagePersonalization {
   id         String    @id @default(cuid())
   name       String
@@ -357,6 +371,7 @@ model ImagePersonalization {
 }
 
 // Delivery address
+
 model DeliveryAddress {
   id        String              @id @default(cuid())
   name      String
@@ -376,6 +391,7 @@ model DeliveryAddress {
 }
 
 // Order
+
 model Order {
   id             String            @id @default(cuid())
   orderNumber    String
@@ -437,12 +453,13 @@ model Order {
 }
 
 // Auth
+
 model User {
   id                String            @id @default(cuid())
   name              String?
   phone             String?
   email             String            @unique
-  emailVerified     DateTime?
+  emailVerified     Boolean           @default(false)
   image             String?
   role              UserRoleType      @default(user)
   media             Media[]
@@ -456,40 +473,60 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  banned     Boolean?  @default(false)
+  banReason  String?
+  banExpires DateTime?
+
   @@map("users")
 }
 
 model Account {
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
+  userId String
+  // type       String
+  // provider          String
+  // providerAccountId String
+  // refresh_token String?
+  // access_token  String?
+  // expires_at    Int?
+  // token_type String?
+  scope  String?
+  // id_token      String?
+  // session_state String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([provider, providerAccountId])
+  accountId             String    @map("providerAccountId")
+  providerId            String    @map("provider")
+  accessToken           String?   @map("access_token")
+  refreshToken          String?   @map("refresh_token")
+  idToken               String?   @map("id_token")
+  accessTokenExpiresAt  DateTime? @map("expires_at")
+  refreshTokenExpiresAt DateTime?
+  password              String?
+
+  @@id([providerId, accountId])
   @@map("accounts")
 }
 
 model Session {
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // sessionToken String @unique
+  userId String
+  // expires      DateTime
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  expiresAt      DateTime @map("expires")
+  token          String   @map("sessionToken")
+  ipAddress      String?
+  userAgent      String?
+  impersonatedBy String?
+
+  @@unique([token])
   @@map("sessions")
 }
 
@@ -500,4 +537,15 @@ model VerificationToken {
 
   @@id([identifier, token])
   @@map("verification_tokens")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@map("verification")
 }

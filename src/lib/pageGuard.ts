@@ -22,7 +22,8 @@ const pageGuard = async ({
   const userRole = user.role
   const userName = user.name
   const userEmail = user.email
-  const userPhone = user.phone
+  const userPhone = ''
+  // const userPhone = user.phone
 
   if (!userId || (adminGuard && userRole !== UserRoleType.admin)) {
     redirect('/')
