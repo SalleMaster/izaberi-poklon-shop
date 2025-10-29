@@ -1,11 +1,9 @@
 'use client'
 
+import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
 import UserButton from './UserButton'
-// import { signIn } from 'next-auth/react'
-// import { User as UserType } from '@/generated/prisma'
-import { signIn, UserType } from '@/lib/auth-client'
-import Link from 'next/link'
+import { UserType } from '@/lib/auth-client'
 
 type Props = {
   user?: UserType

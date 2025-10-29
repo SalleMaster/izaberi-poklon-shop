@@ -24,7 +24,7 @@ const pageGuard = async ({
   })
 
   const userId = user.id
-  const userRole = user.role
+  const userRole = user.role || null
   const userName = user.name
   const userEmail = user.email
   const userPhone = userDetails?.phone || ''

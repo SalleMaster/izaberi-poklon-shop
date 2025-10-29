@@ -1,5 +1,4 @@
 import { use } from 'react'
-// import { Session } from 'next-auth'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
 import { GetProductReturnType } from '@/data/services/products'
 import ProductCarousel, {

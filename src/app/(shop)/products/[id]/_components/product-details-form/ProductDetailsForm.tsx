@@ -4,8 +4,6 @@ import { useMemo, useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { signIn } from 'next-auth/react'
-// import { User as UserType } from 'better-auth'
 import { User as UserType } from 'better-auth'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
@@ -45,6 +43,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
 import { priceFormatter } from '@/lib/format'
 import Link from 'next/link'
+import { clsx } from 'clsx'
 
 type Props = {
   product: ProductWithRelations
@@ -429,10 +428,15 @@ export function ProductDetailsForm({ product, user }: Props) {
           )}
 
           {!user && (
-            <Button type='button' className='ml-auto' onClick={() => signIn()}>
-              <ShoppingCart className='mr-2 h-4 w-4' />
+            <Link
+              href={`/auth/signin?callbackUrl=/pokloni/${product.id}`}
+              className={clsx(
+                buttonVariants({ variant: 'default' }),
+                'ml-auto'
+              )}
+            >
               Dodaj u korpu
-            </Button>
+            </Link>
           )}
         </div>
 

@@ -1,7 +1,6 @@
 'use client'
 
 import { TransitionStartFunction, useTransition } from 'react'
-import { signIn } from 'next-auth/react'
 import { User } from 'better-auth'
 import { Card } from '@/components/ui/card'
 import {
@@ -18,7 +17,9 @@ import ProductRatingOverview, {
 } from './product-rating-overview/ProductRatingOverview'
 import ProductRatingList from './product-rating-list/ProductRatingList'
 import { ProductRatingForm } from '../product-rating-form/ProductRatingForm'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
+import Link from 'next/link'
+import clsx from 'clsx'
 
 type Props = {
   product: Product
@@ -105,9 +106,15 @@ function ProductRatingFormCard({
                 </p>
 
                 {!userId && (
-                  <Button onClick={() => signIn()} className='ml-auto'>
+                  <Link
+                    href={`/auth/signin?callbackUrl=/pokloni/${productId}`}
+                    className={clsx(
+                      buttonVariants({ variant: 'default' }),
+                      'ml-auto'
+                    )}
+                  >
                     Prijava
-                  </Button>
+                  </Link>
                 )}
               </div>
             )}

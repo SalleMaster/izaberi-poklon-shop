@@ -12,32 +12,15 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: false,
   },
-  // session: {
-  //   fields: {
-  //     expiresAt: 'expires',
-  //     token: 'sessionToken',
-  //   },
-  // },
-  // account: {
-  //   fields: {
-  //     accountId: 'providerAccountId',
-  //     refreshToken: 'refresh_token',
-  //     accessToken: 'access_token',
-  //     accessTokenExpiresAt: 'access_token_expires',
-  //     idToken: 'id_token',
-  //   },
-  // },
   socialProviders: {
     google: {
       clientId: process.env.AUTH_GOOGLE_ID as string,
       clientSecret: process.env.AUTH_GOOGLE_SECRET as string,
     },
   },
-  // plugins: [nextCookies()],
   plugins: [
     magicLink({
-      sendMagicLink: async ({ email, token, url }, request) => {
-        // send email to user
+      sendMagicLink: async ({ email, url }) => {
         sendVerification({ to: email, url })
       },
     }),
