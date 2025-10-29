@@ -1,4 +1,8 @@
-import { OrderStatusType, RatingStatusType, UserRoleType } from '@prisma/client'
+import {
+  OrderStatusType,
+  RatingStatusType,
+  UserRoleType,
+} from '@/generated/prisma'
 import { generateQuantityOptions } from './product-utils'
 import { BadgeVariant } from '@/components/ui/badge'
 

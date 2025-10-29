@@ -15,7 +15,7 @@ import {
   PriceRange,
   DeliveryFee,
   PackageOption,
-} from '@prisma/client'
+} from '@/generated/prisma'
 import { Button } from '@/components/ui/button'
 import {
   Form,

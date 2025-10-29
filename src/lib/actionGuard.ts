@@ -1,6 +1,4 @@
-// import { auth } from '@/auth'
-// import { auth } from '@/lib/auth'
-import { UserRoleType } from '@prisma/client'
+import { UserRoleType } from '@/generated/prisma'
 import getSession from '@/lib/getSession'
 
 export const adminActionGuard = async () => {

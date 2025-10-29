@@ -8,7 +8,7 @@ import {
   DeliveryService,
   OrderDeliveryType,
   OrderPaymentType,
-} from '@prisma/client'
+} from '@/generated/prisma'
 import Image from 'next/image'
 import Link from 'next/link'
 

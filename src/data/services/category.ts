@@ -4,7 +4,7 @@ import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 
-import { Category, Media, Prisma } from '@prisma/client'
+import { Category, Media, Prisma } from '@/generated/prisma'
 
 export type CategoryWithImage = Category & { image: Media | null }
 

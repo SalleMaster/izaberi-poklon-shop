@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge'
-import { Discount, PriceRange } from '@prisma/client'
+import { Discount, PriceRange } from '@/generated/prisma'
 
 type Props = {
   discount: Discount | null

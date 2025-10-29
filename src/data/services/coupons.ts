@@ -4,7 +4,7 @@ import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 
-import { Coupon } from '@prisma/client'
+import { Coupon } from '@/generated/prisma'
 
 export type GetCouponsReturnType = Promise<Coupon[]>
 

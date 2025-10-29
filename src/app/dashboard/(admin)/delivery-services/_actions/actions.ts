@@ -2,7 +2,7 @@
 
 import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache'
-import { Media, Prisma } from '@prisma/client'
+import { Media, Prisma } from '@/generated/prisma'
 import {
   deliveryServiceSchema,
   DeliveryServiceValues,

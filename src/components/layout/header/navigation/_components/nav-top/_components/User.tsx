@@ -1,9 +1,11 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import UserButton from './UserButton'
-import { signIn } from 'next-auth/react'
-import { User as UserType } from 'better-auth'
+// import { signIn } from 'next-auth/react'
+// import { User as UserType } from '@/generated/prisma'
+import { signIn, UserType } from '@/lib/auth-client'
+import Link from 'next/link'
 
 type Props = {
   user?: UserType
@@ -19,5 +21,12 @@ export default function User({ user }: Props) {
 }
 
 function SignInButton() {
-  return <Button onClick={() => signIn()}>Prijava</Button>
+  return (
+    <Link
+      href='/auth/signin'
+      className={buttonVariants({ variant: 'default' })}
+    >
+      Prijava
+    </Link>
+  )
 }

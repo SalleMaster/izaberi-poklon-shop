@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { FontType } from '@prisma/client'
+import { FontType } from '@/generated/prisma'
 import { imageListSchemaOptional } from '@/lib/validation'
 
 export const textPersonalizationSchema = z.object({

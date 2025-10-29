@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { RatingStatusType } from '@prisma/client'
+import { RatingStatusType } from '@/generated/prisma'
 
 // Rating status schema
 export const ratingStatusSchema = z.object({

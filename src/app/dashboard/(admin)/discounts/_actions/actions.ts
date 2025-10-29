@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from '@/lib/db'
-import { Prisma } from '@prisma/client'
+import { Prisma } from '@/generated/prisma'
 import { revalidatePath } from 'next/cache'
 import { discountSchema, DiscountValues } from '../_components/validation'
 import { adminActionGuard } from '@/lib/actionGuard'

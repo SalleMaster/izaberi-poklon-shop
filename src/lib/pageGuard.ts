@@ -1,6 +1,7 @@
 import getSession from '@/lib/getSession'
-import { UserRoleType } from '@prisma/client'
+import { UserRoleType } from '@/generated/prisma'
 import { redirect } from 'next/navigation'
+import prisma from './db'
 
 type PageGuardParams = {
   callbackUrl: string
@@ -15,15 +16,18 @@ const pageGuard = async ({
   const user = session?.user
 
   if (!user) {
-    redirect(`/api/auth/signin?callbackUrl=${callbackUrl}`)
+    redirect(`/auth/signin?callbackUrl=${callbackUrl}`)
   }
+
+  const userDetails = await prisma.user.findUnique({
+    where: { id: user.id },
+  })
 
   const userId = user.id
   const userRole = user.role
   const userName = user.name
   const userEmail = user.email
-  const userPhone = ''
-  // const userPhone = user.phone
+  const userPhone = userDetails?.phone || ''
 
   if (!userId || (adminGuard && userRole !== UserRoleType.admin)) {
     redirect('/')

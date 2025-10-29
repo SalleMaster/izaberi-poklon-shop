@@ -4,7 +4,13 @@ import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 
-import { Media, Product, Rating, RatingStatusType, User } from '@prisma/client'
+import {
+  Media,
+  Product,
+  Rating,
+  RatingStatusType,
+  User,
+} from '@/generated/prisma'
 import { adminActionGuard, loggedInUser } from '@/lib/actionGuard'
 
 export type GetProductRatingsReturnType = Promise<Rating[]>

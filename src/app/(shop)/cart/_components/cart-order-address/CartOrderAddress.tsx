@@ -1,6 +1,6 @@
 import { DeliveryAddressForm } from '@/app/dashboard/delivery-address/_components/DeliveryAddressForm'
 import { Button } from '@/components/ui/button'
-import { DeliveryAddress, DeliveryAddressType } from '@prisma/client'
+import { DeliveryAddress, DeliveryAddressType } from '@/generated/prisma'
 import { Pencil, Plus } from 'lucide-react'
 import { TransitionStartFunction, useEffect, useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'

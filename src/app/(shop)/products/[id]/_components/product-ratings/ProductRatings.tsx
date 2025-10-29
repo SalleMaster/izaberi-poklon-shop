@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/accordion'
 import { Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Product, Rating } from '@prisma/client'
+import { Product, Rating } from '@/generated/prisma'
 import ProductRatingOverview, {
   ProductRatingOverviewSkeleton,
 } from './product-rating-overview/ProductRatingOverview'

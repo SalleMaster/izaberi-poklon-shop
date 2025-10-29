@@ -4,7 +4,7 @@ import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 
-import { Banner, Media } from '@prisma/client'
+import { Banner, Media } from '@/generated/prisma'
 
 export type BannerWithImageType = Banner & {
   desktopImage: Media | null

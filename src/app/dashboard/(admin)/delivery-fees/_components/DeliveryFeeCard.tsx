@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Card } from '@/components/ui/card'
-import { DeliveryFee } from '@prisma/client'
+import { DeliveryFee } from '@/generated/prisma'
 import { Package } from 'lucide-react'
 import { DeliveryFeeForm } from './DeliveryFeeForm'
 import { Skeleton } from '@/components/ui/skeleton'

@@ -5,7 +5,7 @@ import { cache } from 'react'
 import prisma from '@/lib/db'
 
 import { adminActionGuard, loggedInActionGuard } from '@/lib/actionGuard'
-import { DeliveryAddress, User, UserRoleType } from '@prisma/client'
+import { DeliveryAddress, User, UserRoleType } from '@/generated/prisma'
 
 export type GetUserAddressesReturnType = Promise<DeliveryAddress[]>
 

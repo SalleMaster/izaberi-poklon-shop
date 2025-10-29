@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { orderStatusOptions } from '@/lib/consts'
-import { OrderStatusType } from '@prisma/client'
+import { OrderStatusType } from '@/generated/prisma'
 
 type Props = {
   status: OrderStatusType

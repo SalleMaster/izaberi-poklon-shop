@@ -30,7 +30,7 @@ import { CheckCheck, Loader2, Minus, Plus, ShoppingCart } from 'lucide-react'
 import { productDetailsSchema, ProductDetailsValues } from './validation'
 import { addCartItem } from '@/app/(shop)/_actions/cart/actions'
 import { ProductWithRelations } from '@/data/services/products'
-import { FontType } from '@prisma/client'
+import { FontType } from '@/generated/prisma'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import {
   priceTableQuantityOptions,

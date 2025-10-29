@@ -5,7 +5,7 @@ import { cache } from 'react'
 import prisma from '@/lib/db'
 
 import { loggedInActionGuard } from '@/lib/actionGuard'
-import { Discount } from '@prisma/client'
+import { Discount } from '@/generated/prisma'
 
 export type GetDiscountsReturnType = Promise<Discount[]>
 

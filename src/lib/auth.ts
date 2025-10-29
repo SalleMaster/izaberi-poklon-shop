@@ -9,27 +9,29 @@ export const auth = betterAuth({
     provider: 'postgresql',
   }),
   emailAndPassword: {
-    enabled: true,
+    enabled: false,
   },
-  session: {
-    fields: {
-      expiresAt: 'expires',
-      token: 'sessionToken',
+  // session: {
+  //   fields: {
+  //     expiresAt: 'expires',
+  //     token: 'sessionToken',
+  //   },
+  // },
+  // account: {
+  //   fields: {
+  //     accountId: 'providerAccountId',
+  //     refreshToken: 'refresh_token',
+  //     accessToken: 'access_token',
+  //     accessTokenExpiresAt: 'access_token_expires',
+  //     idToken: 'id_token',
+  //   },
+  // },
+  socialProviders: {
+    google: {
+      clientId: process.env.AUTH_GOOGLE_ID as string,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET as string,
     },
   },
-  account: {
-    fields: {
-      accountId: 'providerAccountId',
-      refreshToken: 'refresh_token',
-      accessToken: 'access_token',
-      accessTokenExpiresAt: 'access_token_expires',
-      idToken: 'id_token',
-    },
-  },
-  pages: {
-    signIn: '/auth/signin',
-    error: '/auth/error',
-    verifyRequest: '/auth/verify-request',
-  },
+  // plugins: [nextCookies()],
   plugins: [admin(), nextCookies()],
 })

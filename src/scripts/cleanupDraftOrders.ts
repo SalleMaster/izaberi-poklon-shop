@@ -1,4 +1,4 @@
-import { OrderStatusType, PrismaClient } from '@prisma/client'
+import { OrderStatusType, PrismaClient } from '@/generated/prisma'
 import { subDays, format } from 'date-fns'
 
 // Create a dedicated Prisma instance for this script

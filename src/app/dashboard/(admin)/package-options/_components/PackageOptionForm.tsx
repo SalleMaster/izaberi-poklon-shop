@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { PackageOption } from '@prisma/client'
+import { PackageOption } from '@/generated/prisma'
 import { Button } from '@/components/ui/button'
 import {
   Form,

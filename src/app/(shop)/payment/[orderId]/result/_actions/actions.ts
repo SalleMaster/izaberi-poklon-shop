@@ -7,7 +7,7 @@ import {
   OrderPaymentStatusType,
   OrderPaymentType,
   OrderStatusType,
-} from '@prisma/client'
+} from '@/generated/prisma'
 import { loggedInActionGuard } from '@/lib/actionGuard'
 import { ResponseStatus } from '@/lib/types'
 

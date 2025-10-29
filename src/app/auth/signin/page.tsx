@@ -1,7 +1,10 @@
-import { redirect } from 'next/navigation'
-import getSession from '@/lib/getSession'
-import { signIn, providerMap } from '@/auth'
-import { AuthError } from 'next-auth'
+'use client'
+
+import Link from 'next/link'
+import { type SVGProps, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { signinGoogle } from '@/lib/social-login'
+import { authClient } from '@/lib/auth-client'
 import {
   Card,
   CardContent,
@@ -10,35 +13,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Separator } from '@/components/ui/separator'
-import { Mail } from 'lucide-react'
-import Image from 'next/image'
-import { Label } from '@/components/ui/label'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
+import { Button } from '@/components/ui/button'
+import Image from 'next/image'
 
-const SIGNIN_ERROR_URL = '/auth/error'
-
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
-
-export default async function SignInPage(props: {
-  searchParams: SearchParams
-}) {
-  const searchParams = await props.searchParams
-  let callbackUrl = searchParams?.callbackUrl
-  const error = searchParams?.error
-  if (Array.isArray(callbackUrl)) {
-    callbackUrl = callbackUrl[0]
-  }
-
-  const session = await getSession()
-  const user = session?.user
-
-  if (user) {
-    redirect(callbackUrl ?? '/')
-  }
-
+export default function SignIn() {
   return (
     <div className='flex flex-col gap-5'>
       <Card className='w-full md:max-w-96 mx-auto'>
@@ -47,7 +26,7 @@ export default async function SignInPage(props: {
           <CardDescription>Odaberite opciju za prijavu</CardDescription>
         </CardHeader>
         <CardContent className='grid grid-cols-1 gap-5'>
-          {Object.values(providerMap).map((provider) => (
+          {/* {Object.values(providerMap).map((provider) => (
             <form
               key={provider.id}
               // className={provider.id === 'resend' ? 'col-span-2' : ''}
@@ -109,7 +88,17 @@ export default async function SignInPage(props: {
                 </Button>
               )}
             </form>
-          ))}
+          ))} */}
+          <Button onClick={signinGoogle} variant='outline' className='w-full'>
+            <Image
+              src='/img/brand-icons/google.svg'
+              alt='Google'
+              width={16}
+              height={16}
+              className='mr-4'
+            />
+            Google
+          </Button>
         </CardContent>
         <CardFooter>
           <p className='text-muted-foreground text-sm'>
@@ -120,14 +109,14 @@ export default async function SignInPage(props: {
         </CardFooter>
       </Card>
 
-      {error && (
+      {/* {error && (
         <NotificationAlert
           title='Greška prilikom prijave'
           description='Došlo je do greške prilikom prijave. Molimo pokušajte ponovo ili koristite drugu opciju prijave.'
           variant='destructive'
           className='w-full md:max-w-96 mx-auto'
         />
-      )}
+      )} */}
     </div>
   )
 }
