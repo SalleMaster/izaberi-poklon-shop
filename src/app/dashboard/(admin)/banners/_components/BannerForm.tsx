@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Media } from '@prisma/client'
+import { Media } from '@/generated/prisma'
 import { Button } from '@/components/ui/button'
 import {
   Form,

@@ -1,9 +1,9 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { buttonVariants } from '@/components/ui/button'
 import UserButton from './UserButton'
-import { signIn } from 'next-auth/react'
-import { User as UserType } from 'next-auth'
+import { UserType } from '@/lib/auth-client'
 
 type Props = {
   user?: UserType
@@ -19,5 +19,12 @@ export default function User({ user }: Props) {
 }
 
 function SignInButton() {
-  return <Button onClick={() => signIn()}>Prijava</Button>
+  return (
+    <Link
+      href='/auth/signin'
+      className={buttonVariants({ variant: 'default' })}
+    >
+      Prijava
+    </Link>
+  )
 }

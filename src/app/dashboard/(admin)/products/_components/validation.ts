@@ -2,7 +2,7 @@ import {
   imageListSchemaOptional,
   imageListSchemaRequired,
 } from '@/lib/validation'
-import { DeliveryType } from '@prisma/client'
+import { DeliveryType } from '@/generated/prisma'
 import { z } from 'zod'
 
 export const textPersonalizationFieldSchema = z.object({

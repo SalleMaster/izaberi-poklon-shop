@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { UserRoleType } from '@prisma/client'
+import { UserRoleType } from '@/generated/prisma'
 
 export const userSchema = z.object({
   id: z.string(),

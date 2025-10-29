@@ -9,7 +9,11 @@ import {
   Text,
 } from '@react-email/components'
 import { OrderInformation } from './components/OrderInformation'
-import { Order, OrderPaymentStatusType, OrderPaymentType } from '@prisma/client'
+import {
+  Order,
+  OrderPaymentStatusType,
+  OrderPaymentType,
+} from '@/generated/prisma'
 import { shopInfo } from '@/lib/consts'
 import { EmailHeader } from './components/EmailHeader'
 import { EmailFooter } from './components/EmailFooter'

@@ -17,7 +17,7 @@ import {
   Product,
   TextPersonalization,
   UserRoleType,
-} from '@prisma/client'
+} from '@/generated/prisma'
 
 type ImagePersonalizationWithRelations = ImagePersonalization & {
   images: Media[]

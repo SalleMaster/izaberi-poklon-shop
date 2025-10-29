@@ -6,7 +6,7 @@ import {
   getProductAlreadyRated,
   getProductRatings,
 } from '@/data/services/ratings'
-import { RatingStatusType } from '@prisma/client'
+import { RatingStatusType } from '@/generated/prisma'
 import { getOrderedProductIds } from '@/data/services/order'
 
 type Props = {

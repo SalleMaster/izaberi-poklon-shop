@@ -1,5 +1,5 @@
 import { priceFormatter } from '@/lib/format'
-import { Order, OrderPaymentType, OrderStatusType } from '@prisma/client'
+import { Order, OrderPaymentType, OrderStatusType } from '@/generated/prisma'
 import { Card } from '@/components/ui/card'
 import {
   Accordion,

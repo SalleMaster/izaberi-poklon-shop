@@ -2,7 +2,7 @@ import { InputHTMLAttributes } from 'react'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { ImageUp, X } from 'lucide-react'
-import { Media } from '@prisma/client'
+import { Media } from '@/generated/prisma'
 import { RefCallBack } from 'react-hook-form'
 
 export type FileUploadProps = InputHTMLAttributes<HTMLInputElement> & {

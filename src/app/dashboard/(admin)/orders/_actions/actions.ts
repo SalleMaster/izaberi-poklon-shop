@@ -10,7 +10,7 @@ import {
 } from '../_components/validation'
 import { adminActionGuard } from '@/lib/actionGuard'
 import { deleteMediasFromS3 } from '@/lib/actions'
-import { OrderStatusType } from '@prisma/client'
+import { OrderStatusType } from '@/generated/prisma'
 
 export async function updateOrderStatus(values: OrderStatusValues, id: string) {
   try {

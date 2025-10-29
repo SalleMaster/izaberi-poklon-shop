@@ -25,7 +25,7 @@ import {
   OrderStatusLabels,
   PaginationDisplayValues,
 } from '@/lib/types'
-import { OrderStatusType } from '@prisma/client'
+import { OrderStatusType } from '@/generated/prisma'
 import { SlidersHorizontal } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 

@@ -12,7 +12,7 @@ import {
   PriceRange,
   Cart,
   Coupon,
-} from '@prisma/client'
+} from '@/generated/prisma'
 
 export type CartItemWithRelations = CartItem & {
   product: Product & {

@@ -4,8 +4,8 @@ import ProductDetailsPrice from '../product-details-price/ProductDetailsPrice'
 import ProductDetailsPriceTable from '../product-details-price-table/ProductDetailsPriceTable'
 import { ProductDetailsForm } from '../product-details-form/ProductDetailsForm'
 import ProductDetailsInfo from '../product-details-info/ProductDetailsInfo'
-import { User as UserType } from 'next-auth'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
+import { User as UserType } from 'better-auth'
 
 type Props = {
   product: ProductWithRelations

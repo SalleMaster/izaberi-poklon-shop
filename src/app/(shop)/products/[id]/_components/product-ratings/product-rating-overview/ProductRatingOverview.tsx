@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/card'
-import { Rating } from '@prisma/client'
+import { Rating } from '@/generated/prisma'
 import { Star } from 'lucide-react'
 
 type Props = {

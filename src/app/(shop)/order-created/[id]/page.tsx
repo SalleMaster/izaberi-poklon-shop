@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 import pageGuard from '@/lib/pageGuard'
 import { getOrder } from '@/data/services/order'
 import { Separator } from '@/components/ui/separator'
-import { UserRoleType } from '@prisma/client'
+import { UserRoleType } from '@/generated/prisma'
 import OrderCreatedPage, { OrderCreatedPageSkeleton } from './OrderCreatedPage'
 
 export const metadata: Metadata = {

@@ -1,7 +1,6 @@
 import {
   ChartBarStacked,
   Truck,
-  LogOut,
   Settings,
   BadgePercent,
   Gift,
@@ -14,8 +13,6 @@ import {
   Star,
   User2,
 } from 'lucide-react'
-import { User } from 'next-auth'
-import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import {
@@ -28,10 +25,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { UserRoleType } from '@prisma/client'
+import { UserRoleType } from '@/generated/prisma'
+import SignOut from './SignOut'
+import { UserType } from '@/lib/auth-client'
 
 type UserButtonProps = {
-  user: User
+  user: UserType
 }
 
 const adminMenuOptions = [
@@ -112,14 +111,7 @@ export default function UserButton({ user }: UserButtonProps) {
           </>
         ) : null}
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <button
-            onClick={() => signOut({ callbackUrl: '/' })}
-            className='flex w-full items-center'
-          >
-            <LogOut className='mr-2 h-4 w-4' /> Odjava
-          </button>
-        </DropdownMenuItem>
+        <SignOut />
       </DropdownMenuContent>
     </DropdownMenu>
   )

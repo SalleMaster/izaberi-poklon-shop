@@ -1,5 +1,5 @@
 import { isValidSerbianPhoneNumber } from '@/lib/validation'
-import { OrderDeliveryType, OrderPaymentType } from '@prisma/client'
+import { OrderDeliveryType, OrderPaymentType } from '@/generated/prisma'
 import { z } from 'zod'
 
 const pickupSchema = {
