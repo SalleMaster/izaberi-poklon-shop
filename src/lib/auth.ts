@@ -1,8 +1,9 @@
 import { betterAuth } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
-import { admin } from 'better-auth/plugins'
+import { admin, magicLink } from 'better-auth/plugins'
 import prisma from '@/lib/db'
+import { sendVerification } from './sendVerification'
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -33,5 +34,14 @@ export const auth = betterAuth({
     },
   },
   // plugins: [nextCookies()],
-  plugins: [admin(), nextCookies()],
+  plugins: [
+    magicLink({
+      sendMagicLink: async ({ email, token, url }, request) => {
+        // send email to user
+        sendVerification({ to: email, url })
+      },
+    }),
+    admin(),
+    nextCookies(),
+  ],
 })
