@@ -7,7 +7,7 @@ import {
 import { Card } from '@/components/ui/card'
 import { Gem } from 'lucide-react'
 import { CouponForm } from './CouponForm'
-import { Coupon } from '@prisma/client'
+import { Coupon } from '@/generated/prisma'
 import { Skeleton } from '@/components/ui/skeleton'
 
 type Props = {

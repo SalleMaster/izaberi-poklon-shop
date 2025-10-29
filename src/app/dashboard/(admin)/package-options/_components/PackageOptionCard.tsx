@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Card } from '@/components/ui/card'
-import { PackageOption } from '@prisma/client'
+import { PackageOption } from '@/generated/prisma'
 import { PackagePlus } from 'lucide-react'
 import { PackageOptionForm } from './PackageOptionForm'
 import { Skeleton } from '@/components/ui/skeleton'

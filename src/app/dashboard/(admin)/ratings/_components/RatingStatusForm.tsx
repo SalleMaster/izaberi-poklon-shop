@@ -4,7 +4,7 @@ import { useMemo, useEffect, TransitionStartFunction } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { RatingStatusType } from '@prisma/client'
+import { RatingStatusType } from '@/generated/prisma'
 import { Button } from '@/components/ui/button'
 import {
   Form,

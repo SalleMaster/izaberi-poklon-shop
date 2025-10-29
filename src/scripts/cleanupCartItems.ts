@@ -1,4 +1,4 @@
-import { DiscountType, PrismaClient } from '@prisma/client'
+import { DiscountType, PrismaClient } from '@/generated/prisma'
 import { S3Client, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { subDays, format } from 'date-fns'
 

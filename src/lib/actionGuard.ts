@@ -1,8 +1,8 @@
-import { auth } from '@/auth'
-import { UserRoleType } from '@prisma/client'
+import { UserRoleType } from '@/generated/prisma'
+import getSession from '@/lib/getSession'
 
 export const adminActionGuard = async () => {
-  const session = await auth()
+  const session = await getSession()
   const userId = session?.user?.id
   const userRole = session?.user?.role
 
@@ -14,7 +14,7 @@ export const adminActionGuard = async () => {
 }
 
 export const loggedInActionGuard = async () => {
-  const session = await auth()
+  const session = await getSession()
   const userId = session?.user?.id
   const userRole = session?.user?.role
 
@@ -26,7 +26,7 @@ export const loggedInActionGuard = async () => {
 }
 
 export const loggedInUser = async () => {
-  const session = await auth()
+  const session = await getSession()
   const userId = session?.user?.id
   const userRole = session?.user?.role
 

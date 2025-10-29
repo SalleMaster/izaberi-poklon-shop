@@ -25,7 +25,7 @@ import {
   RatingStatusLabel,
   RatingStatusLabels,
 } from '@/lib/types'
-import { RatingStatusType } from '@prisma/client'
+import { RatingStatusType } from '@/generated/prisma'
 import { SlidersHorizontal } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 

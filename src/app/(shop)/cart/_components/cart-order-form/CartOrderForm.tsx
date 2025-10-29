@@ -16,7 +16,7 @@ import {
   DeliveryAddress,
   OrderDeliveryType,
   OrderPaymentType,
-} from '@prisma/client'
+} from '@/generated/prisma'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Combobox } from '@/components/custom/Combobox'
 import { Input } from '@/components/ui/input'

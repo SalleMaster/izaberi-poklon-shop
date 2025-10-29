@@ -1,6 +1,6 @@
 import { Separator } from '@/components/ui/separator'
 import { shopInfo } from '@/lib/consts'
-import { Order, OrderDeliveryType, OrderPaymentType } from '@prisma/client'
+import { Order, OrderDeliveryType, OrderPaymentType } from '@/generated/prisma'
 
 type OrderSummaryProps = {
   order: Order

@@ -12,7 +12,7 @@ import {
   CartCouponValues,
 } from '../../cart/_components/cart-coupon-form/validation'
 import { deleteMediaFromS3 } from '@/lib/actions'
-import { DiscountType } from '@prisma/client'
+import { DiscountType } from '@/generated/prisma'
 import { priceFormatter } from '@/lib/format'
 import { freeShippingThreshold } from '@/lib/consts'
 

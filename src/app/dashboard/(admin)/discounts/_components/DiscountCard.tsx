@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Card } from '@/components/ui/card'
-import { Discount } from '@prisma/client'
+import { Discount } from '@/generated/prisma'
 import { BadgePercent } from 'lucide-react'
 import { DiscountForm } from './DiscountForm'
 import { Skeleton } from '@/components/ui/skeleton'

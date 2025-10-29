@@ -7,7 +7,7 @@ import OrdersHeader from './_components/OrdersHeader'
 import { Separator } from '@/components/ui/separator'
 import { SortingValues } from '@/lib/types'
 import CustomPagination from '@/components/custom/CustomPagination'
-import { UserRoleType } from '@prisma/client'
+import { UserRoleType } from '@/generated/prisma'
 
 export const metadata: Metadata = {
   title: 'Porudžbine | Admin',

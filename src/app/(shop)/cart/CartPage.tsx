@@ -34,7 +34,7 @@ import {
   DeliveryAddressType,
   OrderDeliveryType,
   OrderPaymentType,
-} from '@prisma/client'
+} from '@/generated/prisma'
 import { FieldName, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {

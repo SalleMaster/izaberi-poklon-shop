@@ -1,4 +1,4 @@
-import { OrderPaymentStatusType } from '@prisma/client'
+import { OrderPaymentStatusType } from '@/generated/prisma'
 import { JsonValue } from '@prisma/client/runtime/library'
 import { format } from 'date-fns'
 import { srLatn } from 'date-fns/locale'

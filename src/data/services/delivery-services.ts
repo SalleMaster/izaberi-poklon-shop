@@ -5,7 +5,7 @@ import { cache } from 'react'
 import prisma from '@/lib/db'
 
 import { loggedInActionGuard } from '@/lib/actionGuard'
-import { DeliveryService, Media } from '@prisma/client'
+import { DeliveryService, Media } from '@/generated/prisma'
 
 export type DeliveryServiceWithPdf = DeliveryService & {
   pdf: Media | null

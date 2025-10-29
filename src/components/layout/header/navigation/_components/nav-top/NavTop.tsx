@@ -3,22 +3,25 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import User from './_components/User'
-import { Session } from 'next-auth'
 import { use } from 'react'
 import { GetCartItemsNumberReturnType } from '@/data/services/cart'
 import CartButton from './_components/CartButton'
+import { authClient } from '@/lib/auth-client'
 
 type Props = {
-  sessionPromise: Promise<Session | null>
   cartItemsNumberPromise: GetCartItemsNumberReturnType
 }
 
-export default function NavTop({
-  sessionPromise,
-  cartItemsNumberPromise,
-}: Props) {
-  const session = use(sessionPromise)
+export default function NavTop({ cartItemsNumberPromise }: Props) {
   const cartItemsNumber = use(cartItemsNumberPromise)
+
+  const {
+    data: session,
+    isPending, //loading state
+    error, //error object
+    refetch, //refetch the session
+  } = authClient.useSession()
+
   const user = session?.user
 
   return (
@@ -33,10 +36,12 @@ export default function NavTop({
         />
       </Link>
 
-      <div className='flex gap-3 align-middle'>
-        {user && <CartButton cartItemsNumber={cartItemsNumber} />}
-        <User user={user} />
-      </div>
+      {!isPending && (
+        <div className='flex gap-3 align-middle'>
+          {user && <CartButton cartItemsNumber={cartItemsNumber} />}
+          <User user={user} />
+        </div>
+      )}
     </div>
   )
 }

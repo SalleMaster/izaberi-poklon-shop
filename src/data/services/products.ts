@@ -13,7 +13,7 @@ import {
   PriceRange,
   Product,
   TextPersonalizationField,
-} from '@prisma/client'
+} from '@/generated/prisma'
 import { calculatePrice } from '@/lib/price'
 
 type ProductPricesType = {

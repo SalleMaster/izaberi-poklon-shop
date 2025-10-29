@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { OrderStatusType } from '@prisma/client'
+import { OrderStatusType } from '@/generated/prisma'
 
 // Order status schema
 export const orderStatusSchema = z.object({

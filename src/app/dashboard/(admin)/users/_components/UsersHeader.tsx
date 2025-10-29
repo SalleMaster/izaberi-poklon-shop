@@ -25,7 +25,7 @@ import {
   UserRoleLabels,
   UserRoleLabel,
 } from '@/lib/types'
-import { UserRoleType } from '@prisma/client'
+import { UserRoleType } from '@/generated/prisma'
 import { SlidersHorizontal } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 

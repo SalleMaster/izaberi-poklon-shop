@@ -1,5 +1,4 @@
 import { use } from 'react'
-import { Session } from 'next-auth'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
 import { GetProductReturnType } from '@/data/services/products'
 import ProductCarousel, {
@@ -16,6 +15,7 @@ import ProductRatings, {
   ProductRatingsSkeleton,
 } from './product-ratings/ProductRatings'
 import { GetOrderedProductIdsReturnType } from '@/data/services/order'
+import { Session } from '@/lib/auth-client'
 
 type Props = {
   productPromise: GetProductReturnType
