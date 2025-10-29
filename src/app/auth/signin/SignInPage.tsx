@@ -1,5 +1,6 @@
 'use client'
 
+import { useSearchParams } from 'next/navigation'
 import { signinGoogle } from '@/lib/social-login'
 import {
   Card,
@@ -15,6 +16,10 @@ import MagicLinkForm from './_components/MagicLinkForm'
 import { Separator } from '@/components/ui/separator'
 
 export default function SignInPage() {
+  const searchParams = useSearchParams()
+
+  const callbackUrl = searchParams.get('callbackUrl') || '/'
+
   return (
     <div className='flex flex-col gap-5'>
       <Card className='w-full md:max-w-96 mx-auto'>
@@ -23,7 +28,11 @@ export default function SignInPage() {
           <CardDescription>Odaberite opciju za prijavu</CardDescription>
         </CardHeader>
         <CardContent className='grid grid-cols-1 gap-5'>
-          <Button onClick={signinGoogle} variant='outline' className='w-full'>
+          <Button
+            onClick={() => signinGoogle({ callbackUrl })}
+            variant='outline'
+            className='w-full'
+          >
             <Image
               src='/img/brand-icons/google.svg'
               alt='Google'
@@ -36,7 +45,7 @@ export default function SignInPage() {
 
           <Separator />
 
-          <MagicLinkForm callbackUrl='/' />
+          <MagicLinkForm callbackUrl={callbackUrl} />
         </CardContent>
         <CardFooter>
           <p className='text-muted-foreground text-sm'>

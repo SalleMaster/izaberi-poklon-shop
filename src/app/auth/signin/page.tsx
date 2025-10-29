@@ -7,11 +7,16 @@ export const metadata: Metadata = {
   title: 'Prijava | Izaberi Poklon Shop',
 }
 
-export default async function Page() {
+export default async function Page(props: PageProps<'/auth/signin'>) {
+  const searchParams = await props.searchParams
+  const callbackUrlSearchParam = searchParams.callbackUrl
+  const callbackUrl =
+    typeof callbackUrlSearchParam === 'string' ? callbackUrlSearchParam : '/'
+
   const session = await getSession()
 
   if (session) {
-    redirect('/')
+    redirect(callbackUrl)
   }
 
   return <SignInPage />
