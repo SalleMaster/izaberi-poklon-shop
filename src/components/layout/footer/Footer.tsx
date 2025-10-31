@@ -7,6 +7,7 @@ import SpecialCategories, {
 import { onlinePurchaseContract, orderQuitForm, shopInfo } from '@/lib/consts'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import Image from 'next/image'
+import { FooterYear } from './_components/FooterYear'
 
 const mainLinks = [
   { href: '/', label: 'Ko smo mi' },
@@ -50,7 +51,7 @@ export default function Footer() {
     active: true,
   })
 
-  const year = new Date().getFullYear()
+  // const year = new Date().getFullYear()
 
   return (
     <footer className='bg-primary text-white px-4 mt-auto'>
@@ -129,9 +130,10 @@ export default function Footer() {
         </div>
 
         <div className='text-center space-y-2 text-sm'>
-          <p>
+          <FooterYear />
+          {/* <p>
             &copy; {year} - {shopInfo.name} - Sva prava zadržana
-          </p>
+          </p> */}
           <p>{shopInfo.description}</p>
           <p>
             {shopInfo.address} - PIB: {shopInfo.pib} - TEL:{' '}

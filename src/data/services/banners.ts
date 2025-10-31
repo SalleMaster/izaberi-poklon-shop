@@ -1,6 +1,6 @@
 import 'server-only'
 
-import { connection } from 'next/server'
+// import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 
@@ -21,7 +21,7 @@ export const getBanners = cache(
   async ({ active }: Props): GetBannersReturnType => {
     console.log('getBanners')
 
-    await connection()
+    // await connection()
 
     return prisma.banner.findMany({
       where: {

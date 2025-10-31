@@ -1,7 +1,7 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import React, { useOptimistic, useTransition } from 'react'
+import { useOptimistic, useTransition } from 'react'
 import useCreateQueryString from '@/hooks/use-create-query-string'
 import Link from 'next/link'
 import {

@@ -16,7 +16,7 @@ import Categories, {
 } from '@/components/layout/categories/Categories'
 
 export default function Landing() {
-  const bannersPromise = getBanners({ active: true })
+  // const bannersPromise = getBanners({ active: true })
   const discountedProductsPromise = getDiscountedProducts({ take: 10 })
   const trendingProductsPromise = getTrendingProducts({ take: 10 })
   const categoriesPromise = getCategories({ active: true })
@@ -24,9 +24,7 @@ export default function Landing() {
   return (
     <div className='flex flex-col gap-20'>
       <div className='flex flex-col gap-10'>
-        <Suspense fallback={<BannersSkeleton />}>
-          <Banners bannersPromise={bannersPromise} />
-        </Suspense>
+        <Banners />
         <Benefits />
       </div>
 
