@@ -49,10 +49,9 @@ export default async function ProductCard({ product }: ProductCardProps) {
         )}
       </Link>
 
-      <EditProductButton productId={product.id} />
-      {/* <Suspense>
+      <Suspense>
         <EditProductButton productId={product.id} />
-      </Suspense> */}
+      </Suspense>
 
       {/* {userRole === UserRoleType.admin && (
         <Button className='ml-auto mt-auto' asChild>

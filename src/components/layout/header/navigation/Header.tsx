@@ -8,7 +8,7 @@ import { getCartItemsNumber } from '@/data/services/cart'
 
 export default function Header() {
   const cartItemsNumberPromise = getCartItemsNumber()
-  const activeCategoriesPromise = getCategories({ active: true })
+  // const activeCategoriesPromise = getCategories({ active: true })
 
   return (
     <header className='sticky top-0 bg-background shadow-xs z-10'>
@@ -17,7 +17,7 @@ export default function Header() {
           <NavTop cartItemsNumberPromise={cartItemsNumberPromise} />
         </Suspense>
         <Suspense fallback={<NavbarMenuSkeleton />}>
-          <NavBottom categoriesPromise={activeCategoriesPromise} />
+          {/* <NavBottom categoriesPromise={activeCategoriesPromise} /> */}
         </Suspense>
       </nav>
     </header>

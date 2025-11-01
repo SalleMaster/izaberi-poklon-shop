@@ -1,18 +1,9 @@
-import { cache, use } from 'react'
-import {
-  CategoryWithImage,
-  getCategories,
-  GetCategoriesReturnType,
-} from '@/data/services/category'
+import { CategoryWithImage, getCategories } from '@/data/services/category'
 import Link from 'next/link'
 import Image from 'next/image'
 import { fallbackImageLightURL } from '@/lib/consts'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cacheTag } from 'next/cache'
-
-type Props = {
-  categoriesPromise: GetCategoriesReturnType
-}
 
 export default async function Categories() {
   'use cache'

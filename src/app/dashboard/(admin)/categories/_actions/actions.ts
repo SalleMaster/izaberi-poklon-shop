@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from '@/lib/db'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, updateTag } from 'next/cache'
 import { Media, Prisma } from '@/generated/prisma'
 import { categorySchema, CategoryValues } from '../_components/validation'
 import { deleteMedia, deleteMediaFromS3 } from '@/lib/actions'
@@ -65,6 +65,7 @@ export async function createCategory(
     }
   } finally {
     revalidatePath('/dashboard/categories')
+    updateTag('categories')
   }
 }
 
@@ -127,6 +128,7 @@ export async function editCategory(
     }
   } finally {
     revalidatePath('/dashboard/categories')
+    updateTag('categories')
   }
 }
 
@@ -162,5 +164,6 @@ export async function deleteCategory(id: string) {
     }
   } finally {
     revalidatePath('/dashboard/categories')
+    updateTag('categories')
   }
 }

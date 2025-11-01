@@ -1,9 +1,5 @@
-import { getCategories } from '@/data/services/category'
-import { Suspense } from 'react'
 import FooterLinks from './_components/FooterLinks'
-import SpecialCategories, {
-  SpecialCategoriesSkeleton,
-} from './_components/SpecialCategories'
+import SpecialCategories from './_components/SpecialCategories'
 import { onlinePurchaseContract, orderQuitForm, shopInfo } from '@/lib/consts'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import Image from 'next/image'
@@ -46,13 +42,6 @@ const profileLinks = [
 ]
 
 export default function Footer() {
-  const specialCategoriesPromise = getCategories({
-    special: true,
-    active: true,
-  })
-
-  // const year = new Date().getFullYear()
-
   return (
     <footer className='bg-primary text-white px-4 mt-auto'>
       <div className='container mx-auto py-8 space-y-10'>
@@ -61,9 +50,8 @@ export default function Footer() {
           <FooterLinks title='Korisne informacije' links={usefulLinks} />
           <FooterLinks title='Društvene mreže' links={socialLinks} />
           <FooterLinks title='Profil' links={profileLinks} />
-          <Suspense fallback={<SpecialCategoriesSkeleton />}>
-            <SpecialCategories categoriesPromise={specialCategoriesPromise} />
-          </Suspense>
+
+          <SpecialCategories />
         </div>
 
         <div className='space-y-6 lg:space-y-8'>
@@ -131,9 +119,7 @@ export default function Footer() {
 
         <div className='text-center space-y-2 text-sm'>
           <FooterYear />
-          {/* <p>
-            &copy; {year} - {shopInfo.name} - Sva prava zadržana
-          </p> */}
+
           <p>{shopInfo.description}</p>
           <p>
             {shopInfo.address} - PIB: {shopInfo.pib} - TEL:{' '}
