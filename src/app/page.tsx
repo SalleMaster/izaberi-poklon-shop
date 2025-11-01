@@ -28,7 +28,10 @@ export default function Landing() {
         <Benefits />
       </div>
 
-      <Suspense fallback={<ProductsCarouselSkeleton title='Aktuelno' />}>
+      <ProductsCarousel productType='trending' title='Aktuelno' />
+      <ProductsCarousel productType='discounted' title='Na popustu' />
+
+      {/* <Suspense fallback={<ProductsCarouselSkeleton title='Aktuelno' />}>
         <ProductsCarousel
           productsPromise={trendingProductsPromise}
           title='Aktuelno'
@@ -40,11 +43,9 @@ export default function Landing() {
           productsPromise={discountedProductsPromise}
           title='Na popustu'
         />
-      </Suspense>
+      </Suspense> */}
 
-      <Suspense fallback={<CategoriesSkeleton />}>
-        <Categories categoriesPromise={categoriesPromise} />
-      </Suspense>
+      <Categories />
     </div>
   )
 }

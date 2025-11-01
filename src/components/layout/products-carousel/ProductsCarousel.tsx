@@ -5,18 +5,38 @@ import {
   CarouselControls,
   CarouselItem,
 } from '@/components/ui/carousel'
-import { GetProductsReturnType } from '@/data/services/products'
+import {
+  getDiscountedProducts,
+  getTrendingProducts,
+  ProductCardType,
+} from '@/data/services/products'
 import ProductCard, {
   ProductCardSkeleton,
 } from '@/components/custom/ProductCard'
+import { cacheTag } from 'next/cache'
 
 type Props = {
-  productsPromise: GetProductsReturnType
+  productType: 'trending' | 'discounted'
+  // productsPromise: GetProductsReturnType
   title: string
 }
 
-export default function ProductsCarousel({ productsPromise, title }: Props) {
-  const products = use(productsPromise)
+export default async function ProductsCarousel({ productType, title }: Props) {
+  'use cache'
+
+  cacheTag('products-carousel')
+  let products: ProductCardType[] = []
+
+  switch (productType) {
+    case 'trending':
+      products = await getTrendingProducts({ take: 10 })
+      break
+    case 'discounted':
+      products = await getDiscountedProducts({ take: 10 })
+      break
+    default:
+      break
+  }
 
   if (!products.length) {
     return null
