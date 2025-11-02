@@ -66,6 +66,7 @@ export async function createCategory(
   } finally {
     revalidatePath('/dashboard/categories')
     updateTag('categories')
+    updateTag('products-carousel')
   }
 }
 
@@ -129,6 +130,7 @@ export async function editCategory(
   } finally {
     revalidatePath('/dashboard/categories')
     updateTag('categories')
+    updateTag('products-carousel')
   }
 }
 
@@ -165,5 +167,6 @@ export async function deleteCategory(id: string) {
   } finally {
     revalidatePath('/dashboard/categories')
     updateTag('categories')
+    updateTag('products-carousel')
   }
 }
