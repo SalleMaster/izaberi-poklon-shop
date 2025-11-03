@@ -19,8 +19,6 @@ const getUserDetails = async (): Promise<User | null> => {
     return null
   }
 
-  console.log('Fetching user details:', user)
-
   return await prisma.user.findUnique({
     where: { id: user.id },
   })
