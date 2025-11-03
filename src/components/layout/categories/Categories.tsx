@@ -2,7 +2,6 @@ import { CategoryWithImage, getCategories } from '@/data/services/category'
 import Link from 'next/link'
 import Image from 'next/image'
 import { fallbackImageLightURL } from '@/lib/consts'
-import { Skeleton } from '@/components/ui/skeleton'
 import { cacheTag } from 'next/cache'
 
 export default async function Categories() {
@@ -30,27 +29,6 @@ export default async function Categories() {
   )
 }
 
-export function CategoriesSkeleton() {
-  return (
-    <div className='md:px-12'>
-      <h2 className='text-2xl font-bold text-center mb-5'>
-        Kategorije poklona
-      </h2>
-      <div className='grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 md:gap-8'>
-        <CategoryCardSkeleton />
-        <CategoryCardSkeleton />
-        <CategoryCardSkeleton />
-        <CategoryCardSkeleton />
-        <CategoryCardSkeleton />
-        <CategoryCardSkeleton />
-        <CategoryCardSkeleton />
-        <CategoryCardSkeleton />
-        <CategoryCardSkeleton />
-      </div>
-    </div>
-  )
-}
-
 type CategoryCardProps = {
   category: CategoryWithImage
 }
@@ -68,14 +46,5 @@ function CategoryCard({ category }: CategoryCardProps) {
         {category.name}
       </div>
     </Link>
-  )
-}
-
-function CategoryCardSkeleton() {
-  return (
-    <div className='flex flex-col gap-4 items-center bg-white p-4 rounded-md shadow-md text-center h-full transition-transform transform hover:scale-105'>
-      <Skeleton className='w-[150px] h-[150px] rounded-md' />
-      <Skeleton className='w-full h-6 rounded-md' />
-    </div>
   )
 }
