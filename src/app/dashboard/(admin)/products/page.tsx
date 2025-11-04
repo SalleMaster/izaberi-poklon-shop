@@ -1,18 +1,27 @@
 import { Metadata } from 'next'
 import ProductsPage from '@/app/(shop)/products/page'
 import pageGuard from '@/lib/pageGuard'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'Proizvodi | Admin',
 }
 
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
+export default async function Page(props: PageProps<'/dashboard/products'>) {
+  return (
+    <Suspense>
+      <PageLoader searchParams={props.searchParams} />
+    </Suspense>
+  )
+}
 
-export default async function Page(props: { searchParams: SearchParams }) {
+async function PageLoader({
+  searchParams,
+}: Pick<PageProps<'/dashboard/products'>, 'searchParams'>) {
   await pageGuard({
     callbackUrl: '/admin/proizvodi',
     adminGuard: true,
   })
 
-  return <ProductsPage searchParams={props.searchParams} isAdmin={true} />
+  return <ProductsPage searchParams={searchParams} isAdmin={true} />
 }

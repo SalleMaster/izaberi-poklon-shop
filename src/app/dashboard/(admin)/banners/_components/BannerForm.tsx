@@ -209,7 +209,7 @@ export function BannerForm({ banner }: Props) {
           name='desktopImage'
           render={() => (
             <FormItem>
-              <FormLabel>Veća slika</FormLabel>
+              <FormLabel>Veća slika (Razmera: 10:3)</FormLabel>
               <FormControl>
                 <FileUpload
                   type='file'
@@ -242,7 +242,7 @@ export function BannerForm({ banner }: Props) {
           name='mobileImage'
           render={() => (
             <FormItem>
-              <FormLabel>Manja slika</FormLabel>
+              <FormLabel>Manja slika (Razmera: 3:5)</FormLabel>
               <FormControl>
                 <FileUpload
                   type='file'

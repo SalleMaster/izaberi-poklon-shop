@@ -10,6 +10,14 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
+  return (
+    <Suspense fallback={<PageSkeleton />}>
+      <PageLoader />
+    </Suspense>
+  )
+}
+
+async function PageLoader() {
   await pageGuard({ callbackUrl: '/admin/kategorije', adminGuard: true })
 
   const activeCategoriesPromise = getCategories({ active: true })
@@ -27,6 +35,18 @@ export default async function Page() {
           inactiveCategoriesPromise={inactiveCategoriesPromise}
         />
       </Suspense>
+    </div>
+  )
+}
+
+function PageSkeleton() {
+  return (
+    <div className='space-y-5'>
+      <h2 className='text-xl font-bold'>Kategorije</h2>
+
+      <Separator />
+
+      <CategoriesPageSkeleton />
     </div>
   )
 }
