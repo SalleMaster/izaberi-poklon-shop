@@ -6,23 +6,30 @@ import { NotificationAlert } from '@/components/custom/NotificationAlert'
 import RetryPaymentButton from './_components/RetryPaymentButton'
 import { verifyPayment } from './_actions/actions'
 import { ResponseStatus } from '@/lib/types'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'Rezultat plaćanja',
   description: 'Rezultat plaćanja',
 }
 
-type PageProps = {
-  params: Promise<{ orderId: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+export default async function Page({
+  params,
+  searchParams,
+}: PageProps<'/payment/[orderId]/result'>) {
+  return (
+    <Suspense fallback={<PageFallback />}>
+      <PageLoader params={params} searchParams={searchParams} />
+    </Suspense>
+  )
 }
 
-export default async function Page(props: PageProps) {
-  const params = await props.params
-  const searchParams = await props.searchParams
-
-  const { orderId } = params
-  const resourcePathParam = searchParams.resourcePath
+async function PageLoader({
+  params,
+  searchParams,
+}: Pick<PageProps<'/payment/[orderId]/result'>, 'params' | 'searchParams'>) {
+  const { orderId } = await params
+  const resourcePathParam = (await searchParams).resourcePath
 
   await pageGuard({
     callbackUrl: `/placanje/${orderId}/rezultat`,
@@ -53,6 +60,22 @@ export default async function Page(props: PageProps) {
       orderId={orderId}
       message={verificationResult.message}
     />
+  )
+}
+
+function PageFallback() {
+  return (
+    <div className='space-y-5'>
+      <h2 className='text-xl font-bold'>Verifikacija</h2>
+
+      <Separator />
+
+      <div className='space-y-5 animate-pulse'>
+        <div className='h-4 bg-gray-200 rounded'></div>
+        <div className='h-4 bg-gray-200 rounded'></div>
+        <div className='h-4 bg-gray-200 rounded'></div>
+      </div>
+    </div>
   )
 }
 

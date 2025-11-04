@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import ProductsPage from '@/app/(shop)/products/page'
+import ProductsPage from '@/app/(shop)/products/ProductsPage'
 import pageGuard from '@/lib/pageGuard'
 import { Suspense } from 'react'
 
