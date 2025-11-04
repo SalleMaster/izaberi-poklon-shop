@@ -10,6 +10,14 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
+  return (
+    <Suspense fallback={<PageFallback />}>
+      <PageLoader />
+    </Suspense>
+  )
+}
+
+async function PageLoader() {
   const { userId } = await pageGuard({ callbackUrl: '/profil/moji-podaci' })
   const userProfilePromise = getUserProfile({ id: userId || '' })
 
@@ -19,9 +27,19 @@ export default async function Page() {
 
       <Separator />
 
-      <Suspense fallback={<ProfilePageSkeleton />}>
-        <ProfilePage userProfilePromise={userProfilePromise} />
-      </Suspense>
+      <ProfilePage userProfilePromise={userProfilePromise} />
+    </div>
+  )
+}
+
+function PageFallback() {
+  return (
+    <div className='space-y-5'>
+      <h2 className='text-xl font-bold'>Moji podaci</h2>
+
+      <Separator />
+
+      <ProfilePageSkeleton />
     </div>
   )
 }
