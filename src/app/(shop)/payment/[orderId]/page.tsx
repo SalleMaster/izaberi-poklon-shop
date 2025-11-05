@@ -9,17 +9,23 @@ export const metadata: Metadata = {
   description: 'Plaćanje porudžbine',
 }
 
-type PageProps = {
-  params: Promise<{ orderId: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+export default async function Page({
+  params,
+  searchParams,
+}: PageProps<'/payment/[orderId]'>) {
+  return (
+    <Suspense fallback={<PaymentPageSkeleton />}>
+      <PageLoader params={params} searchParams={searchParams} />
+    </Suspense>
+  )
 }
 
-export default async function Page(props: PageProps) {
-  const params = await props.params
-  const searchParams = await props.searchParams
-
-  const { orderId } = params
-  const { checkoutId } = searchParams
+async function PageLoader({
+  params,
+  searchParams,
+}: Pick<PageProps<'/payment/[orderId]'>, 'params' | 'searchParams'>) {
+  const { orderId } = await params
+  const { checkoutId } = await searchParams
 
   const { userId, userRole } = await pageGuard({
     callbackUrl: `/placanje/${orderId}?checkoutId=${checkoutId}`,
@@ -35,13 +41,9 @@ export default async function Page(props: PageProps) {
   const allSecureApiUrl = process.env.ALL_SECURE_API_URL!
 
   return (
-    <>
-      <Suspense fallback={<PaymentPageSkeleton />}>
-        <PaymentPage
-          orderPromise={orderPromise}
-          allSecureApiUrl={allSecureApiUrl}
-        />
-      </Suspense>
-    </>
+    <PaymentPage
+      orderPromise={orderPromise}
+      allSecureApiUrl={allSecureApiUrl}
+    />
   )
 }

@@ -5,24 +5,33 @@ import { getOrders, getOrdersCount } from '@/data/services/order'
 import { Separator } from '@/components/ui/separator'
 import { SortingValues } from '@/lib/types'
 import CustomPagination from '@/components/custom/CustomPagination'
-import OrdersHeader from '../(admin)/orders/_components/OrdersHeader'
-import OrdersPage, { OrdersPageSkeleton } from '../(admin)/orders/OrdersPage'
+import OrdersHeader from '../../(admin)/orders/_components/OrdersHeader'
+import OrdersPage, { OrdersPageSkeleton } from '../../(admin)/orders/OrdersPage'
 
 export const metadata: Metadata = {
   title: 'Porudžbine | Profil',
 }
 
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
-
 type OrderByType = { createdAt: 'desc' } | { createdAt: 'asc' }
 
-export default async function Page(props: { searchParams: SearchParams }) {
+export default async function Page({
+  searchParams,
+}: PageProps<'/dashboard/my-orders'>) {
+  return (
+    <Suspense fallback={<PageFallback />}>
+      <PageLoader searchParams={searchParams} />
+    </Suspense>
+  )
+}
+
+async function PageLoader({
+  searchParams,
+}: Pick<PageProps<'/dashboard/my-orders'>, 'searchParams'>) {
   const { userId, userRole } = await pageGuard({
     callbackUrl: '/profil/porudzbine',
   })
 
-  const searchParams = await props.searchParams
-  const { sortiranje, status, stranica, prikazi } = searchParams
+  const { sortiranje, status, stranica, prikazi } = await searchParams
 
   let orderBy: OrderByType
 
@@ -58,13 +67,23 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
       <Separator />
 
-      <Suspense fallback={<OrdersPageSkeleton />}>
-        <OrdersPage ordersPromise={ordersPromise} isAdmin={false} />
-        <CustomPagination
-          countPromise={ordersCountPromise}
-          pageUrl='/profil/porudzbine'
-        />
-      </Suspense>
+      <OrdersPage ordersPromise={ordersPromise} isAdmin={false} />
+      <CustomPagination
+        countPromise={ordersCountPromise}
+        pageUrl='/profil/porudzbine'
+      />
+    </div>
+  )
+}
+
+function PageFallback() {
+  return (
+    <div className='space-y-5 group'>
+      <h2 className='text-xl font-bold'>Porudžbine</h2>
+
+      <Separator />
+
+      <OrdersPageSkeleton />
     </div>
   )
 }

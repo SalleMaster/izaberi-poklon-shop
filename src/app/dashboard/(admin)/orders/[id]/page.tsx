@@ -10,13 +10,20 @@ export const metadata: Metadata = {
   title: 'Admin | Porudžbine',
 }
 
-type PageProps = {
-  params: Promise<{ id: string }>
+export default async function Page({
+  params,
+}: PageProps<'/dashboard/orders/[id]'>) {
+  return (
+    <Suspense fallback={<PageFallback />}>
+      <PageLoader params={params} />
+    </Suspense>
+  )
 }
 
-export default async function Page(props: PageProps) {
-  const params = await props.params
-  const { id } = params
+async function PageLoader({
+  params,
+}: Pick<PageProps<'/dashboard/orders/[id]'>, 'params'>) {
+  const { id } = await params
 
   const { userId, userRole } = await pageGuard({
     callbackUrl: `/profil/porudzbine/${id}`,
@@ -39,6 +46,18 @@ export default async function Page(props: PageProps) {
       <Suspense fallback={<OrderPageSkeleton />}>
         <OrderPage orderPromise={orderPromise} isAdmin={isAdmin} />
       </Suspense>
+    </div>
+  )
+}
+
+function PageFallback() {
+  return (
+    <div className='space-y-5 group'>
+      <h2 className='text-xl font-bold'>Detalji porudžbine</h2>
+
+      <Separator />
+
+      <OrderPageSkeleton />
     </div>
   )
 }

@@ -7,18 +7,27 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Suspense } from 'react'
 
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
+export default async function Page(props: PageProps<'/auth/error'>) {
+  return (
+    <Suspense>
+      <PageLoader searchParams={props.searchParams} />
+    </Suspense>
+  )
+}
 
-export default async function ErrorPage(props: { searchParams: SearchParams }) {
-  const searchParams = await props.searchParams
-
+async function PageLoader({
+  searchParams,
+}: Pick<PageProps<'/auth/error'>, 'searchParams'>) {
   const session = await getSession()
   const user = session?.user
 
   if (user) {
     redirect('/')
   }
+
+  const error = (await searchParams).error
 
   return (
     <div className='flex'>
@@ -29,7 +38,7 @@ export default async function ErrorPage(props: { searchParams: SearchParams }) {
             Izvinjavamo se, došlo je do greške prilikom prijave. Molimo
             pokušajte ponovo.
           </CardDescription>
-          <CardDescription>Kod greške: {searchParams.error}</CardDescription>
+          <CardDescription>Kod greške: {error}</CardDescription>
         </CardHeader>
       </Card>
     </div>

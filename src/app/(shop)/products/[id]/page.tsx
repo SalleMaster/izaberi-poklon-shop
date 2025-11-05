@@ -9,14 +9,18 @@ import {
 import { RatingStatusType } from '@/generated/prisma'
 import { getOrderedProductIds } from '@/data/services/order'
 
-type Props = {
-  params: Promise<{ id: string }>
+export default async function Page({ params }: PageProps<'/products/[id]'>) {
+  return (
+    <Suspense fallback={<ProductGridSkeleton />}>
+      <PageLoader params={params} />
+    </Suspense>
+  )
 }
 
-export default async function ProductDetailsPage(props: Props) {
-  const params = await props.params
-
-  const { id } = params
+async function PageLoader({
+  params,
+}: Pick<PageProps<'/products/[id]'>, 'params'>) {
+  const { id } = await params
 
   const productPromise = getProduct({ id })
   const productRatingsPromise = getProductRatings({
@@ -28,14 +32,12 @@ export default async function ProductDetailsPage(props: Props) {
   const sessionPromise = getSession()
 
   return (
-    <Suspense fallback={<ProductGridSkeleton />}>
-      <ProductGrid
-        productPromise={productPromise}
-        productRatingsPromise={productRatingsPromise}
-        orderedProductIdsPromise={orderedProductIdsPromise}
-        productAlreadyRatedPromise={productAlreadyRatedPromise}
-        sessionPromise={sessionPromise}
-      />
-    </Suspense>
+    <ProductGrid
+      productPromise={productPromise}
+      productRatingsPromise={productRatingsPromise}
+      orderedProductIdsPromise={orderedProductIdsPromise}
+      productAlreadyRatedPromise={productAlreadyRatedPromise}
+      sessionPromise={sessionPromise}
+    />
   )
 }

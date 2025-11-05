@@ -12,6 +12,14 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
+  return (
+    <Suspense fallback={<PageFallback />}>
+      <PageLoader />
+    </Suspense>
+  )
+}
+
+async function PageLoader() {
   await pageGuard({ callbackUrl: '/profil/adresa-dostave' })
   const deliveryAddressesPromise = getAllDeliveryAddresses()
 
@@ -21,11 +29,21 @@ export default async function Page() {
 
       <Separator />
 
-      <Suspense fallback={<DeliveryAddressPageSkeleton />}>
-        <DeliveryAddressPage
-          deliveryAddressesPromise={deliveryAddressesPromise}
-        />
-      </Suspense>
+      <DeliveryAddressPage
+        deliveryAddressesPromise={deliveryAddressesPromise}
+      />
+    </div>
+  )
+}
+
+function PageFallback() {
+  return (
+    <div className='space-y-5'>
+      <h2 className='text-xl font-bold'>Adresa Dostave</h2>
+
+      <Separator />
+
+      <DeliveryAddressPageSkeleton />
     </div>
   )
 }

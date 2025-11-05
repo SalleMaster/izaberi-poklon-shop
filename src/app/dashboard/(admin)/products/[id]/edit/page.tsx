@@ -1,19 +1,27 @@
 import { Metadata } from 'next'
 import EditProductPage from './EditProductPage'
 import pageGuard from '@/lib/pageGuard'
+import { Suspense } from 'react'
+import { Separator } from '@/components/ui/separator'
 
 export const metadata: Metadata = {
   title: 'Edit proizvoda | Admin',
 }
 
-type PageProps = {
-  params: Promise<{ id: string }>
+export default async function Page({
+  params,
+}: PageProps<'/dashboard/products/[id]/edit'>) {
+  return (
+    <Suspense fallback={<PageFallback />}>
+      <PageLoader params={params} />
+    </Suspense>
+  )
 }
 
-export default async function Page(props: PageProps) {
-  const params = await props.params
-
-  const { id } = params
+async function PageLoader({
+  params,
+}: Pick<PageProps<'/dashboard/products/[id]/edit'>, 'params'>) {
+  const { id } = await params
 
   await pageGuard({
     callbackUrl: `/admin/proizvodi/${id}/edit`,
@@ -21,4 +29,14 @@ export default async function Page(props: PageProps) {
   })
 
   return <EditProductPage id={id} />
+}
+
+function PageFallback() {
+  return (
+    <div className='space-y-5'>
+      <h2 className='text-xl font-bold'>Edit</h2>
+
+      <Separator />
+    </div>
+  )
 }

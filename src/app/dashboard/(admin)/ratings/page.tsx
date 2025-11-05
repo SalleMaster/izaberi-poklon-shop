@@ -12,18 +12,27 @@ export const metadata: Metadata = {
   title: 'Recenzije | Admin',
 }
 
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
-
 type OrderByType = { createdAt: 'desc' } | { createdAt: 'asc' }
 
-export default async function Page(props: { searchParams: SearchParams }) {
+export default async function Page({
+  searchParams,
+}: PageProps<'/dashboard/ratings'>) {
+  return (
+    <Suspense fallback={<PageFallback />}>
+      <PageLoader searchParams={searchParams} />
+    </Suspense>
+  )
+}
+
+async function PageLoader({
+  searchParams,
+}: Pick<PageProps<'/dashboard/ratings'>, 'searchParams'>) {
   await pageGuard({
     callbackUrl: '/admin/recenzije',
     adminGuard: true,
   })
 
-  const searchParams = await props.searchParams
-  const { sortiranje, status, stranica, prikazi } = searchParams
+  const { sortiranje, status, stranica, prikazi } = await searchParams
 
   let orderBy: OrderByType
 
@@ -65,6 +74,18 @@ export default async function Page(props: { searchParams: SearchParams }) {
           pageUrl='/admin/recenzije'
         />
       </Suspense>
+    </div>
+  )
+}
+
+function PageFallback() {
+  return (
+    <div className='space-y-5 group'>
+      <h2 className='text-xl font-bold'>Recenzije</h2>
+
+      <Separator />
+
+      <RatingsPageSkeleton />
     </div>
   )
 }

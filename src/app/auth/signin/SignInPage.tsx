@@ -67,3 +67,48 @@ export default function SignInPage() {
     </div>
   )
 }
+
+export function SignInPageFallback() {
+  return (
+    <div className='flex flex-col gap-5'>
+      <Card className='w-full md:max-w-96 mx-auto'>
+        <CardHeader>
+          <CardTitle>Vaš nalog</CardTitle>
+          <CardDescription>Odaberite opciju za prijavu</CardDescription>
+        </CardHeader>
+        <CardContent className='grid grid-cols-1 gap-5'>
+          <Button variant='outline' className='w-full' disabled>
+            <Image
+              src='/img/brand-icons/google.svg'
+              alt='Google'
+              width={16}
+              height={16}
+              className='mr-4'
+            />
+            Google
+          </Button>
+
+          <Separator />
+
+          <MagicLinkForm callbackUrl={''} />
+        </CardContent>
+        <CardFooter>
+          <p className='text-muted-foreground text-sm'>
+            Nema potrebe za klasičnom registracijom i čuvanjem šifara.
+            Jednostavno se prijavite sa svojim Google nalogom ili unesite email
+            i pratite dalje korake.
+          </p>
+        </CardFooter>
+      </Card>
+
+      {/* {error && (
+        <NotificationAlert
+          title='Greška prilikom prijave'
+          description='Došlo je do greške prilikom prijave. Molimo pokušajte ponovo ili koristite drugu opciju prijave.'
+          variant='destructive'
+          className='w-full md:max-w-96 mx-auto'
+        />
+      )} */}
+    </div>
+  )
+}

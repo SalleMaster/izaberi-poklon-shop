@@ -9,13 +9,20 @@ export const metadata: Metadata = {
   title: 'Detalji korisnika | Admin',
 }
 
-type PageProps = {
-  params: Promise<{ id: string }>
+export default async function Page({
+  params,
+}: PageProps<'/dashboard/users/[id]'>) {
+  return (
+    <Suspense fallback={<PageFallback />}>
+      <PageLoader params={params} />
+    </Suspense>
+  )
 }
 
-export default async function Page(props: PageProps) {
-  const params = await props.params
-  const { id } = params
+async function PageLoader({
+  params,
+}: Pick<PageProps<'/dashboard/users/[id]'>, 'params'>) {
+  const { id } = await params
 
   await pageGuard({
     callbackUrl: `/admin/korisnici/${id}`,
@@ -32,9 +39,19 @@ export default async function Page(props: PageProps) {
 
       <Separator />
 
-      <Suspense fallback={<UserPageSkeleton />}>
-        <UserPage promise={userPromise} />
-      </Suspense>
+      <UserPage promise={userPromise} />
+    </div>
+  )
+}
+
+function PageFallback() {
+  return (
+    <div className='space-y-5 group'>
+      <h2 className='text-xl font-bold'>Detalji korisnika</h2>
+
+      <Separator />
+
+      <UserPageSkeleton />
     </div>
   )
 }

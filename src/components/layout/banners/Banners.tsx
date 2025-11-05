@@ -1,13 +1,12 @@
-import { use } from 'react'
-import { GetBannersReturnType } from '@/data/services/banners'
+import { getBanners } from '@/data/services/banners'
 import BannersCarousel from './BannersCarousel'
+import { cacheTag } from 'next/cache'
 
-type Props = {
-  bannersPromise: GetBannersReturnType
-}
+export default async function Banners() {
+  'use cache'
 
-export default function Banners({ bannersPromise }: Props) {
-  const banners = use(bannersPromise)
+  cacheTag('banners')
+  const banners = await getBanners({ active: true })
 
   if (!banners.length) {
     return null
