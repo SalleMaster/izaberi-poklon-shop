@@ -1,6 +1,7 @@
 import prisma from '@/lib/db'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ProductForm } from '../../_components/ProductForm'
+import { Separator } from '@/components/ui/separator'
 
 type EditProductPageProps = {
   id: string
@@ -40,8 +41,10 @@ export default async function EditProductPage({ id }: EditProductPageProps) {
   })
 
   return (
-    <div className='space-y-10'>
+    <div className='space-y-5'>
       <h2 className='text-xl font-bold'>Edit</h2>
+
+      <Separator />
       <Card>
         <CardHeader>
           <CardTitle>Edituj proizvod</CardTitle>

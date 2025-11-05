@@ -1,22 +1,38 @@
-import { use } from 'react'
+import { cacheTag } from 'next/cache'
 import {
   Carousel,
   CarouselContent,
   CarouselControls,
   CarouselItem,
 } from '@/components/ui/carousel'
-import { GetProductsReturnType } from '@/data/services/products'
-import ProductCard, {
-  ProductCardSkeleton,
-} from '@/components/custom/ProductCard'
+import {
+  getDiscountedProducts,
+  getTrendingProducts,
+  ProductCardType,
+} from '@/data/services/products'
+import ProductCard from '@/components/custom/ProductCard'
 
 type Props = {
-  productsPromise: GetProductsReturnType
+  productType: 'trending' | 'discounted'
   title: string
 }
 
-export default function ProductsCarousel({ productsPromise, title }: Props) {
-  const products = use(productsPromise)
+export default async function ProductsCarousel({ productType, title }: Props) {
+  'use cache'
+
+  cacheTag('products-carousel')
+  let products: ProductCardType[] = []
+
+  switch (productType) {
+    case 'trending':
+      products = await getTrendingProducts({ take: 10 })
+      break
+    case 'discounted':
+      products = await getDiscountedProducts({ take: 10 })
+      break
+    default:
+      break
+  }
 
   if (!products.length) {
     return null
@@ -39,55 +55,6 @@ export default function ProductsCarousel({ productsPromise, title }: Props) {
               <ProductCard product={product} />
             </CarouselItem>
           ))}
-        </CarouselContent>
-        <CarouselControls />
-      </Carousel>
-    </div>
-  )
-}
-
-type ProductsCarouselSkeletonProps = {
-  title: string
-}
-
-export function ProductsCarouselSkeleton({
-  title,
-}: ProductsCarouselSkeletonProps) {
-  return (
-    <div>
-      <h2 className='text-2xl font-bold text-center mb-5'>{title}</h2>
-      <Carousel>
-        <CarouselContent className='py-1'>
-          <CarouselItem className='basis-1/2 md:basis-1/4 lg:basis-1/6'>
-            <ProductCardSkeleton />
-          </CarouselItem>
-          <CarouselItem className='basis-1/2 md:basis-1/4 lg:basis-1/6'>
-            <ProductCardSkeleton />
-          </CarouselItem>
-          <CarouselItem className='basis-1/2 md:basis-1/4 lg:basis-1/6'>
-            <ProductCardSkeleton />
-          </CarouselItem>
-          <CarouselItem className='basis-1/2 md:basis-1/4 lg:basis-1/6'>
-            <ProductCardSkeleton />
-          </CarouselItem>
-          <CarouselItem className='basis-1/2 md:basis-1/4 lg:basis-1/6'>
-            <ProductCardSkeleton />
-          </CarouselItem>
-          <CarouselItem className='basis-1/2 md:basis-1/4 lg:basis-1/6'>
-            <ProductCardSkeleton />
-          </CarouselItem>
-          <CarouselItem className='basis-1/2 md:basis-1/4 lg:basis-1/6'>
-            <ProductCardSkeleton />
-          </CarouselItem>
-          <CarouselItem className='basis-1/2 md:basis-1/4 lg:basis-1/6'>
-            <ProductCardSkeleton />
-          </CarouselItem>
-          <CarouselItem className='basis-1/2 md:basis-1/4 lg:basis-1/6'>
-            <ProductCardSkeleton />
-          </CarouselItem>
-          <CarouselItem className='basis-1/2 md:basis-1/4 lg:basis-1/6'>
-            <ProductCardSkeleton />
-          </CarouselItem>
         </CarouselContent>
         <CarouselControls />
       </Carousel>

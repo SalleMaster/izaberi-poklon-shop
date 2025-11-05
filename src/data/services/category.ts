@@ -1,6 +1,5 @@
 import 'server-only'
 
-import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 
@@ -18,8 +17,6 @@ type Props = {
 export const getCategories = cache(
   async ({ active, special }: Props): GetCategoriesReturnType => {
     console.log('getCategories')
-
-    await connection()
 
     const where: Prisma.CategoryWhereInput = {}
 

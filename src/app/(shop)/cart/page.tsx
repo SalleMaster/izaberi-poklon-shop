@@ -6,6 +6,14 @@ import { getUserAddresses } from '@/data/services/user'
 import { getDeliveryServices } from '@/data/services/delivery-services'
 
 export default async function Page() {
+  return (
+    <Suspense fallback={<CartPageSkeleton />}>
+      <PageLoader />
+    </Suspense>
+  )
+}
+
+async function PageLoader() {
   const { userName, userEmail, userPhone } = await pageGuard({
     callbackUrl: '/korpa',
   })
@@ -14,15 +22,13 @@ export default async function Page() {
   const deliveryServicesPromise = getDeliveryServices({ active: true })
 
   return (
-    <Suspense fallback={<CartPageSkeleton />}>
-      <CartPage
-        cartPromise={cartPromise}
-        userAddressesPromise={userAddressesPromise}
-        deliveryServicesPromise={deliveryServicesPromise}
-        userName={userName || ''}
-        userEmail={userEmail || ''}
-        userPhone={userPhone || ''}
-      />
-    </Suspense>
+    <CartPage
+      cartPromise={cartPromise}
+      userAddressesPromise={userAddressesPromise}
+      deliveryServicesPromise={deliveryServicesPromise}
+      userName={userName || ''}
+      userEmail={userEmail || ''}
+      userPhone={userPhone || ''}
+    />
   )
 }

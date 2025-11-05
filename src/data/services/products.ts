@@ -252,8 +252,6 @@ export const getDiscountedProducts = cache(
   async ({ take }: GetDiscountedProductsProps): GetProductsReturnType => {
     console.log('getDiscountedProducts')
 
-    await connection()
-
     const products = await prisma.product.findMany({
       where: {
         discountId: {
@@ -311,8 +309,6 @@ export type GetTrendingProductsProps = {
 export const getTrendingProducts = cache(
   async ({ take }: GetTrendingProductsProps): GetProductsReturnType => {
     console.log('getTrendingProducts')
-
-    await connection()
 
     const products = await prisma.product.findMany({
       where: {

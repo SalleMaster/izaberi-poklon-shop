@@ -3,8 +3,6 @@ import PackageOptionsPage, {
   PackageOptionsPageSkeleton,
 } from './PackageOptionsPage'
 import pageGuard from '@/lib/pageGuard'
-import { getPackageOptions } from '@/data/services/packageOptions'
-import { Separator } from '@/components/ui/separator'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = {
@@ -12,22 +10,18 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
+  return (
+    <Suspense fallback={<PackageOptionsPageSkeleton />}>
+      <PageLoader />
+    </Suspense>
+  )
+}
+
+async function PageLoader() {
   await pageGuard({
     callbackUrl: '/admin/poklon-pakovanja',
     adminGuard: true,
   })
 
-  const packageOptionsPromise = getPackageOptions()
-
-  return (
-    <div className='space-y-5'>
-      <h2 className='text-xl font-bold'>Poklon pakovanja</h2>
-
-      <Separator />
-
-      <Suspense fallback={<PackageOptionsPageSkeleton />}>
-        <PackageOptionsPage packageOptionsPromise={packageOptionsPromise} />
-      </Suspense>
-    </div>
-  )
+  return <PackageOptionsPage />
 }

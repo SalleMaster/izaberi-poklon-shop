@@ -1,20 +1,22 @@
-'use client'
-
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
 import UserButton from './UserButton'
-import { UserType } from '@/lib/auth-client'
+import CartButton from './CartButton'
+import { getCartItemsNumber } from '@/data/services/cart'
+import getSession from '@/lib/getSession'
 
-type Props = {
-  user?: UserType
-}
+export default async function User() {
+  const cartItemsNumber = await getCartItemsNumber()
+  const session = await getSession()
+  const user = session?.user
 
-export default function User({ user }: Props) {
-  return (
+  return user ? (
     <>
-      {user && <UserButton user={user} />}
-      {!user && <SignInButton />}
+      <CartButton cartItemsNumber={cartItemsNumber} />
+      <UserButton user={user} />
     </>
+  ) : (
+    <SignInButton />
   )
 }
 

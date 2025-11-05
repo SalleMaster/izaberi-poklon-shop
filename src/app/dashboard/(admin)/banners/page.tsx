@@ -10,6 +10,14 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
+  return (
+    <Suspense fallback={<PageFallback />}>
+      <PageLoader />
+    </Suspense>
+  )
+}
+
+async function PageLoader() {
   await pageGuard({ callbackUrl: '/admin/baneri', adminGuard: true })
 
   const activeBannersPromise = getBanners({ active: true })
@@ -27,6 +35,18 @@ export default async function Page() {
           inactiveBannersPromise={inactiveBannersPromise}
         />
       </Suspense>
+    </div>
+  )
+}
+
+function PageFallback() {
+  return (
+    <div className='space-y-5'>
+      <h2 className='text-xl font-bold'>Baneri</h2>
+
+      <Separator />
+
+      <BannersPageSkeleton />
     </div>
   )
 }

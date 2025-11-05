@@ -461,6 +461,7 @@ export function ProductDetailsForm({ product, user }: Props) {
               <Link
                 href='/korpa'
                 className={buttonVariants({ variant: 'default' })}
+                onClick={() => setIsModalOpen(false)}
               >
                 Idi u korpu
               </Link>

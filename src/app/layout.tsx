@@ -5,6 +5,8 @@ import './globals.css'
 import { Toaster } from '@/components/ui/sonner'
 import Header from '@/components/layout/header/navigation/Header'
 import Footer from '@/components/layout/footer/Footer'
+import { AuthProvider } from '@/lib/auth/components/AuthProvider'
+import { getUserDetails } from '@/lib/user'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -27,6 +29,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const userDetails = getUserDetails()
+
   return (
     <html lang='en'>
       <head>
@@ -40,10 +44,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen group`}
       >
-        <Header />
-        <div className='container px-4 my-6 mx-auto'>{children}</div>
-        <Footer />
-        <Toaster />
+        <AuthProvider userDetails={userDetails}>
+          <Header />
+          <div className='container px-4 my-6 mx-auto'>{children}</div>
+          <Footer />
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   )

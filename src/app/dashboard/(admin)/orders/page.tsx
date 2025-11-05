@@ -13,17 +13,25 @@ export const metadata: Metadata = {
   title: 'Porudžbine | Admin',
 }
 
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
-
 type OrderByType = { createdAt: 'desc' } | { createdAt: 'asc' }
 
-export default async function Page(props: { searchParams: SearchParams }) {
+export default async function Page({
+  searchParams,
+}: PageProps<'/dashboard/orders'>) {
+  return (
+    <Suspense fallback={<PageFallback />}>
+      <PageLoader searchParams={searchParams} />
+    </Suspense>
+  )
+}
+
+async function PageLoader({
+  searchParams,
+}: Pick<PageProps<'/dashboard/orders'>, 'searchParams'>) {
   const { userId, userRole } = await pageGuard({
     callbackUrl: '/admin/porudzbine',
   })
-
-  const searchParams = await props.searchParams
-  const { sortiranje, status, stranica, prikazi } = searchParams
+  const { sortiranje, status, stranica, prikazi } = await searchParams
 
   let orderBy: OrderByType
 
@@ -68,6 +76,18 @@ export default async function Page(props: { searchParams: SearchParams }) {
           pageUrl='/admin/porudzbine'
         />
       </Suspense>
+    </div>
+  )
+}
+
+function PageFallback() {
+  return (
+    <div className='space-y-5 group'>
+      <h2 className='text-xl font-bold'>Porudžbine</h2>
+
+      <Separator />
+
+      <OrdersPageSkeleton />
     </div>
   )
 }

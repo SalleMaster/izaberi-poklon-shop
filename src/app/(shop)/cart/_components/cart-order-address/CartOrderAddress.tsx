@@ -1,4 +1,4 @@
-import { DeliveryAddressForm } from '@/app/dashboard/delivery-address/_components/DeliveryAddressForm'
+import { DeliveryAddressForm } from '@/app/dashboard/(user)/delivery-address/_components/DeliveryAddressForm'
 import { Button } from '@/components/ui/button'
 import { DeliveryAddress, DeliveryAddressType } from '@/generated/prisma'
 import { Pencil, Plus } from 'lucide-react'

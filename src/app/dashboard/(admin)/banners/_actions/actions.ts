@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from '@/lib/db'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, updateTag } from 'next/cache'
 import { Media } from '@/generated/prisma'
 import { bannerSchema, BannerValues } from '../_components/validation'
 import { deleteMedia, deleteMediaFromS3 } from '@/lib/actions'
@@ -68,6 +68,7 @@ export async function createBanner(
     }
   } finally {
     revalidatePath('/dashboard/banners')
+    updateTag('banners')
   }
 }
 
@@ -138,6 +139,7 @@ export async function editBanner(
     }
   } finally {
     revalidatePath('/dashboard/banners')
+    updateTag('banners')
   }
 }
 
@@ -180,5 +182,6 @@ export async function deleteBanner(id: string) {
     }
   } finally {
     revalidatePath('/dashboard/banners')
+    updateTag('banners')
   }
 }

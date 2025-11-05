@@ -1,33 +1,27 @@
-'use client'
-
-import { use } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { cacheTag } from 'next/cache'
 import FooterLinks from './FooterLinks'
-import useCreateQueryString from '@/hooks/use-create-query-string'
-import { GetCategoriesReturnType } from '@/data/services/category'
+import { getCategories } from '@/data/services/category'
 
-type Props = {
-  categoriesPromise: GetCategoriesReturnType
-}
+export default async function SpecialCategories() {
+  'use cache'
 
-export default function SpecialCategories({ categoriesPromise }: Props) {
-  const categories = use(categoriesPromise)
-  const searchParams = useSearchParams()
+  cacheTag('categories')
 
-  const createQueryString = useCreateQueryString(searchParams)
+  const categories = await getCategories({
+    special: true,
+    active: true,
+  })
 
   const generateCategoryLinks = () => {
     return categories.map((category) => ({
-      href: `/pokloni?${createQueryString({
-        addParams: [{ name: 'kategorija', value: category.slug }],
-      })}`,
+      href: `/pokloni?kategorija=${encodeURIComponent(category.slug)}`,
       label: category.name,
     }))
   }
 
   const mainLinks = generateCategoryLinks()
 
-  return <FooterLinks title='Po datumu' links={mainLinks} />
+  return <FooterLinks title='Aktuelno' links={mainLinks} />
 }
 
 export function SpecialCategoriesSkeleton() {
