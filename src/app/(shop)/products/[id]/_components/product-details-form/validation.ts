@@ -14,9 +14,11 @@ const imagePersonalizationSchema = z
     id: z.string().optional(),
     name: z.string().min(1, 'Polje je neophodno'),
     images: imageListSchemaOptional,
-    min: z.number().min(0, 'Broj slika ne može biti manji od nule'),
-    max: z
-      .number()
+    min: z.coerce
+      .number<number>()
+      .min(0, 'Broj slika ne može biti manji od nule'),
+    max: z.coerce
+      .number<number>()
       .min(1, 'Maksimalni broj slika ne može biti manji od 1')
       .optional(),
   })
@@ -42,8 +44,8 @@ const imagePersonalizationSchema = z
 // Product details schema
 export const productDetailsSchema = z.object({
   productId: z.string().min(1, 'Polje je neophodno'),
-  quantity: z
-    .number()
+  quantity: z.coerce
+    .number<number>()
     .min(0, 'Polje je neophodno')
     .refine((val) => Number.isInteger(val), {
       message: 'Polje mora biti ceo broj',

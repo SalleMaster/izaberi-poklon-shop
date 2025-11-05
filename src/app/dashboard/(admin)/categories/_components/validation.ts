@@ -13,7 +13,10 @@ export const categorySchema = z.object({
     .max(100, 'Naziv ne može biti duži od 100 znakova'),
   active: z.boolean(),
   special: z.boolean(),
-  position: z.number().int().min(1, 'Pozicija mora biti veća ili jednaka 1'),
+  position: z.coerce
+    .number<number>()
+    .int()
+    .min(1, 'Pozicija mora biti veća ili jednaka 1'),
   image: imageListSchemaRequired,
 })
 

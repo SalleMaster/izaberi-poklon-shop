@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from '@/lib/db'
-import { revalidatePath, updateTag } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { Media, Prisma } from '@/generated/prisma'
 import { categorySchema, CategoryValues } from '../_components/validation'
 import { deleteMedia, deleteMediaFromS3 } from '@/lib/actions'
@@ -65,8 +65,8 @@ export async function createCategory(
     }
   } finally {
     revalidatePath('/dashboard/categories')
-    updateTag('categories')
-    updateTag('products-carousel')
+    revalidateTag('categories', 'max')
+    revalidateTag('products-carousel', 'max')
   }
 }
 
@@ -129,8 +129,8 @@ export async function editCategory(
     }
   } finally {
     revalidatePath('/dashboard/categories')
-    updateTag('categories')
-    updateTag('products-carousel')
+    revalidateTag('categories', 'max')
+    revalidateTag('products-carousel', 'max')
   }
 }
 
@@ -166,7 +166,7 @@ export async function deleteCategory(id: string) {
     }
   } finally {
     revalidatePath('/dashboard/categories')
-    updateTag('categories')
-    updateTag('products-carousel')
+    revalidateTag('categories', 'max')
+    revalidateTag('products-carousel', 'max')
   }
 }
