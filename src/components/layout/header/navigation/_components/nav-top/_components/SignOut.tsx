@@ -12,7 +12,6 @@ export default function SignOut() {
     return await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          // router.push('/')
           router.refresh()
         },
       },

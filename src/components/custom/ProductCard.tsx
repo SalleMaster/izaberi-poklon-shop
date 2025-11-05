@@ -1,6 +1,4 @@
-import { UserRoleType } from '@/generated/prisma'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ProductCardType } from '@/data/services/products'
@@ -11,9 +9,6 @@ import EditProductButton from './EditProductButton'
 type ProductCardProps = { product: ProductCardType }
 
 export default async function ProductCard({ product }: ProductCardProps) {
-  // const userRole = await getUserRole()
-  // const userRole = UserRoleType.admin
-
   return (
     <div className='relative flex flex-col bg-white p-4 rounded-md shadow-md text-center h-full'>
       <Link href={`/pokloni/${product.id}`} prefetch>
@@ -52,12 +47,6 @@ export default async function ProductCard({ product }: ProductCardProps) {
       <Suspense>
         <EditProductButton productId={product.id} />
       </Suspense>
-
-      {/* {userRole === UserRoleType.admin && (
-        <Button className='ml-auto mt-auto' asChild>
-          <Link href={`/admin/proizvodi/${product.id}/edit`}>Edit</Link>
-        </Button>
-      )} */}
     </div>
   )
 }
