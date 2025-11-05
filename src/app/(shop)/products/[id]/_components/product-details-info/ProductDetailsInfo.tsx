@@ -72,7 +72,9 @@ export default function ProductDetailsInfo({
       </div>
       <div>
         <p className='font-semibold mb-1.5'>Opis:</p>
-        <p className='text-muted-foreground'>{description}</p>
+        <p className='text-muted-foreground whitespace-pre-line'>
+          {description}
+        </p>
       </div>
     </div>
   )
