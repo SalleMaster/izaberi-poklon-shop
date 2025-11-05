@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import ProductsPage from '@/app/(shop)/products/ProductsPage'
-import pageGuard from '@/lib/pageGuard'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = {
@@ -18,10 +17,5 @@ export default async function Page(props: PageProps<'/products'>) {
 async function PageLoader({
   searchParams,
 }: Pick<PageProps<'/products'>, 'searchParams'>) {
-  await pageGuard({
-    callbackUrl: '/pokloni',
-    adminGuard: true,
-  })
-
   return <ProductsPage searchParams={searchParams} isAdmin={false} />
 }
