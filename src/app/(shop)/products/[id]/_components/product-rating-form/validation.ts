@@ -7,8 +7,8 @@ export const productRatingSchema = z.object({
     .trim()
     .min(1, 'Molimo unesite ime')
     .max(255, 'Ime ne može biti duže od 255 karaktera'),
-  score: z
-    .number()
+  score: z.coerce
+    .number<number>()
     .int()
     .min(1, 'Ocena mora biti između 1 i 5')
     .max(5, 'Ocena mora biti između 1 i 5'),

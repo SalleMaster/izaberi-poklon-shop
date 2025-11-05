@@ -20,12 +20,12 @@ const imagePersonalizationFieldSchema = z
     id: z.string().optional(),
     originalId: z.string(),
     name: z.string().min(1, 'Polje je neophodno'),
-    min: z
-      .number()
+    min: z.coerce
+      .number<number>()
       .int()
       .min(0, 'Minimalni broj slika ne može biti manji od nule'),
-    max: z
-      .number()
+    max: z.coerce
+      .number<number>()
       .int()
       .min(1, 'Maksimalni broj slika ne može biti manji od 1'),
     createdAt: z.date().optional(),
@@ -45,16 +45,16 @@ const imagePersonalizationFieldSchema = z
 
 const priceTableSchema = z.array(
   z.object({
-    from: z
-      .number()
+    from: z.coerce
+      .number<number>()
       .int('Polje mora biti ceo broj')
       .min(1, 'Polje mora biti veće od nule'),
-    to: z
-      .number()
+    to: z.coerce
+      .number<number>()
       .int('Polje mora biti ceo broj')
       .min(1, 'Polje mora biti veće od nule'),
-    price: z
-      .number()
+    price: z.coerce
+      .number<number>()
       .int('Cena mora biti ceo broj')
       .min(1, 'Cena mora biti veće od nule'),
     deliveryFeeId: z.string().min(1, 'Polje je neophodno'),
