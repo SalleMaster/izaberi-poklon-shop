@@ -7,26 +7,26 @@ export const couponSchema = z
     name: z.string().trim().min(1, 'Polje je neophodno'),
     code: z.string().trim().min(1, 'Polje je neophodno'),
     discountType: z.enum([DiscountType.percentage, DiscountType.fixed]),
-    discount: z
-      .number()
+    discount: z.coerce
+      .number<number>()
       .min(0, 'Polje je neophodno')
       .refine((val) => Number.isInteger(val), {
         message: 'Polje mora biti ceo broj',
       }),
-    cartValue: z
-      .number()
+    cartValue: z.coerce
+      .number<number>()
       .min(0, 'Polje je neophodno')
       .refine((val) => Number.isInteger(val), {
         message: 'Polje mora biti ceo broj',
       }),
-    available: z
-      .number()
+    available: z.coerce
+      .number<number>()
       .min(0, 'Polje je neophodno')
       .refine((val) => Number.isInteger(val), {
         message: 'Polje mora biti ceo broj',
       }),
-    used: z
-      .number()
+    used: z.coerce
+      .number<number>()
       .min(0, 'Polje je neophodno')
       .refine((val) => Number.isInteger(val), {
         message: 'Polje mora biti ceo broj',
