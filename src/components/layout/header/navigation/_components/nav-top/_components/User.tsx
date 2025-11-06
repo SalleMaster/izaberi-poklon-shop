@@ -11,10 +11,10 @@ export default async function User() {
   const user = session?.user
 
   return user ? (
-    <>
+    <div className='flex gap-3 align-middle'>
       <CartButton cartItemsNumber={cartItemsNumber} />
       <UserButton user={user} />
-    </>
+    </div>
   ) : (
     <SignInButton />
   )

@@ -16,11 +16,9 @@ export default function NavTop() {
         />
       </Link>
 
-      <div className='flex gap-3 align-middle'>
-        <Suspense>
-          <User />
-        </Suspense>
-      </div>
+      <Suspense>
+        <User />
+      </Suspense>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from '@/lib/db'
-import { revalidatePath, revalidateTag } from 'next/cache'
+import { revalidatePath, updateTag } from 'next/cache'
 import { Media, Prisma } from '@/generated/prisma'
 import { productSchema, ProductValues } from '../_components/validation'
 import { deleteMedia, deleteMediaFromS3 } from '@/lib/actions'
@@ -131,7 +131,7 @@ export async function createProduct(
     }
   } finally {
     revalidatePath('/dashboard/products')
-    revalidateTag('products-carousel', 'max')
+    updateTag('products-carousel')
   }
 }
 
@@ -285,7 +285,7 @@ export async function editProduct(
     }
   } finally {
     revalidatePath('/dashboard/products')
-    revalidateTag('products-carousel', 'max')
+    updateTag('products-carousel')
   }
 }
 
@@ -313,7 +313,7 @@ export async function deleteProduct(id: string) {
     }
 
     revalidatePath('/dashboard/products')
-    revalidateTag('products-carousel', 'max')
+    updateTag('products-carousel')
 
     return {
       status: 'success',
