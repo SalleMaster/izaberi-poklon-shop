@@ -66,7 +66,13 @@ export default function NavbarMenu({ categories }: Props) {
             <DropdownMenuSeparator className='my-4' />
             <DropdownMenuItem className='text-end' asChild>
               <Link
-                href={`${pageUrl}?${createQueryString({ removeParams: ['kategorija', 'stranica'] })}`}
+                // href={`${pageUrl}?${createQueryString({ removeParams: ['kategorija', 'stranica'] })}`}
+                href={{
+                  pathname: pageUrl,
+                  query: createQueryString({
+                    removeParams: ['kategorija', 'stranica'],
+                  }),
+                }}
                 className={cn(
                   pathname === pageUrl &&
                     optimisticCategory.length === 0 &&
