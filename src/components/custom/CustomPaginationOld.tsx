@@ -1,7 +1,7 @@
 'use client'
 
-import { useOptimistic, useTransition } from 'react'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { use, useOptimistic, useTransition } from 'react'
+import { useSearchParams } from 'next/navigation'
 import {
   Pagination,
   PaginationContent,
@@ -14,12 +14,13 @@ import {
 import useCreateQueryString from '@/hooks/use-create-query-string'
 
 type Props = {
-  count: number
+  countPromise: Promise<number>
+  pageUrl: string
 }
 
-export default function CustomPagination({ count }: Props) {
+export default function CustomPaginationOld({ countPromise, pageUrl }: Props) {
+  const count = use(countPromise)
   const searchParams = useSearchParams()
-  const pathname = usePathname()
   const [optimisticPage, setOptimisticPage] = useOptimistic(
     searchParams.get('stranica') || '1'
   )
@@ -150,25 +151,14 @@ export default function CustomPagination({ count }: Props) {
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
-              // href={`${pathname}?${createQueryString({
-              //   addParams: [
-              //     {
-              //       name: 'stranica',
-              //       value: (Number(optimisticPage) - 1).toString(),
-              //     },
-              //   ],
-              // })}`}
-              href={{
-                pathname,
-                query: createQueryString({
-                  addParams: [
-                    {
-                      name: 'stranica',
-                      value: (Number(optimisticPage) - 1).toString(),
-                    },
-                  ],
-                }),
-              }}
+              href={`${pageUrl}?${createQueryString({
+                addParams: [
+                  {
+                    name: 'stranica',
+                    value: (Number(optimisticPage) - 1).toString(),
+                  },
+                ],
+              })}`}
               onClick={() => {
                 startTransition(() => {
                   setOptimisticPage((Number(optimisticPage) - 1).toString())
@@ -192,25 +182,14 @@ export default function CustomPagination({ count }: Props) {
             ) : (
               <PaginationItem key={index}>
                 <PaginationLink
-                  // href={`${pathname}?${createQueryString({
-                  //   addParams: [
-                  //     {
-                  //       name: 'stranica',
-                  //       value: page.toString(),
-                  //     },
-                  //   ],
-                  // })}`}
-                  href={{
-                    pathname,
-                    query: createQueryString({
-                      addParams: [
-                        {
-                          name: 'stranica',
-                          value: page.toString(),
-                        },
-                      ],
-                    }),
-                  }}
+                  href={`${pageUrl}?${createQueryString({
+                    addParams: [
+                      {
+                        name: 'stranica',
+                        value: page.toString(),
+                      },
+                    ],
+                  })}`}
                   onClick={() => {
                     startTransition(() => {
                       setOptimisticPage(page.toString())
@@ -226,25 +205,14 @@ export default function CustomPagination({ count }: Props) {
 
           <PaginationItem>
             <PaginationNext
-              // href={`${pathname}?${createQueryString({
-              //   addParams: [
-              //     {
-              //       name: 'stranica',
-              //       value: (Number(optimisticPage) + 1).toString(),
-              //     },
-              //   ],
-              // })}`}
-              href={{
-                pathname,
-                query: createQueryString({
-                  addParams: [
-                    {
-                      name: 'stranica',
-                      value: (Number(optimisticPage) + 1).toString(),
-                    },
-                  ],
-                }),
-              }}
+              href={`${pageUrl}?${createQueryString({
+                addParams: [
+                  {
+                    name: 'stranica',
+                    value: (Number(optimisticPage) + 1).toString(),
+                  },
+                ],
+              })}`}
               onClick={() => {
                 startTransition(() => {
                   setOptimisticPage((Number(optimisticPage) + 1).toString())
@@ -271,25 +239,14 @@ export default function CustomPagination({ count }: Props) {
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
-              // href={`${pathname}?${createQueryString({
-              //   addParams: [
-              //     {
-              //       name: 'stranica',
-              //       value: (Number(optimisticPage) - 1).toString(),
-              //     },
-              //   ],
-              // })}`}
-              href={{
-                pathname,
-                query: createQueryString({
-                  addParams: [
-                    {
-                      name: 'stranica',
-                      value: (Number(optimisticPage) - 1).toString(),
-                    },
-                  ],
-                }),
-              }}
+              href={`${pageUrl}?${createQueryString({
+                addParams: [
+                  {
+                    name: 'stranica',
+                    value: (Number(optimisticPage) - 1).toString(),
+                  },
+                ],
+              })}`}
               onClick={() => {
                 startTransition(() => {
                   setOptimisticPage((Number(optimisticPage) - 1).toString())
@@ -312,25 +269,14 @@ export default function CustomPagination({ count }: Props) {
             ) : (
               <PaginationItem key={index}>
                 <PaginationLink
-                  // href={`${pathname}?${createQueryString({
-                  //   addParams: [
-                  //     {
-                  //       name: 'stranica',
-                  //       value: page.toString(),
-                  //     },
-                  //   ],
-                  // })}`}
-                  href={{
-                    pathname,
-                    query: createQueryString({
-                      addParams: [
-                        {
-                          name: 'stranica',
-                          value: page.toString(),
-                        },
-                      ],
-                    }),
-                  }}
+                  href={`${pageUrl}?${createQueryString({
+                    addParams: [
+                      {
+                        name: 'stranica',
+                        value: page.toString(),
+                      },
+                    ],
+                  })}`}
                   onClick={() => {
                     startTransition(() => {
                       setOptimisticPage(page.toString())
@@ -346,25 +292,14 @@ export default function CustomPagination({ count }: Props) {
 
           <PaginationItem>
             <PaginationNext
-              // href={`${pathname}?${createQueryString({
-              //   addParams: [
-              //     {
-              //       name: 'stranica',
-              //       value: (Number(optimisticPage) + 1).toString(),
-              //     },
-              //   ],
-              // })}`}
-              href={{
-                pathname,
-                query: createQueryString({
-                  addParams: [
-                    {
-                      name: 'stranica',
-                      value: (Number(optimisticPage) + 1).toString(),
-                    },
-                  ],
-                }),
-              }}
+              href={`${pageUrl}?${createQueryString({
+                addParams: [
+                  {
+                    name: 'stranica',
+                    value: (Number(optimisticPage) + 1).toString(),
+                  },
+                ],
+              })}`}
               onClick={() => {
                 startTransition(() => {
                   setOptimisticPage((Number(optimisticPage) + 1).toString())

@@ -3,10 +3,10 @@ import { Suspense } from 'react'
 import pageGuard from '@/lib/pageGuard'
 import { Separator } from '@/components/ui/separator'
 import { SortingValues } from '@/lib/types'
-import CustomPagination from '@/components/custom/CustomPagination'
 import { getUsers, getUsersCount } from '@/data/services/user'
 import UsersHeader from './_components/UsersHeader'
 import UsersPage, { UsersPageSkeleton } from './UsersPage'
+import CustomPaginationOld from '@/components/custom/CustomPaginationOld'
 
 export const metadata: Metadata = {
   title: 'Korisnici | Admin',
@@ -68,7 +68,7 @@ async function PageLoader({
 
       <Suspense fallback={<UsersPageSkeleton />}>
         <UsersPage usersPromise={usersPromise} />
-        <CustomPagination
+        <CustomPaginationOld
           countPromise={usersCountPromise}
           pageUrl='/admin/korisnici'
         />
