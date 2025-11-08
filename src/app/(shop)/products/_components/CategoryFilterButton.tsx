@@ -1,26 +1,30 @@
 'use client'
 
-import Link from 'next/link'
+import { ComponentProps, useOptimistic, useTransition } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
-import { useOptimistic, useTransition } from 'react'
+import Link from 'next/link'
 
 import useCreateQueryString from '@/hooks/use-create-query-string'
 import { CategoryWithImage } from '@/data/services/category'
 import { fallbackImageURL } from '@/lib/consts'
-import DynamicImage from '@/components/custom/DynamicImage'
 import { cn } from '@/lib/utils'
 
-interface Props {
+import DynamicImage from '@/components/custom/DynamicImage'
+
+type Props = Omit<ComponentProps<typeof Link>, 'href'> & {
   category?: CategoryWithImage
 }
 
-export default function CategoryFilterButton({ category }: Props) {
+export default function CategoryFilterButton({ category, ...props }: Props) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const [isPending, startTransition] = useTransition()
   const [optimisticCategory, setOptimisticCategories] = useOptimistic(
     searchParams.getAll('kategorija')
   )
+
+  const baseURL =
+    pathname === '/admin/proizvodi' ? '/admin/proizvodi' : '/pokloni'
 
   const createQueryString = useCreateQueryString(searchParams)
   const active = category
@@ -29,14 +33,14 @@ export default function CategoryFilterButton({ category }: Props) {
 
   const href = category
     ? {
-        pathname,
+        pathname: baseURL,
         query: createQueryString({
           addParams: [{ name: 'kategorija', value: category.slug }],
           removeParams: ['stranica'],
         }),
       }
     : {
-        pathname,
+        pathname: baseURL,
         query: createQueryString({ removeParams: ['kategorija', 'stranica'] }),
       }
 
@@ -53,6 +57,7 @@ export default function CategoryFilterButton({ category }: Props) {
           setOptimisticCategories([category.slug])
         })
       }}
+      {...props}
     >
       <div className='w-6 mr-2'>
         <DynamicImage
@@ -77,6 +82,7 @@ export default function CategoryFilterButton({ category }: Props) {
           setOptimisticCategories([])
         })
       }}
+      {...props}
     >
       Svi pokloni
     </Link>

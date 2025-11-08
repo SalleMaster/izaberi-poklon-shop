@@ -1,19 +1,58 @@
-import { Suspense } from 'react'
-import { cacheTag } from 'next/cache'
+import Link from 'next/link'
 
-import { getCategories } from '@/data/services/category'
-import NavbarMenu, { NavbarMenuSkeleton } from './NavbarMenu'
+import { cn } from '@/lib/utils'
+import { shopInfo } from '@/lib/consts'
 
-export default async function NavBottom() {
-  'use cache'
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { Button, buttonVariants } from '@/components/ui/button'
+import CategoriesDropdown from './_components/CategoriesDropdown'
 
-  cacheTag('categories')
-
-  const categories = await getCategories({ active: true })
-
+export default function NavBottom() {
   return (
-    <Suspense fallback={<NavbarMenuSkeleton />}>
-      <NavbarMenu categories={categories} />
-    </Suspense>
+    <div className='bg-primary'>
+      <div className='container mx-auto flex'>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='secondary' className='rounded-none'>
+              Pokloni
+            </Button>
+          </DropdownMenuTrigger>
+          <CategoriesDropdown />
+        </DropdownMenu>
+        <Link
+          href={{ pathname: '/pokloni', query: { aktuelno: 'da' } }}
+          className={buttonVariants()}
+        >
+          Aktuelno
+        </Link>
+        <Link
+          href={{
+            pathname: '/pokloni',
+            query: { kategorija: 'korporativni-pokloni' },
+          }}
+          className={buttonVariants()}
+        >
+          Korporativni pokloni
+        </Link>
+        <Link
+          href={'/'}
+          className={cn(buttonVariants(), 'hidden md:block rounded-none')}
+        >
+          O nama
+        </Link>
+        <a
+          href={`tel:${shopInfo.phone}`}
+          className={cn(
+            buttonVariants(),
+            'hidden md:block rounded-none ml-auto'
+          )}
+        >
+          Call centar: {shopInfo.phone}
+        </a>
+      </div>
+    </div>
   )
 }
