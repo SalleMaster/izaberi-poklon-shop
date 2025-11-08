@@ -1,5 +1,5 @@
-import NavTop from './_components/nav-top/NavTop'
 import NavBottom from './_components/nav-bottom/NavBottom'
+import NavTop from './_components/nav-top/NavTop'
 
 export default function Header() {
   return (

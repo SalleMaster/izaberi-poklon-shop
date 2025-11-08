@@ -4,9 +4,9 @@ import pageGuard from '@/lib/pageGuard'
 import { getOrders, getOrdersCount } from '@/data/services/order'
 import { Separator } from '@/components/ui/separator'
 import { SortingValues } from '@/lib/types'
-import CustomPagination from '@/components/custom/CustomPagination'
 import OrdersHeader from '../../(admin)/orders/_components/OrdersHeader'
 import OrdersPage, { OrdersPageSkeleton } from '../../(admin)/orders/OrdersPage'
+import CustomPaginationOld from '@/components/custom/CustomPaginationOld'
 
 export const metadata: Metadata = {
   title: 'Porudžbine | Profil',
@@ -68,7 +68,7 @@ async function PageLoader({
       <Separator />
 
       <OrdersPage ordersPromise={ordersPromise} isAdmin={false} />
-      <CustomPagination
+      <CustomPaginationOld
         countPromise={ordersCountPromise}
         pageUrl='/profil/porudzbine'
       />
