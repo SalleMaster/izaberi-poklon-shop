@@ -6,8 +6,8 @@ import { getOrders, getOrdersCount } from '@/data/services/order'
 import OrdersHeader from './_components/OrdersHeader'
 import { Separator } from '@/components/ui/separator'
 import { SortingValues } from '@/lib/types'
-import CustomPagination from '@/components/custom/CustomPagination'
 import { UserRoleType } from '@/generated/prisma'
+import CustomPaginationOld from '@/components/custom/CustomPaginationOld'
 
 export const metadata: Metadata = {
   title: 'Porudžbine | Admin',
@@ -71,7 +71,7 @@ async function PageLoader({
 
       <Suspense fallback={<OrdersPageSkeleton />}>
         <OrdersPage ordersPromise={ordersPromise} isAdmin={isAdmin} />
-        <CustomPagination
+        <CustomPaginationOld
           countPromise={ordersCountPromise}
           pageUrl='/admin/porudzbine'
         />

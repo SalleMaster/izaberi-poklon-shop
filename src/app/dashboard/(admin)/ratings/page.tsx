@@ -3,10 +3,10 @@ import { Suspense } from 'react'
 import pageGuard from '@/lib/pageGuard'
 import { Separator } from '@/components/ui/separator'
 import { SortingValues } from '@/lib/types'
-import CustomPagination from '@/components/custom/CustomPagination'
 import { getRatings, getRatingsCount } from '@/data/services/ratings'
 import RatingsHeader from './_components/RatingsHeader'
 import RatingsPage, { RatingsPageSkeleton } from './RatingsPage'
+import CustomPaginationOld from '@/components/custom/CustomPaginationOld'
 
 export const metadata: Metadata = {
   title: 'Recenzije | Admin',
@@ -69,7 +69,7 @@ async function PageLoader({
 
       <Suspense fallback={<RatingsPageSkeleton />}>
         <RatingsPage ratingsPromise={ratingsPromise} />
-        <CustomPagination
+        <CustomPaginationOld
           countPromise={ratingsCountPromise}
           pageUrl='/admin/recenzije'
         />
