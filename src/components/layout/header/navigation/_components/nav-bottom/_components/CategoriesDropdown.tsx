@@ -14,6 +14,7 @@ import {
 import CategoryFilterButton, {
   CategoryFilterButtonSkeleton,
 } from '@/app/(shop)/products/_components/CategoryFilterButton'
+import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 
 export default async function CategoriesDropdown() {
   'use cache'
@@ -32,9 +33,9 @@ export default async function CategoriesDropdown() {
             key={category.id}
             fallback={<CategoryFilterButtonSkeleton />}
           >
-            <DropdownMenuItem asChild className='text-end'>
+            <DropdownMenuPrimitive.Item asChild>
               <CategoryFilterButton category={category} />
-            </DropdownMenuItem>
+            </DropdownMenuPrimitive.Item>
           </Suspense>
         )
       })}
