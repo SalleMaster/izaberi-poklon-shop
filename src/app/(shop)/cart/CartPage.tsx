@@ -240,9 +240,10 @@ export default function CartPage({
     form.watch('paymentType') === OrderPaymentType.card &&
     selectedDeliveryService?.predefinedPrices
 
-  // Use useEffect to reset the form when the product prop changes
+  // Use useEffect to reset the form when the defaultValues change
   useEffect(() => {
     reset(defaultValues)
+    setCurrentStep(0)
   }, [defaultValues, reset])
 
   return (

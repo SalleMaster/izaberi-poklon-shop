@@ -37,7 +37,7 @@ export default function RootLayout({
         <Script
           src='https://umami.radovanovic.net/script.js'
           data-website-id={process.env.UMAMI_DATA_WEBSITE_ID}
-          strategy='afterInteractive'
+          strategy='lazyOnload'
           defer
         />
       </head>
