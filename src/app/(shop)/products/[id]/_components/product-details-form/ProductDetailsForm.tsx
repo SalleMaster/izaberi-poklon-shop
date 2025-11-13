@@ -4,7 +4,6 @@ import { useMemo, useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { User as UserType } from 'better-auth'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Form,
@@ -43,14 +42,12 @@ import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
 import { priceFormatter } from '@/lib/format'
 import Link from 'next/link'
-import { clsx } from 'clsx'
 
 type Props = {
   product: ProductWithRelations
-  user?: UserType
 }
 
-export function ProductDetailsForm({ product, user }: Props) {
+export function ProductDetailsForm({ product }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const { defaultValues, quantityOptions } = useMemo(() => {
@@ -339,7 +336,7 @@ export function ProductDetailsForm({ product, user }: Props) {
           />
         ) : null}
 
-        {user && personalization
+        {personalization
           ? textFields.map((field, index) => (
               <div key={field.id} className='flex flex-col space-y-2'>
                 <FormField
@@ -367,7 +364,7 @@ export function ProductDetailsForm({ product, user }: Props) {
             ))
           : null}
 
-        {user && personalization
+        {personalization
           ? imageFields.map((field, index) => (
               <div key={field.id} className='flex flex-col space-y-2'>
                 <FormField
@@ -412,7 +409,7 @@ export function ProductDetailsForm({ product, user }: Props) {
           : null}
 
         <div className='flex'>
-          {user && (
+          {
             <Button
               type='submit'
               disabled={form.formState.isSubmitting}
@@ -425,19 +422,7 @@ export function ProductDetailsForm({ product, user }: Props) {
               )}
               Dodaj u korpu
             </Button>
-          )}
-
-          {!user && (
-            <Link
-              href={`/auth/signin?callbackUrl=/pokloni/${product.id}`}
-              className={clsx(
-                buttonVariants({ variant: 'default' }),
-                'ml-auto'
-              )}
-            >
-              Dodaj u korpu
-            </Link>
-          )}
+          }
         </div>
 
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>

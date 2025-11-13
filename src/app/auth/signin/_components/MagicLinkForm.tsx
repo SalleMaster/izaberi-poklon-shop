@@ -85,7 +85,9 @@ export default function MagicLinkForm({ callbackUrl }: Props) {
                   disabled={isSubmitting}
                 />
               </FormControl>
-              <FormDescription>Prijava putem email-a</FormDescription>
+              <FormDescription>
+                Ukoliko nemate nalog, kreiraćemo ga automatski.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

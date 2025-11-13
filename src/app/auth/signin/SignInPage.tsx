@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import MagicLinkForm from './_components/MagicLinkForm'
 import { Separator } from '@/components/ui/separator'
+import { NotificationAlert } from '@/components/custom/NotificationAlert'
 
 export default function SignInPage() {
   const searchParams = useSearchParams()
@@ -24,8 +25,10 @@ export default function SignInPage() {
     <div className='flex flex-col gap-5'>
       <Card className='w-full md:max-w-96 mx-auto'>
         <CardHeader>
-          <CardTitle>Vaš nalog</CardTitle>
-          <CardDescription>Odaberite opciju za prijavu</CardDescription>
+          <CardTitle>Prijava ili registracija</CardTitle>
+          <CardDescription>
+            Nemate nalog? Kreiraćemo ga automatski.
+          </CardDescription>
         </CardHeader>
         <CardContent className='grid grid-cols-1 gap-5'>
           <Button
@@ -42,28 +45,20 @@ export default function SignInPage() {
             />
             Google
           </Button>
-
           <Separator />
 
           <MagicLinkForm callbackUrl={callbackUrl} />
         </CardContent>
-        <CardFooter>
-          <p className='text-muted-foreground text-sm'>
-            Nema potrebe za klasičnom registracijom i čuvanjem šifara.
-            Jednostavno se prijavite sa svojim Google nalogom ili unesite email
-            i pratite dalje korake.
-          </p>
-        </CardFooter>
       </Card>
 
-      {/* {error && (
-        <NotificationAlert
-          title='Greška prilikom prijave'
-          description='Došlo je do greške prilikom prijave. Molimo pokušajte ponovo ili koristite drugu opciju prijave.'
-          variant='destructive'
-          className='w-full md:max-w-96 mx-auto'
-        />
-      )} */}
+      <NotificationAlert
+        title=''
+        description='Nema potrebe za klasičnom registracijom i čuvanjem šifara.
+            Jednostavno se prijavite sa svojim Google nalogom ili unesite email
+            i pratite dalje korake.'
+        variant='default'
+        className='w-full md:max-w-96 mx-auto'
+      />
     </div>
   )
 }
@@ -73,8 +68,10 @@ export function SignInPageFallback() {
     <div className='flex flex-col gap-5'>
       <Card className='w-full md:max-w-96 mx-auto'>
         <CardHeader>
-          <CardTitle>Vaš nalog</CardTitle>
-          <CardDescription>Odaberite opciju za prijavu</CardDescription>
+          <CardTitle>Prijava ili registracija</CardTitle>
+          <CardDescription>
+            Nemate nalog? Kreiraćemo ga automatski.
+          </CardDescription>
         </CardHeader>
         <CardContent className='grid grid-cols-1 gap-5'>
           <Button variant='outline' className='w-full' disabled>
@@ -92,23 +89,16 @@ export function SignInPageFallback() {
 
           <MagicLinkForm callbackUrl={''} />
         </CardContent>
-        <CardFooter>
-          <p className='text-muted-foreground text-sm'>
-            Nema potrebe za klasičnom registracijom i čuvanjem šifara.
-            Jednostavno se prijavite sa svojim Google nalogom ili unesite email
-            i pratite dalje korake.
-          </p>
-        </CardFooter>
       </Card>
 
-      {/* {error && (
-        <NotificationAlert
-          title='Greška prilikom prijave'
-          description='Došlo je do greške prilikom prijave. Molimo pokušajte ponovo ili koristite drugu opciju prijave.'
-          variant='destructive'
-          className='w-full md:max-w-96 mx-auto'
-        />
-      )} */}
+      <NotificationAlert
+        title=''
+        description='Nema potrebe za klasičnom registracijom i čuvanjem šifara.
+            Jednostavno se prijavite sa svojim Google nalogom ili unesite email
+            i pratite dalje korake.'
+        variant='default'
+        className='w-full md:max-w-96 mx-auto'
+      />
     </div>
   )
 }
