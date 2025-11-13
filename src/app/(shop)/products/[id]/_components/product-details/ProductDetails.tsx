@@ -6,6 +6,9 @@ import { ProductDetailsForm } from '../product-details-form/ProductDetailsForm'
 import ProductDetailsInfo from '../product-details-info/ProductDetailsInfo'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
 import { User as UserType } from 'better-auth'
+import Link from 'next/link'
+import clsx from 'clsx'
+import { buttonVariants } from '@/components/ui/button'
 
 type Props = {
   product: ProductWithRelations
@@ -34,15 +37,36 @@ export default function ProductDetails({ product, user }: Props) {
       ) : null}
 
       <div className='space-y-10'>
-        {isAvailable ? (
-          <ProductDetailsForm product={product} user={user} />
-        ) : (
+        {isAvailable && user ? <ProductDetailsForm product={product} /> : null}
+
+        {!isAvailable ? (
           <NotificationAlert
             title='Obaveštenje:'
             description='Ovaj proizvod trenutno nije dostupan za poručivanje.'
             className='mt-10'
           />
-        )}
+        ) : null}
+
+        {!user ? (
+          <>
+            <NotificationAlert
+              title='Obaveštenje:'
+              description='Morate biti ulogovani da biste poručili proizvod.'
+              className='mt-10'
+            />
+            <div className='flex'>
+              <Link
+                href={`/auth/signin?callbackUrl=/pokloni/${product.id}`}
+                className={clsx(
+                  buttonVariants({ variant: 'default' }),
+                  'ml-auto'
+                )}
+              >
+                Prijava / Registracija
+              </Link>
+            </div>
+          </>
+        ) : null}
 
         <ProductDetailsInfo
           delivery={product.delivery}
@@ -58,8 +82,8 @@ export default function ProductDetails({ product, user }: Props) {
 
 export function ProductDetailsSkeleton() {
   return (
-    <div className='h-auto w-[100%] aspect-square'>
-      <Skeleton className='h-auto w-[100%] rounded-xl aspect-square' />
+    <div className='h-auto w-full aspect-square'>
+      <Skeleton className='h-auto w-full rounded-xl aspect-square' />
     </div>
   )
 }
