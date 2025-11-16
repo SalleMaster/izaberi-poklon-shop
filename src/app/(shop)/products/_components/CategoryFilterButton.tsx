@@ -41,7 +41,10 @@ export default function CategoryFilterButton({ category, ...props }: Props) {
       }
     : {
         pathname: baseURL,
-        query: createQueryString({ removeParams: ['kategorija', 'stranica'] }),
+        query: createQueryString({
+          addParams: [{ name: 'stranica', value: '1' }],
+          removeParams: ['kategorija', 'aktuelno'],
+        }),
       }
 
   return category ? (
