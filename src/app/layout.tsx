@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-// import Script from 'next/script'
+import Script from 'next/script'
 import localFont from 'next/font/local'
 import './globals.css'
 import { Toaster } from '@/components/ui/sonner'
@@ -34,12 +34,12 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <head>
-        {/* <Script
+        <Script
           src='https://umami.radovanovic.net/script.js'
           data-website-id={process.env.UMAMI_DATA_WEBSITE_ID}
-          strategy='lazyOnload'
+          strategy='afterInteractive'
           defer
-        /> */}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen group`}
