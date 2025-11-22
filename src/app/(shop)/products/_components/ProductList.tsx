@@ -70,7 +70,7 @@ export default async function ProductsList({
     <div className='space-y-5'>
       <div className='group-has-data-pending-products:animate-pulse group-has-data-pending-pagination:animate-pulse'>
         {products.length > 0 ? (
-          <div className='grid gap-2 grid-cols-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5'>
+          <div className='grid gap-2 grid-cols-2 sm:grid-cols-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5'>
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -92,7 +92,7 @@ export default async function ProductsList({
 
 export function ProductsListSkeleton() {
   return (
-    <div className='grid gap-2 grid-cols-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5'>
+    <div className='grid gap-2 grid-cols-2 sm:grid-cols-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5'>
       {Array.from({ length: 12 }).map((_, index) => (
         <ProductCardSkeleton key={index} />
       ))}

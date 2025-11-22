@@ -98,7 +98,7 @@
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
 
-  --grid-template-columns-products: 200px 1fr;
+  --grid-template-columns-products: 250px 1fr;
   --grid-template-columns-cart: 4fr 3fr;
 
   --aspect-10\/3: 10 / 3;

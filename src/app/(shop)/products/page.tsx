@@ -1,7 +1,6 @@
 import { Suspense } from 'react'
 import { Metadata } from 'next'
 
-import { Separator } from '@/components/ui/separator'
 import ProductsList, { ProductsListSkeleton } from './_components/ProductList'
 import CategoryFilters from './_components/CategoryFilters'
 import ProductsHeader from './_components/ProductsHeader'
@@ -15,9 +14,7 @@ export default async function Page({ searchParams }: PageProps<'/products'>) {
     <div className='space-y-5'>
       <ProductsHeader />
 
-      <Separator />
-
-      <div className='md:grid gap-5 grid-cols-products'>
+      <div className='md:grid gap-5 grid-cols-products mx-1'>
         <CategoryFilters />
 
         <Suspense fallback={<ProductsListSkeleton />}>
