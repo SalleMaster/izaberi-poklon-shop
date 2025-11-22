@@ -2,6 +2,7 @@ import { Separator } from '@/components/ui/separator'
 import TrendingFilter from '@/components/custom/filters/TrendingFilter'
 import DisplayFilter from '@/components/custom/filters/DisplayFilter'
 import SortFilter from '@/components/custom/filters/SortFilter'
+import CategoryFilter from '@/components/custom/filters/CategoriesFilter'
 
 export default function ProductsFilters() {
   return (
@@ -11,6 +12,10 @@ export default function ProductsFilters() {
       <DisplayFilter />
       <Separator className='md:hidden' />
       <SortFilter />
+      <Separator className='md:hidden' />
+      <div className='md:hidden'>
+        <CategoryFilter />
+      </div>
     </div>
   )
 }
