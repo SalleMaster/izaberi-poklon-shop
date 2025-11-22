@@ -22,7 +22,7 @@ export default async function CategoryFilters() {
   const categories = await getCategories({ active: true })
 
   return (
-    <Card className='hidden md:block mb-auto sticky top-[120px]'>
+    <Card className='hidden md:block mb-auto sticky top-57'>
       <CardHeader>
         <CardDescription>Kategorije</CardDescription>
       </CardHeader>
