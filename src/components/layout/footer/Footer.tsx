@@ -7,7 +7,7 @@ import { FooterYear } from './_components/FooterYear'
 
 const mainLinks = [
   { href: '/o-nama', label: 'Ko smo mi' },
-  { href: '/o-nama', label: 'Kako smo nastali' },
+  { href: '/o-nama#about-us-info', label: 'Kako smo nastali' },
   { href: '/kontakt', label: 'Veleprodaja' },
   // { href: '/', label: 'Česta pitanja' },
   { href: '/kontakt', label: 'Kontakt' },
