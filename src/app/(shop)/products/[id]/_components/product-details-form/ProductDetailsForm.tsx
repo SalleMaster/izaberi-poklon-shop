@@ -23,7 +23,14 @@ import {
   DialogTitle,
   DialogClose,
 } from '@/components/ui/dialog'
-import { CheckCheck, Loader2, Minus, Plus, ShoppingCart } from 'lucide-react'
+import {
+  CheckCheck,
+  Gift,
+  Loader2,
+  Minus,
+  Plus,
+  ShoppingCart,
+} from 'lucide-react'
 import { productDetailsSchema, ProductDetailsValues } from './validation'
 import { addCartItem } from '@/app/(shop)/_actions/cart/actions'
 import { ProductWithRelations } from '@/data/services/products'
@@ -42,6 +49,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
 import { priceFormatter } from '@/lib/format'
 import Link from 'next/link'
+import { NotificationAlert } from '@/components/custom/NotificationAlert'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 
 type Props = {
   product: ProductWithRelations
@@ -256,7 +265,9 @@ export function ProductDetailsForm({ product }: Props) {
             name='packageOptionSelected'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className='mr-4'>Poklon pakovanje</FormLabel>
+                <FormLabel className='mr-4'>
+                  Poklon pakovanje <Gift className='w-5 h-5' />
+                </FormLabel>
                 <FormControl>
                   <Switch
                     checked={field.value}
@@ -266,7 +277,8 @@ export function ProductDetailsForm({ product }: Props) {
                 <FormDescription>
                   {product.packageOption?.description} <br />
                   Cena po komadu:{' '}
-                  {priceFormatter(product.packageOption?.price || 0)}
+                  {priceFormatter(product.packageOption?.price || 0)} <br />
+                  Standardno pakovanje je uključeno u cenu
                 </FormDescription>
                 <FormMessage />
               </FormItem>

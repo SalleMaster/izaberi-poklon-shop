@@ -22,8 +22,10 @@ export default function ProductDetailsInfo({
   switch (delivery) {
     case DeliveryType.fast:
       deliveryText = '3-5 dana'
+      break
     case DeliveryType.slow:
       deliveryText = '5-10 dana'
+      break
     default:
       deliveryText = '5-10 dana'
   }
