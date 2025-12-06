@@ -38,7 +38,7 @@ export default function NavBottom() {
           Korporativni pokloni
         </Link>
         <Link
-          href={'/'}
+          href={'/o-nama'}
           className={cn(buttonVariants(), 'hidden md:block rounded-none')}
         >
           O nama

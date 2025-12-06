@@ -6,10 +6,10 @@ import Image from 'next/image'
 import { FooterYear } from './_components/FooterYear'
 
 const mainLinks = [
-  { href: '/', label: 'Ko smo mi' },
-  { href: '/', label: 'Kako smo nastali' },
-  { href: '/', label: 'Veleprodaja' },
-  { href: '/', label: 'Česta pitanja' },
+  { href: '/o-nama', label: 'Ko smo mi' },
+  { href: '/o-nama#about-us-info', label: 'Kako smo nastali' },
+  { href: '/kontakt', label: 'Veleprodaja' },
+  // { href: '/', label: 'Česta pitanja' },
   { href: '/kontakt', label: 'Kontakt' },
 ]
 

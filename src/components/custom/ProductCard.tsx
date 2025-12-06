@@ -11,7 +11,7 @@ type ProductCardProps = { product: ProductCardType }
 export default async function ProductCard({ product }: ProductCardProps) {
   return (
     <div className='relative flex flex-col bg-white p-4 rounded-md shadow-md text-center h-full'>
-      <Link href={`/pokloni/${product.id}`} prefetch>
+      <Link href={`/pokloni/${product.id}`}>
         {product.discount?.active && (
           <Badge className='absolute top-4 right-4 bg-secondary text-secondary-foreground'>
             -{product.discount.percentage}%
@@ -21,9 +21,9 @@ export default async function ProductCard({ product }: ProductCardProps) {
           <DynamicImage
             src={product.coverImage.url}
             alt={product.coverImage.name}
-            width={300}
-            height={300}
-            priority
+            width={200}
+            height={200}
+            preload
             className='mx-auto'
           />
         )}
