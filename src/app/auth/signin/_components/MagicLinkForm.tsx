@@ -16,14 +16,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { Loader2, Mail } from 'lucide-react'
 
 import { magicLinkSchema, MagicLinkSchemaValues } from './validation'
@@ -104,7 +96,7 @@ export default function MagicLinkForm({ callbackUrl }: Props) {
           ) : (
             <Mail className='mr-2 h-4 w-4' />
           )}
-          Prijava
+          Prijava / Registracija
         </Button>
       </form>
     </Form>

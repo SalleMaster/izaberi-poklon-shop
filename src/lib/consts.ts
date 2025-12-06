@@ -123,9 +123,9 @@ export const shopInfo = {
   phone: '+381 61 225 1 225',
   email: 'reddot.ar@gmail.com',
   pickupAddress: 'Pavla Vujisića 12, 34300 Aranđelovac',
-  facebook: 'https://www.facebook.com',
-  instagram: 'https://www.instagram.com',
-  tikTok: 'https://www.tiktok.com',
+  facebook: 'https://www.facebook.com/reciseci/',
+  instagram: 'https://www.instagram.com/reci_seci/',
+  tikTok: 'https://www.tiktok.com/@reci_seci?_r=1&_t=ZM-91usNU8HYNc',
 } as const
 
 export const orderQuitForm = {

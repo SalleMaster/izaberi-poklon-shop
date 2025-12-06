@@ -138,6 +138,10 @@ const nextConfig = {
         destination: '/payment-policy',
       },
       {
+        source: '/o-nama',
+        destination: '/about-us',
+      },
+      {
         source: '/placanje/:orderId',
         destination: '/payment/:orderId',
       },

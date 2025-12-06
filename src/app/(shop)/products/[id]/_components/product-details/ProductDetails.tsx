@@ -9,6 +9,7 @@ import { User as UserType } from 'better-auth'
 import Link from 'next/link'
 import clsx from 'clsx'
 import { buttonVariants } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 
 type Props = {
   product: ProductWithRelations
@@ -21,6 +22,9 @@ export default function ProductDetails({ product, user }: Props) {
   return (
     <div className='space-y-2.5'>
       <h3 className='text-2xl font-extrabold'>{product.name}</h3>
+
+      <p className='text-sm'> Šifra: {product.code}</p>
+
       <ProductDetailsPrice
         discount={product.discount}
         formattedPrice={product.formattedPrice}
