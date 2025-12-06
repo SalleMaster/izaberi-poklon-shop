@@ -260,8 +260,12 @@ export type removeCartItemType = {
 }
 
 export async function removeCartItem({ id }: removeCartItemType) {
+  let userId: string | null = null
+
   try {
-    const { userId } = await loggedInActionGuard()
+    // const { userId } = await loggedInActionGuard()
+    const guardResult = await loggedInActionGuard()
+    userId = guardResult.userId
 
     // Fetch the cart item and include the cart relation
     const cartItem = await prisma.cartItem.findUnique({
@@ -314,6 +318,9 @@ export async function removeCartItem({ id }: removeCartItemType) {
       throw error
     }
   } finally {
+    if (userId) {
+      await updateCartOverviewData({ userId })
+    }
     revalidatePath('/cart') // Revalidate cart page
   }
 }
