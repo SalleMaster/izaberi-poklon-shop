@@ -7,7 +7,7 @@ export const adminActionGuard = async () => {
   const userRole = session?.user?.role
 
   if (!userId || userRole !== UserRoleType.admin) {
-    throw Error('Unauthorized')
+    throw Error('Unauthorized: Došlo je do greške, molimo pokušajte ponovo.')
   }
 
   return { userId, userRole }
@@ -19,7 +19,7 @@ export const loggedInActionGuard = async () => {
   const userRole = session?.user?.role
 
   if (!userId) {
-    throw Error('Unauthorized')
+    throw Error('Unauthorized: Došlo je do greške, molimo pokušajte ponovo.')
   }
 
   return { userId, userRole }
