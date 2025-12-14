@@ -8,7 +8,7 @@ import {
 } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import crypto from 'crypto'
-import { adminActionGuard, loggedInActionGuard } from './actionGuard'
+import { loggedInActionGuard } from './actionGuard'
 
 const s3 = new S3Client({
   region: process.env.AWS_S3_BUCKET_REGION!,
@@ -102,7 +102,7 @@ export async function createMedia(
 }
 
 export async function deleteMedia(id: string) {
-  await adminActionGuard()
+  await loggedInActionGuard()
 
   const media = await prisma.media.delete({ where: { id } })
   if (media) {
@@ -111,7 +111,7 @@ export async function deleteMedia(id: string) {
 }
 
 export async function deleteMediaFromS3(key: string) {
-  await adminActionGuard()
+  await loggedInActionGuard()
 
   const deleteParams = {
     Bucket: process.env.AWS_S3_BUCKET_NAME!,
@@ -122,7 +122,7 @@ export async function deleteMediaFromS3(key: string) {
 }
 
 export async function deleteMediasFromS3(keys: string[]) {
-  await adminActionGuard()
+  await loggedInActionGuard()
 
   await Promise.all(
     keys.map(async (key) => {
