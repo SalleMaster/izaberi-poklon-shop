@@ -6,7 +6,7 @@ import CategoryFilters from './_components/CategoryFilters'
 import ProductsHeader from './_components/ProductsHeader'
 
 export const metadata: Metadata = {
-  title: 'Pokloni | Izaberi Poklon Shop',
+  title: 'Pokloni | Reci Seci Pokloni Shop',
 }
 
 export default async function Page({ searchParams }: PageProps<'/products'>) {

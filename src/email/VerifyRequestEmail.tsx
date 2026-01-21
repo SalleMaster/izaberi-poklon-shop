@@ -30,7 +30,7 @@ export default function VerifyRequestEmail({ url }: VerifyRequestEmailProps) {
           <meta name='googlemail:nothreaded' content='true' />
           <meta name='x-gmail-data-detectors' content='true' />
         </Head>
-        <Preview>Verifikacija Vašeg naloga - Izaberi Poklon</Preview>
+        <Preview>Verifikacija Vašeg naloga - Reci Seci Pokloni</Preview>
         <Body className='font-sans bg-white'>
           <Container className='max-w-xl'>
             <EmailHeader />
@@ -39,7 +39,7 @@ export default function VerifyRequestEmail({ url }: VerifyRequestEmailProps) {
 
               <Text>
                 Potrebno je da verifikujete Vašu email adresu za pristup nalogu
-                na Izaberi Poklon sajtu.
+                na Reci Seci Pokloni sajtu.
               </Text>
 
               <Text>
@@ -62,7 +62,7 @@ export default function VerifyRequestEmail({ url }: VerifyRequestEmailProps) {
               <Text>
                 Srdačan pozdrav,
                 <br />
-                Tim Izaberi Poklon
+                Tim Reci Seci Pokloni
               </Text>
             </Section>
             <EmailFooter />

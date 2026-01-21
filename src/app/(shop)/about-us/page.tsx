@@ -14,8 +14,8 @@ export default function Page() {
       <div className='space-y-3 mb-10'>
         <p className='text-xl font-semibold'>Ko smo mi</p>
         <p>
-          Mi smo "Izaberi Poklon" - vaša destinacija za personalizovane poklone,
-          korporativna priznanja i nezaboravne uspomene.
+          Mi smo "Reci Seci Pokloni" - vaša destinacija za personalizovane
+          poklone, korporativna priznanja i nezaboravne uspomene.
         </p>
         <p>
           Možda nas znate kao "Reci Seci" sa Instagrama ili kao "Carstvo

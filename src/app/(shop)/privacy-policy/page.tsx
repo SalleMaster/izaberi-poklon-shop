@@ -35,7 +35,7 @@ export default function Page() {
             <p>
               Vaša porudžbina i{' '}
               <span className='font-semibold'>podaci su potpuno sigurni!</span>{' '}
-              Mi u internet prodavnici IZABERI POKLON i preduzeću Red Dot PR
+              Mi u internet prodavnici Reci Seci Pokloni i preduzeću Red Dot PR
               Milanović Zoran cenimo Vašu privatnost, zato o Vašim podacima
               izuzetno pažljivo brinemo. Posetioci naše interent prodavnice,
               korišćenjem iste, prihvataju da se podaci o njima koriste u skladu
@@ -69,7 +69,7 @@ export default function Page() {
               lista putem kojih održavamo kontakt sa Vama kao vernim korisnicima
               i kupcima u cilju informisanja i deljenja sadržaja vezanog za
               novine, ponude, igre i dodatna znanja komplementarna sa tematikom
-              IZABERI POKLON internet prodavnice. Kao naš korisnik ili kupac
+              Reci Seci Pokloni internet prodavnice. Kao naš korisnik ili kupac
               imate mogućnost u svakom trenutku, da slanjem zahteva u pisanoj
               ili elektronskoj formi, povučete svoju saglasnost, nakon čega više
               nikada nećete dobijati pomenute informacije.
@@ -94,13 +94,13 @@ export default function Page() {
               Svi podaci o Vama kao našim korisnicima ili kupcima se{' '}
               <span className='font-semibold'>strogo čuvaju</span> i dostupni su
               samo zaposlenima kojima su ti podaci nužni za obavljanje posla.
-              Svi zaposleni naše internet prodavnice Izaberi Poklon i preduzeća
-              Red Dot PR Milanović Zoran su odgovorni za poštovanje načela
-              zaštite privatnosti. Kako bismo brzo i uspešno dostavili
+              Svi zaposleni naše internet prodavnice Reci Seci Pokloni i
+              preduzeća Red Dot PR Milanović Zoran su odgovorni za poštovanje
+              načela zaštite privatnosti. Kako bismo brzo i uspešno dostavili
               proizvode, kurirska služba koja vrši dostavu kupljenih proizvoda
               ima mogućnost pristupa Vašim podacima neophodnim za izvršenje
               ugovorenog posla - ime, prezime, adresu i broj telefona. U ime
-              internet prodavnice Izaberi Poklon i preduzeća Red Dot PR
+              internet prodavnice Reci Seci Pokloni i preduzeća Red Dot PR
               Milanović Zoran obavezujemo se da ćemo čuvati privatnost svih
               naših kupaca. Obavezujemo se da prikupljene podatke ne koristimo
               ni u koje druge svrhe, niti ih prosleđujemo trećim licima, što Vam
@@ -127,7 +127,7 @@ export default function Page() {
               Kao naši korisnici ili kupci odgovorni ste za pristup svom sistemu
               i zaštitu svojih korisničkih informacija i lozinke, tačnost i
               istinitost svih informacija upisanih ili poslatih na servis
-              internet prodavnice Izaberi Poklon i preduzeća Red Dot PR
+              internet prodavnice Reci Seci Pokloni i preduzeća Red Dot PR
               Milanović Zoran.
             </p>
           </li>
@@ -150,7 +150,7 @@ export default function Page() {
           <li>
             <p>
               Maloletna lica mogu koristiti internet prodavnicu uz nadzor
-              roditelja ili staratelja. IZABERI POKLON internet prodavnica
+              roditelja ili staratelja. Reci Seci Pokloni internet prodavnica
               zadržava pravo da odbije pružanja usluga, ukine nalog ili otkaže
               narudžbenicu ukoliko ustanovi da su prekršeni{' '}
               <Link href='/uslovi-koriscenja' className='underline'>
@@ -162,7 +162,7 @@ export default function Page() {
 
           <li>
             <p>
-              Izaberi Poklon i preduzeće Red Dot PR Milanović Zoran nisu
+              Reci Seci Pokloni i preduzeće Red Dot PR Milanović Zoran nisu
               odgovorni za sadržaj informacija objavljenih od strane korisnika
               na našem servisu.
             </p>
@@ -173,14 +173,14 @@ export default function Page() {
               <span className='font-semibold'>Saglasnost i promena uslova</span>
               <br />
               Korišćenje naših servisa podrazumeva saglasnost Vas kao korisnika
-              sa navedenim uslovima korišćenja. Izaberi Poklon i preduzeće Red
-              Dot PR Milanović Zoran zadržavaju pravo za izmenom ove Politike
-              privatnosti. Svaka izmena postaje važeća nakon njenog
+              sa navedenim uslovima korišćenja. Reci Seci Pokloni i preduzeće
+              Red Dot PR Milanović Zoran zadržavaju pravo za izmenom ove
+              Politike privatnosti. Svaka izmena postaje važeća nakon njenog
               objavljivanja na interent prodavnici www.recisecipokloni.com. Vi
               kao korisnik se obavezujete da povremeno pročitate ovu politiku
               privatnosti kako biste bili upoznati sa eventualnim izmenama iste.
               Ukoliko nastavite sa korišćenjem internet prodavnice i servisa
-              IZABERI POKLON nakon nove verzije politike privatnosti,
+              Reci Seci Pokloni nakon nove verzije politike privatnosti,
               podrazumeva se da ste istu prihvatili kao važeću.
             </p>
           </li>
