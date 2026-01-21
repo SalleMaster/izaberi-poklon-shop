@@ -44,7 +44,7 @@ export default function VerifyRequestEmail({ url }: VerifyRequestEmailProps) {
 
               <Text>
                 Molimo Vas da kliknete na dugme ispod kako biste se prijavili na
-                www.izaberipoklon.com internet prodavnicu.
+                www.recisecipokloni.com internet prodavnicu.
               </Text>
 
               <Link

@@ -18,7 +18,7 @@ export default function Page() {
           glasnik RS br 87/2018) i Opštom uredbom o zaštiti podataka o ličnosti
           EU (GDPR). Ova Politika privatnosti reguliše praksu prikupljanja
           informacija od korisnika prilikom korišćenja internet stranice
-          www.izaberipoklon.com, kao i njihovo skladištenje u bazama podataka
+          www.recisecipokloni.com, kao i njihovo skladištenje u bazama podataka
           našeg preduzeća Red Dot PR Milanović Zoran.
         </p>
         <p>
@@ -62,7 +62,7 @@ export default function Page() {
               ponudama i materilaima ili za direktnu komunikaciju sa Vama.
               Nikada i ni na koji način nećmo zloupotrebiti Vaše privatne
               informacije. Registracijom ili prijavom na naš servis
-              www.izaberipoklon.com dajete saglasnost kao korisnik servisa sa
+              www.recisecipokloni.com dajete saglasnost kao korisnik servisa sa
               opcijom slanja obaveštenja na Vašu adresu, e-adresu(email),
               ostavljen kontakt telefon ili viber servis. Kao korisnik imate
               mogućnost odluke da budete ili ne, deo naših bilten, sms i viber
@@ -176,8 +176,8 @@ export default function Page() {
               sa navedenim uslovima korišćenja. Izaberi Poklon i preduzeće Red
               Dot PR Milanović Zoran zadržavaju pravo za izmenom ove Politike
               privatnosti. Svaka izmena postaje važeća nakon njenog
-              objavljivanja na interent prodavnici www.izaberipoklon.com. Vi kao
-              korisnik se obavezujete da povremeno pročitate ovu politiku
+              objavljivanja na interent prodavnici www.recisecipokloni.com. Vi
+              kao korisnik se obavezujete da povremeno pročitate ovu politiku
               privatnosti kako biste bili upoznati sa eventualnim izmenama iste.
               Ukoliko nastavite sa korišćenjem internet prodavnice i servisa
               IZABERI POKLON nakon nove verzije politike privatnosti,

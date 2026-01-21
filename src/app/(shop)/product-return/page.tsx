@@ -17,7 +17,7 @@ export default function Page() {
           novca nazad.
         </p>
         <p>
-          Mi u www.izaberipoklon.com internet prodavnici i preduzeću{' '}
+          Mi u www.recisecipokloni.com internet prodavnici i preduzeću{' '}
           {shopInfo.shortDescription} ulažemo dosta truda, kako bismo opisali i
           prikazali svaki proizvod što je verodostojnije moguće. Međutim,
           razumemo da se događa da proizvode koje primite nisu baš kao što ste
@@ -30,12 +30,12 @@ export default function Page() {
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>Pravo na odustajanje</p>
         <p>
-          Dragi korisnici internet prodavnice www.izaberipoklon.com, želimo da
+          Dragi korisnici internet prodavnice www.recisecipokloni.com, želimo da
           Vas obavestimo da se prema Zakonu o zaštiti potrošača Republike Srbije
           (Službeni glasnik RS, br. 62/2014) kupovina putem naše internet
-          prodavnice www.izaberipoklon.com smatra{' '}
+          prodavnice www.recisecipokloni.com smatra{' '}
           <span className='font-semibold'>prodajom na daljinu</span>. Vi kao
-          korisnici internet prodavnice www.izaberipoklon.com, imate za slučaj
+          korisnici internet prodavnice www.recisecipokloni.com, imate za slučaj
           prodaje na daljinu pravo po Zakonu, da odustanete od ugovora
           zaključenog na daljinu u roku od 15 dana od trenutka kada Vam je
           proizvod predat u državinu, odnosno u državinu lica kog ste kao kupac
@@ -52,7 +52,7 @@ export default function Page() {
         <p className='text-xl font-semibold'>Povraćaj sredstava</p>
         <p>
           Ukoliko želite da iskoristite mogućnost odustanka od ugovora, kao
-          kupac na www.izaberipoklon.com internet prodavnici, imate pravo na
+          kupac na www.recisecipokloni.com internet prodavnici, imate pravo na
           zamenu za drugi proizvod ili povraćaj novca. Ponosni smo da celokupnu
           vrednost plaćenog iznosa za naručene proizvode vraćamo pre roka od 14
           dana, i to odmah nakon prijema Izjave o odustanku od ugovora
@@ -70,7 +70,7 @@ export default function Page() {
             izjave o odustanku od ugovora zaključenog na daljinu
           </Link>
           . Molimo Vas kao našeg kupca i korisnika interent prodavnice
-          www.izaberipoklon.com, u slučaju odustajanja od ugovora, vratite
+          www.recisecipokloni.com, u slučaju odustajanja od ugovora, vratite
           naručene proizvode bez odlaganja, a najkasnije u roku od 15 dana, od
           dana kada ste poslali obrazac za odustanak od ugovora sklopljenog na
           daljinu. Ukoliko po isteku roka od 15 dana od dana kada ste poslali
@@ -112,10 +112,10 @@ export default function Page() {
             <p>
               U slučaju vraćanja robe ili povraćaja sredstava kupcu koji je
               predhodno platio nekom od platnih kartica, delimično ili u
-              celosti, a bez obzira na razlog vraćanja, www.izaberipoklon.com je
-              u obavezi da povraćaj vrši isključivo preko VISA, EC/MC i Maestro
-              metoda plaćanja, što znači da će banka na zahtev prodavca obaviti
-              povraćaj sredstava na račun korisnika kartice.
+              celosti, a bez obzira na razlog vraćanja, www.recisecipokloni.com
+              je u obavezi da povraćaj vrši isključivo preko VISA, EC/MC i
+              Maestro metoda plaćanja, što znači da će banka na zahtev prodavca
+              obaviti povraćaj sredstava na račun korisnika kartice.
             </p>
           </li>
         </ul>

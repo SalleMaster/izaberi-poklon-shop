@@ -46,7 +46,7 @@ export default function Page() {
         <p>
           Korisnici prihvataju korišćenje sadržaja internet prodavnice
           isključivo za sopstvenu upotrebu i na svoju odgovornost. Korisnicima
-          internet prodavnice www.izaberipoklon.com je strogo zabranjeno
+          internet prodavnice www.recisecipokloni.com je strogo zabranjeno
           korišćenje specijalizovanih programa (robota, crawlera) radi
           preuzimanja sadržaja sa internet prodavnice, kao i bilo kakvih
           hakerskih napada u cilju onesposobljavanja internet prodavnice.
