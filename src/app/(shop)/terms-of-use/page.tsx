@@ -17,9 +17,7 @@ export default function Page() {
           sastavljeni su u skladu sa Zakonom o zaštiti potrošača, našom
           najboljom namerom da ostvarimo saradnju na obostrano zadovoljstvo kao
           i međunarodnom praksom u e-poslovanju. Podaci o firmi Trgovcu: ${shopInfo.shortDescription}, ${shopInfo.address};
-          Matični Broj: ${shopInfo.idNumber}; PIB: ${shopInfo.pib} (u daljem tekstu: “Izaberi
-          Poklon”) Prilikom registracije, posetilac Internet prodavnice "Izaberi
-          Poklon" ostavlja svoje identifikacione podatke, a zatim se prijavljuje
+          Matični Broj: ${shopInfo.idNumber}; PIB: ${shopInfo.pib} (u daljem tekstu: “Reci Seci Pokloni”) Prilikom registracije, posetilac Internet prodavnice "Reci Seci Pokloni" ostavlja svoje identifikacione podatke, a zatim se prijavljuje
           sa svojim korisničkim imenom i lozinkom. Nakon registracije korisnik
           stiče pravo na kupovinu. Opšti uslovi poslovanja podrazumevaju
           delovanje internet prodavnice "Reci Seci Pokloni", prava korisnika i
