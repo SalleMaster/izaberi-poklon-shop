@@ -20,7 +20,7 @@ export default function CategoryFilterButton({ category, ...props }: Props) {
   const pathname = usePathname()
   const [isPending, startTransition] = useTransition()
   const [optimisticCategory, setOptimisticCategories] = useOptimistic(
-    searchParams.getAll('kategorija')
+    searchParams.getAll('kategorija'),
   )
 
   const baseURL =
@@ -36,7 +36,7 @@ export default function CategoryFilterButton({ category, ...props }: Props) {
         pathname: baseURL,
         query: createQueryString({
           addParams: [{ name: 'kategorija', value: category.slug }],
-          removeParams: ['stranica'],
+          removeParams: ['stranica', 'aktuelno'],
         }),
       }
     : {
@@ -52,7 +52,7 @@ export default function CategoryFilterButton({ category, ...props }: Props) {
       data-pending-products={isPending ? '' : undefined}
       className={cn(
         'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50',
-        active && 'bg-accent text-accent-foreground'
+        active && 'bg-accent text-accent-foreground',
       )}
       href={href}
       onClick={() => {
@@ -78,7 +78,7 @@ export default function CategoryFilterButton({ category, ...props }: Props) {
       href={href}
       className={cn(
         'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50',
-        active && 'bg-accent text-accent-foreground'
+        active && 'bg-accent text-accent-foreground',
       )}
       onClick={() => {
         startTransition(() => {
@@ -96,7 +96,7 @@ export function CategoryFilterButtonSkeleton() {
   return (
     <div
       className={cn(
-        'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50'
+        'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50',
       )}
     >
       ...
