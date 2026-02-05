@@ -1,4 +1,4 @@
-import { DiscountType, PrismaClient } from '@/generated/prisma'
+import { DiscountType, PrismaClient } from '../../generated/prisma'
 import { S3Client, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { subDays, format } from 'date-fns'
 
@@ -100,7 +100,7 @@ async function deleteMediasFromS3(keys: string[]) {
       }
 
       await s3.send(new DeleteObjectCommand(deleteParams))
-    })
+    }),
   )
 }
 
@@ -110,7 +110,7 @@ async function cleanupCartItems(): Promise<void> {
   const formattedDate = format(twoDaysAgo, 'yyyy-MM-dd HH:mm:ss')
 
   console.log(
-    `[${currentDate}] Starting cleanup of cart items older than ${formattedDate}`
+    `[${currentDate}] Starting cleanup of cart items older than ${formattedDate}`,
   )
 
   try {
@@ -129,7 +129,7 @@ async function cleanupCartItems(): Promise<void> {
 
     if (oldCartItems.length === 0) {
       console.log(
-        `[${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}] No cart items older than ${formattedDate} to clean up`
+        `[${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}] No cart items older than ${formattedDate} to clean up`,
       )
       return
     }
@@ -170,7 +170,7 @@ async function cleanupCartItems(): Promise<void> {
 
     if (imageKeys.length > 0) {
       console.log(
-        `[${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}] Would need to delete ${imageKeys.length} image files`
+        `[${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}] Would need to delete ${imageKeys.length} image files`,
       )
 
       await deleteMediasFromS3(imageKeys)
@@ -178,7 +178,7 @@ async function cleanupCartItems(): Promise<void> {
 
     // Update cart totals for affected users
     console.log(
-      `[${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}] Updating cart data for ${userIdsToUpdate.size} users`
+      `[${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}] Updating cart data for ${userIdsToUpdate.size} users`,
     )
 
     for (const userId of userIdsToUpdate) {
@@ -186,12 +186,12 @@ async function cleanupCartItems(): Promise<void> {
     }
 
     console.log(
-      `[${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}] Successfully cleaned up ${oldCartItems.length} cart items.`
+      `[${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}] Successfully cleaned up ${oldCartItems.length} cart items.`,
     )
   } catch (error) {
     console.error(
       `[${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}] Error cleaning up cart items:`,
-      error
+      error,
     )
     throw error
   } finally {
