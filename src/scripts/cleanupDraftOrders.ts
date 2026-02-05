@@ -1,4 +1,4 @@
-import { OrderStatusType, PrismaClient } from '@/generated/prisma'
+import { OrderStatusType, PrismaClient } from '../../generated/prisma'
 import { subDays, format } from 'date-fns'
 
 // Create a dedicated Prisma instance for this script
@@ -12,7 +12,7 @@ async function cleanupDraftOrders(): Promise<void> {
   const currentDate = format(new Date(), 'yyyy-MM-dd HH:mm:ss')
 
   console.log(
-    `[${currentDate}] Starting cleanup of draft orders older than ${formattedDate}`
+    `[${currentDate}] Starting cleanup of draft orders older than ${formattedDate}`,
   )
 
   try {
@@ -28,13 +28,13 @@ async function cleanupDraftOrders(): Promise<void> {
 
     if (result.count === 0) {
       console.log(
-        `[${currentDate}] No draft orders older than ${formattedDate} to clean up`
+        `[${currentDate}] No draft orders older than ${formattedDate} to clean up`,
       )
       return
     }
 
     console.log(
-      `[${currentDate}] Successfully cleaned up ${result.count} draft orders`
+      `[${currentDate}] Successfully cleaned up ${result.count} draft orders`,
     )
   } catch (error) {
     console.error(`[${currentDate}] Error cleaning up draft orders:`, error)
