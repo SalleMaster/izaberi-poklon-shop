@@ -5,7 +5,7 @@
     "outDir": "dist/scripts",
     "rootDir": "src/scripts",
     "noEmit": false,
-    "moduleResolution": "node"
+    "moduleResolution": "bundler"
   },
   "include": ["src/scripts/**/*"],
   "exclude": ["node_modules", ".next", "dist"]
