@@ -13,16 +13,14 @@ export default function Page() {
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>Opšti uslovi</p>
         <p>
-          {`Opšti uslovi poslovanja Internet prodavnice "IZABERI POKLON"
+          {`Opšti uslovi poslovanja Internet prodavnice "Reci Seci Pokloni"
           sastavljeni su u skladu sa Zakonom o zaštiti potrošača, našom
           najboljom namerom da ostvarimo saradnju na obostrano zadovoljstvo kao
           i međunarodnom praksom u e-poslovanju. Podaci o firmi Trgovcu: ${shopInfo.shortDescription}, ${shopInfo.address};
-          Matični Broj: ${shopInfo.idNumber}; PIB: ${shopInfo.pib} (u daljem tekstu: “Izaberi
-          Poklon”) Prilikom registracije, posetilac Internet prodavnice "Izaberi
-          Poklon" ostavlja svoje identifikacione podatke, a zatim se prijavljuje
+          Matični Broj: ${shopInfo.idNumber}; PIB: ${shopInfo.pib} (u daljem tekstu: “Reci Seci Pokloni”) Prilikom registracije, posetilac Internet prodavnice "Reci Seci Pokloni" ostavlja svoje identifikacione podatke, a zatim se prijavljuje
           sa svojim korisničkim imenom i lozinkom. Nakon registracije korisnik
           stiče pravo na kupovinu. Opšti uslovi poslovanja podrazumevaju
-          delovanje internet prodavnice "Izaberi Poklon", prava korisnika i
+          delovanje internet prodavnice "Reci Seci Pokloni", prava korisnika i
           poslovni odnos između trgovca i potrošača a sve u cilju obostranog
           zadovoljstva. Opšti uslovi su detaljnije objašnjeni po oblastima.`}
         </p>
@@ -32,12 +30,12 @@ export default function Page() {
         <p className='text-xl font-semibold'>Saglasnost i promene uslova</p>
         <p>
           Dragi kupci, posetom, registracijom ili kupovinom na Internet
-          prodavnici Izaberi Poklon prihvatate Uslove korišćenja koji su
+          prodavnici Reci Seci Pokloni prihvatate Uslove korišćenja koji su
           navedeni u daljem tekstu. Molimo Vas da pažljivo pročitate pravilila i
           procedure koje primenjujemo. Ukoliko ne prihvatate ove uslove, molimo
-          Vas nemojte koristiti ovu internet prodavnicu. Izaberi Poklon zadržava
-          pravo da vrši izmene i dopune ovih Uslova korišćenja u bilo kom
-          trenutku izmenama u ovom tekstu. Hvala na poverenju.
+          Vas nemojte koristiti ovu internet prodavnicu. Reci Seci Pokloni
+          zadržava pravo da vrši izmene i dopune ovih Uslova korišćenja u bilo
+          kom trenutku izmenama u ovom tekstu. Hvala na poverenju.
         </p>
       </div>
 
@@ -46,7 +44,7 @@ export default function Page() {
         <p>
           Korisnici prihvataju korišćenje sadržaja internet prodavnice
           isključivo za sopstvenu upotrebu i na svoju odgovornost. Korisnicima
-          internet prodavnice www.izaberipoklon.com je strogo zabranjeno
+          internet prodavnice www.recisecipokloni.com je strogo zabranjeno
           korišćenje specijalizovanih programa (robota, crawlera) radi
           preuzimanja sadržaja sa internet prodavnice, kao i bilo kakvih
           hakerskih napada u cilju onesposobljavanja internet prodavnice.
@@ -59,7 +57,7 @@ export default function Page() {
         <p className='text-xl font-semibold'>Intelektualna svojina</p>
         <p>
           Sadržaj prikazan na ovoj interent prodavnici je zaštićen autorskim
-          pravima, vlasništvo su Izaberi Poklon-a ili njegovih dobavljača, ne
+          pravima, vlasništvo su Reci Seci Poklon-a ili njegovih dobavljača, ne
           mogu se koristiti bez naše prethodne saglasnosti, uključujući
           stranice, dizajnerske elemente, tekstove, fotografije, logotipe, audio
           zapise i softver. Svaka neovlašćena upotreba može predstavljati
@@ -76,7 +74,7 @@ export default function Page() {
           svrhe. Ukoliko prekršite bilo koji od ovih Uslova, Vaša dozvola za
           upotrebu interent prodavnice će biti povučena i bićete obavezni da
           odmah uništite sve sadržaje koje ste preuzeli ili odštampali. Ukoliko
-          za sadržaj koji se nalazi na Izaberi Poklon internet prodavnici
+          za sadržaj koji se nalazi na Reci Seci Pokloni internet prodavnici
           smatrate da je Vaš i da je zloupotrebljen, molimo Vas da nas
           kontaktirate u cilju utvrđivanja intelektualne svojine. Sve
           informacije dostupne na internet stranama isključivo su informativnog
@@ -91,22 +89,22 @@ export default function Page() {
         </p>
         <p>
           Korisnici mogu slobodno komentarisati proizvode i slati email poruke.
-          Izaberi Poklon zadržava pravo da ne objavi ili izbriše komentare koji
-          su zlonamerni, sadrže nepristojne izjave, šire mržnju i diskriminaciju
-          i na bilo koji način ugrožavaju prava drugih. Takvi komentari će biti
-          uklonjeni bez prethodnog obaveštenja. Lažno predstavljanje i
-          registracija sa tuđom e-adresom nije dozvoljeno. Protiv takvih
-          aktivnosti Izaberi Poklon može pokrenuti odgovarajući zakonski
-          postupak. Izaberi Poklon ne garantuje potpunost, istinitost, tačnost i
-          pouzdanost sadržaja koji su postavljeni od strane korisnika. Svi
-          materijali, povratne informacije ili druge vrste informacija koje
-          dostavite ovoj internet prodavnici neće biti smatrani za poverljive
-          ili vlasničke. Izaberi Poklon će postati isključivi vlasnik svih
-          informacija prikupljenih na interent prodavnici ili u vezi sa njim.
-          Izaberi Poklon nema obaveze u odnosu na takve informacije i slobodan
-          je da ih koristi bez ograničenja (kao što je upotreba, reprodukcija,
-          modifikacija, objavljivanje, (re)distribucija, javno prikazivanje
-          itd.) bez navođenja izvora.
+          Reci Seci Pokloni zadržava pravo da ne objavi ili izbriše komentare
+          koji su zlonamerni, sadrže nepristojne izjave, šire mržnju i
+          diskriminaciju i na bilo koji način ugrožavaju prava drugih. Takvi
+          komentari će biti uklonjeni bez prethodnog obaveštenja. Lažno
+          predstavljanje i registracija sa tuđom e-adresom nije dozvoljeno.
+          Protiv takvih aktivnosti Reci Seci Pokloni može pokrenuti odgovarajući
+          zakonski postupak. Reci Seci Pokloni ne garantuje potpunost,
+          istinitost, tačnost i pouzdanost sadržaja koji su postavljeni od
+          strane korisnika. Svi materijali, povratne informacije ili druge vrste
+          informacija koje dostavite ovoj internet prodavnici neće biti smatrani
+          za poverljive ili vlasničke. Reci Seci Pokloni će postati isključivi
+          vlasnik svih informacija prikupljenih na interent prodavnici ili u
+          vezi sa njim. Reci Seci Pokloni nema obaveze u odnosu na takve
+          informacije i slobodan je da ih koristi bez ograničenja (kao što je
+          upotreba, reprodukcija, modifikacija, objavljivanje, (re)distribucija,
+          javno prikazivanje itd.) bez navođenja izvora.
         </p>
       </div>
 
@@ -115,8 +113,8 @@ export default function Page() {
         <p>
           Informacije, proizvodi, materijali i/ili usluge (“sadržaj”) prikazan
           na ovoj interent prodavnici je prikazan “kao takav” bez ikakvih
-          garancija bilo koje vrste. Izaberi Poklon se eksplicitno ograničava do
-          maksimalnog stepena određenog zakonom, od bilo kakve direktne,
+          garancija bilo koje vrste. Reci Seci Pokloni se eksplicitno ograničava
+          do maksimalnog stepena određenog zakonom, od bilo kakve direktne,
           indirektne statutarne ili bilo koje druge garancije ili zastupništva,
           uključujući garancije tržišne isplativosti, pogodnosti za određenu
           svrhu ili poštovanja intelektualnih ili svojinskih prava. Sadržaj čine
@@ -126,18 +124,18 @@ export default function Page() {
         </p>
 
         <p>
-          U maksimalnom stepenu koji zakon dozvoljava, Izaberi Poklon ne daje
+          U maksimalnom stepenu koji zakon dozvoljava, Reci Seci Pokloni ne daje
           garancije za tačnost, primenjivost, pouzdanost i kompletnost sadržaja
           na ovoj internet prodavnici, kao ni garanciju neprekidnog rada,
-          pravovremenosti, bezbednosti ili odsustva grešaka. Izaberi Poklon može
-          promeniti sadržaj ove internet prodavnice ili proizvode i cene
+          pravovremenosti, bezbednosti ili odsustva grešaka. Reci Seci Pokloni
+          može promeniti sadržaj ove internet prodavnice ili proizvode i cene
           navedene na internet prodavnici u bilo koje vreme i bez prethodnog
           upozorenja. Sadržaj na ovoj internet prodavnici može biti zastareo, a
-          Izaberi Poklon se ne obavezuje da ga ažurira. Sadržaj objavljen na
+          Reci Seci Pokloni se ne obavezuje da ga ažurira. Sadržaj objavljen na
           ovoj internet prodavnici može se odnositi na proizvode, programe ili
-          usluge koji nisu dostupni u Vašoj zemlji. Konsultujte se sa Izaberi
-          Poklon lokalnom kancelarijom u vezi proizvoda, programa ili usluga
-          koje su Vam na raspolaganju. Izaberi Poklon, njegovi dobavljači ili
+          usluge koji nisu dostupni u Vašoj zemlji. Konsultujte se sa Reci Seci
+          Pokloni lokalnom kancelarijom u vezi proizvoda, programa ili usluga
+          koje su Vam na raspolaganju. Reci Seci Pokloni, njegovi dobavljači ili
           treća lica pomenuta na ovoj internet prodavnici ni u kom slučaju neće
           biti odgovorni za bilo kakvu štetu (uključujući, ali ne i isključivo,
           direktnu, indirektnu, slučajnu, posledičnu, posebnu štetu, ili takvu
@@ -158,11 +156,11 @@ export default function Page() {
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>Radno vreme</p>
         <p>
-          Internet prodavnica Izaberi Poklon radi od 00-24h, 7 dana u nedelji,
-          365/6 dana u godini, što znači da ćete proizvode moći da naručite u
-          bilo koje doba. U slučaju tehničkih problema ili tokom zahvata
-          redovnog održavanja internet prodavnice može biti kraći vremenski
-          period nedostupan o čemu ćete biti obavešteni.
+          Internet prodavnica Reci Seci Pokloni radi od 00-24h, 7 dana u
+          nedelji, 365/6 dana u godini, što znači da ćete proizvode moći da
+          naručite u bilo koje doba. U slučaju tehničkih problema ili tokom
+          zahvata redovnog održavanja internet prodavnice može biti kraći
+          vremenski period nedostupan o čemu ćete biti obavešteni.
         </p>
       </div>
 
@@ -172,20 +170,20 @@ export default function Page() {
         </p>
 
         <p>
-          Izaberi Poklon zadržava pravo da može u svako vreme, bez prethodne
+          Reci Seci Pokloni zadržava pravo da može u svako vreme, bez prethodne
           najave, promeniti podatke prikazane na bilo kojoj stranici sajta.
         </p>
       </div>
 
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>
-          Uslovi kupovine na internet prodavnici Izaberi Poklon
+          Uslovi kupovine na internet prodavnici Reci Seci Pokloni
         </p>
 
         <p>
-          Izaberi Poklon je internet prodavnica koja posluje u skladu sa Zakonom
-          o elektronskoj trgovini i svim ostalim važećim zakonima i propisima u
-          Republici Srbiji.
+          Reci Seci Pokloni je internet prodavnica koja posluje u skladu sa
+          Zakonom o elektronskoj trgovini i svim ostalim važećim zakonima i
+          propisima u Republici Srbiji.
         </p>
       </div>
 
@@ -277,7 +275,7 @@ export default function Page() {
 
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>
-          Cene u Izaberi Poklon internet prodavnici
+          Cene u Reci Seci Pokloni internet prodavnici
         </p>
         <p>
           Sve cene su iskazane u dinarima *nismo u sistemu PDV-a. Prodavac
@@ -285,9 +283,9 @@ export default function Page() {
           akcija i specijalnih popusta). Cene važe u trenutku kreiranja
           porudžbine i imaju dejstvo i validnost i za naredni period. Navedene
           cene važe samo za kupovinu u Internet prodavnici i mogu da se
-          razlikuju od cena u maloprodajnim objektima Prodavca. Izaberi Poklon
-          zadržava pravo da otkaže porudžbinu i pritom obavesti kupca putem
-          pozviva ili poruke na e-adresu ukoliko je došlo do grube greške
+          razlikuju od cena u maloprodajnim objektima Prodavca. Reci Seci
+          Pokloni zadržava pravo da otkaže porudžbinu i pritom obavesti kupca
+          putem pozviva ili poruke na e-adresu ukoliko je došlo do grube greške
           prilikom postavljanja cene ili opisa proizvoda na sajt.
         </p>
       </div>
@@ -295,16 +293,16 @@ export default function Page() {
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>Garancija kvaliteta</p>
         <p>
-          Izaberi Poklon garantuje za kvalitet svojih proizvoda. Svi proizvodi
-          su naše proizvodnje u celosti ili delimično, Proizvodi poput lampi ili
-          slicnih tehničkih uređajima imaju garanti rok od 2godine. u garantnom
-          roku, o svom trošku obezbeđuje otklanjanje kvarova i nedostataka
-          proizvoda koji proizilaze iz nepodudarnosti stvarnih sa propisanim
-          odnosno deklarisanim karakteristikama kvaliiteta proizvoda. U slučaju
-          neizvršenja ove obaveze, davalac garancije će zameniti proizvod novim
-          ili vratiti novac. Garantni rok počinje danom prodaje uređaja, koji se
-          unosi u garantni list i overava pečatom i potpisom ovlašćenog
-          prodavca. Kupac gubi pravo na garanciju ako se kvar izazove
+          Reci Seci Pokloni garantuje za kvalitet svojih proizvoda. Svi
+          proizvodi su naše proizvodnje u celosti ili delimično, Proizvodi poput
+          lampi ili slicnih tehničkih uređajima imaju garanti rok od 2godine. u
+          garantnom roku, o svom trošku obezbeđuje otklanjanje kvarova i
+          nedostataka proizvoda koji proizilaze iz nepodudarnosti stvarnih sa
+          propisanim odnosno deklarisanim karakteristikama kvaliiteta proizvoda.
+          U slučaju neizvršenja ove obaveze, davalac garancije će zameniti
+          proizvod novim ili vratiti novac. Garantni rok počinje danom prodaje
+          uređaja, koji se unosi u garantni list i overava pečatom i potpisom
+          ovlašćenog prodavca. Kupac gubi pravo na garanciju ako se kvar izazove
           nepridržavanjem datih uputstava za upotrebu i ako su na proizvodu
           vršene bilo kakve popravke od strane neovlašćenih lica. Da bi se
           izbegli nesporazumi, prilikom isporuke dužnost prodavca i kupca je da
@@ -319,7 +317,7 @@ export default function Page() {
           Izjava o odricanju od odgovornosti
         </p>
         <p>
-          Izaberi Poklon tim maksimalno koristi sve svoje resurse kako bismo
+          Reci Seci Pokloni tim maksimalno koristi sve svoje resurse kako bismo
           bili što precizniji u opisu proizvoda, prikazu slika i samih cena.
           Ipak, ne možemo garantovati da su sve navedene informacije kompletne i
           u potpunosti ispravne. Svi artikli prikazani na internet prodavnici su
@@ -387,7 +385,7 @@ export default function Page() {
             <p>
               U slučaju vraćanja robe i povraćaja sredstava kupcu koji je
               prethodno platio nekom od platnih kartica, delimično ili u
-              celosti, a bez obzira na razlog vraćanja, Izaberi Poklon se
+              celosti, a bez obzira na razlog vraćanja, Reci Seci Pokloni se
               obavezuje da povraćaj vrši isključivo preko VISA, EC/MC i Maestro
               metoda plaćanja, što znači da će banka na zahtev prodavca obaviti
               povraćaj sredstava na račun korisnika kartice.

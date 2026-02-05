@@ -16,10 +16,10 @@ export default function Page() {
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>Prijem porudžbine</p>
         <p>
-          Prilikom naručivanja proizvoda na Izaberi Poklon internet prodavnici,
-          poslaćemo Vam automatsko obaveštenje o prijemu porudžbine na Vašu
-          e-adresu. Molimo Vas da nas obavestite u roku od jednog sata od
-          trenutk poručivanja, ukoliko primetite da detalji narudžbine nisu
+          Prilikom naručivanja proizvoda na Reci Seci Pokloni internet
+          prodavnici, poslaćemo Vam automatsko obaveštenje o prijemu porudžbine
+          na Vašu e-adresu. Molimo Vas da nas obavestite u roku od jednog sata
+          od trenutk poručivanja, ukoliko primetite da detalji narudžbine nisu
           ispravni ili želite da izmenite nešto na originalnoj porudžbini.
         </p>
       </div>

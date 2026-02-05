@@ -383,7 +383,7 @@ export function OrderInformation({ order }: OrderInformationProps) {
         <Row>
           <Column align='left' className='w-1/2'>
             <Text>
-              Pratite status porudžbine na svom <br /> Izaberi Poklon Shop
+              Pratite status porudžbine na svom <br /> Reci Seci Pokloni Shop
               profilu.
             </Text>
           </Column>

@@ -5,7 +5,7 @@ import SignInPage, { SignInPageFallback } from './SignInPage'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = {
-  title: 'Prijava | Izaberi Poklon Shop',
+  title: 'Prijava | Reci Seci Pokloni Shop',
 }
 
 export default async function Page(props: PageProps<'/auth/signin'>) {

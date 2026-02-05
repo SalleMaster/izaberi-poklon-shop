@@ -15,7 +15,7 @@ export function EmailHeader() {
           <Column align='center'>
             <Text className='text-md md:text-lg text-gray-600 m-0'>
               Izrada personalizovanih poklona <br /> i reklamnog materijala{' '}
-              <br /> <span className='text-xs'>www.izaberipoklon.com</span>
+              <br /> <span className='text-xs'>www.recisecipokloni.com</span>
             </Text>
           </Column>
           <Column align='right' className='hidden md:block'>

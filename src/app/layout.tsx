@@ -20,7 +20,7 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'Izaberi Poklon Shop',
+  title: 'Reci Seci Pokloni Shop',
   description: 'Originalnost koja se daruje',
 }
 
