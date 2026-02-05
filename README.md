@@ -1,4 +1,4 @@
-### Izaberi poklon shop
+### Reci Seci Pokloni Shop
 
 ## Getting Started
 
