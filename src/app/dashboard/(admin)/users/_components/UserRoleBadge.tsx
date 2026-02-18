@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { userRoleOptions } from '@/lib/consts'
-import { UserRoleType } from '@/generated/prisma'
+import { UserRoleType } from '@/generated/prisma/enums'
 
 type Props = {
   role: UserRoleType

@@ -12,7 +12,7 @@ import {
   PriceRange,
   Cart,
   Coupon,
-} from '@/generated/prisma'
+} from '@/generated/prisma/client'
 
 export type CartItemWithRelations = CartItem & {
   product: Product & {
@@ -117,8 +117,8 @@ export const getCartItemsNumber = cache(
 
     const cartItemsNumber = cart?.items.reduce(
       (acc, item) => acc + item.quantity,
-      0
+      0,
     )
     return cartItemsNumber
-  }
+  },
 )

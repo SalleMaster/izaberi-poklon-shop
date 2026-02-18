@@ -1,9 +1,15 @@
-import { OrderStatusType, PrismaClient } from '../../generated/prisma'
+import { PrismaClient } from '../../generated/prisma/client'
+import { OrderStatusType } from '../../generated/prisma/enums'
 import { subDays, format } from 'date-fns'
+import { PrismaPg } from '@prisma/adapter-pg'
+
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL,
+})
 
 // Create a dedicated Prisma instance for this script
 // Not using the shared instance since this runs independently
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({ adapter })
 
 async function cleanupDraftOrders(): Promise<void> {
   // Calculate date 2 days ago

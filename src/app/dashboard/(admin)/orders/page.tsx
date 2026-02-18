@@ -6,7 +6,7 @@ import { getOrders, getOrdersCount } from '@/data/services/order'
 import OrdersHeader from './_components/OrdersHeader'
 import { Separator } from '@/components/ui/separator'
 import { SortingValues } from '@/lib/types'
-import { UserRoleType } from '@/generated/prisma'
+import { UserRoleType } from '@/generated/prisma/enums'
 import CustomPaginationOld from '@/components/custom/CustomPaginationOld'
 
 export const metadata: Metadata = {

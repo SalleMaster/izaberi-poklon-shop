@@ -4,7 +4,8 @@ import { useMemo, useState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Coupon, DiscountType } from '@/generated/prisma'
+import { Coupon } from '@/generated/prisma/client'
+import { DiscountType } from '@/generated/prisma/enums'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -39,7 +40,7 @@ export function CouponForm({ coupon }: { coupon?: Coupon | null }) {
       active: coupon?.active || false,
       expiresAt: coupon?.expiresAt || new Date(),
     }),
-    [coupon]
+    [coupon],
   )
 
   const form = useForm<CouponValues>({
@@ -82,7 +83,7 @@ export function CouponForm({ coupon }: { coupon?: Coupon | null }) {
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }
@@ -104,7 +105,7 @@ export function CouponForm({ coupon }: { coupon?: Coupon | null }) {
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške prilikom brisanja kupona. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške prilikom brisanja kupona. Molimo pokušajte ponovo.',
       )
     } finally {
       setIsDeleting(false)

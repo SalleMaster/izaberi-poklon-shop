@@ -12,11 +12,8 @@ import {
 } from '@/components/ui/form'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CartOrderValues } from './validation'
-import {
-  DeliveryAddress,
-  OrderDeliveryType,
-  OrderPaymentType,
-} from '@/generated/prisma'
+import { OrderDeliveryType, OrderPaymentType } from '@/generated/prisma/enums'
+import { DeliveryAddress } from '@/generated/prisma/client'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Combobox } from '@/components/custom/Combobox'
 import { Input } from '@/components/ui/input'
@@ -144,7 +141,7 @@ export function CartOrderForm({
                               setValue={(value) => {
                                 form.setValue(
                                   'selectedDeliveryAddressId',
-                                  value
+                                  value,
                                 )
                               }}
                               ref={field.ref}

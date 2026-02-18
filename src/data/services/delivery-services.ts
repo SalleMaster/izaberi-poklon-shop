@@ -5,7 +5,7 @@ import { cache } from 'react'
 import prisma from '@/lib/db'
 
 import { loggedInActionGuard } from '@/lib/actionGuard'
-import { DeliveryService, Media } from '@/generated/prisma'
+import { DeliveryService, Media } from '@/generated/prisma/client'
 
 export type DeliveryServiceWithPdf = DeliveryService & {
   pdf: Media | null
@@ -30,5 +30,5 @@ export const getDeliveryServices = cache(
       include: { pdf: true },
       orderBy: { updatedAt: 'desc' },
     })
-  }
+  },
 )

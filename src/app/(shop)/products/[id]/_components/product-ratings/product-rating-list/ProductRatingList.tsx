@@ -1,4 +1,4 @@
-import { Rating } from '@/generated/prisma'
+import { Rating } from '@/generated/prisma/client'
 import { ArrowDown, ArrowUp, Clock, Star } from 'lucide-react'
 import { format } from 'date-fns'
 import { srLatn } from 'date-fns/locale'

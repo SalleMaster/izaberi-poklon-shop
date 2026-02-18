@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Category, Media } from '@/generated/prisma'
+import { Category, Media } from '@/generated/prisma/client'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -56,7 +56,7 @@ export function CategoryForm({
       position: category ? category?.position : 0,
       image: null,
     }),
-    [category]
+    [category],
   )
 
   const form = useForm<CategoryValues>({
@@ -76,7 +76,7 @@ export function CategoryForm({
       if (data.image && data.image.length > 0) {
         const { key, name, type, fileURL } = await uploadFile(
           data.image[0],
-          imageFileTypes
+          imageFileTypes,
         )
         const media = await createMedia(key, name, type, fileURL)
         mediaId = media.id
@@ -93,7 +93,7 @@ export function CategoryForm({
           },
           category.id,
           removedMedia,
-          mediaId
+          mediaId,
         )
         if (response) {
           if (response.status === 'fail') {
@@ -113,7 +113,7 @@ export function CategoryForm({
             special: data.special,
             position: data.position,
           },
-          mediaId
+          mediaId,
         )
         if (response) {
           if (response.status === 'fail') {
@@ -131,7 +131,7 @@ export function CategoryForm({
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }
@@ -153,7 +153,7 @@ export function CategoryForm({
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške prilikom brisanja kategorije. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške prilikom brisanja kategorije. Molimo pokušajte ponovo.',
       )
     } finally {
       setIsDeleting(false)
@@ -236,7 +236,7 @@ export function CategoryForm({
                     onClick={() => {
                       form.setValue(
                         'position',
-                        Number(form.watch('position')) - 1
+                        Number(form.watch('position')) - 1,
                       )
                       form.trigger('position')
                     }}
@@ -271,7 +271,7 @@ export function CategoryForm({
                     onClick={() => {
                       form.setValue(
                         'position',
-                        Number(form.watch('position')) + 1
+                        Number(form.watch('position')) + 1,
                       )
                       form.trigger('position')
                     }}

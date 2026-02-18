@@ -2,7 +2,7 @@
 
 import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache'
-import { Media, Prisma } from '@/generated/prisma'
+import { Media, Prisma } from '@/generated/prisma/client'
 import {
   deliveryServiceSchema,
   DeliveryServiceValues,
@@ -17,7 +17,7 @@ const deliveryServiceSchemaWithoutPdf = deliveryServiceSchema.omit({
 
 export async function createDeliveryService(
   values: DeliveryServiceWithoutPdfFile,
-  mediaId?: string
+  mediaId?: string,
 ) {
   try {
     await adminActionGuard()
@@ -68,7 +68,7 @@ export async function editDeliveryService(
   values: DeliveryServiceWithoutPdfFile,
   id: string,
   removedMedia: Media[],
-  mediaId?: string
+  mediaId?: string,
 ) {
   try {
     await adminActionGuard()

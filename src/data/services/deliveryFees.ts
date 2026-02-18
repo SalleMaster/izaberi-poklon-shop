@@ -3,7 +3,7 @@ import 'server-only'
 import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
-import { DeliveryFee } from '@/generated/prisma'
+import { DeliveryFee } from '@/generated/prisma/client'
 
 export type GetDeliveryFeesReturnType = Promise<DeliveryFee[]>
 

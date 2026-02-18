@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { OrderStatusType } from '@/generated/prisma'
+import { OrderStatusType } from '@/generated/prisma/enums'
 
 // Order status schema
 export const orderStatusSchema = z.object({

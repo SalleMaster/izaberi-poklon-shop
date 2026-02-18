@@ -13,7 +13,7 @@ import {
   OrderPaymentStatusType,
   OrderPaymentType,
   OrderStatusType,
-} from '@/generated/prisma'
+} from '@/generated/prisma/enums'
 import { ZodError } from 'zod'
 import { generateOrderNumber } from '@/lib/orderUtils'
 import { createPaymentCheckout } from '@/lib/checkout'
@@ -40,7 +40,7 @@ export async function cartCreateOrder(values: CartOrderValues) {
 
     if (termsAccepted !== true) {
       throw new Error(
-        'Da biste izvršili kupovinu potrebno je prihvatiti uslove kupovine.'
+        'Da biste izvršili kupovinu potrebno je prihvatiti uslove kupovine.',
       )
     }
 
@@ -185,7 +185,7 @@ export async function cartCreateOrder(values: CartOrderValues) {
       // For non-card payments, send email immediately
       await sendOrderEmail(
         order,
-        billingAddress?.email || deliveryAddress?.email || pickupEmail || ''
+        billingAddress?.email || deliveryAddress?.email || pickupEmail || '',
       )
 
       return {

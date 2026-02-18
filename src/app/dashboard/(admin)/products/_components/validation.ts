@@ -2,7 +2,7 @@ import {
   imageListSchemaOptional,
   imageListSchemaRequired,
 } from '@/lib/validation'
-import { DeliveryType } from '@/generated/prisma'
+import { DeliveryType } from '@/generated/prisma/enums'
 import { z } from 'zod'
 
 export const textPersonalizationFieldSchema = z.object({
@@ -58,7 +58,7 @@ const priceTableSchema = z.array(
       .int('Cena mora biti ceo broj')
       .min(1, 'Cena mora biti veće od nule'),
     deliveryFeeId: z.string().min(1, 'Polje je neophodno'),
-  })
+  }),
 )
 
 // Product schema

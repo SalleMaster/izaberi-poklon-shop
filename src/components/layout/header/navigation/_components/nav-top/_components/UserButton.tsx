@@ -25,7 +25,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { UserRoleType } from '@/generated/prisma'
+import { UserRoleType } from '@/generated/prisma/enums'
 import SignOut from './SignOut'
 import { UserType } from '@/lib/auth-client'
 

@@ -1,6 +1,6 @@
 import 'server-only'
 
-import { Discount, PriceRange } from '@/generated/prisma'
+import { Discount, PriceRange } from '@/generated/prisma/client'
 import { priceFormatter } from './format'
 
 type Props = {

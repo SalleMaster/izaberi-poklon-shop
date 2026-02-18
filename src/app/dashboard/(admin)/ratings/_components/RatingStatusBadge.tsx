@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { ratingStatusOptions } from '@/lib/consts'
-import { RatingStatusType } from '@/generated/prisma'
+import { RatingStatusType } from '@/generated/prisma/enums'
 
 type Props = {
   status: RatingStatusType
