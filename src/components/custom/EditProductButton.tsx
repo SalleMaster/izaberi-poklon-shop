@@ -2,7 +2,7 @@
 
 import { use } from 'react'
 import { useAuth } from '@/lib/auth/components/AuthProvider'
-import { UserRoleType } from '@/generated/prisma'
+import { UserRoleType } from '@/generated/prisma/enums'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 

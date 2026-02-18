@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { DiscountType } from '@/generated/prisma'
+import { DiscountType } from '@/generated/prisma/enums'
 
 // Coupon schema
 export const couponSchema = z
@@ -41,7 +41,7 @@ export const couponSchema = z
       }
       return true
     },
-    { message: 'Polje mora biti manje ili jednako 100', path: ['discount'] }
+    { message: 'Polje mora biti manje ili jednako 100', path: ['discount'] },
   )
 
 export type CouponValues = z.infer<typeof couponSchema>

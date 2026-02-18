@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { FontType } from '@/generated/prisma'
+import { FontType } from '@/generated/prisma/enums'
 import { imageListSchemaOptional } from '@/lib/validation'
 
 export const textPersonalizationSchema = z.object({
@@ -27,7 +27,7 @@ const imagePersonalizationSchema = z
       if (data.min === 0 && !data.images) return true
       return data.images && data.images.length >= data.min
     },
-    { message: 'Nedovoljan broj slika', path: ['images'] }
+    { message: 'Nedovoljan broj slika', path: ['images'] },
   )
   .superRefine((data, ctx) => {
     if (!data.max || !data.images) return

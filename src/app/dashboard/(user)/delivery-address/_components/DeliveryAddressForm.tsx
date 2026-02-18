@@ -4,7 +4,8 @@ import { useMemo, useState, useEffect, TransitionStartFunction } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { DeliveryAddress, DeliveryAddressType } from '@/generated/prisma'
+import { DeliveryAddress } from '@/generated/prisma/client'
+import { DeliveryAddressType } from '@/generated/prisma/enums'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -53,7 +54,7 @@ export function DeliveryAddressForm({
         deliveryAddressType ||
         DeliveryAddressType.delivery,
     }),
-    [deliveryAddress]
+    [deliveryAddress],
   )
 
   const form = useForm<DeliveryAddressValues>({
@@ -96,7 +97,7 @@ export function DeliveryAddressForm({
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }
@@ -119,7 +120,7 @@ export function DeliveryAddressForm({
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške prilikom brisanja adrese. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške prilikom brisanja adrese. Molimo pokušajte ponovo.',
       )
     } finally {
       setIsDeleting(false)

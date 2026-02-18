@@ -12,12 +12,11 @@ import {
   ImagePersonalization,
   Media,
   Order,
-  OrderStatusType,
   PriceRange,
   Product,
   TextPersonalization,
-  UserRoleType,
-} from '@/generated/prisma'
+} from '@/generated/prisma/client'
+import { OrderStatusType, UserRoleType } from '@/generated/prisma/enums'
 
 type ImagePersonalizationWithRelations = ImagePersonalization & {
   images: Media[]
@@ -83,7 +82,7 @@ export const getOrders = cache(
     })
 
     return orders
-  }
+  },
 )
 
 export type GetOrdersCountReturnType = Promise<number>
@@ -121,7 +120,7 @@ export const getOrdersCount = cache(
         ...(!isAdmin ? { userId } : {}),
       },
     })
-  }
+  },
 )
 
 export type GetOrderReturnType = Promise<Order | null>
@@ -155,7 +154,7 @@ export const getOrder = cache(
     }
 
     return null
-  }
+  },
 )
 
 export type GetOrderedProductIdsReturnType = Promise<string[]>
@@ -182,5 +181,5 @@ export const getOrderedProductIds = cache(
     })
 
     return orderedProductIds
-  }
+  },
 )

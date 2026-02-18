@@ -11,11 +11,11 @@ import {
   ImagePersonalizationField,
   TextPersonalizationField,
   Media,
-  DeliveryType,
   PriceRange,
   DeliveryFee,
   PackageOption,
-} from '@/generated/prisma'
+} from '@/generated/prisma/client'
+import { DeliveryType } from '@/generated/prisma/enums'
 import { Button } from '@/components/ui/button'
 import {
   Form,

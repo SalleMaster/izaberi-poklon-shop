@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/accordion'
 import { Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Product, Rating } from '@/generated/prisma'
+import { Product, Rating } from '@/generated/prisma/client'
 import ProductRatingOverview, {
   ProductRatingOverviewSkeleton,
 } from './product-rating-overview/ProductRatingOverview'
@@ -110,7 +110,7 @@ function ProductRatingFormCard({
                     href={`/auth/signin?callbackUrl=/pokloni/${productId}`}
                     className={clsx(
                       buttonVariants({ variant: 'default' }),
-                      'ml-auto'
+                      'ml-auto',
                     )}
                   >
                     Prijava

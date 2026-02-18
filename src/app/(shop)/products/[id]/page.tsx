@@ -6,7 +6,7 @@ import {
   getProductAlreadyRated,
   getProductRatings,
 } from '@/data/services/ratings'
-import { RatingStatusType } from '@/generated/prisma'
+import { RatingStatusType } from '@/generated/prisma/enums'
 import { getOrderedProductIds } from '@/data/services/order'
 
 export default async function Page({ params }: PageProps<'/products/[id]'>) {

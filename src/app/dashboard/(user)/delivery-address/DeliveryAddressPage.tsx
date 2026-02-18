@@ -1,7 +1,7 @@
 'use client'
 
 import { GetDeliveryAddressesReturnType } from '@/data/services/delivery-addresses'
-import { DeliveryAddress } from '@/generated/prisma'
+import { DeliveryAddress } from '@/generated/prisma/client'
 import { TransitionStartFunction, use, useTransition } from 'react'
 import { Card } from '@/components/ui/card'
 import {

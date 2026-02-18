@@ -4,7 +4,7 @@ import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 
-import { Coupon } from '@/generated/prisma'
+import { Coupon } from '@/generated/prisma/client'
 
 export type GetCouponsReturnType = Promise<Coupon[]>
 
@@ -24,5 +24,5 @@ export const getCoupons = cache(
       },
       orderBy: { createdAt: 'desc' },
     })
-  }
+  },
 )

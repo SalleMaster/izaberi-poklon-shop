@@ -2,7 +2,7 @@
 
 import prisma from '@/lib/db'
 import { revalidatePath, updateTag } from 'next/cache'
-import { Media, Prisma } from '@/generated/prisma'
+import { Media, Prisma } from '@/generated/prisma/client'
 import { productSchema, ProductValues } from '../_components/validation'
 import { deleteMedia, deleteMediaFromS3 } from '@/lib/actions'
 import { adminActionGuard } from '@/lib/actionGuard'
@@ -16,7 +16,7 @@ const productSchemaWithoutImages = productSchema.omit({
 export async function createProduct(
   values: ProductWithoutImageFiles,
   coverImageMediaId?: string,
-  imagesMediaIds?: string[]
+  imagesMediaIds?: string[],
 ) {
   await adminActionGuard()
 
@@ -142,7 +142,7 @@ export async function editProduct(
   removedTextFields: string[],
   removedImageFields: string[],
   coverImageMediaId?: string,
-  imagesMediaIds?: string[]
+  imagesMediaIds?: string[],
 ) {
   await adminActionGuard()
 
@@ -247,14 +247,14 @@ export async function editProduct(
     if (removedTextFields.length > 0) {
       removedTextFields.forEach(
         async (id) =>
-          await prisma.textPersonalizationField.delete({ where: { id } })
+          await prisma.textPersonalizationField.delete({ where: { id } }),
       )
     }
 
     if (removedImageFields.length > 0) {
       removedImageFields.forEach(
         async (id) =>
-          await prisma.imagePersonalizationField.delete({ where: { id } })
+          await prisma.imagePersonalizationField.delete({ where: { id } }),
       )
     }
 

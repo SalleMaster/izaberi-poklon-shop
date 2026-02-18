@@ -1,4 +1,4 @@
-import { User } from '@/generated/prisma'
+import { User } from '@/generated/prisma/client'
 import { Card } from '@/components/ui/card'
 import {
   Accordion,

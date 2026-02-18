@@ -1,5 +1,6 @@
 import { priceFormatter } from '@/lib/format'
-import { Order, OrderPaymentType, OrderStatusType } from '@/generated/prisma'
+import { Order } from '@/generated/prisma/client'
+import { OrderPaymentType, OrderStatusType } from '@/generated/prisma/enums'
 import { Card } from '@/components/ui/card'
 import {
   Accordion,

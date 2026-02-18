@@ -25,7 +25,7 @@ import {
   OrderStatusLabels,
   PaginationDisplayValues,
 } from '@/lib/types'
-import { OrderStatusType } from '@/generated/prisma'
+import { OrderStatusType } from '@/generated/prisma/enums'
 import { SlidersHorizontal } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 
@@ -33,14 +33,14 @@ export default function OrdersHeader() {
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
   const [optimisticSort, setOptimisticSort] = useOptimistic(
-    searchParams.get('sortiranje')
+    searchParams.get('sortiranje'),
   )
   const [optimisticStatus, setOptimisticStatus] = useOptimistic(
-    searchParams.get('status')
+    searchParams.get('status'),
   )
 
   const [optimisticDisplay, setOptimisticDisplay] = useOptimistic(
-    searchParams.get('prikazi')
+    searchParams.get('prikazi'),
   )
 
   const createQueryString = useCreateQueryString(searchParams)

@@ -1,5 +1,5 @@
 import { OrderCartWithRelations } from '@/data/services/order'
-import { Order } from '@/generated/prisma'
+import { Order } from '@/generated/prisma/client'
 import { OrderCartItem } from './OrderCartItem'
 import { Separator } from '@/components/ui/separator'
 import { OrderSummary } from './OrderSummary'

@@ -2,7 +2,7 @@ import 'server-only'
 
 import getSession from '@/lib/getSession'
 import prisma from './db'
-import { User } from '@/generated/prisma'
+import { User } from '@/generated/prisma/client'
 
 const getUserRole = async () => {
   const session = await getSession()
