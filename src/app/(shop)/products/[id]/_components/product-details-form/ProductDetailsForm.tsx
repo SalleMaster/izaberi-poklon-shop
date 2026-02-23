@@ -34,7 +34,7 @@ import {
 import { productDetailsSchema, ProductDetailsValues } from './validation'
 import { addCartItem } from '@/app/(shop)/_actions/cart/actions'
 import { ProductWithRelations } from '@/data/services/products'
-import { FontType } from '@/generated/prisma'
+import { FontType } from '@/generated/prisma/enums'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import {
   priceTableQuantityOptions,
@@ -111,13 +111,13 @@ export function ProductDetailsForm({ product }: Props) {
               imagesArray.map(async (image) => {
                 const { key, name, type, fileURL } = await uploadFile(
                   image,
-                  imageFileTypes
+                  imageFileTypes,
                 )
                 return createMedia(key, name, type, fileURL)
-              })
+              }),
             )
             imageMedias[imageMedias.length - 1].ids = images.map(
-              (image) => image.id
+              (image) => image.id,
             )
           }
         }
@@ -132,7 +132,7 @@ export function ProductDetailsForm({ product }: Props) {
           textPersonalizations: data.textPersonalizations,
           packageOptionSelected: data.packageOptionSelected,
         },
-        imageMedias
+        imageMedias,
       )
       if (response) {
         if (response.status === 'fail') {
@@ -149,7 +149,7 @@ export function ProductDetailsForm({ product }: Props) {
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }
@@ -171,8 +171,8 @@ export function ProductDetailsForm({ product }: Props) {
             placeholder: field.placeholder,
             value: '',
           },
-          { shouldFocus: false }
-        )
+          { shouldFocus: false },
+        ),
       )
 
       product.imagePersonalizationFields.forEach((field) =>
@@ -183,8 +183,8 @@ export function ProductDetailsForm({ product }: Props) {
             min: field.min,
             max: field.max,
           },
-          { shouldFocus: false }
-        )
+          { shouldFocus: false },
+        ),
       )
     } else {
       form.setValue('textPersonalizations', [])
@@ -209,7 +209,7 @@ export function ProductDetailsForm({ product }: Props) {
                     onClick={() => {
                       form.setValue(
                         'quantity',
-                        Number(form.watch('quantity')) - 1
+                        Number(form.watch('quantity')) - 1,
                       )
                     }}
                     disabled={
@@ -242,7 +242,7 @@ export function ProductDetailsForm({ product }: Props) {
                     onClick={() => {
                       form.setValue(
                         'quantity',
-                        Number(form.watch('quantity')) + 1
+                        Number(form.watch('quantity')) + 1,
                       )
                     }}
                     disabled={
@@ -398,7 +398,7 @@ export function ProductDetailsForm({ product }: Props) {
                             form.setValue(
                               `imagePersonalizations.${index}.images`,
                               values,
-                              { shouldValidate: true }
+                              { shouldValidate: true },
                             )
                           }}
                           existingFiles={[]}

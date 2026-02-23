@@ -1,6 +1,6 @@
 import { Separator } from '@/components/ui/separator'
 import { calculatePrice } from '@/lib/price'
-import { PriceRange, Discount } from '@/generated/prisma'
+import { PriceRange, Discount } from '@/generated/prisma/client'
 
 type Props = {
   discount: Discount | null

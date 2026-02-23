@@ -11,11 +11,11 @@ import {
   ImagePersonalizationField,
   TextPersonalizationField,
   Media,
-  DeliveryType,
   PriceRange,
   DeliveryFee,
   PackageOption,
-} from '@/generated/prisma'
+} from '@/generated/prisma/client'
+import { DeliveryType } from '@/generated/prisma/enums'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -77,7 +77,7 @@ export function ProductForm({
   packageOptions: PackageOption[]
 }) {
   const [isSinglePrice, setIsSinglePrice] = useState(
-    product ? product.priceTable.length === 1 : true
+    product ? product.priceTable.length === 1 : true,
   )
   const [isDeleting, setIsDeleting] = useState(false)
   const [removedMedia, setRemovedMedia] = useState<Media[]>([])
@@ -116,7 +116,7 @@ export function ProductForm({
       coverImage: null,
       images: null,
     }),
-    [product]
+    [product],
   )
 
   const form = useForm<ProductValues>({
@@ -161,7 +161,7 @@ export function ProductForm({
       if (data.coverImage && data.coverImage.length > 0) {
         const { key, name, type, fileURL } = await uploadFile(
           data.coverImage[0],
-          imageFileTypes
+          imageFileTypes,
         )
         const media = await createMedia(key, name, type, fileURL)
         coverImageMediaId = media.id
@@ -174,10 +174,10 @@ export function ProductForm({
           imagesArray.map(async (image) => {
             const { key, name, type, fileURL } = await uploadFile(
               image,
-              imageFileTypes
+              imageFileTypes,
             )
             return createMedia(key, name, type, fileURL)
-          })
+          }),
         )
         imagesMediaIds = images.map((image) => image.id)
       }
@@ -207,7 +207,7 @@ export function ProductForm({
           removedTextFields,
           removedImageFields,
           coverImageMediaId,
-          imagesMediaIds
+          imagesMediaIds,
         )
         if (response) {
           if (response.status === 'fail') {
@@ -239,7 +239,7 @@ export function ProductForm({
             imagePersonalizationFields: data.imagePersonalizationFields,
           },
           coverImageMediaId,
-          imagesMediaIds
+          imagesMediaIds,
         )
 
         if (response) {
@@ -259,7 +259,7 @@ export function ProductForm({
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }
@@ -282,7 +282,7 @@ export function ProductForm({
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške prilikom brisanja proizvoda. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške prilikom brisanja proizvoda. Molimo pokušajte ponovo.',
       )
     } finally {
       setIsDeleting(false)
@@ -300,14 +300,14 @@ export function ProductForm({
         'priceTable',
         product?.priceTable && product.priceTable.length === 1
           ? product.priceTable
-          : initialPrice
+          : initialPrice,
       )
     } else {
       form.setValue(
         'priceTable',
         product?.priceTable && product.priceTable.length > 1
           ? product.priceTable
-          : initialPriceTable
+          : initialPriceTable,
       )
     }
   }, [isSinglePrice])

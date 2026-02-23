@@ -4,7 +4,7 @@ import { useMemo, useEffect, TransitionStartFunction } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { RatingStatusType } from '@/generated/prisma'
+import { RatingStatusType } from '@/generated/prisma/enums'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -32,7 +32,7 @@ export function RatingStatusForm({ status, id, startTransition }: Props) {
     () => ({
       status,
     }),
-    [status]
+    [status],
   )
 
   const form = useForm<RatingStatusValues>({
@@ -59,7 +59,7 @@ export function RatingStatusForm({ status, id, startTransition }: Props) {
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }

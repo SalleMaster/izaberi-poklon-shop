@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { DeliveryService, Media } from '@/generated/prisma'
+import { Media } from '@/generated/prisma/client'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -49,7 +49,7 @@ export function DeliveryServiceForm({
         : false,
       pdf: null,
     }),
-    [deliveryService]
+    [deliveryService],
   )
 
   const form = useForm<DeliveryServiceValues>({
@@ -69,7 +69,7 @@ export function DeliveryServiceForm({
       if (data.pdf && data.pdf.length > 0) {
         const { key, name, type, fileURL } = await uploadFile(
           data.pdf[0],
-          pdfFileTypes
+          pdfFileTypes,
         )
         const media = await createMedia(key, name, type, fileURL)
         mediaId = media.id
@@ -86,7 +86,7 @@ export function DeliveryServiceForm({
           },
           deliveryService.id,
           removedMedia,
-          mediaId
+          mediaId,
         )
 
         if (response) {
@@ -107,7 +107,7 @@ export function DeliveryServiceForm({
             active: data.active,
             predefinedPrices: data.predefinedPrices,
           },
-          mediaId
+          mediaId,
         )
 
         if (response) {
@@ -126,7 +126,7 @@ export function DeliveryServiceForm({
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }
@@ -148,7 +148,7 @@ export function DeliveryServiceForm({
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške prilikom brisanja kurirske službe. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške prilikom brisanja kurirske službe. Molimo pokušajte ponovo.',
       )
     } finally {
       setIsDeleting(false)

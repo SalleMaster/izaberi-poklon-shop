@@ -2,7 +2,7 @@
 
 import prisma from '@/lib/db'
 import { revalidatePath, updateTag } from 'next/cache'
-import { Media } from '@/generated/prisma'
+import { Media } from '@/generated/prisma/client'
 import { bannerSchema, BannerValues } from '../_components/validation'
 import { deleteMedia, deleteMediaFromS3 } from '@/lib/actions'
 import { adminActionGuard } from '@/lib/actionGuard'
@@ -16,7 +16,7 @@ const bannerSchemaWithoutImage = bannerSchema.omit({
 export async function createBanner(
   values: BannerWithoutImageFile,
   desktopMediaId?: string,
-  mobileMediaId?: string
+  mobileMediaId?: string,
 ) {
   try {
     await adminActionGuard()
@@ -78,7 +78,7 @@ export async function editBanner(
   removedDesktopMedia: Media[],
   removedMobileMedia: Media[],
   desktopMediaId?: string,
-  mobileMediaId?: string
+  mobileMediaId?: string,
 ) {
   try {
     await adminActionGuard()

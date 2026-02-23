@@ -34,7 +34,7 @@ import {
   DeliveryAddressType,
   OrderDeliveryType,
   OrderPaymentType,
-} from '@/generated/prisma'
+} from '@/generated/prisma/enums'
 import { FieldName, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -81,14 +81,14 @@ export default function CartPage({
       paymentType: OrderPaymentType.card,
       selectedDeliveryAddressId:
         userAddresses.filter(
-          (address) => address.type === DeliveryAddressType.delivery
+          (address) => address.type === DeliveryAddressType.delivery,
         )[0]?.id || '',
       selectedBillingAddressId:
         userAddresses.filter(
-          (address) => address.type === DeliveryAddressType.billing
+          (address) => address.type === DeliveryAddressType.billing,
         )[0]?.id ||
         userAddresses.filter(
-          (address) => address.type === DeliveryAddressType.delivery
+          (address) => address.type === DeliveryAddressType.delivery,
         )[0]?.id ||
         '',
       selectedDeliveryServiceId:
@@ -100,7 +100,7 @@ export default function CartPage({
       pickupEmail: userEmail,
       termsAccepted: false,
     }),
-    [userAddresses, deliveryServices, userEmail, userName, userPhone]
+    [userAddresses, deliveryServices, userEmail, userName, userPhone],
   )
 
   const form = useForm<CartOrderValues>({
@@ -111,14 +111,14 @@ export default function CartPage({
   const { reset, trigger } = form
 
   const selectedDeliveryAddress = userAddresses.find(
-    (address) => address.id === form.watch('selectedDeliveryAddressId')
+    (address) => address.id === form.watch('selectedDeliveryAddressId'),
   )
   const selectedBillingAddress = userAddresses.find(
-    (address) => address.id === form.watch('selectedBillingAddressId')
+    (address) => address.id === form.watch('selectedBillingAddressId'),
   )
 
   const selectedDeliveryService = deliveryServices.find(
-    (service) => service.id === form.watch('selectedDeliveryServiceId')
+    (service) => service.id === form.watch('selectedDeliveryServiceId'),
   )
 
   const next = async () => {
@@ -161,7 +161,7 @@ export default function CartPage({
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     } finally {
       setCurrentStep(0)
@@ -178,7 +178,7 @@ export default function CartPage({
           setOptimisticCart({
             ...optimisticCart,
             items: optimisticCart.items.map((item) =>
-              item.id === id ? { ...item, quantity } : item
+              item.id === id ? { ...item, quantity } : item,
             ),
           })
         })
@@ -199,7 +199,7 @@ export default function CartPage({
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }
@@ -229,7 +229,7 @@ export default function CartPage({
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }
@@ -250,7 +250,7 @@ export default function CartPage({
     <div
       className={cn(
         'grid gap-6 lg:grid-cols-cart',
-        isPending && 'animate-pulse'
+        isPending && 'animate-pulse',
       )}
     >
       <div className='mx-auto lg:col-span-2'>
@@ -301,10 +301,10 @@ export default function CartPage({
                 paymentType={form.watch('paymentType')}
                 deliveryType={form.watch('deliveryType')}
                 selectedDeliveryAddressId={form.watch(
-                  'selectedDeliveryAddressId'
+                  'selectedDeliveryAddressId',
                 )}
                 selectedBillingAddressId={form.watch(
-                  'selectedBillingAddressId'
+                  'selectedBillingAddressId',
                 )}
                 pickupName={form.watch('pickupName')}
                 pickupPhone={form.watch('pickupPhone')}

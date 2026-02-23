@@ -1,5 +1,5 @@
 import { isValidSerbianPhoneNumber } from '@/lib/validation'
-import { DeliveryAddressType } from '@/generated/prisma'
+import { DeliveryAddressType } from '@/generated/prisma/enums'
 import { z } from 'zod'
 
 // Delivery address schema

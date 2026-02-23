@@ -1,9 +1,10 @@
 import { DeliveryAddressForm } from '@/app/dashboard/(user)/delivery-address/_components/DeliveryAddressForm'
 import { Button } from '@/components/ui/button'
-import { DeliveryAddress, DeliveryAddressType } from '@/generated/prisma'
 import { Pencil, Plus } from 'lucide-react'
 import { TransitionStartFunction, useEffect, useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
+import { DeliveryAddress } from '@/generated/prisma/client'
+import { DeliveryAddressType } from '@/generated/prisma/enums'
 
 type Props = {
   selectedAddress: DeliveryAddress | undefined

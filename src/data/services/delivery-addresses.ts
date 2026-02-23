@@ -5,7 +5,7 @@ import { cache } from 'react'
 import prisma from '@/lib/db'
 
 import { loggedInActionGuard } from '@/lib/actionGuard'
-import { DeliveryAddress } from '@/generated/prisma'
+import { DeliveryAddress } from '@/generated/prisma/client'
 
 export type GetDeliveryAddressesReturnType = Promise<DeliveryAddress[]>
 
@@ -23,5 +23,5 @@ export const getAllDeliveryAddresses = cache(
     })
 
     return deliveryAddresses
-  }
+  },
 )

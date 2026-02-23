@@ -1,5 +1,5 @@
 import getSession from '@/lib/getSession'
-import { UserRoleType } from '@/generated/prisma'
+import { UserRoleType } from '@/generated/prisma/enums'
 import { redirect } from 'next/navigation'
 import prisma from './db'
 

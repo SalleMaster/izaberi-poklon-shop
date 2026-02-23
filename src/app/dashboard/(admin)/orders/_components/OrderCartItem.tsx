@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { OrderCartItemWithRelations } from '@/data/services/order'
 import { fallbackImageURL } from '@/lib/consts'
 import { priceFormatter } from '@/lib/format'
-import { FontType } from '@/generated/prisma'
+import { FontType } from '@/generated/prisma/enums'
 import { SquareArrowOutUpRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -26,7 +26,7 @@ export function OrderCartItem({ cartItem, mediaRemoved }: OrderCartItemProps) {
   }
 
   const formattedSinglePrice = priceFormatter(
-    cartItem.price / cartItem.quantity
+    cartItem.price / cartItem.quantity,
   )
   const formattedTotalPrice = priceFormatter(cartItem.price)
 

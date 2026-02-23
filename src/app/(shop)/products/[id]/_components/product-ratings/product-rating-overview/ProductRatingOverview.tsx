@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/card'
-import { Rating } from '@/generated/prisma'
+import { Rating } from '@/generated/prisma/client'
 import { Star } from 'lucide-react'
 
 type Props = {
@@ -12,7 +12,7 @@ export default function ProductRatingOverview({ ratings }: Props) {
         (
           ratings.reduce((acc, rating) => acc + rating.score, 0) /
           ratings.length
-        ).toFixed(1)
+        ).toFixed(1),
       )
     : 0
 
@@ -43,7 +43,7 @@ export default function ProductRatingOverview({ ratings }: Props) {
 
   function getRatingInfo(score: number) {
     const numberOfRatings = ratings.filter(
-      (rating) => rating.score === score
+      (rating) => rating.score === score,
     ).length
     const percentage = (numberOfRatings / ratings.length) * 100
     return { numberOfRatings, percentage }

@@ -1,7 +1,7 @@
 'use client'
 
+import { useOptimistic, useTransition } from 'react'
 import { useSearchParams } from 'next/navigation'
-import React, { useOptimistic, useTransition } from 'react'
 import useCreateQueryString from '@/hooks/use-create-query-string'
 import Link from 'next/link'
 import {
@@ -25,7 +25,7 @@ import {
   RatingStatusLabel,
   RatingStatusLabels,
 } from '@/lib/types'
-import { RatingStatusType } from '@/generated/prisma'
+import { RatingStatusType } from '@/generated/prisma/enums'
 import { SlidersHorizontal } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 
@@ -33,14 +33,14 @@ export default function RatingsHeader() {
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
   const [optimisticSort, setOptimisticSort] = useOptimistic(
-    searchParams.get('sortiranje')
+    searchParams.get('sortiranje'),
   )
   const [optimisticStatus, setOptimisticStatus] = useOptimistic(
-    searchParams.get('status')
+    searchParams.get('status'),
   )
 
   const [optimisticDisplay, setOptimisticDisplay] = useOptimistic(
-    searchParams.get('prikazi')
+    searchParams.get('prikazi'),
   )
 
   const createQueryString = useCreateQueryString(searchParams)

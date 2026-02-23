@@ -2,7 +2,7 @@
 
 import prisma from '@/lib/db'
 import { revalidatePath, updateTag } from 'next/cache'
-import { Media, Prisma } from '@/generated/prisma'
+import { Media, Prisma } from '@/generated/prisma/client'
 import { categorySchema, CategoryValues } from '../_components/validation'
 import { deleteMedia, deleteMediaFromS3 } from '@/lib/actions'
 import { adminActionGuard } from '@/lib/actionGuard'
@@ -14,7 +14,7 @@ const categorySchemaWithoutImage = categorySchema.omit({
 
 export async function createCategory(
   values: CategoryWithoutImageFile,
-  mediaId?: string
+  mediaId?: string,
 ) {
   try {
     await adminActionGuard()
@@ -74,7 +74,7 @@ export async function editCategory(
   values: CategoryWithoutImageFile,
   id: string,
   removedMedia: Media[],
-  mediaId?: string
+  mediaId?: string,
 ) {
   try {
     await adminActionGuard()

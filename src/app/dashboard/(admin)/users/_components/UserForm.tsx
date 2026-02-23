@@ -4,7 +4,7 @@ import { useMemo, useEffect, TransitionStartFunction } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { UserRoleType } from '@/generated/prisma'
+import { UserRoleType } from '@/generated/prisma/enums'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -33,7 +33,7 @@ export function UserForm({ role, id, startTransition }: Props) {
       id,
       role,
     }),
-    [id, role]
+    [id, role],
   )
 
   const form = useForm<UserValues>({
@@ -60,7 +60,7 @@ export function UserForm({ role, id, startTransition }: Props) {
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }

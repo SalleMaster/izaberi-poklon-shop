@@ -1,11 +1,17 @@
-import { DiscountType, PrismaClient } from '../../generated/prisma'
+import { PrismaClient } from '../../generated/prisma/client'
+import { DiscountType } from '../../generated/prisma/enums'
+import { PrismaPg } from '@prisma/adapter-pg'
 import { S3Client, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { subDays, format } from 'date-fns'
 
 const freeShippingThreshold = 10000
 
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL,
+})
+
 // Create a dedicated Prisma instance for this script
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({ adapter })
 
 const s3 = new S3Client({
   region: process.env.AWS_S3_BUCKET_REGION!,

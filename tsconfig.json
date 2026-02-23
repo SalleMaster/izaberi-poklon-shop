@@ -19,7 +19,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@/generated/prisma": ["./generated/prisma"]
+      // "@/generated/prisma": ["./generated/prisma"]
+      "@/generated/*": ["./generated/*"]
     },
     "target": "ES2017"
   },
