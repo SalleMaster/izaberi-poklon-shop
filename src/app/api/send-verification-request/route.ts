@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     const { url, to } = await req.json()
 
     const { data, error } = await resend.emails.send({
-      from: `${shopInfo.name} <${process.env.SENDER_EMAIL}>`,
+      from: `Reci Seci Pokloni <${process.env.SENDER_EMAIL}>`,
       to: [to],
       subject: 'Email verifikacija',
       react: VerifyRequestEmail({ url }),
