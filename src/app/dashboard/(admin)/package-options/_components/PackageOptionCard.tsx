@@ -26,7 +26,7 @@ export default function PackageOptionCard({
             <div className='flex items-center gap-4'>
               <PackagePlus />
               <span className='font-semibold'>
-                {packageOption?.name || 'Kreiraj poklon pakovanje'}
+                {packageOption?.name || 'Kreiraj specijalno pakovanje'}
               </span>
             </div>
           </AccordionTrigger>

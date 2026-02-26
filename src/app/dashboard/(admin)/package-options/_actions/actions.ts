@@ -24,7 +24,7 @@ export async function createPackageOption(values: PackageOptionValues) {
 
     return {
       status: 'success',
-      message: 'Poklon pakovanje kreirano.',
+      message: 'Specijalno pakovanje kreirano.',
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -42,7 +42,7 @@ export async function createPackageOption(values: PackageOptionValues) {
 
 export async function editPackageOption(
   values: PackageOptionValues,
-  id: string
+  id: string,
 ) {
   try {
     await adminActionGuard()
@@ -60,7 +60,7 @@ export async function editPackageOption(
 
     return {
       status: 'success',
-      message: 'Poklon pakovanje sačuvano.',
+      message: 'Specijalno pakovanje sačuvano.',
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -86,7 +86,7 @@ export async function deletePackageOption(id: string) {
 
     return {
       status: 'success',
-      message: 'Poklon pakovanje obrisano.',
+      message: 'Specijalno pakovanje obrisano.',
     }
   } catch (error) {
     if (error instanceof Error) {
