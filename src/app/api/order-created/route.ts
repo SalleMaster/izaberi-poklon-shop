@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     const { order, orderEmail } = await req.json()
 
     const { data, error } = await resend.emails.send({
-      from: `${shopInfo.name} <${process.env.SENDER_EMAIL}>`,
+      from: `Reci Seci Pokloni <${process.env.SENDER_EMAIL}>`,
       to: [
         `${process.env.NODE_ENV === 'production' ? orderEmail : process.env.RECIPIENT_EMAIL}`,
       ],

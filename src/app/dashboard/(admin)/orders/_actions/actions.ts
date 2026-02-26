@@ -38,6 +38,36 @@ export async function updateOrderStatus(values: OrderStatusValues, id: string) {
       })
     }
 
+    if (data.status === OrderStatusType.canceled) {
+      // Send email
+      await fetch(`${process.env.APP_URL}/api/order-canceled`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          order,
+          orderEmail:
+            order.billingEmail || order.deliveryEmail || order.pickupEmail,
+        }),
+      })
+    }
+
+    if (data.status === OrderStatusType.delivered) {
+      // Send email
+      await fetch(`${process.env.APP_URL}/api/order-delivered`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          order,
+          orderEmail:
+            order.billingEmail || order.deliveryEmail || order.pickupEmail,
+        }),
+      })
+    }
+
     return {
       status: 'success',
       message: 'Status porudžbine sačuvan.',

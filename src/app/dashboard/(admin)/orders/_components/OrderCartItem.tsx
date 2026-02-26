@@ -26,7 +26,7 @@ export function OrderCartItem({ cartItem, mediaRemoved }: OrderCartItemProps) {
   }
 
   const formattedSinglePrice = priceFormatter(
-    cartItem.price / cartItem.quantity
+    cartItem.price / cartItem.quantity,
   )
   const formattedTotalPrice = priceFormatter(cartItem.price)
 
@@ -70,7 +70,7 @@ export function OrderCartItem({ cartItem, mediaRemoved }: OrderCartItemProps) {
         </div>
         <div>
           <p className='font-semibold'>
-            Poklon pakovanje:{' '}
+            Specijalno pakovanje:{' '}
             <span className='font-medium text-muted-foreground'>
               {cartItem.packageOptionSelected ? 'Da' : 'Ne'}
             </span>

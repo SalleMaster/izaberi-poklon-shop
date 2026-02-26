@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { shopInfo } from '@/lib/consts'
 import { Resend } from 'resend'
-import OrderSentEmail from '@/email/OrderSentEmail'
+import OrderCanceledEmail from '@/email/OrderCanceledEmail'
 
 const resend = new Resend(process.env.AUTH_RESEND_KEY)
 
@@ -14,8 +13,8 @@ export async function POST(req: NextRequest) {
       to: [
         `${process.env.NODE_ENV === 'production' ? orderEmail : process.env.RECIPIENT_EMAIL}`,
       ],
-      subject: 'Porudžbina poslata',
-      react: OrderSentEmail({ order }),
+      subject: 'Porudžbina otkazana',
+      react: OrderCanceledEmail({ order }),
     })
 
     if (error) {
