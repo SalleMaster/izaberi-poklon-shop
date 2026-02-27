@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
@@ -15,11 +14,19 @@ import Image from 'next/image'
 import MagicLinkForm from './_components/MagicLinkForm'
 import { Separator } from '@/components/ui/separator'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
+import { useTransition } from 'react'
 
 export default function SignInPage() {
   const searchParams = useSearchParams()
+  const [isPending, startTransition] = useTransition()
 
   const callbackUrl = searchParams.get('callbackUrl') || '/'
+
+  const handleSignIn = () => {
+    startTransition(async () => {
+      await signinGoogle({ callbackUrl })
+    })
+  }
 
   return (
     <div className='flex flex-col gap-5'>
@@ -32,9 +39,10 @@ export default function SignInPage() {
         </CardHeader>
         <CardContent className='grid grid-cols-1 gap-5'>
           <Button
-            onClick={() => signinGoogle({ callbackUrl })}
+            onClick={handleSignIn}
             variant='outline'
             className='w-full'
+            disabled={isPending}
           >
             <Image
               src='/img/brand-icons/google.svg'
