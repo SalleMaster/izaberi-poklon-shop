@@ -15,6 +15,7 @@ import MagicLinkForm from './_components/MagicLinkForm'
 import { Separator } from '@/components/ui/separator'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
 import { useTransition } from 'react'
+import { toast } from 'sonner'
 
 export default function SignInPage() {
   const searchParams = useSearchParams()
@@ -24,7 +25,13 @@ export default function SignInPage() {
 
   const handleSignIn = () => {
     startTransition(async () => {
-      await signinGoogle({ callbackUrl })
+      const { data, error } = await signinGoogle({ callbackUrl })
+      console.log({ data, error })
+      if (error) {
+        toast.warning(
+          'Došlo je do greške prilikom prijave. Molimo pokušajte ponovo.',
+        )
+      }
     })
   }
 
