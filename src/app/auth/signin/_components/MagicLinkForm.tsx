@@ -56,7 +56,7 @@ export default function MagicLinkForm({ callbackUrl }: Props) {
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'There was an error. Please try again.'
+          : 'There was an error. Please try again.',
       )
     }
   }
