@@ -1,12 +1,13 @@
 'use client'
 
+import { useTransition } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { signinGoogle } from '@/lib/social-login'
+import { toast } from 'sonner'
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
@@ -18,8 +19,20 @@ import { NotificationAlert } from '@/components/custom/NotificationAlert'
 
 export default function SignInPage() {
   const searchParams = useSearchParams()
+  const [isPending, startTransition] = useTransition()
 
   const callbackUrl = searchParams.get('callbackUrl') || '/'
+
+  const handleSignIn = () => {
+    startTransition(async () => {
+      const { data, error } = await signinGoogle({ callbackUrl })
+      if (error) {
+        toast.warning(
+          'Došlo je do greške prilikom prijave. Molimo pokušajte ponovo.',
+        )
+      }
+    })
+  }
 
   return (
     <div className='flex flex-col gap-5'>
@@ -32,9 +45,10 @@ export default function SignInPage() {
         </CardHeader>
         <CardContent className='grid grid-cols-1 gap-5'>
           <Button
-            onClick={() => signinGoogle({ callbackUrl })}
+            onClick={handleSignIn}
             variant='outline'
             className='w-full'
+            disabled={isPending}
           >
             <Image
               src='/img/brand-icons/google.svg'
