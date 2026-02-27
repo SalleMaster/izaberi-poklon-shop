@@ -27,13 +27,4 @@ export const auth = betterAuth({
     admin(),
     nextCookies(),
   ],
-  trustedOrigins: [
-    'https://recisecipokloni.com',
-    'https://*.recisecipokloni.com',
-    'https://*.*.recisecipokloni.com',
-    'https://stage.recisecipokloni.com',
-    'https://*.stage.recisecipokloni.com',
-    'https://*.*.stage.recisecipokloni.com',
-    'http://localhost:3000',
-  ],
 })
