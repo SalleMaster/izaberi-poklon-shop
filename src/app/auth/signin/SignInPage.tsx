@@ -1,7 +1,9 @@
 'use client'
 
+import { useTransition } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { signinGoogle } from '@/lib/social-login'
+import { toast } from 'sonner'
 import {
   Card,
   CardContent,
@@ -14,7 +16,6 @@ import Image from 'next/image'
 import MagicLinkForm from './_components/MagicLinkForm'
 import { Separator } from '@/components/ui/separator'
 import { NotificationAlert } from '@/components/custom/NotificationAlert'
-import { useTransition } from 'react'
 
 export default function SignInPage() {
   const searchParams = useSearchParams()
@@ -24,7 +25,12 @@ export default function SignInPage() {
 
   const handleSignIn = () => {
     startTransition(async () => {
-      await signinGoogle({ callbackUrl })
+      const { data, error } = await signinGoogle({ callbackUrl })
+      if (error) {
+        toast.warning(
+          'Došlo je do greške prilikom prijave. Molimo pokušajte ponovo.',
+        )
+      }
     })
   }
 
