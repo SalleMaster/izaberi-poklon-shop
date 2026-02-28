@@ -220,4 +220,10 @@ export async function sendOrderEmail(order: any, email: string) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ order, orderEmail: email }),
   })
+
+  await fetch(`${process.env.APP_URL}/api/new-order`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ order }),
+  })
 }

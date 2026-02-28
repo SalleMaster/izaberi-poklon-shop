@@ -24,8 +24,8 @@ export default function BannersCarousel({ banners }: BannersCarouselProps) {
               <DynamicImage
                 src={banner.desktopImage?.url || fallbackImageURL}
                 alt={banner.desktopImage?.name || banner.name}
-                width={1000}
-                height={300}
+                width={1500}
+                height={450}
                 style={{ width: '100%' }}
                 preload
                 className='hidden md:block'
@@ -33,8 +33,8 @@ export default function BannersCarousel({ banners }: BannersCarouselProps) {
               <DynamicImage
                 src={banner.mobileImage?.url || fallbackImageURL}
                 alt={banner.mobileImage?.name || banner.name}
-                width={300}
-                height={500}
+                width={600}
+                height={1000}
                 style={{ width: '100%' }}
                 preload
                 className='md:hidden'
