@@ -9,9 +9,13 @@ import { srLatn } from 'date-fns/locale'
 
 type OrderInformationProps = {
   order: Order
+  isForAdmin?: boolean
 }
 
-export function OrderInformation({ order }: OrderInformationProps) {
+export function OrderInformation({
+  order,
+  isForAdmin = false,
+}: OrderInformationProps) {
   const orderFormattedCreatedAt = format(order.createdAt, 'PPpp', {
     locale: srLatn,
   })
@@ -380,22 +384,41 @@ export function OrderInformation({ order }: OrderInformationProps) {
       ) : null}
 
       <Section className='rounded-xl border border-solid border-gray-300 px-4 mb-5'>
-        <Row>
-          <Column align='left' className='w-1/2'>
-            <Text>
-              Pratite status porudžbine na svom <br /> Reci Seci Pokloni Shop
-              profilu.
-            </Text>
-          </Column>
-          <Column align='right' className='w-1/2'>
-            <Link
-              href={`${process.env.APP_URL}/profil/porudzbine/${order.id}`}
-              className='p-2 bg-black text-white rounded-lg text-sm'
-            >
-              Detalji porudžbine
-            </Link>
-          </Column>
-        </Row>
+        {isForAdmin ? (
+          <Row>
+            <Column align='left' className='w-1/2'>
+              <Text>
+                Upravljajte porudžbinom na <br /> Reci Seci Pokloni Shop admin
+                panelu.
+              </Text>
+            </Column>
+            <Column align='right' className='w-1/2'>
+              <Link
+                href={`${process.env.APP_URL}/admin/porudzbine/${order.id}`}
+                className='p-2 bg-black text-white rounded-lg text-sm'
+              >
+                Detalji porudžbine
+              </Link>
+            </Column>
+          </Row>
+        ) : (
+          <Row>
+            <Column align='left' className='w-1/2'>
+              <Text>
+                Pratite status porudžbine na svom <br /> Reci Seci Pokloni Shop
+                profilu.
+              </Text>
+            </Column>
+            <Column align='right' className='w-1/2'>
+              <Link
+                href={`${process.env.APP_URL}/profil/porudzbine/${order.id}`}
+                className='p-2 bg-black text-white rounded-lg text-sm'
+              >
+                Detalji porudžbine
+              </Link>
+            </Column>
+          </Row>
+        )}
       </Section>
     </>
   )
