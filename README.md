@@ -41,10 +41,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## Prisma commands
 
 - `npx prisma dev` - Start local prisma dev server
-- `npx prisma db push` - Update database when we change schema
+- `npx prisma db push` - **DO NOT USE** - Only for prototyping, breaks migration history
 - `npx prisma studio` - Database preview in the browser
 - `npx prisma db seed` - Seed the database
-- `npx prisma migrate dev` - Similar to db push, but it creates a migrate file also
+- `npx prisma migrate dev` - **USE THIS** - Creates migration file + updates database (recommended for schema changes)
+- `npx prisma migrate resolve --applied "<migration-name>"` - Resolve migration drift when database is out of sync
 - When updating the schema, make sure to restart the dev server to load new Prisma client
 
 ## Next.js 15 Upgrade notes

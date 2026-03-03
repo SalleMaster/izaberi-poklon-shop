@@ -48,6 +48,7 @@ enum OrderStatusType {
   pending
   processing
   shipped
+  readyForPickup
   delivered
   canceled
 }

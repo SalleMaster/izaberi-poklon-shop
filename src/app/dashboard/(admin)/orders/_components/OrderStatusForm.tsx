@@ -40,7 +40,7 @@ export function OrderStatusForm({
       status,
       shippingNumber,
     }),
-    [status, shippingNumber]
+    [status, shippingNumber],
   )
 
   const form = useForm<OrderStatusValues>({
@@ -67,7 +67,7 @@ export function OrderStatusForm({
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }
@@ -95,7 +95,10 @@ export function OrderStatusForm({
                     })) || []
                   }
                   value={field.value}
-                  setValue={(value) => field.onChange(value)}
+                  setValue={(value) => {
+                    field.onChange(value)
+                    form.clearErrors('shippingNumber')
+                  }}
                 />
               </FormControl>
               <FormDescription>Izaberite status porudžbine</FormDescription>
@@ -114,11 +117,7 @@ export function OrderStatusForm({
                 <Input
                   placeholder='Unesite broj pošiljke'
                   {...field}
-                  disabled={
-                    form.watch('status') === OrderStatusType.pending ||
-                    form.watch('status') === OrderStatusType.canceled ||
-                    form.watch('status') === OrderStatusType.processing
-                  }
+                  disabled={form.watch('status') !== OrderStatusType.shipped}
                 />
               </FormControl>
               <FormDescription>Broj pošiljke za praćenje</FormDescription>
