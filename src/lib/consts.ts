@@ -76,6 +76,11 @@ export const orderStatusOptions: OrderStatusOptionsType = [
     variant: 'success',
   },
   {
+    value: OrderStatusType.readyForPickup,
+    label: 'Spremna za preuzimanje',
+    variant: 'success',
+  },
+  {
     value: OrderStatusType.delivered,
     label: 'Dostavljena',
     variant: 'success',

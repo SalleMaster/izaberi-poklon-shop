@@ -68,6 +68,21 @@ export async function updateOrderStatus(values: OrderStatusValues, id: string) {
       })
     }
 
+    if (data.status === OrderStatusType.readyForPickup) {
+      // Send email
+      await fetch(`${process.env.APP_URL}/api/order-ready-for-pickup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          order,
+          orderEmail:
+            order.billingEmail || order.deliveryEmail || order.pickupEmail,
+        }),
+      })
+    }
+
     return {
       status: 'success',
       message: 'Status porudžbine sačuvan.',
