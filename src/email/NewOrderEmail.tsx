@@ -13,8 +13,7 @@ import {
   Order,
   OrderPaymentStatusType,
   OrderPaymentType,
-} from '@/generated/prisma'
-import { shopInfo } from '@/lib/consts'
+} from '@/generated/prisma/client'
 import { EmailHeader } from './components/EmailHeader'
 import { EmailFooter } from './components/EmailFooter'
 
