@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator'
-import { DeliveryType } from '@/generated/prisma'
+import { DeliveryType } from '@/generated/prisma/enums'
 import { MessageCircleQuestion, Truck } from 'lucide-react'
 
 type Props = {

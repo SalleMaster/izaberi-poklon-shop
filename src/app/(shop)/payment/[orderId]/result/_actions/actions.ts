@@ -7,7 +7,7 @@ import {
   OrderPaymentStatusType,
   OrderPaymentType,
   OrderStatusType,
-} from '@/generated/prisma'
+} from '@/generated/prisma/enums'
 import { loggedInActionGuard } from '@/lib/actionGuard'
 import { ResponseStatus } from '@/lib/types'
 
@@ -103,7 +103,7 @@ export async function verifyPayment({
       if (order) {
         await sendOrderEmail(
           order,
-          order.billingEmail || order.deliveryEmail || order.pickupEmail || ''
+          order.billingEmail || order.deliveryEmail || order.pickupEmail || '',
         )
       }
 

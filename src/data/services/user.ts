@@ -5,7 +5,8 @@ import { cache } from 'react'
 import prisma from '@/lib/db'
 
 import { adminActionGuard, loggedInActionGuard } from '@/lib/actionGuard'
-import { DeliveryAddress, User, UserRoleType } from '@/generated/prisma'
+import { DeliveryAddress, User } from '@/generated/prisma/client'
+import { UserRoleType } from '@/generated/prisma/enums'
 
 export type GetUserAddressesReturnType = Promise<DeliveryAddress[]>
 
@@ -63,7 +64,7 @@ export const getUserProfile = cache(
     }
 
     return null
-  }
+  },
 )
 
 export type GetUsersReturnType = Promise<User[]>
@@ -104,7 +105,7 @@ export const getUsers = cache(
     })
 
     return users
-  }
+  },
 )
 
 export type GetUsersCountReturnType = Promise<number>
@@ -132,7 +133,7 @@ export const getUsersCount = cache(
           : {}),
       },
     })
-  }
+  },
 )
 
 export type GetUserProps = {
@@ -154,5 +155,5 @@ export const getUser = cache(
         id,
       },
     })
-  }
+  },
 )

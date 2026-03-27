@@ -25,7 +25,7 @@ import {
   UserRoleLabels,
   UserRoleLabel,
 } from '@/lib/types'
-import { UserRoleType } from '@/generated/prisma'
+import { UserRoleType } from '@/generated/prisma/enums'
 import { SlidersHorizontal } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 
@@ -33,14 +33,14 @@ export default function UsersHeader() {
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
   const [optimisticSort, setOptimisticSort] = useOptimistic(
-    searchParams.get('sortiranje')
+    searchParams.get('sortiranje'),
   )
   const [optimisticRole, setOptimisticRole] = useOptimistic(
-    searchParams.get('rola')
+    searchParams.get('rola'),
   )
 
   const [optimisticDisplay, setOptimisticDisplay] = useOptimistic(
-    searchParams.get('prikazi')
+    searchParams.get('prikazi'),
   )
 
   const createQueryString = useCreateQueryString(searchParams)

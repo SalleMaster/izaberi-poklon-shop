@@ -13,7 +13,7 @@ import {
   PriceRange,
   Product,
   TextPersonalizationField,
-} from '@/generated/prisma'
+} from '@/generated/prisma/client'
 import { calculatePrice } from '@/lib/price'
 
 type ProductPricesType = {
@@ -126,7 +126,7 @@ export const getProducts = cache(
     }
 
     return []
-  }
+  },
 )
 
 export type ProductWithRelations = Product &
@@ -193,7 +193,7 @@ export const getProductsCount = cache(
           : {}),
       },
     })
-  }
+  },
 )
 
 export type GetProductsCountReturnType = Promise<number>
@@ -241,7 +241,7 @@ export const getProduct = cache(
     }
 
     return null
-  }
+  },
 )
 
 export type GetDiscountedProductsProps = {
@@ -299,7 +299,7 @@ export const getDiscountedProducts = cache(
     }
 
     return []
-  }
+  },
 )
 
 export type GetTrendingProductsProps = {
@@ -352,5 +352,5 @@ export const getTrendingProducts = cache(
     }
 
     return []
-  }
+  },
 )

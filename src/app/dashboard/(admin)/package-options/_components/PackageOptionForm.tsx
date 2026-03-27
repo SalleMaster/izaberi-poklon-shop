@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { PackageOption } from '@/generated/prisma'
+import { PackageOption } from '@/generated/prisma/client'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -39,7 +39,7 @@ export function PackageOptionForm({ packageOption }: PackageOptionFormProps) {
       description: packageOption?.description || '',
       price: packageOption?.price || 0,
     }),
-    [packageOption]
+    [packageOption],
   )
 
   const form = useForm<PackageOptionValues>({
@@ -59,7 +59,7 @@ export function PackageOptionForm({ packageOption }: PackageOptionFormProps) {
             description: data.description,
             price: data.price,
           },
-          packageOption.id
+          packageOption.id,
         )
 
         if (response) {
@@ -95,7 +95,7 @@ export function PackageOptionForm({ packageOption }: PackageOptionFormProps) {
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }
@@ -117,7 +117,7 @@ export function PackageOptionForm({ packageOption }: PackageOptionFormProps) {
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške prilikom brisanja. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške prilikom brisanja. Molimo pokušajte ponovo.',
       )
     } finally {
       setIsDeleting(false)

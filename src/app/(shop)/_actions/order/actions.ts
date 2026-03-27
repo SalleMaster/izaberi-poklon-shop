@@ -13,7 +13,7 @@ import {
   OrderPaymentStatusType,
   OrderPaymentType,
   OrderStatusType,
-} from '@/generated/prisma'
+} from '@/generated/prisma/enums'
 import { ZodError } from 'zod'
 import { generateOrderNumber } from '@/lib/orderUtils'
 import { createPaymentCheckout } from '@/lib/checkout'

@@ -1,4 +1,4 @@
-import { User } from '@/generated/prisma'
+import { User } from '@/generated/prisma/client'
 
 type RatingUserInfoProps = {
   user: User

@@ -3,12 +3,8 @@ import { Separator } from '@/components/ui/separator'
 import { CartItemWithRelations, CartWithRelations } from '@/data/services/cart'
 import { fallbackImageURL, shopInfo } from '@/lib/consts'
 import { priceFormatter } from '@/lib/format'
-import {
-  DeliveryAddress,
-  DeliveryService,
-  OrderDeliveryType,
-  OrderPaymentType,
-} from '@/generated/prisma'
+import { DeliveryAddress, DeliveryService } from '@/generated/prisma/client'
+import { OrderDeliveryType, OrderPaymentType } from '@/generated/prisma/enums'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -62,10 +58,10 @@ export default function CartOrderSummary({
   }
 
   const selectedDeliveryAddress = userAddresses.find(
-    (address) => address.id === selectedDeliveryAddressId
+    (address) => address.id === selectedDeliveryAddressId,
   )
   const selectedBillingAddress = userAddresses.find(
-    (address) => address.id === selectedBillingAddressId
+    (address) => address.id === selectedBillingAddressId,
   )
 
   return (
@@ -191,7 +187,7 @@ type CartItemProps = {
 
 function CartItem({ cartItem }: CartItemProps) {
   const formattedSinglePrice = priceFormatter(
-    cartItem.price / cartItem.quantity
+    cartItem.price / cartItem.quantity,
   )
   const formattedTotalPrice = priceFormatter(cartItem.price)
 

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Discount } from '@/generated/prisma'
+import { Discount } from '@/generated/prisma/client'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -35,7 +35,7 @@ export function DiscountForm({ discount }: { discount?: Discount | null }) {
       percentage: discount?.percentage || 0,
       active: discount ? discount.active : false,
     }),
-    [discount]
+    [discount],
   )
 
   const form = useForm<DiscountValues>({
@@ -55,7 +55,7 @@ export function DiscountForm({ discount }: { discount?: Discount | null }) {
             percentage: data.percentage,
             active: data.active,
           },
-          discount.id
+          discount.id,
         )
 
         if (response) {
@@ -91,7 +91,7 @@ export function DiscountForm({ discount }: { discount?: Discount | null }) {
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }
@@ -113,7 +113,7 @@ export function DiscountForm({ discount }: { discount?: Discount | null }) {
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške prilikom brisanja popusta. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške prilikom brisanja popusta. Molimo pokušajte ponovo.',
       )
     } finally {
       setIsDeleting(false)

@@ -3,7 +3,7 @@ import 'server-only'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 
-import { Banner, Media } from '@/generated/prisma'
+import { Banner, Media } from '@/generated/prisma/client'
 
 export type BannerWithImageType = Banner & {
   desktopImage: Media | null
@@ -30,5 +30,5 @@ export const getBanners = cache(
         mobileImage: true,
       },
     })
-  }
+  },
 )

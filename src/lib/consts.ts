@@ -2,7 +2,7 @@ import {
   OrderStatusType,
   RatingStatusType,
   UserRoleType,
-} from '@/generated/prisma'
+} from '@/generated/prisma/enums'
 import { generateQuantityOptions } from './product-utils'
 import { BadgeVariant } from '@/components/ui/badge'
 

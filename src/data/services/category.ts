@@ -3,7 +3,7 @@ import 'server-only'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 
-import { Category, Media, Prisma } from '@/generated/prisma'
+import { Category, Media, Prisma } from '@/generated/prisma/client'
 
 export type CategoryWithImage = Category & { image: Media | null }
 
@@ -35,5 +35,5 @@ export const getCategories = cache(
     })
 
     return categories
-  }
+  },
 )

@@ -34,7 +34,7 @@ import {
 import { productDetailsSchema, ProductDetailsValues } from './validation'
 import { addCartItem } from '@/app/(shop)/_actions/cart/actions'
 import { ProductWithRelations } from '@/data/services/products'
-import { FontType } from '@/generated/prisma'
+import { FontType } from '@/generated/prisma/enums'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import {
   priceTableQuantityOptions,

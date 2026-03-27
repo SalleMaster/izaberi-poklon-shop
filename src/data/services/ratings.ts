@@ -4,13 +4,8 @@ import { connection } from 'next/server'
 import { cache } from 'react'
 import prisma from '@/lib/db'
 
-import {
-  Media,
-  Product,
-  Rating,
-  RatingStatusType,
-  User,
-} from '@/generated/prisma'
+import { Media, Product, Rating, User } from '@/generated/prisma/client'
+import { RatingStatusType } from '@/generated/prisma/enums'
 import { adminActionGuard, loggedInUser } from '@/lib/actionGuard'
 
 export type GetProductRatingsReturnType = Promise<Rating[]>
@@ -35,7 +30,7 @@ export const getProductRatings = cache(
         status,
       },
     })
-  }
+  },
 )
 
 export type GetProductAlreadyRatedReturnType = Promise<boolean>
@@ -65,7 +60,7 @@ export const getProductAlreadyRated = cache(
     })
 
     return ratings.some((rating) => rating.userId === userId)
-  }
+  },
 )
 
 export type ProductWithCoverImageType = Product & {
@@ -122,7 +117,7 @@ export const getRatings = cache(
       take: take && take > 0 ? take : undefined,
       orderBy,
     })
-  }
+  },
 )
 
 export type GetRatingsCountReturnType = Promise<number>
@@ -151,5 +146,5 @@ export const getRatingsCount = cache(
           : {}),
       },
     })
-  }
+  },
 )

@@ -5,7 +5,7 @@ import { cache } from 'react'
 import prisma from '@/lib/db'
 
 import { loggedInActionGuard } from '@/lib/actionGuard'
-import { Discount } from '@/generated/prisma'
+import { Discount } from '@/generated/prisma/client'
 
 export type GetDiscountsReturnType = Promise<Discount[]>
 
@@ -25,5 +25,5 @@ export const getDiscounts = cache(
       where: { active },
       orderBy: { updatedAt: 'desc' },
     })
-  }
+  },
 )

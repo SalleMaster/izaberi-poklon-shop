@@ -12,9 +12,10 @@ import {
   CartCouponValues,
 } from '../../cart/_components/cart-coupon-form/validation'
 import { deleteMediaFromS3 } from '@/lib/actions'
-import { DiscountType } from '@/generated/prisma'
+// import { DiscountType } from '@/generated/prisma/client'
 import { priceFormatter } from '@/lib/format'
 import { freeShippingThreshold } from '@/lib/consts'
+import { DiscountType } from '@/generated/prisma/enums'
 
 type ProductDetailsWithoutImageFiles = Omit<
   ProductDetailsValues,
@@ -26,7 +27,7 @@ const productDetailsSchemaWithoutImages = productDetailsSchema.omit({
 
 export async function addCartItem(
   values: ProductDetailsWithoutImageFiles,
-  imageMedias?: { fieldName: string; ids: string[] }[]
+  imageMedias?: { fieldName: string; ids: string[] }[],
 ) {
   try {
     const { userId } = await loggedInActionGuard()
@@ -82,7 +83,7 @@ export async function addCartItem(
     }
 
     let cartItemPrice = product.priceTable.find(
-      (priceItem) => quantity >= priceItem.from && quantity <= priceItem.to
+      (priceItem) => quantity >= priceItem.from && quantity <= priceItem.to,
     )?.price
 
     if (cartItemPrice === undefined) {
@@ -90,7 +91,7 @@ export async function addCartItem(
     }
 
     const cartItemDeliveryFee = product.priceTable.find(
-      (priceItem) => quantity >= priceItem.from && quantity <= priceItem.to
+      (priceItem) => quantity >= priceItem.from && quantity <= priceItem.to,
     )?.deliveryFee.fee
 
     if (cartItemDeliveryFee === undefined) {
@@ -99,7 +100,7 @@ export async function addCartItem(
 
     if (product.discount?.active) {
       cartItemPrice = Math.floor(
-        cartItemPrice - (cartItemPrice * product.discount.percentage) / 100
+        cartItemPrice - (cartItemPrice * product.discount.percentage) / 100,
       )
     }
 
@@ -198,7 +199,7 @@ export async function updateCartItem({ id, quantity }: updateCartItemType) {
     }
 
     let cartItemPrice = product.priceTable.find(
-      (priceItem) => quantity >= priceItem.from && quantity <= priceItem.to
+      (priceItem) => quantity >= priceItem.from && quantity <= priceItem.to,
     )?.price
 
     if (cartItemPrice === undefined) {
@@ -207,12 +208,12 @@ export async function updateCartItem({ id, quantity }: updateCartItemType) {
 
     if (product.discount?.active) {
       cartItemPrice = Math.floor(
-        cartItemPrice - (cartItemPrice * product.discount.percentage) / 100
+        cartItemPrice - (cartItemPrice * product.discount.percentage) / 100,
       )
     }
 
     const cartItemDeliveryFee = product.priceTable.find(
-      (priceItem) => quantity >= priceItem.from && quantity <= priceItem.to
+      (priceItem) => quantity >= priceItem.from && quantity <= priceItem.to,
     )?.deliveryFee.fee
 
     if (cartItemDeliveryFee === undefined) {
@@ -294,7 +295,7 @@ export async function removeCartItem({ id }: removeCartItemType) {
       await Promise.all(
         imageKeys.map(async (key) => {
           await deleteMediaFromS3(key)
-        })
+        }),
       )
     }
 
@@ -350,7 +351,7 @@ export async function cartApplyCoupon(values: CartCouponValues) {
     if (cart.coupon) {
       const allItemsPrice = cart.items.reduce(
         (acc, item) => acc + item.price,
-        0
+        0,
       )
       const isCouponExpired = cart.coupon.expiresAt < new Date()
       const isCouponActive = cart.coupon.active

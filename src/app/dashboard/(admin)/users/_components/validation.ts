@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { UserRoleType } from '@/generated/prisma'
+import { UserRoleType } from '@/generated/prisma/enums'
 
 export const userSchema = z.object({
   id: z.string(),

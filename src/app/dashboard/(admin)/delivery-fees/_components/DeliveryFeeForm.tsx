@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { DeliveryFee } from '@/generated/prisma'
+import { DeliveryFee } from '@/generated/prisma/client'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -37,7 +37,7 @@ export function DeliveryFeeForm({ deliveryFee }: DeliveryFeeFormProps) {
       name: deliveryFee?.name || '',
       fee: deliveryFee?.fee || 0,
     }),
-    [deliveryFee]
+    [deliveryFee],
   )
 
   const form = useForm<DeliveryFeeValues>({
@@ -56,7 +56,7 @@ export function DeliveryFeeForm({ deliveryFee }: DeliveryFeeFormProps) {
             name: data.name,
             fee: data.fee,
           },
-          deliveryFee.id
+          deliveryFee.id,
         )
 
         if (response) {
@@ -91,7 +91,7 @@ export function DeliveryFeeForm({ deliveryFee }: DeliveryFeeFormProps) {
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }
@@ -113,7 +113,7 @@ export function DeliveryFeeForm({ deliveryFee }: DeliveryFeeFormProps) {
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške prilikom brisanja. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške prilikom brisanja. Molimo pokušajte ponovo.',
       )
     } finally {
       setIsDeleting(false)

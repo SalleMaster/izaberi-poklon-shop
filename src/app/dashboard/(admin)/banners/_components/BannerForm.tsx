@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Media } from '@/generated/prisma'
+import { Media } from '@/generated/prisma/client'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -42,7 +42,7 @@ export function BannerForm({ banner }: Props) {
       mobileImage: null,
       active: banner ? banner?.active : false,
     }),
-    [banner]
+    [banner],
   )
 
   const form = useForm<BannerValues>({
@@ -64,7 +64,7 @@ export function BannerForm({ banner }: Props) {
       if (data.desktopImage && data.desktopImage.length > 0) {
         const { key, name, type, fileURL } = await uploadFile(
           data.desktopImage[0],
-          imageFileTypes
+          imageFileTypes,
         )
         const media = await createMedia(key, name, type, fileURL)
         desktopMediaId = media.id
@@ -74,7 +74,7 @@ export function BannerForm({ banner }: Props) {
       if (data.mobileImage && data.mobileImage.length > 0) {
         const { key, name, type, fileURL } = await uploadFile(
           data.mobileImage[0],
-          imageFileTypes
+          imageFileTypes,
         )
         const media = await createMedia(key, name, type, fileURL)
         mobileMediaId = media.id
@@ -88,7 +88,7 @@ export function BannerForm({ banner }: Props) {
           removedDesktopMedia,
           removedMobileMedia,
           desktopMediaId,
-          mobileMediaId
+          mobileMediaId,
         )
         if (response) {
           if (response.status === 'fail') {
@@ -104,7 +104,7 @@ export function BannerForm({ banner }: Props) {
         const response = await createBanner(
           { name: data.name, link: data.link, active: data.active },
           desktopMediaId,
-          mobileMediaId
+          mobileMediaId,
         )
         if (response) {
           if (response.status === 'fail') {
@@ -122,7 +122,7 @@ export function BannerForm({ banner }: Props) {
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške. Molimo pokušajte ponovo.',
       )
     }
   }
@@ -144,7 +144,7 @@ export function BannerForm({ banner }: Props) {
       toast.warning(
         error instanceof Error
           ? error.message
-          : 'Došlo je do greške prilikom brisanja kategorije. Molimo pokušajte ponovo.'
+          : 'Došlo je do greške prilikom brisanja kategorije. Molimo pokušajte ponovo.',
       )
     } finally {
       setIsDeleting(false)
